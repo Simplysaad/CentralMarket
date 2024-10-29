@@ -1,7 +1,7 @@
 {
-  "name": "Biograpghy Hub",
+  "name": "campus mart",
   "version": "1.0.0",
-  "description": "A place where we discuss notable events, influential individuals, intriguing topics and many more",
+  "description": "an incampus shopping website for school online vendors and students, to buy , sell and deliver items without hassle",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,27 +9,29 @@
     "dev": "nodemon index"
   },
   "keywords": [],
-  "author": "Saad idris",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^18.0.6",
     "bcrypt": "^5.1.1",
-    "connect-mongo": "^4.6.0",
     "bcryptjs": "^2.4.3",
+    "blurhash": "^2.0.5",
+    "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "express-ejs-layouts": "^2.5.1",
+    "express-fileupload": "^1.5.1",
     "express-session": "^1.18.1",
+    "imgur": "^2.4.2",
     "jsonwebtoken": "^9.0.2",
     "method-override": "^3.0.0",
     "mongoose": "^8.7.1",
+    "multer": "^1.4.5-lts.1",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
-    "passport-local": "^1.0.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.7"
+    "passport-local": "^1.0.0",
+    "stripe": "^17.2.1"
   }
 }
