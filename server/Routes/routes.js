@@ -1,164 +1,237 @@
+// "axios": "^1.7.7",
+
 const express = require("express");
-//const dummyData = require("./dummyData");
 const router = express.Router();
-const post = require("../models/Post");
-const user = require("../models/User");
-const subscriber = require("../models/Subscriber.js");
-const helper = require("../../utils/helper");
+const bcrypt = require("bcryptjs");
+const expressFileUpload = require("express-fileupload");
+const imgur = require("imgur");
+const multer = require("multer");
+const storage = multer.diskStorage({
+    destination: "./Public/uploads/",
+    filename: function (req, file, cb) {
+        let myFileName =
+            Math.round(Math.random() * 100372600) +
+            "_" +
+            file.originalname +
+            "_" +
+            Date.now() +
+            ".jpg";
+        cb(null, myFileName);
+    }
+    //,storage: multer.memoryStorage()
+});
+const upload = multer({
+    storage: storage
+});
+
+//const controller = require("../Controllers/controller");
+const product = require("../Models/Product.js");
+const user = require("../Models/User.js");
+const order = require("../Models/Order.js");
+
 const locals = {
     title: "",
-    imageUrl: "/IMG/brand-image.png",
-    description: "Find out about notable events, influential individuals and discusions"
+    description: "",
+    imageUrl: "",
+    emailError: ""
 };
 
-//console.log(allPosts)
-
-const relatedPostsFunc = helper.relatedPostsFunc;
-
-const readTime = helper.readTime;
-/**
- * GET
- * main -index page
- */
+const products = require("../dummyData");
+const categories = [
+    "electronics",
+    "Fashion",
+    "health and wellness",
+    "home and kitchen",
+    "sports and outdoors",
+    "books",
+    "travel and leisure",
+    "office supplies",
+    "automotive"
+];
 router.get("/", async (req, res) => {
-    //changeImageUrl()
     try {
-        //let images = returnImages()
-        const allPosts = await post.find().sort({ updatedAt: -1 });
-
-        res.render("pages/index", { locals, allPosts, readTime });
-    } catch (err) {
-        console.log(err);
-    }
-});
-
-/**
- * GET 
- * MAIN -get all posts by the same author
- */
-router.get("/author/:name", async (req, res) => {
-    try {
-        let name = req.params.name;
-        let authorPosts = await post.find({ author: name }).then(data => {
-            res.render("pages/author", { locals, data, name, readTime });
-        });
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-/**
- * GET
- * MAIN - get a specific article
- * @params {String} id
- */
-
-router.get("/article/:id", async (req, res) => {
-    try {
-        let article = await post.findById(req.params.id);
-
-        const allPosts = await post.find().exec();
-
-        let relatedPosts = relatedPostsFunc(allPosts);
-        locals.description = article.content.substring(0, 160)
-        locals.imageUrl = article.imageUrl
-        locals.title = article.title
-
-        res.render("pages/article", {
+        //res.render("Pages/index", {
+        res.render("Pages/formTest", {
             locals,
-            article,
-            relatedPosts,
-            readTime
+            products: products,
+            categories: categories
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
     }
 });
-
-/**
- * GET 
- * MAIN - get all posts in the same category
- */
-
-router.get("/category/:categoryName", async (req, res) => {
+router.get("/register", (req, res) => {
+    res.render("Pages/register", { locals });
+});
+router.post("/register", async (req, res) => {
     try {
-        let categoryName = req.params.categoryName;
-        const categoryPosts = await post
-            .find({ category: categoryName })
-            .exec();
+        req.body.password = bcrypt.hash(password, 10);
 
-        locals.title = "BiographyHub | " + categoryName;
-        //locals.description 
-
-        res.render("pages/category", {
-            locals,
-            categoryPosts,
-            categoryName,
-            readTime
-        });
+        if (!req.body) {
+            res.status(400).json({ message: "cannot add user" });
+        }
+        let newUser = new user(req.body);
+        res.json(newUser);
+        if (!newUser) {
+            throw new Error(
+                "cannot save user, check the request and try again"
+            );
+        }
+        await newUser.save();
     } catch (err) {
-        console.log("error occured");
+        //res.json(err)
     }
 });
 
 /**
- * GET 
- * MAIN - search for posts that match the search searchTerm
- * search author, tags, content, title, imageUrl
+ * POST -validate
+ * check if email address exists already
  */
 
-router.post("/search", async (req, res) => {
+router.post("/validate", async (req, res) => {
     try {
-        let searchTerm = req.body.searchTerm;
-        let newRegex = new RegExp(searchTerm, "i");
+        const { emailAddress } = req.body;
 
-        let searchResults = await post.find({
-            $or: [
-                { category: { $regex: newRegex } },
-                { title: { $regex: newRegex } },
-                { content: { $regex: newRegex } },
-                { imageUrl: { $regex: newRegex } },
-                { author: { $regex: newRegex } },
-                { category: { $regex: newRegex } }
-            ]
+        let findUser = await user.findOne({
+            emailAddress: emailAddress
         });
-
-        locals.title = 'BiographyHub |  Search Results';
-        locals.description = "Results For '" + searchTerm +"'";
-                            
-
-        res.render("pages/search", { locals, searchResults });
+        console.log(findUser);
+        if (findUser) {
+            return res.json({
+                exists: true,
+                message: "email already exists"
+            });
+        } else {
+            return res.json({
+                exists: false,
+                message: "email is available"
+            });
+        }
     } catch (err) {
-        console.log(err);
+        console.error(err);
     }
 });
 
-/**
- * POST
- * MAIN - adds a new subscriber
- */
-
-
-router.post("/subscribe", async (req, res) => {
+router.get("/login", (req, res) => {
+    res.render("pages/register");
+});
+router.post("/login", async (req, res) => {
     try {
-        let newSubscriber = new subscriber(req.body);
+        let { emailAddress, password } = req.body;
+        if (!emailAddress || !password) {
+            res.status(401).json({ message: "invalid request" });
+        }
 
-        await newSubscriber
-            .save()
-            .then(data => console.log(data, `${count}th subscriber added`));
-    } catch (error) {
-        console.error(error);
+        let currentUser = await user.findOne({ emailAddress: emailAddress });
+        if (!currentUser) {
+            res.status(401).json({ message: "invalid username" });
+        }
+
+        let isValidPassword = await bcrypt.compare(
+            currentUser.password,
+            password
+        );
+        if (!isValidPassword) {
+            res.status(401).json({ message: "invalid password" });
+        }
+        if (currentUser.role === "customer") {
+            res.redirect("/cart");
+        }
+        if (currentUser.role === "vendor") {
+            res.redirect("/dashboard");
+        }
+    } catch (err) {}
+});
+
+router.post("/upload-image", upload.single("uploadFile"), async (req, res) => {
+    try {
+        if (!req.file) {
+            throw new Error("no file uploaded");
+        }
+        // let filename = req.file.filename;
+        // let originalname = req.file.originalname;
+        let uploadPath = req.file.path;
+
+        const data = new formData();
+        data.append("uploadFile", req.file.buffer, req.file.originalname);
+
+        let response = await fetch("https://api.imgur.com/3/upload", {
+            method: "POST",
+            headers: {
+                "Content-Type": "image/jpg",
+                "Authorization": "client-ID e2b328ad29f2fa8"
+            },
+            body: data
+        });
+        const jsonResponse = await response.json();
+
+        if (response.status !== 200) {
+            throw new Error(
+                `Imgur API Error: ${response.status} - ${jsonResponse.data.error}`
+            );
+        }
+
+        res.send(jsonResponse);
+    } catch (err) {
+        console.error(err);
     }
-    var count = await subscriber.countDocuments();
 });
 
-/**
- * 404
- * THIS PAGE COULD NOT BE FOUND
- */
+// router.post(
+//     "/upload-image",
+//     //upload.single("uploadFile"),
+//     //uploadFile is the name of the input:file field
+//     async (req, res) => {
+//         let uploadFile = req.files.uploadFile;
+//         //let uploadName = Date.now() + uploadFile.name
+//         let uploadPath = __dirname + "./uploads/" + uploadFile.name;
 
-router.get("/*", (req, res) => {
-    res.render("pages/404", { locals });
-});
+//         uploadFile.mv(uploadPath, err => {
+//             if (err) {
+//                 throw new Error("could not upload file");
+//             }
+//         });
+
+//         imgur.uploadFile(uploadPath).then(urlObject => {
+//             fs.unlinkSync(uploadPath);
+//             res.send(urlObject);
+//         });
+//     }
+// );
+
+// router.post("/upload-image", upload.single("uploadFile"), async (req, res) => {
+//     let uploadFile = req.files.uploadFile;
+//     let uploadPath = __dirname + "./uploads/" + uploadFile.name;
+
+//     const response = await client.upload({
+//         image: createReadStream(uploadPath),
+//         type: "stream"
+//     });
+//     res.send(response);
+// });
+
+// const { ImgurClient } = require("imgur");
+// const client = new ImgurClient({
+//     clientID: process.env.CLIENT_ID,
+//     clientSecret: process.env.CLIENT_SECRET
+//     //,refreshToken: process.env.REFRESH_TOKEN
+// });
+// router.post("/upload-image", upload.single("uploadFile"), async (req, res) => {
+//     try {
+//         let uploadFile = req.file;
+//         let uploadPath = __dirname + "/uploads/" + uploadFile.originalname;
+//         console.log(uploadFile, uploadPath)
+
+//         let response = await client.upload({
+//             image: uploadFile,
+//             type: "base64",
+//             name: Date.now() + uploadFile.originalName,
+//             description: "Uploaded with express"
+//         });
+//         res.send(response);
+//     } catch (err) {
+//         console.error(err);
+//     }
+// });
 
 module.exports = router;
