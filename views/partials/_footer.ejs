@@ -22,9 +22,11 @@
       <h3 class="fs-4">
         Categories
       </h3>
-        <% categories.forEach(category=>{ %>
-          <a href="/category/<%= category %>"class="nav-link"> <%= category %></a>
-        <% }) %>
+      <% categories.forEach(category => {
+        %>
+        <a href="/category/<%= category %>"class="nav-link"> <%= category %></a>
+        <%
+      }) %>
     </div>
 
     <div class="col-md-3 list-group my-3">
@@ -44,18 +46,18 @@
       <a href="/sitemap" class="text-secondary text-decoration-none">SiteMap</a>
     </div>
   </div>
-<hr>
-<div class="footer-socials text-center mb-3 mt-5">
-  <div class="d-flex mx-auto justify-content-between col-7 col-md-3">
-    <a href="https://www.instagram.com/simply_sa_ad" class="fab fa-2x fa-instagram"></a>
-    <a href="https://www.github.com/simplysaad" class="fab fa-2x fa-github"></a>
-    <a href="https://x.com/simply_saad?s=09" class="fab fa-2x fa-twitter"></a>
-    <a href="https://wa.me/+2348100389197?text=hello+from+your+biographyHub.onrender.com" class="fab fa-2x fa-whatsapp"></a>
+  <hr>
+  <div class="footer-socials text-center mb-3 mt-5">
+    <div class="d-flex mx-auto justify-content-between col-7 col-md-3">
+      <a href="https://www.instagram.com/simply_sa_ad" class="fab fa-2x fa-instagram"></a>
+      <a href="https://www.github.com/simplysaad" class="fab fa-2x fa-github"></a>
+      <a href="https://x.com/simply_saad?s=09" class="fab fa-2x fa-twitter"></a>
+      <a href="https://wa.me/+2348100389197?text=hello+from+your+biographyHub.onrender.com" class="fab fa-2x fa-whatsapp"></a>
+    </div>
   </div>
-</div>
-<div class="footer-text">
-  &copy;2024 CampusMart, inc. All rights reserved
-</div>
+  <div class="footer-text">
+    &copy;2024 CampusMart, inc. All rights reserved
+  </div>
 
 </div>
 </footer>
