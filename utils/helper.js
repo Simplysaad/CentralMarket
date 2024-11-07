@@ -121,5 +121,5 @@ function destroySession() {
 }
 
 module.exports = {
-  relatedProductsFunc, readTime
+  relatedProductsFunc, readTime, destroySession
 }
