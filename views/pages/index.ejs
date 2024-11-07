@@ -1,42 +1,58 @@
-<section id="carousel" class="carousel" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item"></div>
-    <div class="carousel-item active"></div>
-    <div class="carousel-item"></div>
-  </div>
-</section>
-<section id="categories" class="g-2 row">
-  <%categories.forEach((category)=> {
-    %>
-    <div id="<%- category %>" class="category">
-      <div class="category-heading my-3">
-        <h2 class="display-3 d-inline"><%= category %></h2>
-        <a class="d-inline " href="/category/<%- category %>">see all<span class="fa fa-caret-right"></span></a>
-      </div>
-      <div class="category-body">
-        <% products.filter((product) => product.category === category).forEach((product)=> {
-          %>
-          <div class="product-card-small col-6 col-md-3 p-0 border rounded ">
-            <div class="card-image">
-              <img src="https://source.unsplash.com/random/?<%category%>&<%=product._id%>&" alt="no image">
-            </div>
-            <div class="card-body p-2">
-              <p class="card-title">
-                <%= product.name %>
-              </p>
-              <p class="card-text price text-success">
-                <%= product.price %>
-              </p>
-              <!-- <div class="product-rating " id="starParent">
-                            </div> -->
-            </div>
-            <!-- <div class="col-12 p-2 add-to-cart">
-                          <a href="/addCart/<%=product._id%>" class="btn btn-cart btn-outline-success col-12">ADD TO CART</a>
-                        </div> -->
-          </div>
-          <%})%>
-          </div>
+
+    <section class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <!--this carousel shall contain ads for products and events -->
+            <% ads.forEach((ad)=>{ %>
+              <div class="carousel-item">
+                <img src="<%= ad.imageUrl %>" alt="<% ad.title %>" class="img-fluid">
+              </div>
+            <% }) %>
+            
         </div>
-          <%
-        }) %>
     </section>
+    <section id="productDisplay" class="container my-4 product-display">
+        <% categories.forEach((category)=>{ %>
+
+        <div class="category mt-3">
+            <div
+                class="category-heading d-flex align-items-center justify-content-between"
+            >
+                <h3 class="category-title display-5"><%= category %></h3>
+                <a
+                    href="/category/<%= category %>"
+                    class=" fs-6 text-decoration-none"
+                    >see all <span class="fa fa-arrow-right"></span
+                ></a>
+            </div>
+            <div class="category-body pt-2">
+                <% products.forEach((product)=>{ %>
+                  <% if(product.category == category){ %>
+                    <div class="col-6 col-md-4 col-lg-3 p-0 mx-2 border product-card rounded">
+                    <div class="card-image m-0">
+                        <img src="<%= product.image %>"  alt="<%= product.name %>" class="overflow-hidden img-fluid" />
+                    </div>
+                    <div class="card-body p-0 m-2">
+                        <p class="fs-6 card-title"><%= product.name %></p>
+                        <div class="">
+                            <span class="card-price fs-5"
+                                ><%= product.currency %><%= product.price %></span
+                            >
+                            <s class="old-price fs-6 text-danger"
+                                ><%= product.currency %><%= product.price %></s
+                            >
+                        </div>
+                        <a
+                            href="/preview/<%= product._id %>"
+                            class="btn btn-view btn-secondary col-12"
+                        >
+                            View
+                        </a>
+                    </div>
+                </div>
+                  <% } %>
+                <% }) %>
+            </div>
+        </div>
+        <% }) %>
+    </section>
+
