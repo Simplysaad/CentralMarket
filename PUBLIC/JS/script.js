@@ -37,7 +37,7 @@ const showSearchCont = ()=> {
   }
 }
 
-searchInput.addEventListener("blur", showSearchCont)
+searchContainer.addEventListener("blur", showSearchCont)
 btnSearch.addEventListener("click", showSearchCont)
 
 
