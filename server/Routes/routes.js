@@ -117,6 +117,11 @@ router.get("/preview/:id", async (req, res)=> {
     let currentProduct = await Product.findOne({
       _id: req.params.id
     })
+    if(!currentProduct){
+      throw new Error("no product matches that id")
+    }
+    //https://campus-mart-uml3.onrender.com/preview/672885f3b6e51b1355fcb585
+
     res.render("pages/preview", {
       locals,
       currentProduct,
