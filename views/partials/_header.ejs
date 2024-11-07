@@ -1,38 +1,35 @@
-
-     <header class="nav navbar bg-success text-light">
-      <div class="container">
-        <a href="/" class="navbar-brand text-light">BiographyHub</a>
-        <div class="navbar-na">
-          <a href="/login" class="btn btn-success" id="btnLoginPage">
-            <i class="fa fa-user"></i>
-            <span class="d-none d-md-inline">Login</span>
-          </a>
-          <button class="btn btn-success" id="btnDisplaySearch">
-            <i class="fa fa-search"></i>
-            <span class="d-none d-md-inline">Search</span>
-          </button>
-        </div>
-      </div>
-    </header>
-    <nav class="side-nav overflow-x-scroll bg-success opacity-25">
-      <div class="side-nav-container mx-auto container  d-flex">
-        <a href="/category/People" class="navbar-link">
-          People
-        </a>
-        <a href="/category/News" class="navbar-link">
-          News
-        </a>
-        <a href="/category/Events" class="navbar-link">
-          Events
-        </a>
-        <a href="/category/Topics" class="navbar-link">
-          Discussion
-        </a>
-        <a href="/this-day" class="navbar-link">
-          This day
-        </a>
-        <a href="/guess-game" class="navbar-link">
-          Guess Game
-        </a>
-      </div>
-    </nav>
+<header class="navbar-dark header">
+  <div class="container py-3">
+    <div class="brand">
+      <button
+        class="navbar-toggler"
+        data-bs-toggle="collapse"
+        data-bs-target="#sideNav"
+        >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a href="/" class="navbar-brand text-decoration-none display-2">
+        Campus mart
+      </a>
+    </div>
+    <div class="options">
+      <span class="p-2 search" id="btnSearch">
+        <span class="text-decoration-none fa fa-search"></span>
+        <span  class="d-none d-lg-inline text-decoration-none">Search</span>
+      </span>
+      <span class="p-2 user">
+        <a href="/login" class="text-decoration-none fa fa-user"></a>
+        <a href="/login" class="d-none d-lg-inline text-decoration-none">Account</a>
+      </span>
+      <span class="p-2 cart">
+        <a href="/cart" class="text-decoration-none fa fa-shopping-cart"></a>
+        <a href="/cart" class="d-none d-lg-inline text-decoration-none">Cart</a>
+      </span>
+    </div>
+    <div class="mt-2 mb-0 px-2 horizontal-nav">
+        <% categories.forEach(category=>{ %>
+          <a href="/category/<%= category %>"class="nav-link"> <%= category %></a>
+        <% }) %>
+    </div>
+  </div>
+</header>
