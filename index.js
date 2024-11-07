@@ -7,7 +7,7 @@ dotenv.config();
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const mongoStore = require("connect-mongo");
-const connectDb = require("./Server/Config/db.js");
+const connectDb = require("./server/Config/db.js");
 
 //START APP
 const app = express();
