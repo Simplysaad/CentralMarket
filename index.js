@@ -39,7 +39,7 @@ app.use(
 
 //VIEW ENGINE
 app.set("view engine", "ejs");
-app.set("views", "Views");
+app.set("views", "views");
 
 //LAYOUT
 app.use(expressLayout);
