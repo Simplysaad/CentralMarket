@@ -1,237 +1,306 @@
 // "axios": "^1.7.7",
 
+
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
 const expressFileUpload = require("express-fileupload");
 const imgur = require("imgur");
 const multer = require("multer");
 const storage = multer.diskStorage({
-    destination: "./Public/uploads/",
-    filename: function (req, file, cb) {
-        let myFileName =
-            Math.round(Math.random() * 100372600) +
-            "_" +
-            file.originalname +
-            "_" +
-            Date.now() +
-            ".jpg";
-        cb(null, myFileName);
-    }
-    //,storage: multer.memoryStorage()
+  destination: "./Public/uploads/",
+  filename: function (req, file, cb) {
+    let myFileName =
+    Math.round(Math.random() * 100372600) +
+    "_" +
+    file.originalname +
+    "_" +
+    Date.now() +
+    ".jpg";
+    cb(null, myFileName);
+  }
 });
-const upload = multer({
-    storage: storage
+const upload = multer( {
+  storage: storage
 });
 
-//const controller = require("../Controllers/controller");
-const product = require("../Models/Product.js");
-const user = require("../Models/User.js");
-const order = require("../Models/Order.js");
+
+const ObjectId = mongoose.Types.ObjectId
+
+const Product = require("../Models/Product.js");
+const User = require("../Models/User.js");
+const Order = require("../Models/Order.js");
+
+const helper = require("../.././utils/helper.js")
+const relatedProductsFunc = helper.relatedProductsFunc
+
+
 
 const locals = {
-    title: "",
-    description: "",
-    imageUrl: "",
-    emailError: ""
+  title: "",
+  description: "",
+  imageUrl: "",
+  emailError: ""
 };
 
-const products = require("../dummyData");
-const categories = [
-    "electronics",
-    "Fashion",
-    "health and wellness",
-    "home and kitchen",
-    "sports and outdoors",
-    "books",
-    "travel and leisure",
-    "office supplies",
-    "automotive"
-];
+
+
+const ads = [{
+  title: "cowrywise: invest in the future",
+  imageUrl: "cowrywise.jpg"
+},
+  {
+    title: "Termux: the terminal of the century",
+    imageUrl: "termux.jpg"
+  },
+  {
+    title: "Barclays bank",
+    imageUrl: "barclays.jpg"
+  }]
+
+
 router.get("/", async (req, res) => {
-    try {
-        //res.render("Pages/index", {
-        res.render("Pages/formTest", {
-            locals,
-            products: products,
-            categories: categories
-        });
-    } catch (err) {
-        console.error(err);
+  try {
+
+    let categories = await Product.distinct("category")
+
+    const products = await Product.find()
+    res.render("pages/index", {
+      locals,
+      ads,
+      categories,
+      products
+    });
+
+  } catch (err) {
+    console.error(err);
+  }
+});
+router.get("/category/:category", async(req, res)=> {
+  try {
+    let categoryName = req.params.category
+    if (categoryName !== "Fashion") {
+      categoryName = categoryName.toLowerCase()
     }
-});
-router.get("/register", (req, res) => {
-    res.render("Pages/register", { locals });
-});
-router.post("/register", async (req, res) => {
-    try {
-        req.body.password = bcrypt.hash(password, 10);
 
-        if (!req.body) {
-            res.status(400).json({ message: "cannot add user" });
-        }
-        let newUser = new user(req.body);
-        res.json(newUser);
-        if (!newUser) {
-            throw new Error(
-                "cannot save user, check the request and try again"
-            );
-        }
-        await newUser.save();
-    } catch (err) {
-        //res.json(err)
+    const allProducts = await Product.find({}).exec()
+    const relatedProducts = relatedProductsFunc(allProducts, 8)
+
+
+    categoryName = categoryName.split('%20').join(" ")
+    let categoryItems = await Product.find({
+      category: categoryName
+    })
+
+    let categories = await Product.distinct("category")
+
+    res.render("pages/category", {
+      locals,
+      categoryName,
+      categoryItems,
+      relatedProducts,
+      categories
+    })
+  }
+  catch(err) {
+    console.log(err)
+    res.json(err)
+  }
+})
+router.get("/preview/:id", async (req, res)=> {
+
+  const allProducts = await Product.find({})
+  const relatedProducts = relatedProductsFunc(allProducts, 8)
+  const categories = await Product.distinct("category")
+
+  let currentProduct = await Product.findOne({
+    _id: req.params.id
+  })
+  res.render("pages/preview", {
+    locals,
+    currentProduct,
+    relatedProducts,
+    categories
+  })
+})
+
+
+router.post("/search", async(req, res)=> {
+  const searchTerm = req.body.searchTerm.trim()
+  let regex = new RegExp(searchTerm, "gi")
+  const categories = await Product.distinct("category")
+
+  const searchResults = await Product.find({
+    $or: [{
+      description: regex
+    },
+      {
+        name: regex
+      },
+      {
+        tags: regex
+      },
+      {
+        category: regex
+      },
+      {
+        subCategory: regex
+      }]
+  })
+
+  res.render("pages/search.ejs", {
+    searchResults,
+    searchTerm,
+    categories,
+    locals
+  })
+})
+
+router.post("/addCart/:id", async (req, res) => {
+  try {
+    // Initialize cart session
+    if (!req.session.cart) {
+      req.session.cart = [];
     }
-});
 
-/**
- * POST -validate
- * check if email address exists already
- */
+    const {
+      color,
+      size
+    } = req.body;
+    const quantity = 1;
+    const productId = req.params.id;
 
-router.post("/validate", async (req, res) => {
-    try {
-        const { emailAddress } = req.body;
+    // Find existing product in cart
+    let currentProduct = req.session.cart.find(
+      (product) =>
+      product._id === productId && product.color === color && product.size === size
+    );
 
-        let findUser = await user.findOne({
-            emailAddress: emailAddress
-        });
-        console.log(findUser);
-        if (findUser) {
-            return res.json({
-                exists: true,
-                message: "email already exists"
-            });
-        } else {
-            return res.json({
-                exists: false,
-                message: "email is available"
-            });
-        }
-    } catch (err) {
-        console.error(err);
+    const productObj = await Product.findOne({
+      _id: new ObjectId(productId)
+    },
+      {
+        _id: 1,
+        name: 1,
+        price: 1
+      }).lean()
+
+    //the .lean() is used to convert the mongoose doc into a plain javascript object
+    console.log("productObj", productObj)
+    productObj.price = Number(productObj.price.replace(/,/g, ""))
+
+    // Add or update product quantity
+    if (!currentProduct) {
+      req.session.cart.push({
+        ...productObj, color, size, quantity
+      })
+    } else {
+      currentProduct.quantity += quantity;
+      let currentPrice = Number(currentProduct.price.replace(/,/g, ""))
+      currentProduct.price = currentPrice*currentProduct.quantity
     }
+
+
+    // Redirect to cart page
+    res.redirect("/cart");
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Internal Server Error"
+    });
+  }
 });
 
-router.get("/login", (req, res) => {
-    res.render("pages/register");
-});
-router.post("/login", async (req, res) => {
-    try {
-        let { emailAddress, password } = req.body;
-        if (!emailAddress || !password) {
-            res.status(401).json({ message: "invalid request" });
-        }
 
-        let currentUser = await user.findOne({ emailAddress: emailAddress });
-        if (!currentUser) {
-            res.status(401).json({ message: "invalid username" });
-        }
 
-        let isValidPassword = await bcrypt.compare(
-            currentUser.password,
-            password
-        );
-        if (!isValidPassword) {
-            res.status(401).json({ message: "invalid password" });
-        }
-        if (currentUser.role === "customer") {
-            res.redirect("/cart");
-        }
-        if (currentUser.role === "vendor") {
-            res.redirect("/dashboard");
-        }
-    } catch (err) {}
-});
+/**when the cart route is called
+* it should get an array "cart" from the currentuser document
+* the cart includes all the items a customer bought
+* each item object the cart array contains
+* * the id of the item,
+* * the size chosen from the preview form
+* * the color chosen from the preview form
+* * the quantity ordered
+*
+* this cart should be stored in the session
+* until the user tries to checkout
+* then the cart is stored in the orders collection
+* with status corresponding to the payment and delivery stati
+*/
 
-router.post("/upload-image", upload.single("uploadFile"), async (req, res) => {
-    try {
-        if (!req.file) {
-            throw new Error("no file uploaded");
-        }
-        // let filename = req.file.filename;
-        // let originalname = req.file.originalname;
-        let uploadPath = req.file.path;
 
-        const data = new formData();
-        data.append("uploadFile", req.file.buffer, req.file.originalname);
 
-        let response = await fetch("https://api.imgur.com/3/upload", {
-            method: "POST",
-            headers: {
-                "Content-Type": "image/jpg",
-                "Authorization": "client-ID e2b328ad29f2fa8"
-            },
-            body: data
-        });
-        const jsonResponse = await response.json();
 
-        if (response.status !== 200) {
-            throw new Error(
-                `Imgur API Error: ${response.status} - ${jsonResponse.data.error}`
-            );
-        }
+router.get("/cart", async (req, res)=> {
 
-        res.send(jsonResponse);
-    } catch (err) {
-        console.error(err);
-    }
-});
+  const allProducts = await Product.find({})
+  const relatedProducts = relatedProductsFunc(allProducts, 8)
+  const categories = await Product.distinct("category")
 
-// router.post(
-//     "/upload-image",
-//     //upload.single("uploadFile"),
-//     //uploadFile is the name of the input:file field
-//     async (req, res) => {
-//         let uploadFile = req.files.uploadFile;
-//         //let uploadName = Date.now() + uploadFile.name
-//         let uploadPath = __dirname + "./uploads/" + uploadFile.name;
 
-//         uploadFile.mv(uploadPath, err => {
-//             if (err) {
-//                 throw new Error("could not upload file");
-//             }
-//         });
+  if (!req.session.cart) {
+    req.session.cart = []
+  }
 
-//         imgur.uploadFile(uploadPath).then(urlObject => {
-//             fs.unlinkSync(uploadPath);
-//             res.send(urlObject);
-//         });
-//     }
-// );
+  let cartItems = req.session.cart
 
-// router.post("/upload-image", upload.single("uploadFile"), async (req, res) => {
-//     let uploadFile = req.files.uploadFile;
-//     let uploadPath = __dirname + "./uploads/" + uploadFile.name;
+  //console.log("cartItems", cartItems)
 
-//     const response = await client.upload({
-//         image: createReadStream(uploadPath),
-//         type: "stream"
-//     });
-//     res.send(response);
-// });
+  let CART_TOTAL = 0;
+  req.session.cart.forEach((item)=> {
+    let price = Number(item.price)
+    CART_TOTAL += price
+  })
 
-// const { ImgurClient } = require("imgur");
-// const client = new ImgurClient({
-//     clientID: process.env.CLIENT_ID,
-//     clientSecret: process.env.CLIENT_SECRET
-//     //,refreshToken: process.env.REFRESH_TOKEN
-// });
-// router.post("/upload-image", upload.single("uploadFile"), async (req, res) => {
-//     try {
-//         let uploadFile = req.file;
-//         let uploadPath = __dirname + "/uploads/" + uploadFile.originalname;
-//         console.log(uploadFile, uploadPath)
+  CART_TOTAL = CART_TOTAL.toLocaleString()
+  res.render("pages/cart",
+    {
+      categories,
+      locals,
+      cartItems,
+      CART_TOTAL,
+      relatedProducts
+    })
+})
 
-//         let response = await client.upload({
-//             image: uploadFile,
-//             type: "base64",
-//             name: Date.now() + uploadFile.originalName,
-//             description: "Uploaded with express"
-//         });
-//         res.send(response);
-//     } catch (err) {
-//         console.error(err);
-//     }
-// });
 
+// router.get("/remove-item/:id", async(req, res)=> {
+
+
+//   let productId = req.params.id
+//   const {
+//     color,
+//     size
+//   } = req.query
+//   let currentProduct = req.session.cart.find(
+//     (product) =>
+//     product._id === productId && product.color === color && product.size === size
+//   );
+//   if (!currentProduct || !color || !size) {
+//     currentProduct = req.session.cart.find(
+//       (product) =>
+//       product._id === productId
+//     );
+//   }
+
+//   let index = req.session.cart.indexOf(currentProduct)
+
+//   if (currentProduct.quantity > 1) {
+//     currentProduct.quantity -= 1
+
+//     let currentPrice = Number(currentProduct.price.replace(/,/g, ""))
+//     req.session.cart[index].price = currentPrice*currentProduct.quantity
+    
+//     console.log("Cart item reduced to", currentProduct.quantity)
+//   } 
+//   else {
+//     req.session.cart.splice(index, 1)
+//     console.log("Cart item deleted successfully")
+//   }
+
+//   res.redirect("/cart")
+  
+// })
 module.exports = router;
