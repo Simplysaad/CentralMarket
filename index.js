@@ -1,7 +1,7 @@
 const express = require("express");
 const expressLayout = require("express-ejs-layouts");
 const ejs = require("ejs");
-//const expressFileUpload = require("express-fileupload");
+const expressFileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
 dotenv.config();
 const session = require("express-session");
@@ -19,7 +19,7 @@ app.listen(PORT, () => {
 //CONNECT DATABASE
 connectDb();
 
-//app.use(expressFileUpload());
+app.use(expressFileUpload());
 
 //SESSIONS INITIALIZING
 app.use(
@@ -46,7 +46,7 @@ app.use(expressLayout);
 app.set("layout", "Layouts/main");
 
 //LOAD STATIC FILES
-app.use(express.static("Public"));
+app.use(express.static("PUBLIC"));
 
 //PARSE req.body TO JSON
 app.use(express.json());
