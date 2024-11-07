@@ -109,20 +109,24 @@ router.get("/category/:category", async(req, res)=> {
   }
 })
 router.get("/preview/:id", async (req, res)=> {
+  try {
+    const allProducts = await Product.find({})
+    const relatedProducts = relatedProductsFunc(allProducts, 8)
+    const categories = await Product.distinct("category")
 
-  const allProducts = await Product.find({})
-  const relatedProducts = relatedProductsFunc(allProducts, 8)
-  const categories = await Product.distinct("category")
-
-  let currentProduct = await Product.findOne({
-    _id: req.params.id
-  })
-  res.render("pages/preview", {
-    locals,
-    currentProduct,
-    relatedProducts,
-    categories
-  })
+    let currentProduct = await Product.findOne({
+      _id: req.params.id
+    })
+    res.render("pages/preview", {
+      locals,
+      currentProduct,
+      relatedProducts,
+      categories
+    })
+  }
+  catch(err) {
+    console.error(err)
+  }
 })
 
 
@@ -292,15 +296,15 @@ router.get("/cart", async (req, res)=> {
 
 //     let currentPrice = Number(currentProduct.price.replace(/,/g, ""))
 //     req.session.cart[index].price = currentPrice*currentProduct.quantity
-    
+
 //     console.log("Cart item reduced to", currentProduct.quantity)
-//   } 
+//   }
 //   else {
 //     req.session.cart.splice(index, 1)
 //     console.log("Cart item deleted successfully")
 //   }
 
 //   res.redirect("/cart")
-  
+
 // })
 module.exports = router;
