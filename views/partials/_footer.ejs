@@ -2,7 +2,7 @@
   <div class="container row g-3 text-start">
     <div class="col-md-4 list-group my-3">
       <a href="/" class="lead display-5 text-decoration-none text-light">
-        BiographyHub<sup class="fs-6 fw-light">&reg;</sup>
+        CampusMart<sup class="fs-6 fw-light">&reg;</sup>
       </a>
       <div class="col-md-12 px-0 my-4">
         <form class="input-group my-3" method="post" action="/subscribe">
@@ -22,10 +22,9 @@
       <h3 class="fs-4">
         Categories
       </h3>
-      <a href="/category/Events" class="text-secondary text-decoration-none">Events</a>
-      <a href="/category/People" class="text-secondary text-decoration-none">People</a>
-      <a href="/category/News" class="text-secondary text-decoration-none">News</a>
-      <a href="/category/Topics" class="text-secondary text-decoration-none">Discussions</a>
+        <% categories.forEach(category=>{ %>
+          <a href="/category/<%= category %>"class="nav-link"> <%= category %></a>
+        <% }) %>
     </div>
 
     <div class="col-md-3 list-group my-3">
@@ -55,7 +54,7 @@
   </div>
 </div>
 <div class="footer-text">
-  &copy;2024 biographyHub, inc. All rights reserved
+  &copy;2024 CampusMart, inc. All rights reserved
 </div>
 
 </div>
