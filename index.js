@@ -43,7 +43,7 @@ app.set("views", "views");
 
 //LAYOUT
 app.use(expressLayout);
-app.set("layout", "Layouts/main");
+app.set("layout", "layouts/main");
 
 //LOAD STATIC FILES
 app.use(express.static("PUBLIC"));
