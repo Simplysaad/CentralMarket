@@ -9,7 +9,7 @@ const expressFileUpload = require("express-fileupload");
 const imgur = require("imgur");
 const multer = require("multer");
 const storage = multer.diskStorage({
-  destination: "./Public/uploads/",
+  destination: "./Public/Uploads/",
   filename: function (req, file, cb) {
     let myFileName =
     Math.round(Math.random() * 100372600) +
