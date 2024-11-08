@@ -1,75 +1,89 @@
-
-
-  <form method="post" action="/addCart/<%=currentProduct._id%>" class="container py-5 preview-container">
-    <div class="preview-image slide carousel" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <% currentProduct.images.forEach((image) => { %>
-          <div class="carousel-item">
-            <img src="<%= image %>" class="img-fluid" alt="<%= image %>"/>
-          </div>
-        <% }) %>
+<form method="post" action="/addCart/<%=currentProduct._id%>" class="container py-5 preview-container">
+  <div class="preview-image slide carousel" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <% currentProduct.images.forEach((image) => {
+        %>
+        <div class="carousel-item">
+          <img src="<%= image %>" class="img-fluid" alt="<%= image %>" />
       </div>
-    </div>
-    <div class="preview-intro my-2">
-      <h2 class="preview-title display-3"><%= currentProduct.name %></h2>
-      <div id="ratingStars" class="text-warning"></div>
-      <div class="preview-price my-2">
-        <span class="preview-price fs-5"><%= currentProduct.currency %><%= currentProduct.price %></span>
-        <s class="old-price fs-6 text-danger"><%= currentProduct.currency %><%= currentProduct.price %></s>
-      </div>
-    </div>
-    <div class="preview-desc border-top">
-      <h2 class="spec-title display-6">Description</h2>
-      <p class="fs-6"><%= currentProduct.description %></p>
-    </div>
-    <div class="preview-cart py-2 mx-3 mb-5">
-      <button id="btnCart" type="submit" class="btn-lg btn btn-cart btn-outline-secondary col-12">Add To Cart</button>
-    </div>
-    <div class="preview-spec border-top">
-      <h2 class="spec-title display-6">Specifications</h2>
-      <div class="colors mt-4 my-2">
-        <% if(currentProduct.variations){ %>
-        <h3 class="fs-5 fw-light">Colors</h3>
-        <% currentProduct.variations.forEach((spec) => { %>
-          <span class="">
-            <input class="spec-radio" id="<%- (spec.color || "specColor" ).replace(" ", "") %>" hidden value="<%= spec.color %>" type="radio" name="color" />
-            <label for="<%- (spec.color || "specColor" ).replace(" ", "") %>" class="btn btn-outline-dark"><%= spec.color %></label>
-          </span>
-        <% }); %>
-        <% }; %>
-      </div>
-      <div class="sizes mt-4 my-2">
-        <% if(currentProduct.variations){ %>
-        <h3 class="fs-5 fw-light">Sizes</h3>
-        <% currentProduct.variations.forEach((spec) => { %>
-          <span class="">
-            <input class="spec-radio" id="<%- (spec.size || "specSize" ).replace(" ", "") %>" hidden value="<%= spec.size %>" type="radio" name="size" />
-            <label for="<%- (spec.size || "specSize" ).replace(" ", "")%>" class="btn btn-outline-dark"><%= spec.size %></label>
-          </span>
-        <% }); %>
-       <% } %>
-      </div>
-    </div>
-  </form>
-  <section id="relatedProducts" class="border container">
-    <div class="category mt-3">
-      <div class="category-heading d-flex align-items-center justify-content-between">
-        <h3 class="display-5">People also checked</h3>
-      </div>
-      <div class="category-body pt-2">
-        <% relatedProducts.forEach((product) => { %>
-          <div class="col-6 col-md-3 p-0 mx-2 border product-card rounded">
-            <div class="card-image m-0">
-              <img src="<%= product.image %>" class="img-fluid" alt="<%= product.name %>"/>
-            </div>
-            <div class="card-body p-0 m-2">
-              <p class="fs-6 card-title"><%= product.name %></p>
-              <span class="fs-5 card-price"><%= product.price %></span>
-              <s class="old-price fs-6 text-danger"><%= product.price %></s>
-              <a href="/preview/<%= product._id %>" class="btn btn-view btn-secondary col-12">View</a>
-            </div>
-          </div>
-        <% }); %>
-      </div>
-    </div>
-  </section>
+        <%
+      }) %>
+  </div>
+</div>
+<div class="preview-intro my-2">
+  <h2 class="preview-title display-3"><%= currentProduct.name %></h2>
+  <div id="ratingStars" class="text-warning"></div>
+  <div class="preview-price my-2">
+    <span class="preview-price fs-5"><%= currentProduct.currency %><%= currentProduct.price %></span>
+    <s class="old-price fs-6 text-danger"><%= currentProduct.currency %><%= currentProduct.price %></s>
+  </div>
+</div>
+<div class="preview-desc border-top">
+  <h2 class="spec-title display-6">Description</h2>
+  <p class="fs-6">
+    <%= currentProduct.description %>
+  </p>
+</div>
+<div class="preview-cart py-2 mx-3 mb-5">
+  <button id="btnCart" type="submit" class="btn-lg btn btn-cart btn-outline-secondary col-12">Add To Cart</button>
+</div>
+<div class="preview-spec border-top">
+  <h2 class="spec-title display-6">Specifications</h2>
+  <div class="colors mt-4 my-2">
+    <% if (currentProduct.variations) {
+      %>
+      <h3 class="fs-5 fw-light">Colors</h3>
+      <% currentProduct.variations.forEach((spec) => {
+        %>
+        <span class="">
+          <input class="spec-radio" id="<%- (spec.color || "specColor").replace(" ", "") %>" hidden value="<%= spec.color %>" type="radio" name="color" />
+        <label for="<%- (spec.color || "specColor").replace(" ", "") %>" class="btn btn-outline-dark"><%= spec.color %></label>
+      </span>
+        <%
+      }); %>
+    <%
+  }; %>
+</div>
+<div class="sizes mt-4 my-2">
+  <% if (currentProduct.variations) {
+    %>
+    <h3 class="fs-5 fw-light">Sizes</h3>
+    <% currentProduct.variations.forEach((spec) => {
+      %>
+      <span class="">
+        <input class="spec-radio" id="<%- (spec.size || "specSize").replace(" ", "") %>" hidden value="<%= spec.size %>" type="radio" name="size" />
+      <label for="<%- (spec.size || "specSize").replace(" ", "")%>" class="btn btn-outline-dark"><%= spec.size %></label>
+    </span>
+      <%
+    }); %>
+  <%
+} %>
+</div>
+</div>
+</form>
+<section id="relatedProducts" class="border container">
+<div class="category mt-3">
+<div class="category-heading d-flex align-items-center justify-content-between">
+<h3 class="display-5">People also checked</h3>
+</div>
+<div class="category-body pt-2">
+<% relatedProducts.forEach((product) => {
+%>
+<div class="col-6 col-md-3 p-0 mx-2 border product-card rounded">
+<div class="card-image m-0">
+<img src="<%= product.image %>" class="img-fluid" alt="<%= product.name %>" />
+</div>
+<div class="card-body p-0 m-2">
+<p class="fs-6 card-title">
+<%= product.name %>
+</p>
+<span class="fs-5 card-price"><%= product.price %></span>
+<s class="old-price fs-6 text-danger"><%= product.price %></s>
+<a href="/preview/<%= product._id %>" class="btn btn-view btn-secondary col-12">View</a>
+</div>
+</div>
+<%
+}); %>
+</div>
+</div>
+</section>
