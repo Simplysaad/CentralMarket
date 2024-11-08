@@ -31,8 +31,8 @@
         <h3 class="fs-5 fw-light">Colors</h3>
         <% currentProduct.variations.forEach((spec) => { %>
           <span class="">
-            <input class="spec-radio" id="<%- spec.color.replace(" ", "") %>" hidden value="<%= spec.color %>" type="radio" name="color" />
-            <label for="<%- spec.color.replace(" ", "") || "specColor" %>" class="btn btn-outline-dark"><%= spec.color %></label>
+            <input class="spec-radio" id="<%- (spec.color || "specColor" ).replace(" ", "") %>" hidden value="<%= spec.color %>" type="radio" name="color" />
+            <label for="<%- (spec.color || "specColor" ).replace(" ", "") %>" class="btn btn-outline-dark"><%= spec.color %></label>
           </span>
         <% }); %>
       </div>
@@ -40,8 +40,8 @@
         <h3 class="fs-5 fw-light">Sizes</h3>
         <% currentProduct.variations.forEach((spec) => { %>
           <span class="">
-            <input class="spec-radio" id="<%- spec.size.replace(" ", "") %>" hidden value="<%= spec.size %>" type="radio" name="size" />
-            <label for="<%- spec.size.replace(" ", "") || "specSize" %>" class="btn btn-outline-dark"><%= spec.size %></label>
+            <input class="spec-radio" id="<%- (spec.size || "specSize" ).replace(" ", "") %>" hidden value="<%= spec.size %>" type="radio" name="size" />
+            <label for="<%- (spec.size || "specSize" ).replace(" ", "")%>" class="btn btn-outline-dark"><%= spec.size %></label>
           </span>
         <% }); %>
       </div>
