@@ -117,7 +117,7 @@ router.get("/preview/:id", async (req, res)=> {
     let currentProduct = await Product.findOne({
       _id: req.params.id
     })
-    if(!currentProduct){
+    if (!currentProduct) {
       throw new Error("no product matches that id")
     }
     //https://campus-mart-uml3.onrender.com/preview/672885f3b6e51b1355fcb585
@@ -133,7 +133,38 @@ router.get("/preview/:id", async (req, res)=> {
     console.error(err)
   }
 })
+// ... your other code ...
 
+router.get("/preview/:id", async (req, res) => {
+  try {
+    const allProducts = await Product.find({})
+    const relatedProducts = relatedProductsFunc(allProducts, 8)
+    const categories = await Product.distinct("category")
+
+    console.log("ID:", req.params.id); // Log the ID for debugging
+
+    let currentProduct = await Product.findOne({
+      _id: req.params.id
+    })
+
+    if (!currentProduct) {
+      throw new Error("No product matches that ID"); // Explicit error for debugging
+    }
+
+    // ... your existing render code ...
+    res.render("pages/preview", {
+      locals,
+      currentProduct,
+      relatedProducts,
+      categories
+    })
+  } catch (err) {
+    console.error("Error in preview route:", err); // Log the error for debugging
+    res.status(500).send("Internal Server Error"); // Better error handling
+  }
+});
+
+// ... rest of your code ...
 
 router.post("/search", async(req, res)=> {
   const searchTerm = req.body.searchTerm.trim()
