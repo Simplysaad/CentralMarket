@@ -29,9 +29,8 @@
 </div>
 <div class="preview-spec border-top">
   <h2 class="spec-title display-6">Specifications</h2>
-  <div class="colors mt-4 my-2">
-    <% if (currentProduct.variations) {
-      %>
+    <% if (currentProduct.variations) { %>
+    <div class="colors mt-4 my-2">
       <h3 class="fs-5 fw-light">Colors</h3>
       <% currentProduct.variations.forEach((spec) => {
         %>
@@ -41,12 +40,10 @@
       </span>
         <%
       }); %>
-    <%
-  }; %>
 </div>
-<div class="sizes mt-4 my-2">
-  <% if (currentProduct.variations) {
-    %>
+    <% }; %>
+  <% if (currentProduct.variations) { %>
+    <div class="sizes mt-4 my-2">
     <h3 class="fs-5 fw-light">Sizes</h3>
     <% currentProduct.variations.forEach((spec) => {
       %>
@@ -57,8 +54,8 @@
       <%
     }); %>
   <%
-} %>
 </div>
+} %>
 </div>
 </form>
 <section id="relatedProducts" class="border container">
