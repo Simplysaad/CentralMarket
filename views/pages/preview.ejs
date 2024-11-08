@@ -51,11 +51,9 @@
         <input class="spec-radio" id="<%- (spec.size || "specSize").replace(" ", "") %>" hidden value="<%= spec.size %>" type="radio" name="size" />
       <label for="<%- (spec.size || "specSize").replace(" ", "")%>" class="btn btn-outline-dark"><%= spec.size %></label>
     </span>
-      <%
-    }); %>
-  <%
-</div>
-} %>
+      <% }); %>
+  </div>
+  <% } %>
 </div>
 </form>
 <section id="relatedProducts" class="border container">
