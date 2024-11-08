@@ -28,6 +28,7 @@
     <div class="preview-spec border-top">
       <h2 class="spec-title display-6">Specifications</h2>
       <div class="colors mt-4 my-2">
+        <% if(currentProduct.variations){ %>
         <h3 class="fs-5 fw-light">Colors</h3>
         <% currentProduct.variations.forEach((spec) => { %>
           <span class="">
@@ -35,8 +36,10 @@
             <label for="<%- (spec.color || "specColor" ).replace(" ", "") %>" class="btn btn-outline-dark"><%= spec.color %></label>
           </span>
         <% }); %>
+        <% }; %>
       </div>
       <div class="sizes mt-4 my-2">
+        <% if(currentProduct.variations){ %>
         <h3 class="fs-5 fw-light">Sizes</h3>
         <% currentProduct.variations.forEach((spec) => { %>
           <span class="">
@@ -44,13 +47,14 @@
             <label for="<%- (spec.size || "specSize" ).replace(" ", "")%>" class="btn btn-outline-dark"><%= spec.size %></label>
           </span>
         <% }); %>
+       <% } %>
       </div>
     </div>
   </form>
   <section id="relatedProducts" class="border container">
     <div class="category mt-3">
       <div class="category-heading d-flex align-items-center justify-content-between">
-        <h3 class="display-5">Related Products</h3>
+        <h3 class="display-5">People also checked</h3>
       </div>
       <div class="category-body pt-2">
         <% relatedProducts.forEach((product) => { %>
