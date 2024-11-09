@@ -110,10 +110,11 @@ btnTag.forEach(tag => {
             body: JSON.stringify({ searchTerm })
         })
             .then(response => {
-                return response.json();
+                return response.text();
             })
             .then(data =>{
                 console.log(data);
+                document.body.innerHTML = data
             })
             .catch(err => {
                 console.error("Error: ", err);
