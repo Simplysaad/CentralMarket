@@ -1,5 +1,20 @@
 const charArr = ["a", "b", "c", "d", "e", "f", 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-const ratings = [5, 4, 5, 5, 3, 1, 5, 3, 5, 5, 3, 4];
+const rtings = [5, 4, 5, 5, 3, 1, 5, 3, 5, 5, 3, 4];
+
+const getRatings = async () => {
+    try {
+        const ratings = await fetch("/getRating", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    } catch (err) {
+        console.error(err);
+    }
+    
+    return ratings
+};
 
 function getRandomColor() {
     let color = "#";
@@ -112,9 +127,9 @@ btnTag.forEach(tag => {
             .then(response => {
                 return response.text();
             })
-            .then(data =>{
+            .then(data => {
                 console.log(data);
-                document.body.innerHTML = data
+                document.body.innerHTML = data;
             })
             .catch(err => {
                 console.error("Error: ", err);
