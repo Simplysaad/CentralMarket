@@ -140,7 +140,7 @@
 }
 .preview-tags .btn-tag {
     padding: 2px 5px;
-    border: 1px solid #aaa;
+    /*border: 1px solid #aaa;*/
     background: #f4f4f4;
 }
 .preview-image {
