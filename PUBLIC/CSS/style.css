@@ -62,7 +62,7 @@
     opacity: 0.7;
     color: var(--text-light);
 }
-.horizontal-nav .nav-link.active{
+.horizontal-nav .nav-link.active {
     opacity: 1;
     background: var(--bg-light);
     color: var(--text-dark);
@@ -132,16 +132,16 @@
     .preview-cart {
         grid-area: 4/2 /4/2;
     }
-    .preview-tags{
-      
+    .preview-tags {
     }
 }
-.preview-tags{
-  
+.preview-tags {
+    margin: 20px 5px;
 }
-.preview-tags .btn-tag{
-  padding: 4px 7px;
-  background: none;
+.preview-tags .btn-tag {
+    padding: 2px 5px;
+    border: 1px solid #aaa;
+    background: #f4f4f4;
 }
 .preview-image {
     height: 50vh;
@@ -209,9 +209,9 @@
 }
 .cart-total {
     text-align: right;
-    margin-left: ;
+    margin-left:;
 }
-.cart-spec{
-  margin-top: 1rem;
-  color: var(--text-secondary);
+.cart-spec {
+    margin-top: 1rem;
+    color: var(--text-secondary);
 }
