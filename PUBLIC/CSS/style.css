@@ -127,8 +127,17 @@
     .preview-cart {
         grid-area: 4/2 /4/2;
     }
+    .preview-tags{
+      
+    }
 }
-
+.preview-tags{
+  
+}
+.preview-tags .btn-tag{
+  padding: 10px 16px;
+  background: none;
+}
 .preview-image {
     height: 50vh;
     margin: 30px auto;
