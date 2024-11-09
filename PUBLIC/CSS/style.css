@@ -2,7 +2,7 @@
     --text-light: #f4f4f4;
     --text-medium: #747474;
     --text-secondary: #646464;
-    --text-dark: ;
+    --text-dark: #3a3b3c;
     --bg-dark: #0f0f0f;
     --bg-secondary: ;
     --bg-medium: ;
@@ -61,6 +61,11 @@
 .horizontal-nav .nav-link:hover {
     opacity: 0.7;
     color: var(--text-light);
+}
+.horizontal-nav .nav-link.active{
+    opacity: 1;
+    background: var(--bg-light);
+    color: var(--text-dark);
 }
 
 /* INDEX STYLES */
