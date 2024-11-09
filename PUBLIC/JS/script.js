@@ -99,7 +99,7 @@ const btnTag = document.querySelectorAll(".btn-tag");
 btnTag.forEach(tag => {
     tag.addEventListener("click", e => {
         e.preventDefault();
-        searchTerm = tag.value || tag.textContent;
+        let searchTerm = tag.value || tag.textContent;
 
         console.log(searchTerm);
         fetch("/search", {
@@ -109,8 +109,10 @@ btnTag.forEach(tag => {
             },
             body: JSON.stringify({ searchTerm })
         })
-            .then(data => {
-                data.json();
+            .then(response => {
+                return response.json();
+            })
+            .then(data =>{
                 console.log(data);
             })
             .catch(err => {
