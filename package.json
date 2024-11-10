@@ -9,7 +9,7 @@
     "dev": "nodemon index"
   },
   "keywords": [],
-  "author": "",
+  "author": "SimplySaad",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^18.0.6",
