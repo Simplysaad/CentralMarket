@@ -16,6 +16,7 @@ const ProductSchema = new mongoose.Schema({
     category: {
         type: String,
         enum: [
+            "General",
             "electronics",
             "Fashion",
             "health and wellness",
@@ -39,18 +40,20 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    rating: [{
-        type: Number,
-        default: 0
-    }],
+    rating: [
+        {
+            type: Number,
+            default: 0
+        }
+    ],
     reviews: [
         {
             author: mongoose.Schema.Types.ObjectId,
             ref: "Users",
             type: String,
             createdAt: {
-              type: Date,
-              default: Date.now()
+                type: Date,
+                default: Date.now()
             }
         }
     ],
@@ -73,4 +76,4 @@ const ProductSchema = new mongoose.Schema({
 });
 
 const Product = new mongoose.model("Product", ProductSchema);
-module.exports = Product
+module.exports = Product;
