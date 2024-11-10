@@ -98,32 +98,6 @@ router.get("/category/:category", async (req, res) => {
         res.json(err);
     }
 });
-// router.get("/preview/:id", async (req, res)=> {
-//   try {
-//     const allProducts = await Product.find({})
-//     const relatedProducts = relatedProductsFunc(allProducts, 8)
-//     const categories = await Product.distinct("category")
-
-//     let currentProduct = await Product.findOne({
-//       _id: req.params.id
-//     })
-//     if (!currentProduct) {
-//       throw new Error("no product matches that id")
-//     }
-//     //https://campus-mart-uml3.onrender.com/preview/672885f3b6e51b1355fcb585
-
-//     res.render("pages/preview", {
-//       locals,
-//       currentProduct,
-//       relatedProducts,
-//       categories
-//     })
-//   }
-//   catch(err) {
-//     console.error(err)
-//   }
-// })
-// ... your other code ...
 
 router.get("/preview/:id", async (req, res) => {
     try {
@@ -186,15 +160,18 @@ router.post("/search", async (req, res) => {
         searchTerm,
         categories,
         distinctTags,
+        relatedProducts,
         locals
       })
     }
-    res.render("pages/search.ejs", {
+    else{
+      res.render("pages/search.ejs", {
         searchResults,
         searchTerm,
         categories,
         locals
     });
+    }
 });
 
 router.post("/addCart/:id", async (req, res) => {
