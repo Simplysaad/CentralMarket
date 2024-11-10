@@ -2,7 +2,7 @@
     --text-light: #f4f4f4;
     --text-medium: #747474;
     --text-secondary: #646464;
-    --text-dark: #3a3b3c;
+    --text-dark: #1a0b1c;
     --bg-dark: #0f0f0f;
     --bg-secondary: ;
     --bg-medium: ;
@@ -143,6 +143,7 @@
     text-align: center;
     text-decoration: none;
     border: .6px solid;
+    color: var(--text-dark);
     background: #a4a4a4;
 }
 .preview-image {
