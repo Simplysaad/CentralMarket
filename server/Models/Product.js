@@ -45,8 +45,13 @@ const ProductSchema = new mongoose.Schema({
     }],
     reviews: [
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Reviews"
+            author: mongoose.Schema.Types.ObjectId,
+            ref: "Users",
+            type: String,
+            createdAt: {
+              type: Date,
+              default: Date.now()
+            }
         }
     ],
     variations: [
