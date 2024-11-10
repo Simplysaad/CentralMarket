@@ -133,7 +133,7 @@ router.get("/preview/:id", async (req, res) => {
 
 router.post("/search", async (req, res) => {
     try {
-        const searchTerm = req.body.searchTerm.trim();
+        const searchTerm = req.body.searchTerm.trim() || req.query.searchTerm;
         let regex = new RegExp(searchTerm, "gi");
         const categories = await Product.distinct("category");
         const relatedProducts = relatedProductsFunc(allProducts, 8);
