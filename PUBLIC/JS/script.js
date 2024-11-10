@@ -12,8 +12,8 @@ const getRatings = async () => {
     } catch (err) {
         console.error(err);
     }
-    
-    return ratings
+
+    return ratings;
 };
 
 function getRandomColor() {
@@ -115,9 +115,14 @@ btnTag.forEach(tag => {
     tag.addEventListener("click", e => {
         e.preventDefault();
         let searchTerm = tag.value || tag.textContent;
-
+        postSearch(searchTerm)
         console.log(searchTerm);
-        fetch("/search", {
+    });
+});
+
+const postSearch = async searchTerm => {
+    try {
+        let response = await fetch("/search", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -127,12 +132,14 @@ btnTag.forEach(tag => {
             .then(response => {
                 return response.text();
             })
-            .then(data => {
-                console.log(data);
-                document.body.innerHTML = data;
-            })
-            .catch(err => {
-                console.error("Error: ", err);
-            });
-    });
-});
+          
+                console.log(response);
+                document.body.innerHTML = response;
+          
+            if(err){
+                throw  new Error("Error: ", err);
+            }
+    } catch (err) {
+        console.error("Error:" err);
+    }
+};
