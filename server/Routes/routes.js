@@ -35,7 +35,8 @@ const relatedProductsFunc = helper.relatedProductsFunc;
 
 const locals = {
     title: "Campus Mart",
-    description: "an incampus shopping website for school online vendors and students, to buy , sell and deliver items without hassle",
+    description:
+        "an incampus shopping website for school online vendors and students, to buy , sell and deliver items without hassle",
     imageUrl: "/IMG/favicon.png"
 };
 
@@ -131,46 +132,48 @@ router.get("/preview/:id", async (req, res) => {
 // ... rest of your code ...
 
 router.post("/search", async (req, res) => {
-    const searchTerm = req.body.searchTerm.trim();
-    let regex = new RegExp(searchTerm, "gi");
-    const categories = await Product.distinct("category");
+    try {
+        const searchTerm = req.body.searchTerm.trim();
+        let regex = new RegExp(searchTerm, "gi");
+        const categories = await Product.distinct("category");
 
-    const searchResults = await Product.find({
-        $or: [
-            {
-                description: regex
-            },
-            {
-                name: regex
-            },
-            {
-                tags: regex
-            },
-            {
-                category: regex
-            },
-            {
-                subCategory: regex
-            }
-        ]
-    });
-    let distinctTags;
-    if(searchResults.length === 0){
-      res.render("pages/empty-search", {
-        searchTerm,
-        categories,
-        distinctTags,
-        relatedProducts,
-        locals
-      })
-    }
-    else{
-      res.render("pages/search.ejs", {
-        searchResults,
-        searchTerm,
-        categories,
-        locals
-    });
+        const searchResults = await Product.find({
+            $or: [
+                {
+                    description: regex
+                },
+                {
+                    name: regex
+                },
+                {
+                    tags: regex
+                },
+                {
+                    category: regex
+                },
+                {
+                    subCategory: regex
+                }
+            ]
+        });
+        let distinctTags;
+        if (searchResults.length === 0) {
+            res.render("pages/empty-search", {
+                searchTerm,
+                categories,
+                relatedProducts,
+                locals
+            });
+        } else {
+            res.render("pages/search.ejs", {
+                searchResults,
+                searchTerm,
+                categories,
+                locals
+            });
+        }
+    } catch (err) {
+        console.error(err);
     }
 });
 
