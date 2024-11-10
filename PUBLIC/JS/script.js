@@ -134,8 +134,8 @@ const postSearch = async searchTerm => {
         console.log(responseBody);
         document.body.innerHTML = responseBody;
 
-        if (err) {
-            throw new Error("Error: ", err);
+        if (!response.ok) {
+            throw new Error(`HTTP Error! status: ${response.status}`);
         }
     } catch (err) {
         console.error("Error:", err);
