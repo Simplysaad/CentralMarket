@@ -42,15 +42,15 @@ const locals = {
 const ads = [
     {
         title: "cowrywise: invest in the future",
-        imageUrl: "cowrywise.jpg"
+        imageUrl: "/IMG/ADS/cowrywise.jpg"
     },
     {
         title: "Termux: the terminal of the century",
-        imageUrl: "termux.jpg"
+        imageUrl: "/IMG/ADS/termux.jpg"
     },
     {
         title: "Barclays bank",
-        imageUrl: "barclays.jpg"
+        imageUrl: "/IMG/ADS/barclays.jpg"
     }
 ];
 
@@ -180,7 +180,15 @@ router.post("/search", async (req, res) => {
             }
         ]
     });
-
+    let distinctTags;
+    if(searchResults.length === 0){
+      res.render("pages/empty-search", {
+        searchTerm,
+        categories,
+        distinctTags,
+        locals
+      })
+    }
     res.render("pages/search.ejs", {
         searchResults,
         searchTerm,
