@@ -141,8 +141,9 @@
 .preview-tags .btn-tag {
     padding: 2px 5px;
     text-align: center;
-    /*border: 1px solid #aaa;*/
-    background: #f4f4f4;
+    text-decoration: none;
+    border: .6px solid;
+    background: #a4a4a4;
 }
 .preview-image {
     height: 50vh;
