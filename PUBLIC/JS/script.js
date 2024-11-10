@@ -113,9 +113,8 @@ if (window.width >= 600) {
 const btnTag = document.querySelectorAll(".btn-tag");
 btnTag.forEach(tag => {
     tag.addEventListener("click", async (e) => {
-        e.preventDefault();
+        //e.preventDefault();
         let searchTerm = tag.textContent;
-        
         await postSearch(searchTerm);
         console.log(searchTerm);
     });
