@@ -115,7 +115,7 @@ btnTag.forEach(tag => {
     tag.addEventListener("click", e => {
         e.preventDefault();
         let searchTerm = tag.value || tag.textContent;
-        postSearch(searchTerm)
+        postSearch(searchTerm);
         console.log(searchTerm);
     });
 });
@@ -128,18 +128,16 @@ const postSearch = async searchTerm => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ searchTerm })
-        })
-            .then(response => {
-                return response.text();
-            })
-          
-                console.log(response);
-                document.body.innerHTML = response;
-          
-            if(err){
-                throw  new Error("Error: ", err);
-            }
+        });
+        let responseBody = await response.text();
+
+        console.log(responseBody);
+        document.body.innerHTML = responseBody;
+
+        if (err) {
+            throw new Error("Error: ", err);
+        }
     } catch (err) {
-        console.error("Error:" err);
+        console.error("Error:", err);
     }
 };
