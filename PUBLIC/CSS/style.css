@@ -144,7 +144,8 @@
     text-decoration: none;
     border: .6px solid;
     color: var(--text-dark);
-    background: #a4a4a4;
+    display: inline;
+    background: #f4f4f4;
 }
 .preview-image {
     height: 50vh;
