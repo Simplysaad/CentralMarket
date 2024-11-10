@@ -136,7 +136,7 @@ router.post("/search", async (req, res) => {
         const searchTerm = req.body.searchTerm.trim() || req.query.searchTerm;
         let regex = new RegExp(searchTerm, "gi");
         const categories = await Product.distinct("category");
-        const relatedProducts = relatedProductsFunc(allProducts, 8);
+        const relatedProducts = relatedProductsFunc(allProducts, 18);
         
         const searchResults = await Product.find({
             $or: [
