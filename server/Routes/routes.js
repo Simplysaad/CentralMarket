@@ -34,10 +34,9 @@ const helper = require("../.././utils/helper.js");
 const relatedProductsFunc = helper.relatedProductsFunc;
 
 const locals = {
-    title: "",
-    description: "",
-    imageUrl: "",
-    emailError: ""
+    title: "Campus Mart",
+    description: "an incampus shopping website for school online vendors and students, to buy , sell and deliver items without hassle",
+    imageUrl: "/IMG/favicon.png"
 };
 
 const ads = [
