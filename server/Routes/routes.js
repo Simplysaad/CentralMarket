@@ -156,8 +156,8 @@ router.post("/search", async (req, res) => {
                 }
             ]
         });
-        let distinctTags;
         if (searchResults.length === 0) {
+            console.log(searchTerm, "brought no results ");
             res.render("pages/empty-search", {
                 searchTerm,
                 categories,
