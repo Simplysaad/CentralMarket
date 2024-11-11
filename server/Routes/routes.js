@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
-const ObjectId = mongoose.Types.ObjectId;
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const Product = require("../Models/Product.js");
 const User = require("../Models/User.js");
