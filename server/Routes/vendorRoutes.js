@@ -34,3 +34,21 @@ const locals = {
     imageUrl: "/IMG/favicon.png"
 };
 
+
+router.get("/login", async(req, res)=>{})
+router.post("/login", async(req, res)=>{})
+
+router.get("/register", async(req, res)=>{})
+router.post("/register", async(req, res)=>{})
+
+router.get("/dashboard", async(req, res)=>{})
+
+router.get("/add-product", async(req, res)=>{})
+router.post("/add-product", async(req, res)=>{})
+
+router.get("/edit-product", async(req, res)=>{})
+router.post("/edit-product", async(req, res)=>{})
+
+router.get("/place-ad", async(req, res)=>{})
+router.post("/place-ad", async(req, res)=>{})
+
