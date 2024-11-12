@@ -34,21 +34,64 @@ const locals = {
     imageUrl: "/IMG/favicon.png"
 };
 
+/**
+ * I'll need to change the login and register
+ * pages from the vendor rout to the normal route
+ */
 
-router.get("/login", async(req, res)=>{})
-router.post("/login", async(req, res)=>{})
+router.get("/login", async (req, res) => {
+    try {
+        res.render("vendor/login", { locals });
+    } catch (err) {
+        console.error(err);
+    }
+});
+router.post("/login", async (req, res) => {});
 
-router.get("/register", async(req, res)=>{})
-router.post("/register", async(req, res)=>{})
+router.get("/register", async (req, res) => {
+    try {
+        res.render("vendor/register", { locals });
+    } catch (err) {
+        console.error(err);
+    }
+});
+router.post("/register", async (req, res) => {
+    try {
+        const salt = 10;
+        const password = req.body.password;
+        const hashedPassword = await bcrypt.hash(password, salt);
+        req.body.password = hashedPassword;
 
-router.get("/dashboard", async(req, res)=>{})
+        let newUser = new User({
+            ...req.body
+        });
+        
+        let userEmailAddress = newUser.emailAddress
+        
+        let isExist = await User.findOne({
+          emailAddress: userEmailAddress
+        })
+        
+        if(isExist){
+          res.json(message: "email already exists")
+        }
+        else{
+          await newUser.save();
+        }
+        
+        res.send(newUser , "User has been registered successfully")
+    } catch (err) {
+        console.error(err);
+    }
+});
 
-router.get("/add-product", async(req, res)=>{})
-router.post("/add-product", async(req, res)=>{})
+router.get("/dashboard", async (req, res) => {});
 
-router.get("/edit-product", async(req, res)=>{})
-router.post("/edit-product", async(req, res)=>{})
+router.get("/add-product", async (req, res) => {});
+router.post("/add-product", async (req, res) => {});
 
-router.get("/place-ad", async(req, res)=>{})
-router.post("/place-ad", async(req, res)=>{})
+router.get("/edit-product", async (req, res) => {});
+router.post("/edit-product", async (req, res) => {});
 
+router.get("/place-ad", async (req, res) => {});
+router.post("/place-ad", async (req, res) => {});
