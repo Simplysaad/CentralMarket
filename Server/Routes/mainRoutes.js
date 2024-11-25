@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
         const categories = await Product.distinct("category");
 
         const products = await Product.find();
-        res.render("pages/index", {
+        res.render("Pages/index", {
             locals,
             ads,
             categories,
@@ -66,7 +66,7 @@ router.get("/category/:category", async (req, res) => {
 
         const categories = await Product.distinct("category");
 
-        res.render("pages/category", {
+        res.render("Pages/category", {
             locals,
             categoryName,
             categoryItems,
@@ -96,7 +96,7 @@ router.get("/preview/:id", async (req, res) => {
         }
 
         // ... your existing render code ...
-        res.render("pages/preview", {
+        res.render("Pages/preview", {
             locals,
             currentProduct,
             relatedProducts,
@@ -138,14 +138,14 @@ router.post("/search", async (req, res) => {
         });
         if (searchResults.length === 0) {
             console.log(searchTerm, "brought no results ");
-            res.render("pages/empty-search", {
+            res.render("Pages/empty-search", {
                 searchTerm,
                 categories,
                 relatedProducts,
                 locals
             });
         } else {
-            res.render("pages/search.ejs", {
+            res.render("Pages/search.ejs", {
                 searchResults,
                 searchTerm,
                 categories,
@@ -250,7 +250,7 @@ router.get("/cart", async (req, res) => {
     });
 
     CART_TOTAL = CART_TOTAL.toLocaleString();
-    res.render("pages/cart", {
+    res.render("Pages/cart", {
         categories,
         locals,
         cartItems,
