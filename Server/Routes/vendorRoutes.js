@@ -5,6 +5,8 @@ const Product = require("../Models/Product.js");
 
 const authMiddleware = require("../Utils/auth.js");
 
+const categoryList =  Product.distinct("category").exec()
+
 const multer = require("multer");
 const storage = multer.diskStorage({
     destination: "Uploads/Products",
@@ -48,7 +50,6 @@ router.get("/dashboard", async (req, res) => {
         console.error(err);
     }
 });
-const categoryList =  Product.distinct("category").exec()
 router.get("/add-product", async (req, res) => {
     try {
         res.render("vendor/add_product", {categoryList});
