@@ -9,7 +9,7 @@ const Product = require("../Models/Product.js");
 const User = require("../Models/User.js");
 const Order = require("../Models/Order.js");
 
-const helper = require("../.././utils/helper.js");
+const helper = require("../utils/helper.js");
 const relatedProductsFunc = helper.relatedProductsFunc;
 
 const locals = {
