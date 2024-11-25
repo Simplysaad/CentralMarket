@@ -2,6 +2,10 @@ const express = require("express");
 const expressLayout = require("express-ejs-layouts");
 const ejs = require("ejs");
 
+const morgan = require("morgan");
+app.use(morgan("tiny"))
+
+
 const dotenv = require("dotenv");
 dotenv.config();
 
