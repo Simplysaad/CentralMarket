@@ -36,7 +36,7 @@ const ads = [
 
 router.get("/", async (req, res) => {
     try {
-        let categories = await Product.distinct("category");
+        const categories = await Product.distinct("category");
 
         const products = await Product.find();
         res.render("pages/index", {
