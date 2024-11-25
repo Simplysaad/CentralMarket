@@ -46,14 +46,14 @@ router.get("/dashboard", async (req, res) => {
         });
         console.log("currentUserProducts", currentUserProducts);
 
-        res.render("vendor/dashboard", { currentUser, currentUserProducts });
+        res.render("Vendor/dashboard", { currentUser, currentUserProducts });
     } catch (err) {
         console.error(err);
     }
 });
 router.get("/add-product", async (req, res) => {
     try {
-        res.render("vendor/add_product", { categoryList });
+        res.render("Vendor/add_product", { categoryList });
     } catch (err) {
         console.error(err);
     }
@@ -78,7 +78,7 @@ router.post("/add-product", upload.single("productImage"), async (req, res) => {
                 });
                 throw new Error(err);
             });
-        res.redirect("/vendor/dashboard");
+        res.redirect("/Vendor/dashboard");
     } catch (err) {
         console.error(err);
     }
