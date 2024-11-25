@@ -5,6 +5,9 @@ const ejs = require("ejs");
 const dotenv = require("dotenv");
 dotenv.config();
 
+const flash = require("express-flash")
+app.use(flash())
+
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const mongoStore = require("connect-mongo");
