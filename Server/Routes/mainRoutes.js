@@ -60,11 +60,11 @@ router.get("/category/:category", async (req, res) => {
         const relatedProducts = relatedProductsFunc(allProducts, 8);
 
         categoryName = categoryName.split("%20").join(" ");
-        let categoryItems = await Product.find({
+        const categoryItems = await Product.find({
             category: categoryName
         });
 
-        let categories = await Product.distinct("category");
+        const categories = await Product.distinct("category");
 
         res.render("pages/category", {
             locals,
@@ -87,7 +87,7 @@ router.get("/preview/:id", async (req, res) => {
 
         console.log("ID:", req.params.id); // Log the ID for debugging
 
-        let currentProduct = await Product.findOne({
+        const currentProduct = await Product.findOne({
             _id: req.params.id
         });
 
