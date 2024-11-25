@@ -1,0 +1,48 @@
+<form action="/auth/login" method="post" class="my-5 form-card col-md-8 col-lg-7 container">
+    <section id="loginDetails" class="d-noe my-5">
+        <h3 class="display-4 my-3 text-center">Login</h3>
+        <div class="form-floating">
+            <input
+                class="form-control"
+                id="username"
+                name="username"
+                type="text"
+                required
+                placeholder=""
+            />
+            <label for="username">Enter username or email</label>
+        </div>
+        <div class="form-floating">
+            <input
+                class="form-control"
+                id="password"
+                name="password"
+                type="password"
+                required
+                placeholder=""
+            />
+            <label for="password">Password</label>
+        </div>
+        <div class="form-check-inline my-3 mb-5">
+            <input
+                class="d-inline"
+                type="checkbox"
+                id="checkAgreement"
+                name="checkAgreement"
+            />
+            <label for="checkAgreement" class="d-inline"
+                >I agree to the <a href="/">Terms of service</a> and
+                <a href="/">privacy policy</a> of campusMart inc.</label
+            >
+        </div>
+        <button
+            id=""
+            class="btn btn-lg btn-outline-success form-control clearfix col-5 mx-auto p-3"
+        >
+            Submit
+        </button>
+        <div class="fs-6">
+          Don't Have an account? <a href="/auth/register">Create One!</a>
+        </div>
+    </section>
+</form>
