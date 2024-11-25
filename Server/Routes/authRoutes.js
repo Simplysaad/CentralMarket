@@ -51,6 +51,10 @@ router.post("/register", async (req, res) => {
 
 router.get("/login", async (req, res) => {
     try {
+      if(req.session && req.session.userId){
+        req.flash("info", "user logget out successfully")
+        res.redirect("/auth/logout")
+      }
         res.render("Auth/login");
     } catch (err) {
         console.error(err);
