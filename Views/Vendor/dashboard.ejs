@@ -1,0 +1,132 @@
+<main class="container">
+    <div class="heading py-3">
+        <h4 class="display-4">Hi, <%- currentUser.username%></h4>
+    </div>
+    <section class="widgets border px-2 border-danger my-4 mx-auto row g-5">
+        <div
+            class="widget d-flex orders shadow-sm border rounded my-3 col-md-6 py-3 px-3"
+        >
+            <div class="widget-info col-10 col-md-11">
+                <h4 class="widget-heading fs-4 text-secondary fw-light">
+                    Orders
+                </h4>
+                <h3 class="widget-data display-4 py-4">5,300</h3>
+                <div class="widget-extra-info">
+                    <span class="trend order me-3 text-success fw-light">
+                        <strong class="fa fa-arrow-up pe-1"></strong>
+                        5.06
+                    </span>
+                    <span class="time order"> This week </span>
+                </div>
+            </div>
+            <div
+                class="widget-icon text-center rounded top-0 p-1 m-0 me-5 col-2 col-md-1 h-25 bg-warning text-light"
+            >
+                <i class="fa fa-2x fa-shopping-cart"></i>
+            </div>
+        </div>
+        <div
+            class="widget d-flex customers shadow-sm border rounded my-3 col-md-6 py-3 px-3"
+        >
+            <div class="widget-info col-10 col-md-11">
+                <h4 class="widget-heading fs-4 text-secondary fw-light">
+                    Customers
+                </h4>
+                <h3 class="widget-data display-4 py-4">300</h3>
+                <div class="widget-extra-info">
+                    <span class="trend order me-3 text-success fw-light">
+                        194
+                        <strong class="pe-1"> New</strong>
+                    </span>
+                    <span class="trend order me-3 text-success fw-light">
+                        106
+                        <strong class="pe-1"> Returning</strong>
+                    </span>
+                </div>
+            </div>
+            <div
+                class="widget-icon text-center rounded top-0 p-1 m-0 me-5 col-2 col-md-1 h-25 bg-success text-light"
+            >
+                <i class="fa fa-2x fa-people-group"></i>
+            </div>
+        </div>
+        <div
+            class="widget d-flex revenue shadow-sm border rounded my-3 col-md-6 py-3 px-3"
+        >
+            <div class="widget-info col-10 col-md-11">
+                <h4 class="widget-heading fs-4 text-secondary fw-light">
+                    Revenue
+                </h4>
+                <h3 class="widget-data display-4 py-4">₦83,300</h3>
+                <div class="widget-extra-info">
+                    <span class="trend order me-3 text-success fw-light">
+                        <strong class="fa fa-arrow-up pe-1"></strong>
+                        12.59%
+                    </span>
+                    <span class="time order"> This month </span>
+                </div>
+            </div>
+            <div
+                class="widget-icon text-center rounded top-0 p-1 m-0 me-5 col-2 col-md-1 h-25 bg-warning text-light"
+            >
+                <i class="fa fa-2x fa-people-group"></i>
+            </div>
+        </div>
+        <div
+            class="widget d-flex orders shadow-sm border rounded my-3 col-md-6 py-3 px-3"
+        >
+            <div class="widget-info col-10 col-md-11">
+                <h4 class="widget-heading fs-4 text-secondary fw-light">
+                    Orders
+                </h4>
+                <h3 class="widget-data display-4 py-4">5,300</h3>
+                <div class="widget-extra-info">
+                    <span class="trend order me-3 text-success fw-light">
+                        <strong class="fa fa-arrow-up pe-1"></strong>
+                        5.06
+                    </span>
+                    <span class="time order"> This week </span>
+                </div>
+            </div>
+            <div
+                class="widget-icon text-center rounded top-0 p-1 m-0 me-5 col-2 col-md-1 h-25 bg-warning text-light"
+            >
+                <i class="fa fa-2x fa-people-group"></i>
+            </div>
+        </div>
+    </section>
+    <section class="product-list my-5">
+        <div class="table-heading py-4 top-0 position-relative">
+            <h3 class="display-6">Top Products this month</h3>
+        </div>
+        <div class="product-table-container overflow-scroll">
+            <table
+                class="table table-hover overflow-scroll text-nowrap table-striped"
+            >
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Sold</th>
+                        <th>Amount</th>
+                        <th>Remaining</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%# curentUserProducts.forEach(product=>{ %>
+                    <tr>
+                        <td><%#= product.index %></td>
+                        <td><%#= product.name %></td>
+                        <td><%#= product.price %></td>
+                        <td><%#= product.quantitySold %></td>
+                        <td><%#= product.amountSold %></td>
+                        <td><%#= product.quantityInStock %></td>
+                    </tr>
+                    <%# })%>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section class=""></section>
+</main>
