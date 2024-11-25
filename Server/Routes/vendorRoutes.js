@@ -48,7 +48,7 @@ router.get("/dashboard", async (req, res) => {
         console.error(err);
     }
 });
-const categoryList = await Product.distinct("category")
+const categoryList =  Product.distinct("category").exec()
 router.get("/add-product", async (req, res) => {
     try {
         res.render("vendor/add_product", {categoryList});
