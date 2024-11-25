@@ -6,6 +6,7 @@ const Product = require("../Models/Product.js");
 const authMiddleware = require("../Utils/auth.js");
 
 const categoryList = Product.distinct("category").exec();
+console.log(categoryList)
 
 const multer = require("multer");
 const storage = multer.diskStorage({
