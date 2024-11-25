@@ -3,14 +3,13 @@ const expressLayout = require("express-ejs-layouts");
 const ejs = require("ejs");
 
 const morgan = require("morgan");
-app.use(morgan("tiny"))
+
 
 
 const dotenv = require("dotenv");
 dotenv.config();
 
 const flash = require("express-flash")
-app.use(flash())
 
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -28,6 +27,8 @@ app.listen(PORT, (err)=>{
   connectDB()
 })
 
+app.use(morgan("tiny"))
+app.use(flash())
 
 app.use(cookieParser());
 app.use(
