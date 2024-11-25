@@ -23,6 +23,7 @@ router.use(authMiddleware);
 router.get("/dashboard", async (req, res) => {
     try {
         if (!req.session.userId) {
+          throw new Error("user not logged in")
             req.flash(
                 "error",
                 "you must be signed in to access your vendor dashboard"
