@@ -1,59 +1,60 @@
 const express = require("express");
 const expressLayout = require("express-ejs-layouts");
 const ejs = require("ejs");
-const expressFileUpload = require("express-fileupload");
+
 const dotenv = require("dotenv");
 dotenv.config();
-const session = require("express-session");
+
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
 const mongoStore = require("connect-mongo");
-const connectDb = require("./server/Config/db.js");
+const connectDB = require("./Server/Config/db.js")
 
-//START APP
+const authMiddleware = require("./Server/Utils/auth")
 const app = express();
-let PORT = process.env.PORT;
-app.listen(PORT, () => {
-    console.log(`app is listening on http://localhost:${PORT}`);
-});
 
-//CONNECT DATABASE
-connectDb();
+const PORT = process.env.PORT
+app.listen(PORT, (err)=>{
+  if(!err){
+    console.log(`app listening on port ${PORT}, at ${process.env.ADDRESS}${PORT}`)
+  }
+  connectDB()
+})
 
-app.use(expressFileUpload());
 
-//SESSIONS INITIALIZING
+app.use(cookieParser());
 app.use(
     session({
-        secret: process.env.SECRET_KEY,
         store: mongoStore.create({
             mongoUrl: process.env.MONGO_URI
         }),
+        secret: process.env.SECRET_KEY,
         saveUninitialized: false,
         resave: false,
         cookies: {
-            maxAge: 3600000,
-            secure: false
+            maxAge: 360000,
+            secure: true,
+            httpOnly: true
         }
     })
 );
 
-//VIEW ENGINE
-app.set("view engine", "ejs");
-app.set("views", "views");
-
-//LAYOUT
-app.use(expressLayout);
-app.set("layout", "layouts/main");
+//SETUP VIEW ENGINE
+app.set("view engine", "ejs")
+app.set("views", "Views")
 
 //LOAD STATIC FILES
-app.use(express.static("PUBLIC"));
+app.use(express.static("PUBLIC"))
 
-//PARSE req.body TO JSON
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+//req.body PARSER TO JSOM
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 
-//ROUTING
-//app.use("/admin", require("./server/Routes/admin.js"));
-//app.use("/vendor", require("./server/Routes/vendor.js"));
-app.use("/", require("./server/Routes/routes.js"));
+//SET LAYOUT
+app.use(expressLayout)
+app.set("layout", "Layouts/mainLayout")
 
+//SECONDARY ROUTING
+app.use("/vendor", require("./Server/Routes/vendorRoutes"))
+app.use("/auth", require("./Server/Routes/authRoutes"))
+app.use("/", require("./Server/Routes/mainRoutes"))
