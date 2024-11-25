@@ -1,5 +1,7 @@
 const charArr = ["a", "b", "c", "d", "e", "f", 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 const ratings = [5, 4, 5, 5, 3, 1, 5, 3, 5, 5, 3, 4];
+//THISNRATING SHOULD COME FROM DATABASE
+
 
 const getRatings = async () => {
     try {
