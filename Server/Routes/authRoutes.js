@@ -2,7 +2,12 @@ const bcrypt = require("bcryptjs");
 const express = require("express");
 const router = express.Router();
 const User = require("../Models/User.js");
+const Product = require("../Models/Product.js");
 
+const categoryList = Product.distinct("category").exec()
+const locals = {
+  categoryList: categoryList
+}
 router.use((req, res, next) => {
     res.locals.layout = "Layouts/authLayout";
     next();
