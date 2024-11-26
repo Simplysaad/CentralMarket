@@ -9,7 +9,6 @@ const User = require("../Models/User.js");
 const Order = require("../Models/Order.js");
 
 const categoryList = Product.distinct("category").exec();
-const locals = {};
 
 const helper = require("../Utils/helper.js");
 const relatedProductsFunc = helper.relatedProductsFunc;
