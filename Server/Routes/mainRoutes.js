@@ -9,6 +9,11 @@ const Product = require("../Models/Product.js");
 const User = require("../Models/User.js");
 const Order = require("../Models/Order.js");
 
+
+const categoryList = Product.distinct("category").exec()
+const locals = {
+}
+
 const helper = require("../Utils/helper.js");
 const relatedProductsFunc = helper.relatedProductsFunc;
 
@@ -16,7 +21,9 @@ const locals = {
     title: "Campus Mart",
     description:
         "an incampus shopping website for school online vendors and students, to buy , sell and deliver items without hassle",
-    imageUrl: "/IMG/favicon.png"
+    imageUrl: "/IMG/favicon.png",
+    categoryList
+
 };
 
 const ads = [
