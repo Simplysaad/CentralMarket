@@ -1,4 +1,3 @@
-
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
@@ -9,10 +8,8 @@ const Product = require("../Models/Product.js");
 const User = require("../Models/User.js");
 const Order = require("../Models/Order.js");
 
-
-const categoryList = Product.distinct("category").exec()
-const locals = {
-}
+const categoryList = Product.distinct("category").exec();
+const locals = {};
 
 const helper = require("../Utils/helper.js");
 const relatedProductsFunc = helper.relatedProductsFunc;
@@ -23,7 +20,6 @@ const locals = {
         "an incampus shopping website for school online vendors and students, to buy , sell and deliver items without hassle",
     imageUrl: "/IMG/favicon.png",
     categoryList
-
 };
 
 const ads = [
@@ -50,6 +46,7 @@ router.get("/", async (req, res) => {
             locals,
             ads,
             categories,
+            categoryList,
             products
         });
     } catch (err) {
@@ -77,6 +74,7 @@ router.get("/category/:category", async (req, res) => {
             locals,
             categoryName,
             categoryItems,
+            categoryList,
             relatedProducts,
             categories
         });
@@ -107,6 +105,7 @@ router.get("/preview/:id", async (req, res) => {
             locals,
             currentProduct,
             relatedProducts,
+            categoryList,
             categories
         });
     } catch (err) {
@@ -120,10 +119,10 @@ router.post("/search", async (req, res) => {
         const searchTerm = req.body.searchTerm.trim() || req.query.searchTerm;
         let regex = new RegExp(searchTerm, "gi");
         const categories = await Product.distinct("category");
-        
+
         const allProducts = await Product.find({});
         const relatedProducts = relatedProductsFunc(allProducts, 18);
-        
+
         const searchResults = await Product.find({
             $or: [
                 {
@@ -148,6 +147,7 @@ router.post("/search", async (req, res) => {
             res.render("Pages/empty-search", {
                 searchTerm,
                 categories,
+                categoryList,
                 relatedProducts,
                 locals
             });
@@ -156,6 +156,7 @@ router.post("/search", async (req, res) => {
                 searchResults,
                 searchTerm,
                 categories,
+                categoryList,
                 locals
             });
         }
@@ -259,12 +260,13 @@ router.get("/cart", async (req, res) => {
     CART_TOTAL = CART_TOTAL.toLocaleString();
     res.render("Pages/cart", {
         categories,
+        categoryList,
         locals,
         cartItems,
         CART_TOTAL,
         relatedProducts
     });
-    return CART_TOTAL
+    return CART_TOTAL;
 });
 
 // router.get("/remove-item/:id", async(req, res)=> {
