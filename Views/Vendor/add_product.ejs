@@ -21,9 +21,9 @@
     <div class="form-floating">
       <input class="form-control" id="category" name="category" type="text" required placeholder="" list="categoryList" />
       <datalist id="categoryList">
-        <% categoryList.forEach((category)=>{ %>
+        <%# categoryList.forEach((category)=>{ %>
           <option value="<%=category %>"><%=category %></option>
-        <% }) %>
+        <%# }) %>
       </datalist>
       <label for="category">Category</label>
     </div>
