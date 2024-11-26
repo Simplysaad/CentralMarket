@@ -6,7 +6,9 @@ const Product = require("../Models/Product.js");
 const authMiddleware = require("../Utils/auth.js");
 
 const categoryList = Product.distinct("category").exec();
-console.log(categoryList)
+const locals = {
+  categoryList: categoryList
+}
 
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -47,14 +49,14 @@ router.get("/dashboard", async (req, res) => {
         });
         console.log("currentUserProducts", currentUserProducts);
 
-        res.render("Vendor/dashboard", { currentUser, currentUserProducts });
+        res.render("Vendor/dashboard", { locals, currentUser, currentUserProducts });
     } catch (err) {
         console.error(err);
     }
 });
 router.get("/add-product", async (req, res) => {
     try {
-        res.render("Vendor/add_product", { categoryList });
+        res.render("Vendor/add_product", {locals, categoryList });
     } catch (err) {
         console.error(err);
     }
