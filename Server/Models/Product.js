@@ -1,37 +1,40 @@
 const mongoose = require("mongoose");
 const ProductSchema = new mongoose.Schema({
-    name: String,
-    description: String,
-    productImage: String,
-    productGallery: [String], //URLs or files
-    tags: [String],
-    price: {
+    name: {
         type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    brand: String,
+    tags: [String],
+    isFeatured: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    productImage: {
+        type: String,
+        required: true
+    },
+    productGallery: [String], //URLs or files
+    price: {
+        type: Number,
         required: true
     },
     currency: {
         type: String,
         default: "NGN"
     },
+    discount: Number,
     category: {
         type: String,
-        enum: [
-            "General",
-            "electronics",
-            "Fashion",
-            "health and wellness",
-            "home and kitchen",
-            "sports and outdoors",
-            "books",
-            "travel and leisure",
-            "office supplies",
-            "automotive"
-        ],
         default: "General",
         required: true
     },
     subCategory: String,
-    tags: [String],
     amountInStock: {
         type: Number,
         default: 0
