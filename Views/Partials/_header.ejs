@@ -8,8 +8,8 @@
         >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a href="/" class="navbar-brand text-decoration-none display-2">
-        CampusMart
+      <a href="/" class="logo-image navbar-brand text-decoration-none ">
+        <img src="/IMG/text-logo.png" class="img-fluid d-inline" alt="Central Market">
       </a>
     </div>
     <div class="options">
@@ -26,10 +26,12 @@
         <a href="/cart" class="d-none d-lg-inline text-decoration-none">Cart</a>
       </span>
     </div>
+    <% if(categories){ %>
     <div class="mt-2 mb-0 px-2 horizontal-nav">
-        <% categoryList.forEach(category=>{ %>
+        <% categories.forEach(category=>{ %>
           <a href="/category/<%= category %>"class="nav-link"> <%= category %></a>
         <% }) %>
     </div>
+    <% } %>
   </div>
 </header>
