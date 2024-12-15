@@ -1,62 +1,54 @@
-<footer class="pt-5 pb-2 text-center text-secondary footer sticky-bottom bg-dark">
-  <div class="container row g-3 text-start">
-    <div class="col-md-4 list-group my-3">
-      <a href="/" class="lead display-5 text-decoration-none text-light">
-        CampusMart<sup class="fs-6 fw-light">&reg;</sup>
-      </a>
-      <div class="col-md-12 px-0 my-4">
-        <form class="input-group my-3" method="post" action="/subscribe">
-          <input class="form-control"
-          type="email" id="emailAddress" name="emailAddress" required
-          placeholder="Your Email Address">
-          <button class="btn btn-lg btn-success" type="submit">
-            Subscribe
-          </button>
-        </form>
-        <h3 class="fs-2">Be the first to know, when new products arrive</h3>
-      </div>
-    </div>
+  <footer class="mt-4 bg-dark text-white mt-5 pt-4 pb-2">
+    <div class="container">
+        <div class="row">
+            <!-- About Us Section -->
+            <div class="col-md-3">
+              <a href="/" class=" d-block logo-image-footer pb-4">
+                <img src="/img/text-logo.png" class="img-fluid" alt="Central Market">
+              </a> 
+                <h5>About Us</h5>
+                <p>Your online marketplace for unique products from various vendors. We aim to provide a seamless shopping experience.</p>
+            </div>
 
-    <div class="col-md-3 list-group my-3">
-      <h3 class="fs-4">
-        Categories
-      </h3>
-      <% categories.forEach(category => {
-        %>
-        <a class="text-secondary text-decoration-none" href="/category/<%= category %>"> <%= category %></a>
-        <%
-      }) %>
-    </div>
+            <!-- Customer Service Section -->
+            <div class="col-md-3">
+                <h5>Customer Service</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Contact Us</a></li>
+                    <li><a href="#" class="text-white">Returns & Exchanges</a></li>
+                    <li><a href="#" class="text-white">Shipping Information</a></li>
+                    <li><a href="#" class="text-white">FAQs</a></li>
+                </ul>
+            </div>
 
-    <div class="col-md-3 list-group my-3">
-      <h3 class="fs-4">
-        Legal
-      </h3>
-      <a href="/partnerships" class="text-secondary text-decoration-none">Patnerships</a>
-      <a href="/privacy-policy" class="text-secondary text-decoration-none">Privacy policy</a>
-      <a href="/data-security" class="text-secondary text-decoration-none">Do not sell my data</a>
-    </div>
-    <div class="col-md-2 list-group my-3">
-      <h3 class="fs-4">
-        Advertising
-      </h3>
-      <a href="/advertising#pricing" class="text-secondary text-decoration-none">Pricing</a>
-      <a href="/advertising#affiliate" class="text-secondary text-decoration-none">Affiliate Marketing</a>
-      <a href="/sitemap" class="text-secondary text-decoration-none">SiteMap</a>
-    </div>
-  </div>
-  <hr>
-  <div class="footer-socials text-center mb-3 mt-5">
-    <div class="d-flex mx-auto justify-content-between col-7 col-md-3">
-      <a href="https://www.instagram.com/simply_sa_ad" class="fab fa-2x fa-instagram"></a>
-      <a href="https://www.github.com/simplysaad" class="fab fa-2x fa-github"></a>
-      <a href="https://x.com/simply_saad?s=09" class="fab fa-2x fa-twitter"></a>
-      <a href="https://wa.me/+2348100389197?text=hello+from+your+biographyHub.onrender.com" class="fab fa-2x fa-whatsapp"></a>
-    </div>
-  </div>
-  <div class="footer-text">
-    &copy;2024 CampusMart, inc. All rights reserved
-  </div>
+            <!-- Quick Links Section -->
+            <div class="col-md-3">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Shop</a></li>
+                    <li><a href="#" class="text-white">Vendors</a></li>
+                    <li><a href="#" class="text-white">Blog</a></li>
+                    <li><a href="#" class="text-white">Privacy Policy</a></li>
+                </ul>
+            </div>
 
-</div>
+            <!-- Social Media Section -->
+            <div class="col-md-3">
+                <h5>Follow Us</h5>
+                <ul class="list-unstyled d-flex">
+                    <li class="me-3"><a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a></li>
+                    <li class="me-3"><a href="https://x.com/simply_saad?s=09" class="text-white"><i class="fab fa-twitter"></i></a></li>
+                    <li class="me-3"><a href="https://www.instagram.com/simply_sa_ad" class="text-white"><i class="fab fa-instagram"></i></a></li>
+                    <li><a href="https://www.github.com/simplysaad" class="text-white"><i class="fab fa-linkedin-in"></i></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Copyright Section -->
+        <div class="row mt-4">
+            <div class="col text-center">
+                <p>&copy; 2024 Central market. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
 </footer>
