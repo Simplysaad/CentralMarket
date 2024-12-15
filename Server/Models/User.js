@@ -19,6 +19,12 @@ const UserSchema = new mongoose.Schema({
         enum: ["vendor", "customer", "admin"],
         default: "customer"
     },
+    deliveryAddress: {
+        street: String,
+        city: String,
+        state: String,
+        zipcode: String
+    },
     businessName: {
         type: String,
         unique: true
