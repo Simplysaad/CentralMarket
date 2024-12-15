@@ -55,7 +55,7 @@
         >
             <div class="widget-info col-10 col-md-11">
                 <h4 class="widget-heading fs-4 text-secondary fw-light">
-                    Revenue
+                    Total Sales
                 </h4>
                 <h3 class="widget-data display-4 py-4">₦83,300</h3>
                 <div class="widget-extra-info">
@@ -111,19 +111,32 @@
                         <th>Sold</th>
                         <th>Amount</th>
                         <th>Remaining</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <%# curentUserProducts.forEach(product=>{ %>
+                    <% currentUserProducts.forEach(product=>{ %>
                     <tr>
-                        <td><%#= product.index %></td>
-                        <td><%#= product.name %></td>
-                        <td><%#= product.price %></td>
-                        <td><%#= product.quantitySold %></td>
-                        <td><%#= product.amountSold %></td>
-                        <td><%#= product.quantityInStock %></td>
+                        <td><% currentUserProducts.indexOf(product) + 1 %></td>
+                        <td>
+                          <a class="text-decoration-none" href="/preview/<%= product._id%>">
+                            <%= product.name %>
+                          </a>
+                        </td>
+                        <td><%= product.price %></td>
+                        <td><%= product.amountSold * product.price %></td>
+                        <td><%= product.amountSold %></td>
+                        <td><%= product.amountInStock %></td>
+                        <td class="d-flex g-2">
+                          <a onclick="editProduct(<%= product._id %>)" class="btn btn-info mx-1">
+                            <i class="fa fa-pencil"></i>
+                          </a>
+                          <a onclick="deleteProduct(<%= product._id %>)" class="btn btn-danger mx-1">
+                            <i class="fa fa-trash"></i>
+                          </a>
+                        </td>
                     </tr>
-                    <%# })%>
+                    <% })%>
                 </tbody>
             </table>
         </div>
