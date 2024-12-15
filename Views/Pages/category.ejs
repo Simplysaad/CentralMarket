@@ -8,18 +8,18 @@
         <% categoryItems.forEach((product)=> {%>
             <div class="col-6 col-md-4 col-lg-3 p-0 mx- border product-card ">
               <div class="card-image m-0">
-                <img src="<%= product.image %>" alt="<%= product.name %>" class="overflow-hidden img-fluid" />
-            </div>
+                <img src="/Uploads/Products/<%= product.productImage %>" alt="<%- `${product.name}'s image` %>" class="overflow-hidden img-fluid" />
+              </div>
             <div class="card-body p-0 m-2">
               <p class="fs-6 card-title">
                 <%= product.name %>
               </p>
               <div class="">
                 <span class="card-price fs-5"
-                  ><%= product.currency %><%= product.price %></span
+                  ><%- product.currency = "NGN"? "₦":product.currency %><%= product.price %></span
                 >
                 <s class="old-price fs-6 text-danger"
-                  ><%= product.currency %><%= product.price %></s
+                  ><%- product.currency = "NGN"? "₦":product.currency %><%= product.price %></s
                 >
               </div>
               <a
