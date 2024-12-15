@@ -1,15 +1,18 @@
 
-    <section class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <!--this carousel shall contain ads for products and events -->
-            <% ads.forEach((ad)=>{ %>
-              <div class="carousel-item">
-                <img src="<%= ad.imageUrl %>" alt="<% ad.title %>" class="img-fluid">
-              </div>
-            <% }) %>
-            
-        </div>
+    <section class="carousel " data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <% for (let i = 0; i < ads.length; i++) { %>
+          <div class="carousel-item bg-secondary mx-auto
+          <%= i === 0 ? 'active bg-success' : '' %>
+          <%= i === 1 ? ' bg-danger' : '' %>
+          <%= i === 2 ? ' bg-warning' : '' %>
+          ">
+            <img src="<%= ads[i].imageUrl %>" alt="<%= ads[i].title %>" class="img-fluid">
+          </div>
+        <% } %>
+      </div>
     </section>
+
     <section id="productDisplay" class="container my-4 product-display">
         <% categories.forEach((category)=>{ %>
 
@@ -29,16 +32,16 @@
                   <% if(product.category == category){ %>
                     <div class="col-6 col-md-4 col-lg-3 p-0 mx-2 border product-card rounded">
                     <div class="card-image m-0">
-                        <img src="<%= product.image %>"  alt="<%= product.name %>" class="overflow-hidden img-fluid" />
+                        <img src="<%= product.productImage || "/Uploads/Products/" + product.productImage %>"  alt="<%- `${product.name}'s image` %>" class="overflow-hidden img-fluid" />
                     </div>
                     <div class="card-body p-0 m-2">
                         <p class="fs-6 card-title"><%= product.name %></p>
                         <div class="">
                             <span class="card-price fs-5"
-                                ><%= product.currency %><%= product.price %></span
+                                ><%- product.currency == "NGN"? "₦":product.currency  %><%= product.price %></span
                             >
                             <s class="old-price fs-6 text-danger"
-                                ><%= product.currency %><%= product.price %></s
+                                ><%- product.currency == "NGN"? "₦":product.currency  %><%= product.price %></s
                             >
                         </div>
                         <a
