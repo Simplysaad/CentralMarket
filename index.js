@@ -1,34 +1,35 @@
 const express = require("express");
 const expressLayout = require("express-ejs-layouts");
 const ejs = require("ejs");
-
-const morgan = require("morgan");
-
+const morgan = require('morgan')
 
 
 const dotenv = require("dotenv");
 dotenv.config();
 
-const flash = require("express-flash")
-
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const mongoStore = require("connect-mongo");
-const connectDB = require("./Server/Config/db.js")
+const connectDB = require("./Server/Config/db.js");
 
-const authMiddleware = require("./Server/Utils/auth")
+const authMiddleware = require("./Server/Utils/auth");
+
 const app = express();
+const PORT = process.env.PORT;
+app.listen(PORT, err => {
+    if (!err) {
+        console.log(
+            `app listening on port ${PORT}, at ${process.env.ADDRESS}${PORT}`
+        );
+    }
+    connectDB();
+});
 
-const PORT = process.env.PORT
-app.listen(PORT, (err)=>{
-  if(!err){
-    console.log(`app listening on port ${PORT}, at ${process.env.ADDRESS}${PORT}`)
-  }
-  connectDB()
-})
+app.get("/api", (req, res) => {
+    res.send("hello world");
+});
 
-app.use(morgan("tiny"))
-app.use(flash())
+app.use(morgan('tiny'))
 
 app.use(cookieParser());
 app.use(
@@ -48,21 +49,22 @@ app.use(
 );
 
 //SETUP VIEW ENGINE
-app.set("view engine", "ejs")
-app.set("views", "Views")
+app.set("view engine", "ejs");
+app.set("views", "Views");
 
 //LOAD STATIC FILES
-app.use(express.static("PUBLIC"))
+app.use(express.static("PUBLIC"));
 
 //req.body PARSER TO JSOM
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //SET LAYOUT
-app.use(expressLayout)
-app.set("layout", "Layouts/mainLayout")
+app.use(expressLayout);
+app.set("layout", "Layouts/mainLayout");
 
 //SECONDARY ROUTING
-app.use("/vendor", require("./Server/Routes/vendorRoutes"))
-app.use("/auth", require("./Server/Routes/authRoutes"))
-app.use("/", require("./Server/Routes/mainRoutes"))
+app.use("/admin", require("./Server/Routes/adminRoutes"));
+app.use("/auth", require("./Server/Routes/authRoutes"));
+app.use("/vendor", require("./Server/Routes/vendorRoutes"));
+app.use("/", require("./Server/Routes/mainRoutes"));
