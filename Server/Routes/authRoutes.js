@@ -2,12 +2,7 @@ const bcrypt = require("bcryptjs");
 const express = require("express");
 const router = express.Router();
 const User = require("../Models/User.js");
-const Product = require("../Models/Product.js");
 
-const categoryList = Product.distinct("category").exec()
-const locals = {
-  categoryList: categoryList
-}
 router.use((req, res, next) => {
     res.locals.layout = "Layouts/authLayout";
     next();
@@ -57,7 +52,7 @@ router.post("/register", async (req, res) => {
 router.get("/login", async (req, res) => {
     try {
         if (req.session && req.session.userId) {
-            req.flash("info", "user logged out successfully");
+            console.log("user is logged in");
             res.redirect("/auth/logout");
         } else {
             res.render("Auth/login");
@@ -70,8 +65,11 @@ router.get("/login", async (req, res) => {
 router.post("/login", async (req, res) => {
     try {
         const { username, password } = req.body;
+        let trimmedUsername = username.trim();
+        let regex = new RegExp(trimmedUsername, "gi");
+
         const currentUser = await User.findOne({
-            $or: [{ username: username }, { emailAddress: username }]
+            $or: [{ username: regex }, { emailAddress: regex }]
         });
 
         if (!currentUser) {
@@ -92,20 +90,27 @@ router.post("/login", async (req, res) => {
         req.session.username = currentUser.username;
         req.session.role = currentUser.role;
 
-        const returnTo = req.session.returnTo || "/vendor/dashboard";
+        let returnTo = req.session.returnTo || "/";
+
+        if (currentUser.role === "vendor") {
+            returnTo = "/vendor/dashboard";
+        }
+        console.log("user logged in successfully");
 
         res.redirect(returnTo);
-        //res.send("/dashboard page should load instead");
     } catch (err) {
         console.error(err);
     }
 });
 
 router.get("/logout", async (req, res) => {
-    req.session.destroy();
-    console.log("user logged out successfully");
-    res.redirect("/auth/login");
-    //res.json({ message: "user logged out successfully" });
+    req.session.destroy(err => {
+        if (!err) {
+            console.log("user logged out successfully");
+            res.render("Auth/login");
+        }
+    });
+    //res.flash({ info: "user logged out successfully" });
 });
 
 module.exports = router;
