@@ -2,50 +2,53 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
-const ObjectId = mongoose.Schema.Types.ObjectId;
-
 const Product = require("../Models/Product.js");
 const User = require("../Models/User.js");
 const Order = require("../Models/Order.js");
 
-const categoryList = Product.distinct("category").exec();
-
-const helper = require("../Utils/helper.js");
-const relatedProductsFunc = helper.relatedProductsFunc;
+const { relatedProductsFunc } = require("../Utils/helper.js");
 
 const locals = {
     title: "Campus Mart",
     description:
         "an incampus shopping website for school online vendors and students, to buy , sell and deliver items without hassle",
-    imageUrl: "/IMG/favicon.png",
-    categoryList
+    imageUrl: "/IMG/favicon.png"
 };
 
 const ads = [
     {
         title: "cowrywise: invest in the future",
-        imageUrl: "/IMG/ADS/cowrywise.jpg"
+        imageUrl: "https://via.placeholder.com/300"
     },
     {
         title: "Termux: the terminal of the century",
-        imageUrl: "/IMG/ADS/termux.jpg"
+        imageUrl: "https://via.placeholder.com/300"
     },
     {
         title: "Barclays bank",
-        imageUrl: "/IMG/ADS/barclays.jpg"
+        imageUrl: "https://via.placeholder.com/300"
     }
 ];
 
 router.get("/", async (req, res) => {
     try {
+        const products = await Product.find(
+            {},
+            {
+                _id: 1,
+                productImage: 1,
+                name: 1,
+                category: 1,
+                price: 1,
+                currency: 1
+            }
+        );
         const categories = await Product.distinct("category");
 
-        const products = await Product.find();
-        res.render("Pages/index", {
+        res.render("pages/index", {
             locals,
             ads,
             categories,
-            categoryList,
             products
         });
     } catch (err) {
@@ -55,30 +58,27 @@ router.get("/", async (req, res) => {
 router.get("/category/:category", async (req, res) => {
     try {
         let categoryName = req.params.category;
-        if (categoryName !== "Fashion") {
-            categoryName = categoryName.toLowerCase();
-        }
-
-        const allProducts = await Product.find({}).exec();
-        const relatedProducts = relatedProductsFunc(allProducts, 8);
-
         categoryName = categoryName.split("%20").join(" ");
-        const categoryItems = await Product.find({
-            category: categoryName
-        });
 
+        const allProducts = await Product.find({});
+        const relatedProducts = relatedProductsFunc(allProducts, 8);
         const categories = await Product.distinct("category");
 
-        res.render("Pages/category", {
+        let regex = new RegExp(categoryName, "gi");
+
+        let categoryItems = await Product.find({
+            category: regex
+        });
+
+        res.render("pages/category", {
             locals,
             categoryName,
             categoryItems,
-            categoryList,
             relatedProducts,
             categories
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.json(err);
     }
 });
@@ -89,9 +89,7 @@ router.get("/preview/:id", async (req, res) => {
         const relatedProducts = relatedProductsFunc(allProducts, 8);
         const categories = await Product.distinct("category");
 
-        console.log("ID:", req.params.id); // Log the ID for debugging
-
-        const currentProduct = await Product.findOne({
+        let currentProduct = await Product.findOne({
             _id: req.params.id
         });
 
@@ -99,209 +97,265 @@ router.get("/preview/:id", async (req, res) => {
             throw new Error("No product matches that ID"); // Explicit error for debugging
         }
 
-        // ... your existing render code ...
-        res.render("Pages/preview", {
+        res.render("pages/preview", {
             locals,
             currentProduct,
             relatedProducts,
-            categoryList,
             categories
         });
     } catch (err) {
-        console.error("Error in preview route:", err); // Log the error for debugging
-        res.status(500).send("Internal Server Error"); // Better error handling
+        console.error("Error in preview route:", err);
+        res.status(500).send("Internal Server Error");
+        // res.status(500).render("pages/500");
     }
 });
 
 router.post("/search", async (req, res) => {
     try {
-        const searchTerm = req.body.searchTerm.trim() || req.query.searchTerm;
-        let regex = new RegExp(searchTerm, "gi");
-        const categories = await Product.distinct("category");
-
         const allProducts = await Product.find({});
         const relatedProducts = relatedProductsFunc(allProducts, 18);
+        const categories = await Product.distinct("category");
+
+        const searchTerm = req.body.searchTerm.trim() || req.query.searchTerm;
+        let regex = new RegExp(searchTerm, "gi");
+
+        // const searchResults = await Product.find({
+        //     $or: [
+        //         { description: regex },
+        //         { name: regex },
+        //         { tags: regex },
+        //         { category: regex },
+        //         { subCategory: regex }
+        //     ]
+        // });
 
         const searchResults = await Product.find({
-            $or: [
-                {
-                    description: regex
-                },
-                {
-                    name: regex
-                },
-                {
-                    tags: regex
-                },
-                {
-                    category: regex
-                },
-                {
-                    subCategory: regex
-                }
-            ]
-        });
+            $text: {
+                $search: searchTerm
+            },
+            score: { $meta: "textScore" }
+        })
+            .sort({ score: { $meta: "textScore" } })
+            .lean();
+
         if (searchResults.length === 0) {
             console.log(searchTerm, "brought no results ");
-            res.render("Pages/empty-search", {
+            res.render("pages/empty-search", {
                 searchTerm,
                 categories,
-                categoryList,
                 relatedProducts,
                 locals
             });
         } else {
-            res.render("Pages/search.ejs", {
+            res.render("pages/search.ejs", {
                 searchResults,
                 searchTerm,
                 categories,
-                categoryList,
                 locals
             });
         }
     } catch (err) {
-        console.error(err);
+        console.error("Error in search route:", err);
+        res.status(500).send("Internal Server Error");
+        // res.status(500).render("pages/500");
     }
 });
-
-router.post("/addCart/:id", async (req, res) => {
-    try {
-        // Initialize cart session
-        if (!req.session.cart) {
-            req.session.cart = [];
-        }
-
-        const { color, size } = req.body;
-        const quantity = 1;
-        const productId = req.params.id;
-
-        // Find existing product in cart
-        let currentProduct = req.session.cart.find(
-            product =>
-                product._id === productId &&
-                product.color === color &&
-                product.size === size
-        );
-
-        const productObj = await Product.findOne(
-            {
-                _id: new ObjectId(productId)
-            },
-            {
-                _id: 1,
-                name: 1,
-                price: 1
-            }
-        ).lean();
-
-        //the .lean() is used to convert the mongoose doc into a plain javascript object
-        console.log("productObj", productObj);
-        productObj.price = Number(productObj.price.replace(/,/g, ""));
-
-        // Add or update product quantity
-        if (!currentProduct) {
-            req.session.cart.push({
-                ...productObj,
-                color,
-                size,
-                quantity
-            });
-        } else {
-            currentProduct.quantity += quantity;
-            let currentPrice = Number(currentProduct.price.replace(/,/g, ""));
-            currentProduct.price = currentPrice * currentProduct.quantity;
-        }
-
-        // Redirect to cart page
-        res.redirect("/cart");
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            message: "Internal Server Error"
-        });
-    }
-});
-
-/**when the cart route is called
- * it should get an array "cart" from the currentuser document
- * the cart includes all the items a customer bought
- * each item object the cart array contains
- * * the id of the item,
- * * the size chosen from the preview form
- * * the color chosen from the preview form
- * * the quantity ordered
- *
- * this cart should be stored in the session
- * until the user tries to checkout
- * then the cart is stored in the orders collection
- * with status corresponding to the payment and delivery stati
- */
 
 router.get("/cart", async (req, res) => {
-    const allProducts = await Product.find({});
-    const relatedProducts = relatedProductsFunc(allProducts, 8);
-    const categories = await Product.distinct("category");
+    try {
+        const allProducts = await Product.find({});
+        const relatedProducts = relatedProductsFunc(allProducts, 18);
+        const categories = await Product.distinct("category");
 
-    if (!req.session.cart) {
-        req.session.cart = [];
+        if (!req.session.cart) {
+            req.session.cart = new Array();
+        }
+
+        //  let CART_TOTAL = 0;
+        let cart = req.session.cart;
+        const CART_TOTAL = cart.reduce(
+            (acc, item) => acc + Number(item.price),
+            0
+        );
+        console.log("CART_TOTAL", CART_TOTAL);
+        //res.json({ CART_TOTAL, cart: req.session.cart });
+        if (req.session.cart.length === 0) {
+            isCartEmpty = true;
+        } else {
+            isCartEmpty = false;
+        }
+        res.render("pages/cart", {
+            categories,
+            locals,
+            isCartEmpty,
+            cartItems: req.session.cart,
+            CART_TOTAL: CART_TOTAL.toLocaleString(),
+            relatedProducts
+        });
+    } catch (err) {
+        console.error(err);
     }
-
-    let cartItems = req.session.cart;
-
-    //console.log("cartItems", cartItems)
-
-    let CART_TOTAL = 0;
-    req.session.cart.forEach(item => {
-        let price = Number(item.price);
-        CART_TOTAL += price;
-    });
-
-    CART_TOTAL = CART_TOTAL.toLocaleString();
-    res.render("Pages/cart", {
-        categories,
-        categoryList,
-        locals,
-        cartItems,
-        CART_TOTAL,
-        relatedProducts
-    });
-    return CART_TOTAL;
 });
 
-// router.get("/remove-item/:id", async(req, res)=> {
+router.post("/add-cart/:id", async (req, res) => {
+    try {
+        if (!req.body) throw new Error(`req.body cannot be empty`);
+        console.log("req.session.cart:", req.session.cart);
+        if (!req.session.cart) {
+            req.session.cart = new Array();
+        }
 
-//   let productId = req.params.id
-//   const {
-//     color,
-//     size
-//   } = req.query
-//   let currentProduct = req.session.cart.find(
-//     (product) =>
-//     product._id === productId && product.color === color && product.size === size
-//   );
-//   if (!currentProduct || !color || !size) {
-//     currentProduct = req.session.cart.find(
-//       (product) =>
-//       product._id === productId
-//     );
-//   }
+        const customerId = req.session.userId;
+        if (!customerId || !req.session) {
+            res.redirect("/auth/login");
+            throw new Error(`Customer Id not Available`);
+        }
 
-//   let index = req.session.cart.indexOf(currentProduct)
+        const currentProduct = await Product.findOne(
+            { _id: req.params.id },
+            { name: 1, price: 1, amountInStock: 1, vendorId: 1 }
+        ).lean();
+        if (!currentProduct)
+            throw new Error(`product with ID: ${req.params.id} not found`);
 
-//   if (currentProduct.quantity > 1) {
-//     currentProduct.quantity -= 1
+        let currentPrice = currentProduct.price; //.replaceAll(",", "");
+        const { color = "default", size = "default", quantity = 1 } = req.body;
 
-//     let currentPrice = Number(currentProduct.price.replace(/,/g, ""))
-//     req.session.cart[index].price = currentPrice*currentProduct.quantity
+        function getPrice(obj1, obj2) {
+            return Number(obj1.price * obj2.quantity);
+        }
+        const singleItem = {
+            productId: currentProduct._id,
+            color,
+            size,
+            quantity,
+            ...currentProduct
+        };
 
-//     console.log("Cart item reduced to", currentProduct.quantity)
-//   }
-//   else {
-//     req.session.cart.splice(index, 1)
-//     console.log("Cart item deleted successfully")
-//   }
+        console.log("singleItem:", singleItem);
 
-//   res.redirect("/cart")
+        const cartItems = req.session.cart;
+        //check if the singleItem already exists
 
-// })
+        const itemIndex = cartItems.findIndex(
+            item =>
+                item.name === singleItem.name &&
+                item.color === singleItem.color &&
+                item.vendorId === singleItem.vendorId
+        );
+        if (itemIndex < 0) {
+            req.session.cart.push(singleItem);
+        } else {
+            req.session.cart[itemIndex].quantity += singleItem.quantity;
+            req.session.cart[itemIndex].price = getPrice(
+                currentProduct,
+                req.session.cart[itemIndex]
+            );
+        }
+
+        req.session.save(err => {
+            if (err) {
+                throw new Error("Error encountered while savung session");
+            }
+        });
+        res.redirect("/cart");
+        //console.log("req.session.cart:", req.session.cart);
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+router.get("/remove-item/:id", async (req, res) => {
+    try {
+        const { color = "default", size = "default", quantity = 1 } = req.query;
+
+        const currentProduct = req.session.cart.find(
+            product => product.productId === req.params.id
+            //&& product.color === color &&
+            //product.size === size
+        );
+        if (!currentProduct)
+            throw new Error(`product with ID: ${req.params.id} not found`);
+
+        let currentPrice = currentProduct.price;
+        const itemIndex = req.session.cart.indexOf(currentProduct);
+
+        if (itemIndex >= 0) {
+            const basePrice =
+                req.session.cart[itemIndex].price /
+                req.session.cart[itemIndex].quantity;
+            console.log("basePrice", basePrice);
+
+            req.session.cart[itemIndex].quantity -= 1;
+            req.session.cart[itemIndex].price -= basePrice;
+
+            if (req.session.cart[itemIndex].quantity < 1) {
+                req.session.cart.splice(itemIndex, 1);
+            }
+        }
+
+        req.session.save(err => {
+            if (err) {
+                throw new Error("Error encountered while savung session");
+            }
+        });
+        res.redirect("/cart");
+        //console.log("req.session.cart:", req.session.cart);
+    } catch (err) {
+        console.error(err);
+    }
+});
+router.get("/*", async (req, res) => {
+    try {
+        //res.render("pages/404")
+        res.redirect("/");
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+router.post("/place-order", async (req, res) => {
+    try {
+        let cart = req.session.cart;
+        const CART_TOTAL = cart.reduce(
+            (acc, item) => acc + Number(item.price),
+            0
+        );
+
+        const tax = CART_TOTAL * 0.02;
+        const shippingCost = CART_TOTAL * 0.01;
+        const totalCost = CART_TOTAL + shippingCost + tax;
+
+        const newOrder = new Order({
+            customerId: req.session.userId,
+            items: req.session.cart,
+            subTotal: CART_TOTAL,
+            tax,
+            shippingCost,
+            totalCost
+        });
+        // console.log(newOrder.items);
+        newOrder
+            .save()
+            .then(data => {
+                console.log({
+                    message: "new Order added successfully",
+                    data
+                });
+                res.redirect("/");
+            })
+            .catch(err => {
+                res.status(500).json({
+                    message: "error encountered while placing order",
+                    advice: " please try again later"
+                });
+                throw new Error(err);
+            });
+
+        req.session.cart = [];
+    } catch (err) {
+        console.error(err);
+    }
+});
+
 module.exports = router;
