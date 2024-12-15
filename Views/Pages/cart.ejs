@@ -1,50 +1,49 @@
-<section>
+<section class="container">
   <h1 class="display-2 container p-3">Hello!</h1>
-  <div class="container">
+  <%if(!isCartEmpty){%>
+  <form action="/place-order" method="post" id="placeOrderForm" >
     <div class="cart-group my-5">
       <h3 class="fs-3 cart-title">Your cart</h3>
-
-      <% cartItems.forEach((item)=> { %>
-        <form action="/remove" class="cart-box">
-          <div class="cart-item">
-            <span class="quantity">x<%= item.quantity %></span>
-            <span class="name"><%= item.name %></span>
-            <span class="price">₦<%= item.price %></span>
-            <a href="/remove-item/<%=item._id %>?color=<%= item.color || "null" %>&size=<%= item.size || "null" %>" id="btnRemove" class="btn-remove">
-              <span class="fa fa-times"></span>
-            </a>
+        <% cartItems.forEach((item)=> { %>
+          <div class="cart-box">
+            <div class="cart-item">
+              <span class="quantity">x<%= item.quantity %></span>
+              <a href="/preview/<%=item._id %>" class="text-dark text-decoration-none name"><%= item.name %></a>
+              <span class="price">₦<%- item.price.toLocaleString() %></span>
+              <div id="addCartForm" method="post" class="btn-group btn-group-sm" action="/add-cart/<%=item._id %>?color=<%= item.color%>&size=<%= item.size %>">
+                <button id="btnAddCart" class="btn-add-cart btn btn-danger"> 
+                  <span class="fa fa-plus"></span> 
+                </button>
+                <a class="btn">
+                   <%=item.quantity || 0%> 
+                </a>
+                <a href="/remove-item/<%=item._id %>?color=<%= item.color || "default" %>&size=<%= item.size || "default" %>" id="btnRemove_<%=item._id %>" class="btn-remove btn btn-outline-danger">
+                   <span class="fa fa-minus"></span> 
+                </a>
+              </div>
+            </div>
+            <div class="cart-spec text-end">
+              <span class="color mx-1"><%= item.color %></span>
+              <span class="size mx-1"><%= item.size %></span>
+            </div>
           </div>
-          <div class="cart-spec text-end">
-            <span class="color mx-1"><%= item.color %></span>
-            <span class="size mx-1"><%= item.size %></span>
-          </div>
-        </form>
         <% }) %>
-
       <div class="cart-total mt-5">
         <h5 class="float-start display-6 text-danger">Total</h5>
-        <p class="amount fs-5">
-          ₦ <%= CART_TOTAL %>
-        </p>
+        <p class="amount fs-5"> ₦ <%= CART_TOTAL %> </p>
       </div>
     </div>
     <div class="checkout">
-      <input
-      class="d-inline form-check"
-      type="checkbox"
-      name="checkoutAgreement"
-      id="checkoutAgreement"
-      />
-    <label class="d-inline" for="checkoutAgreement"
-      >By clicking submit, I agree to the
-      <a href="">Terms and conditions</a> and
-      <a href="">Privacy policy</a>
-    </label>
-    <button
-      class="d-block my-5 col-12 btn-lg btn-checkout btn-outline-danger"
-      >
-      Checkout
-    </button>
-  </div>
-</div>
+      <input class="d-inline form-check" type="checkbox" name="checkoutAgreement" id="checkoutAgreement" />
+      <label class="d-inline" for="checkoutAgreement" >By clicking submit, I agree to the <a href="">Terms and conditions</a> and <a href="">Privacy policy</a> </label>
+      <button id="btnPlaceOrder" class="d-block my-5 col-12 btn-lg btn-checkout btn-outline-danger" form="placeOrderForm"> Checkout </button>
+    </div>
+  </form>
+  <%} else{%>
+    <div class="empty-cart-container py-5 my-5">
+      <img src="/IMG/empty-cart.png" alt="Empty Cart" class="empty-cart-image">
+      <p class="empty-cart-message">Your cart is empty!</p>
+      <a href="/" class="text-decoration-none empty-cart-button">Continue Shopping</a>
+    </div>
+  <%}%>
 </section>
