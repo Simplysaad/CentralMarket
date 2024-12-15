@@ -72,7 +72,7 @@ router.get("/dashboard", async (req, res) => {
         
         
         
-        res.render("vendor/dashboard", {
+        res.render("Vendor/dashboard", {
             locals,
             currentUser,
             categories,
@@ -85,7 +85,7 @@ router.get("/dashboard", async (req, res) => {
 router.get("/add-product", async (req, res) => {
     try {
         console.log("categories: ", categories);
-        res.render("vendor/add_product", { locals, categories, subCategories });
+        res.render("Vendor/add_product", { locals, categories, subCategories });
     } catch (err) {
         console.error(err);
     }
