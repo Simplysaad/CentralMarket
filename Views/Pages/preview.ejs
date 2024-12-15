@@ -1,15 +1,15 @@
 <form
     method="post"
-    action="/addCart/<%=currentProduct._id%>"
+    action="/add-cart/<%=currentProduct._id%>"
     class="container py-5 preview-container"
 >
     <div class="preview-image slide carousel" data-bs-ride="carousel">
         <div class="carousel-inner">
-            <% currentProduct.images.forEach((image) => { %>
-            <div class="carousel-item">
-                <img src="<%= image %>" class="img-fluid" alt="<%= image %>" />
-            </div>
-            <% }) %>
+            <%# currentProduct.images.forEach((image) => { %>
+            <!-- <div class="carousel-item">
+                <img src="<%= currentProduct.productImage%>" class="img-fluid" alt="<%= `${currentProduct.name} + 's image` %>" />
+            </div> -->
+            <%# }) %>
         </div>
     </div>
     <div class="preview-intro my-2">
@@ -17,10 +17,10 @@
         <div id="ratingStars" class="text-warning"></div>
         <div class="preview-price my-2">
             <span class="preview-price fs-5"
-                ><%= currentProduct.currency %><%= currentProduct.price %></span
+                ><%- currentProduct.currency = "NGN"? "₦":currentProduct.currency  %><%= currentProduct.price %></s
             >
             <s class="old-price fs-6 text-danger"
-                ><%= currentProduct.currency %><%= currentProduct.price %></s
+                ><%- currentProduct.currency = "NGN"? "₦":currentProduct.currency  %><%= currentProduct.price %></s
             >
         </div>
     </div>
@@ -87,9 +87,9 @@
                 </div>
                 <div class="card-body p-0 m-2">
                     <p class="fs-6 card-title"><%= product.name %></p>
-                    <span class="fs-5 card-price"><%= product.price %></span>
+                    <span class="fs-5 card-price"><%- product.currency = "NGN"? "₦":product.currency  %><%= product.price %></span>
                     <s class="old-price fs-6 text-danger"
-                        ><%= product.price %></s
+                        ><%- product.currency = "NGN"? "₦":product.currency  %> <%= product.price %></s
                     >
                     <a
                         href="/preview/<%= product._id %>"
