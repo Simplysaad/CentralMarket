@@ -2,7 +2,6 @@ const charArr = ["a", "b", "c", "d", "e", "f", 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 const ratings = [5, 4, 5, 5, 3, 1, 5, 3, 5, 5, 3, 4];
 //THISNRATING SHOULD COME FROM DATABASE
 
-
 const getRatings = async () => {
     try {
         const ratings = await fetch("/getRating", {
@@ -32,7 +31,7 @@ randomImageColor(cardImage);
 randomImageColor(previewImage);
 function randomImageColor(Images) {
     Images.forEach(image => {
-        image.textContent += getRandomColor();
+        //image.textContent += getRandomColor();
         image.style.backgroundColor = getRandomColor();
     });
 }
@@ -71,7 +70,7 @@ function createElement(parentId, tag, classes, textContent, src) {
     let parent = document.getElementById(parentId);
     element.textContent = textContent;
 
-    if (typeof classes === "object") {
+    if (Array.isArray(classes)) {
         classes.forEach(oneclass => {
             element.classList.add(oneclass);
         });
@@ -114,7 +113,7 @@ if (window.width >= 600) {
 
 const btnTag = document.querySelectorAll(".btn-tag");
 btnTag.forEach(tag => {
-    tag.addEventListener("click", async (e) => {
+    tag.addEventListener("click", async e => {
         //e.preventDefault();
         let searchTerm = tag.textContent;
         await postSearch(searchTerm);
@@ -142,4 +141,27 @@ const postSearch = async searchTerm => {
     } catch (err) {
         console.error("Error:", err);
     }
+};
+
+const showPassword = () => {
+    const inputPassword = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmPassword");
+    console.log(inputPassword.type);
+
+    const isVisible = inputPassword.type === "text";
+
+    inputPassword.type = isVisible ? "password" : "text";
+    confirmPassword.type = isVisible ? "password" : "text";
+};
+
+const btnShowPassword = document.querySelectorAll(".btnShowPassword");
+btnShowPassword.forEach(btn => {
+    btn.addEventListener("click", e => {
+        e.preventDefault();
+        showPassword();
+    });
+});
+
+const placeOrder = () => {
+  
 };
