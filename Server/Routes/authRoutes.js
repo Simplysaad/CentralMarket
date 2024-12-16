@@ -73,7 +73,8 @@ router.post("/login", async (req, res) => {
         });
 
         if (!currentUser) {
-            return res.json({ errorMessage: "user not found" });
+            userErrorMessage = "user does not esist";
+            return res.render("Auth/login", { userErrorMessage });
         }
 
         const isCorrectPassword = await bcrypt.compare(
@@ -82,7 +83,8 @@ router.post("/login", async (req, res) => {
         );
 
         if (!isCorrectPassword) {
-            return res.json({ errorMessage: "incorrect credentials" });
+            passwordaErrorMessage = "incorrect credentials";
+            return res.render("Auth/login", { passwordaErrorMessage });
         }
 
         console.log(currentUser);
