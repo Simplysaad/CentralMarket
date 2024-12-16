@@ -56,7 +56,7 @@ router.get("/login", async (req, res) => {
             //console.log("user is logged in");
             res.redirect("/auth/logout");
         } else {
-            res.render("Auth/login", { errorMessage });
+            res.render("Auth/login", { errorMessage: req.session.errorMessage });
         }
     } catch (err) {
         console.error(err);
@@ -74,8 +74,8 @@ router.post("/login", async (req, res) => {
         });
 
         if (!currentUser) {
-            errorMessage = "Incorrect username or password";
-            return res.render("Auth/login", { errorMessage });
+            req.session.errorMessage = "Incorrect username or password";
+            return res.redirect("auth/login");
         }
 
         const isCorrectPassword = await bcrypt.compare(
@@ -84,8 +84,8 @@ router.post("/login", async (req, res) => {
         );
 
         if (!isCorrectPassword) {
-            errorMessage = "Incorrect username or password";
-            return res.render("Auth/login", { errorMessage });
+            req.session.errorMessage = "Incorrect username or password";
+            return res.redirect("auth/login");
         }
 
         //console.log(currentUser);
