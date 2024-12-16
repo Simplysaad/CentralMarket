@@ -52,8 +52,6 @@ router.post("/register", async (req, res) => {
 
 router.get("/login", async (req, res) => {
     try {
-        const errorMessage = "Incorrect username or password";
-
         if (req.session && req.session.userId) {
             //console.log("user is logged in");
             res.redirect("/auth/logout");
