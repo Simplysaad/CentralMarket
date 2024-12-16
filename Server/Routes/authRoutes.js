@@ -71,7 +71,6 @@ router.post("/login", async (req, res) => {
         });
 
         if (!currentUser) {
-            
             return res.json({
                 success: false,
                 errorMessage: "Incorrect username or password"
