@@ -28,8 +28,16 @@ router.post("/register", async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        const newUser = new User({ ...req.body, password: hashedPassword });
+        const { emailAddress } = req.body;
+        let isEmailExist = User.findOne({ emailAddress }, { _id: 1 });
 
+        if (isEmailExist)
+            return res.json({
+                success: false,
+                errorMessage: "Email address already exists"
+            });
+
+        const newUser = new User({ ...req.body, password: hashedPassword });
         newUser
             .save()
             .then(data => {
