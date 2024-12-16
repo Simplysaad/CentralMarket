@@ -7,7 +7,7 @@ router.use((req, res, next) => {
     res.locals.layout = "Layouts/authLayout";
     next();
 });
-let errorMessage = "enter correct details";
+let errorMessage; // = "enter correct details";
 router.get("/register", async (req, res) => {
     try {
         res.render("Auth/register");
