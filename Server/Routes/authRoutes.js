@@ -7,7 +7,7 @@ router.use((req, res, next) => {
     res.locals.layout = "Layouts/authLayout";
     next();
 });
-
+let errorMessage;
 router.get("/register", async (req, res) => {
     try {
         res.render("Auth/register");
@@ -75,7 +75,7 @@ router.post("/login", async (req, res) => {
             $or: [{ username: regex }, { emailAddress: regex }]
         });
 
-        const errorMessage = "Incorrect username or password";
+         errorMessage = "Incorrect username or password";
 
         if (!currentUser) {
             return res.render("Auth/login", { errorMessage });
