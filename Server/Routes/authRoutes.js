@@ -20,6 +20,7 @@ router.post("/register", async (req, res) => {
     try {
         if (!req.body) {
             console.log("reqBody cannot be empty");
+            return res.redirect("/register");
         }
         //console.log("reqBody", req.body);
 
@@ -52,7 +53,7 @@ router.post("/register", async (req, res) => {
 router.get("/login", async (req, res) => {
     try {
         if (req.session && req.session.userId) {
-            console.log("user is logged in");
+            //console.log("user is logged in");
             res.redirect("/auth/logout");
         } else {
             res.render("Auth/login");
@@ -87,7 +88,7 @@ router.post("/login", async (req, res) => {
             return res.render("Auth/login", { errorMessage });
         }
 
-        console.log(currentUser);
+        //console.log(currentUser);
         req.session.userId = currentUser._id;
         req.session.username = currentUser.username;
         req.session.role = currentUser.role;
@@ -95,9 +96,9 @@ router.post("/login", async (req, res) => {
         let returnTo = req.session.returnTo || "/";
 
         if (currentUser.role === "vendor") {
-            returnTo = "/vendor/dashboard";
+            returnTo = req.session.returnTo || "/vendor/dashboard";
         }
-        console.log("user logged in successfully");
+        // console.log("user logged in successfully");
 
         res.redirect(returnTo);
     } catch (err) {
@@ -108,7 +109,7 @@ router.post("/login", async (req, res) => {
 router.get("/logout", async (req, res) => {
     req.session.destroy(err => {
         if (!err) {
-            console.log("user logged out successfully");
+            //console.log("user logged out successfully");
             res.render("Auth/login");
         }
     });
