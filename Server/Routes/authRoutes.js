@@ -62,6 +62,11 @@ router.get("/login", async (req, res) => {
 
 router.post("/login", async (req, res) => {
     try {
+        if (!req.body)
+            return res.json({
+                success: false,
+                errorMessage: "Please Enter Username and password"
+            });
         const { username, password } = req.body;
         let trimmedUsername = username.trim();
         let regex = new RegExp(trimmedUsername, "gi");
