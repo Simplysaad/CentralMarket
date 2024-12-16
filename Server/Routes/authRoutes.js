@@ -52,11 +52,13 @@ router.post("/register", async (req, res) => {
 
 router.get("/login", async (req, res) => {
     try {
+        const errorMessage = "Incorrect username or password";
+
         if (req.session && req.session.userId) {
             //console.log("user is logged in");
             res.redirect("/auth/logout");
         } else {
-            res.render("Auth/login");
+            res.render("Auth/login", {errorMessage});
         }
     } catch (err) {
         console.error(err);
@@ -110,7 +112,7 @@ router.get("/logout", async (req, res) => {
     req.session.destroy(err => {
         if (!err) {
             //console.log("user logged out successfully");
-            res.render("Auth/login");
+            res.render("Auth/login", {errorMessage});
         }
     });
     //res.flash({ info: "user logged out successfully" });
