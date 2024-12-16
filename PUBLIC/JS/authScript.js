@@ -6,6 +6,7 @@ const roles = document.getElementsByName("role");
 const showBusinessBtn = document.querySelector("#showBusinessBtn");
 const showBusinessDiv = document.querySelector("#showBusinessDiv");
 const registerForm = document.querySelector("#registerForm");
+const loginForm = document.querySelector("#loginForm");
 
 businessDetails.style.display = "none";
 const preventDefaultListener = e => {
@@ -51,59 +52,78 @@ btnShowPassword.forEach(btn => {
     });
 });
 
-const validateLogin = () => {
+const validateLogin = async () => {
     const username = document.querySelector("#username").value;
     const password = document.querySelector("#loginPassword").value;
     const errorMessage = document.querySelector("#errorMessage");
 
-    let response;
-    fetch("/auth/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password })
-    })
-        .then(res => res.json())
-        .then(data => (response = data))
-        .catch(err => console.error(err));
+    try {
+        const response = await fetch("/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
 
-    if (!response.success) {
-        errorMessage.textContent =
-            response.errorMessage || "invalid credentials";
+        const data = await response.json();
+
+        if (!data.success) {
+            errorMessage.textContent =
+                data.errorMessage || "Invalid credentials";
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
     }
 };
 
 const btnSubmitLogin = document.querySelector("#btnSubmitLogin");
-btnSubmitLogin.addEventListener("click", e => {
+
+btnSubmitLogin.addEventListener("click", async e => {
     e.preventDefault();
-    validateLogin();
+    const isValid = await validateLogin();
+
+    if (isValid) {
+      loginForm.submit()
+        // Login successful, redirect to next page or perform other actions
+    }
 });
 
-const validateRegister = () => {
+const validateRegister = async () => {
     const emailAddress = document.querySelector("#emailAddress").value;
     const password = document.querySelector("#password").value;
     const errorMessage = document.querySelector("#errorMessage");
 
-    let response;
-    fetch("/auth/register", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ emailAddress })
-    })
-        .then(res => res.json())
-        .then(data => (response = data))
-        .catch(err => console.error(err));
+    try {
+        const response = await fetch("/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ emailAddress, password }) // Include password in request body
+        });
 
-    if (!response.success) {
-        errorMessage.textContent =
-            response.errorMessage || "invalid credentials";
+        const data = await response.json();
+
+        if (!data.success) {
+            errorMessage.textContent =
+                data.errorMessage || "Invalid credentials";
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
     }
 };
+
 const btnSubmitRegister = document.querySelector("#btnSubmitRegister");
-btnSubmitRegister.addEventListener("click", e => {
+
+btnSubmitRegister.addEventListener("click", async e => {
     e.preventDefault();
-    validateRegister();
+    const isValid = await validateRegister();
+
+    if (isValid) {
+        registerForm.submit();
+    }
 });
