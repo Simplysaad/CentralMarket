@@ -87,7 +87,6 @@ btnSubmitLogin.addEventListener("click", async e => {
 
     if (isValid) {
       loginForm.submit()
-        // Login successful, redirect to next page or perform other actions
     }
 });
 
