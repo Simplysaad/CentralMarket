@@ -72,9 +72,10 @@ router.post("/login", async (req, res) => {
             $or: [{ username: regex }, { emailAddress: regex }]
         });
 
+        const errorMessage = "Incorrect username or password";
+
         if (!currentUser) {
-            userErrorMessage = "user does not esist";
-            return res.render("Auth/login", { userErrorMessage });
+            return res.render("Auth/login", { errorMessage });
         }
 
         const isCorrectPassword = await bcrypt.compare(
@@ -83,8 +84,7 @@ router.post("/login", async (req, res) => {
         );
 
         if (!isCorrectPassword) {
-            passwordaErrorMessage = "incorrect credentials";
-            return res.render("Auth/login", { passwordaErrorMessage });
+            return res.render("Auth/login", { errorMessage });
         }
 
         console.log(currentUser);
