@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
     try {
         if (!req.body) {
             console.log("reqBody cannot be empty");
-            return res.redirect("/register");
+            return res.redirect("auth/register");
         }
         //console.log("reqBody", req.body);
 
@@ -43,8 +43,9 @@ router.post("/register", async (req, res) => {
         req.session.userId = newUser._id;
         req.session.role = newUser.role;
         req.session.username = newUser.usernamename;
-
-        res.redirect("/vendor/dashboard");
+        
+        let returnTo = req.session.returnTo || "/cart"
+        res.redirect(returnTo);
     } catch (err) {
         console.error(err);
     }
