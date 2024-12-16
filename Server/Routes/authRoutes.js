@@ -19,8 +19,10 @@ router.get("/register", async (req, res) => {
 router.post("/register", async (req, res) => {
     try {
         if (!req.body) {
-            console.log("reqBody cannot be empty");
-            return res.redirect("auth/register");
+            return res.json({
+                success: false,
+                errorMessage: "Please enter into all fields"
+            });
         }
         //console.log("reqBody", req.body);
 
