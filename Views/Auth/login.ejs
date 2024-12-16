@@ -12,6 +12,8 @@
             />
             <label for="username">Enter username or email</label>
         </div>
+        <p class="text-error text-danger mb-2 mt-0"><%= userErrorMessage %></p>
+
         <div class="form-floating">
             <input
                 class="form-control"
@@ -25,6 +27,7 @@
 
           <label for="password">Password</label>
         </div>
+        <p class="text-error text-danger mb-2 mt-0"><%=passwordErrorMessage %></p>
         <div class="form-check-inline my-3 mb-5">
             <input
                 class="d-inline"
