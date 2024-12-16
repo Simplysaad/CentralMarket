@@ -52,12 +52,8 @@ router.post("/register", async (req, res) => {
 
 router.get("/login", async (req, res) => {
     try {
-        if (req.session && req.session.userId) {
-            //console.log("user is logged in");
-            res.redirect("/auth/logout");
-        } else {
-            res.render("Auth/login", { errorMessage: req.session.errorMessage });
-        }
+        res.render("Auth/login", { errorMessage: req.session.errorMessage });
+        req.session.errorMessage = "";
     } catch (err) {
         console.error(err);
     }
