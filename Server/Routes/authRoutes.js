@@ -58,7 +58,7 @@ router.get("/login", async (req, res) => {
             //console.log("user is logged in");
             res.redirect("/auth/logout");
         } else {
-            res.render("Auth/login", {errorMessage});
+            res.render("Auth/login", { errorMessage });
         }
     } catch (err) {
         console.error(err);
@@ -75,9 +75,8 @@ router.post("/login", async (req, res) => {
             $or: [{ username: regex }, { emailAddress: regex }]
         });
 
-         errorMessage = "Incorrect username or password";
-
         if (!currentUser) {
+            errorMessage = "Incorrect username or password";
             return res.render("Auth/login", { errorMessage });
         }
 
@@ -87,6 +86,7 @@ router.post("/login", async (req, res) => {
         );
 
         if (!isCorrectPassword) {
+            errorMessage = "Incorrect username or password";
             return res.render("Auth/login", { errorMessage });
         }
 
@@ -112,7 +112,7 @@ router.get("/logout", async (req, res) => {
     req.session.destroy(err => {
         if (!err) {
             //console.log("user logged out successfully");
-            res.render("Auth/login", {errorMessage});
+            res.render("Auth/login", { errorMessage });
         }
     });
     //res.flash({ info: "user logged out successfully" });
