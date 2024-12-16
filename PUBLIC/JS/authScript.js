@@ -69,6 +69,41 @@ const validateLogin = () => {
         .catch(err => console.error(err));
 
     if (!response.success) {
-        errorMessage.textContent = response.errorMessage || "invalid credentials";
+        errorMessage.textContent =
+            response.errorMessage || "invalid credentials";
     }
 };
+
+const btnSubmitLogin = document.querySelector("#btnSubmitLogin");
+btnSubmitLogin.addEventListener("click", e => {
+    e.preventDefault();
+    validateLogin();
+});
+
+const validateRegister = () => {
+    const emailAddress = document.querySelector("#emailAddress").value;
+    const password = document.querySelector("#password").value;
+    const errorMessage = document.querySelector("#errorMessage");
+
+    let response;
+    fetch("/auth/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ emailAddress })
+    })
+        .then(res => res.json())
+        .then(data => (response = data))
+        .catch(err => console.error(err));
+
+    if (!response.success) {
+        errorMessage.textContent =
+            response.errorMessage || "invalid credentials";
+    }
+};
+const btnSubmitRegister = document.querySelector("#btnSubmitRegister");
+btnSubmitRegister.addEventListener("click", e => {
+    e.preventDefault();
+    validateRegister();
+});
