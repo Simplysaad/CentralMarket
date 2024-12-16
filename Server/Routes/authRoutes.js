@@ -71,7 +71,7 @@ router.post("/login", async (req, res) => {
 
         if (!currentUser) {
             req.session.errorMessage = "Incorrect username or password";
-            return res.redirect("auth/login");
+            res.redirect("auth/login");
         }
 
         const isCorrectPassword = await bcrypt.compare(
@@ -81,7 +81,7 @@ router.post("/login", async (req, res) => {
 
         if (!isCorrectPassword) {
             req.session.errorMessage = "Incorrect username or password";
-            return res.redirect("auth/login");
+            res.redirect("auth/login");
         }
 
         //console.log(currentUser);
@@ -105,11 +105,10 @@ router.post("/login", async (req, res) => {
 router.get("/logout", async (req, res) => {
     req.session.destroy(err => {
         if (!err) {
-            //console.log("user logged out successfully");
-            res.render("Auth/login", { errorMessage });
+            console.log("user logged out successfully");
+            res.redirect("auth/login");
         }
     });
-    //res.flash({ info: "user logged out successfully" });
 });
 
 module.exports = router;
