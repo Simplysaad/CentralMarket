@@ -29,27 +29,24 @@ roles.forEach(role => {
     });
 });
 
-
-
-
-
 const showPassword = () => {
     const inputPassword = document.getElementById("password");
     const loginPassword = document.getElementById("loginPassword");
     const confirmPassword = document.getElementById("confirmPassword");
     console.log(inputPassword.type);
-    
-    const isVisible = inputPassword.type === "text" || loginPassword.type === "text"
-    
-    inputPassword.type = isVisible ? "password" : "text"
-    loginPassword.type = isVisible ? "password" : "text"
-    confirmPassword.type = isVisible ? "password" : "text"
+
+    const isVisible =
+        inputPassword.type === "text" || loginPassword.type === "text";
+
+    inputPassword.type = isVisible ? "password" : "text";
+    loginPassword.type = isVisible ? "password" : "text";
+    confirmPassword.type = isVisible ? "password" : "text";
 };
 
-const btnShowPassword = document.querySelectorAll(".btnShowPassword")
-btnShowPassword.forEach(btn=>{
-  btn.addEventListener("click", (e)=>{
-    e.preventDefault()
-    showPassword()
-  })
-})
+const btnShowPassword = document.querySelectorAll(".btnShowPassword");
+btnShowPassword.forEach(btn => {
+    btn.addEventListener("click", e => {
+        e.preventDefault();
+        showPassword();
+    });
+});
