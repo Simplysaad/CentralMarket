@@ -1,6 +1,8 @@
 <form action="/auth/login" method="post" class="my-5 form-card col-md-8 col-lg-7 container">
     <section id="loginDetails" class="d-noe my-5">
         <h3 class="display-4 my-3 text-center">Login</h3>
+        <p class="text-error text-danger mb-2 mt-0"><%= errorMessage %></p>
+
         <div class="form-floating">
             <input
                 class="form-control"
@@ -12,7 +14,6 @@
             />
             <label for="username">Enter username or email</label>
         </div>
-        <p class="text-error text-danger mb-2 mt-0"><%= userErrorMessage %></p>
 
         <div class="form-floating">
             <input
@@ -27,7 +28,6 @@
 
           <label for="password">Password</label>
         </div>
-        <p class="text-error text-danger mb-2 mt-0"><%=passwordErrorMessage %></p>
         <div class="form-check-inline my-3 mb-5">
             <input
                 class="d-inline"
