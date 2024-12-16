@@ -42,6 +42,7 @@ const showPassword = () => {
     const isVisible = inputPassword.type === "text"
     
     inputPassword.type = isVisible ? "password" : "text"
+    loginPassword.type = isVisible ? "password" : "text"
     confirmPassword.type = isVisible ? "password" : "text"
 };
 
