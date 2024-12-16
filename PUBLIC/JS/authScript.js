@@ -50,3 +50,25 @@ btnShowPassword.forEach(btn => {
         showPassword();
     });
 });
+
+const validateLogin = () => {
+    const username = document.querySelector("#username").value;
+    const password = document.querySelector("#loginPassword").value;
+    const errorMessage = document.querySelector("#errorMessage");
+
+    let response;
+    fetch("/auth/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+    })
+        .then(res => res.json())
+        .then(data => (response = data))
+        .catch(err => console.error(err));
+
+    if (!response.success) {
+        errorMessage.textContent = response.errorMessage || "invalid credentials";
+    }
+};
