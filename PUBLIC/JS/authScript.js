@@ -39,7 +39,7 @@ const showPassword = () => {
     const confirmPassword = document.getElementById("confirmPassword");
     console.log(inputPassword.type);
     
-    const isVisible = inputPassword.type === "text"
+    const isVisible = inputPassword.type === "text" || loginPassword.type === "text"
     
     inputPassword.type = isVisible ? "password" : "text"
     loginPassword.type = isVisible ? "password" : "text"
