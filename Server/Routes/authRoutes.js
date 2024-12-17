@@ -15,15 +15,29 @@ router.get("/register", async (req, res) => {
         console.error(err);
     }
 });
+router.post("/validate-register", async (req, res) => {
+    if (!req.body)
+        return res.json({
+            success: false,
+            errorMessage: "Please enter into all fields"
+        });
 
+    const { emailAddress } = req.body;
+    let isEmailExist = User.findOne({ emailAddress }, { _id: 1 });
+
+    if (isEmailExist)
+        return res.json({
+            success: false,
+            errorMessage: "Email address already exists"
+        });
+
+    return res.json({
+        success: true,
+        errorMessage: ""
+    });
+});
 router.post("/register", async (req, res) => {
     try {
-        if (!req.body) {
-            return res.json({
-                success: false,
-                errorMessage: "Please enter into all fields"
-            });
-        }
         //console.log("reqBody", req.body);
 
         const { password } = req.body;
@@ -32,12 +46,6 @@ router.post("/register", async (req, res) => {
 
         const { emailAddress } = req.body;
         let isEmailExist = User.findOne({ emailAddress }, { _id: 1 });
-
-        if (isEmailExist)
-            return res.json({
-                success: false,
-                errorMessage: "Email address already exists"
-            });
 
         const newUser = new User({ ...req.body, password: hashedPassword });
         newUser
@@ -69,7 +77,44 @@ router.get("/login", async (req, res) => {
         console.error(err);
     }
 });
+router.post("/validate-login", async (req, res) => {
+    if (!req.body)
+        return res.json({
+            success: false,
+            errorMessage: "Please Enter Username and password"
+        });
+    const { username, password } = req.body;
+    let trimmedUsername = username.trim();
+    let regex = new RegExp(trimmedUsername, "gi");
 
+    const currentUser = await User.findOne({
+        $or: [{ username: regex }, { emailAddress: regex }]
+    });
+
+    if (!currentUser) {
+        return res.json({
+            success: false,
+            errorMessage: "Incorrect username or password"
+        });
+    }
+
+    const isCorrectPassword = await bcrypt.compare(
+        password,
+        currentUser.password
+    );
+
+    if (!isCorrectPassword) {
+        return res.json({
+            success: false,
+            errorMessage: "Incorrect username or password"
+        });
+    }
+
+    return res.json({
+        success: true,
+        errorMessage: ""
+    });
+});
 router.post("/login", async (req, res) => {
     try {
         if (!req.body)
