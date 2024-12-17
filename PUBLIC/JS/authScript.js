@@ -65,8 +65,8 @@ const validateLogin = async () => {
         });
 
         const data = await response.json();
-        console.log(data)
-        
+        console.log(data);
+
         if (!data.success) {
             errorMessage.textContent =
                 data.errorMessage || "Invalid credentials";
@@ -79,16 +79,27 @@ const validateLogin = async () => {
         return false;
     }
 };
-
 const btnSubmitLogin = document.querySelector("#btnSubmitLogin");
-
 btnSubmitLogin.addEventListener("click", async e => {
     e.preventDefault();
     const isValid = await validateLogin();
 
     if (isValid) {
-      loginForm.submit()
+        loginForm.submit();
     }
+});
+loginForm.addEventListener("submit", async e => {
+    e.preventDefault();
+    const formData = new FormData(loginForm);
+
+    const response = await fetch("/login", {
+        method: "POST",
+        headers: "Content-Type: application/json",
+        body: formData
+    });
+
+    let data = response.json();
+    console.log(data);
 });
 
 const validateRegister = async () => {
@@ -100,12 +111,12 @@ const validateRegister = async () => {
         const response = await fetch("/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ emailAddress, password }) 
+            body: JSON.stringify({ emailAddress, password })
         });
 
         const data = await response.json();
-        console.log(data)
-        
+        console.log(data);
+
         if (!data.success) {
             errorMessage.textContent =
                 data.errorMessage || "Invalid credentials";
@@ -117,9 +128,7 @@ const validateRegister = async () => {
         return false;
     }
 };
-
 const btnSubmitRegister = document.querySelector("#btnSubmitRegister");
-
 btnSubmitRegister.addEventListener("click", async e => {
     e.preventDefault();
     const isValid = await validateRegister();
@@ -127,4 +136,17 @@ btnSubmitRegister.addEventListener("click", async e => {
     if (isValid) {
         registerForm.submit();
     }
+});
+registerForm.addEventListener("submit", async e => {
+    e.preventDefault();
+    const formData = new FormData(registerForm);
+
+    const response = await fetch("/register", {
+        method: "POST",
+        headers: "Content-Type: application/json",
+        body: formData
+    });
+
+    let data = response.json();
+    console.log(data);
 });
