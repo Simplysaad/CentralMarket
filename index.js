@@ -1,8 +1,7 @@
 const express = require("express");
 const expressLayout = require("express-ejs-layouts");
 const ejs = require("ejs");
-const morgan = require('morgan')
-
+const morgan = require("morgan");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -29,7 +28,7 @@ app.get("/api", (req, res) => {
     res.send("hello world");
 });
 
-app.use(morgan('tiny'))
+app.use(morgan("tiny"));
 
 app.use(cookieParser());
 app.use(
