@@ -65,7 +65,8 @@ const validateLogin = async () => {
         });
 
         const data = await response.json();
-
+        console.log(data)
+        
         if (!data.success) {
             errorMessage.textContent =
                 data.errorMessage || "Invalid credentials";
@@ -103,7 +104,8 @@ const validateRegister = async () => {
         });
 
         const data = await response.json();
-
+        console.log(data)
+        
         if (!data.success) {
             errorMessage.textContent =
                 data.errorMessage || "Invalid credentials";
