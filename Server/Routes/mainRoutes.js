@@ -45,7 +45,7 @@ router.get("/", async (req, res) => {
         );
         const categories = await Product.distinct("category");
 
-        res.render("Pages/index", {
+        res.render("pages/index", {
             locals,
             ads,
             categories,
@@ -70,7 +70,7 @@ router.get("/category/:category", async (req, res) => {
             category: regex
         });
 
-        res.render("Pages/category", {
+        res.render("pages/category", {
             locals,
             categoryName,
             categoryItems,
@@ -97,7 +97,7 @@ router.get("/preview/:id", async (req, res) => {
             throw new Error("No product matches that ID"); // Explicit error for debugging
         }
 
-        res.render("Pages/preview", {
+        res.render("pages/preview", {
             locals,
             currentProduct,
             relatedProducts,
@@ -106,7 +106,7 @@ router.get("/preview/:id", async (req, res) => {
     } catch (err) {
         console.error("Error in preview route:", err);
         res.status(500).send("Internal Server Error");
-        // res.status(500).render("Pages/500");
+        // res.status(500).render("pages/500");
     }
 });
 
@@ -119,35 +119,35 @@ router.post("/search", async (req, res) => {
         const searchTerm = req.body.searchTerm.trim() || req.query.searchTerm;
         let regex = new RegExp(searchTerm, "gi");
 
-        // const searchResults = await Product.find({
-        //     $or: [
-        //         { description: regex },
-        //         { name: regex },
-        //         { tags: regex },
-        //         { category: regex },
-        //         { subCategory: regex }
-        //     ]
-        // });
-
         const searchResults = await Product.find({
-            $text: {
-                $search: searchTerm
-            },
-            score: { $meta: "textScore" }
-        })
-            .sort({ score: { $meta: "textScore" } })
-            .lean();
+            $or: [
+                { description: regex },
+                { name: regex },
+                { tags: regex },
+                { category: regex },
+                { subCategory: regex }
+            ]
+        });
+
+        // const searchResults = await Product.find({
+        //     $text: {
+        //         $search: searchTerm
+        //     },
+        //     score: { $meta: "textScore" }
+        // })
+        //     .sort({ score: { $meta: "textScore" } })
+        //     .lean();
 
         if (searchResults.length === 0) {
             console.log(searchTerm, "brought no results ");
-            res.render("Pages/empty-search", {
+            res.render("pages/empty-search", {
                 searchTerm,
                 categories,
                 relatedProducts,
                 locals
             });
         } else {
-            res.render("Pages/search.ejs", {
+            res.render("pages/search.ejs", {
                 searchResults,
                 searchTerm,
                 categories,
@@ -157,7 +157,7 @@ router.post("/search", async (req, res) => {
     } catch (err) {
         console.error("Error in search route:", err);
         res.status(500).send("Internal Server Error");
-        // res.status(500).render("Pages/500");
+        // res.status(500).render("pages/500");
     }
 });
 
@@ -184,7 +184,7 @@ router.get("/cart", async (req, res) => {
         } else {
             isCartEmpty = false;
         }
-        res.render("Pages/cart", {
+        res.render("pages/cart", {
             categories,
             locals,
             isCartEmpty,
@@ -307,7 +307,7 @@ router.get("/remove-item/:id", async (req, res) => {
 });
 router.get("/*", async (req, res) => {
     try {
-        //res.render("Pages/404")
+        //res.render("pages/404")
         res.redirect("/");
     } catch (err) {
         console.error(err);
