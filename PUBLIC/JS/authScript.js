@@ -7,7 +7,7 @@ const showBusinessBtn = document.querySelector("#showBusinessBtn");
 const showBusinessDiv = document.querySelector("#showBusinessDiv");
 const registerForm = document.querySelector("#registerForm");
 const loginForm = document.querySelector("#loginForm");
-
+ 
 businessDetails.style.display = "none";
 const preventDefaultListener = e => {
     e.preventDefault();
