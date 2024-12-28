@@ -162,6 +162,50 @@ btnShowPassword.forEach(btn => {
     });
 });
 
-const placeOrder = () => {
-  
+const placeOrder = () => {};
+const search = async (req, res) => {
+    try {
+        const tagElements = document.querySelectorAll(".btn-tag");
+        tagElements.forEach(tag => {
+            const searchTerm = tag.textContent;
+            fetch("/search", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: searchTerm
+            }).then(data => console.log(data));
+        });
+    } catch (err) {
+        console.error(err);
+    }
 };
+
+const btnAddCart = document.querySelectorAll(".btn-add-cart");
+
+btnAddCart.forEach(btn => {
+    btn.addEventListener("click", async e => {
+        e.preventDefault();
+        const itemIdElement = btn.querySelector(".item-id");
+        const inputQuantity = btn.querySelector(".input-quantity");
+        
+        const productId = itemIdElement.textContent; // replace with the actual product ID
+        const addCartUrl = "/add-cart/" + productId;
+        try {
+            const response = await fetch(addCartUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  quantity: inputQuantity.value
+                })
+            });
+
+            const data = await response.json();
+            console.log(data);
+        } catch (err) {
+            console.error(err);
+        }
+    });
+});
