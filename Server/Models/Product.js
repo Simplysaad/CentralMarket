@@ -9,6 +9,7 @@ const ProductSchema = new mongoose.Schema({
         required: true
     },
     brand: String,
+    productModel: String,
     tags: [String],
     isFeatured: {
         type: Boolean,
