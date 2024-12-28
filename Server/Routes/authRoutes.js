@@ -7,7 +7,14 @@ router.use((req, res, next) => {
     res.locals.layout = "Layouts/authLayout";
     next();
 });
-let errorMessage; // = "enter correct details";
+
+const locals = {
+    title: "Campus Mart - Auth",
+    description:
+        "an incampus shopping website for school online vendors and students, to buy , sell and deliver items without hassle",
+    imageUrl: "/IMG/favicon.png"
+};
+
 router.get("/register", async (req, res) => {
     try {
         res.render("Auth/register");
@@ -15,39 +22,43 @@ router.get("/register", async (req, res) => {
         console.error(err);
     }
 });
-router.post("/validate-register", async (req, res) => {
-    if (!req.body)
-        return res.json({
-            success: false,
-            errorMessage: "Please enter into all fields"
-        });
-
-    const { emailAddress } = req.body;
-    let isEmailExist = User.findOne({ emailAddress }, { _id: 1 });
-
-    if (isEmailExist)
-        return res.json({
-            success: false,
-            errorMessage: "Email address already exists"
-        });
-
-    return res.json({
-        success: true,
-        errorMessage: ""
-    });
-});
 router.post("/register", async (req, res) => {
     try {
-        //console.log("reqBody", req.body);
+        if (!req.body) {
+            return res.json({
+                success: false,
+                errorMessage: "Please enter into all fields"
+            });
+        }
+        console.log("reqBody", req.body)
+        const { emailAddress } = req.body;
+        console.log("emailAddress", emailAddress)
+
+        let isEmailExist = await User.findOne({ emailAddress }, { _id: 1 });
+        console.log("isEmailExist", isEmailExist);
+
+        if (isEmailExist) {
+            return res.json({
+                success: false,
+                errorMessage: "Email address already exists"
+            });
+        }
 
         const { password } = req.body;
+        console.log("password", password)
+       
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        const { emailAddress } = req.body;
-        let isEmailExist = User.findOne({ emailAddress }, { _id: 1 });
+        const { username } = req.body;
+        console.log("username", username)
+        const newUsername = username.trim().toLowerCase();
 
-        const newUser = new User({ ...req.body, password: hashedPassword });
+        const newUser = new User({
+            ...req.body,
+            username: newUsername,
+            password: hashedPassword
+        });
         newUser
             .save()
             .then(data => {
@@ -60,10 +71,15 @@ router.post("/register", async (req, res) => {
 
         req.session.userId = newUser._id;
         req.session.role = newUser.role;
-        req.session.username = newUser.usernamename;
+        req.session.username = newUser.username;
 
         let returnTo = req.session.returnTo || "/cart";
-        res.redirect(returnTo);
+
+        return res.json({
+            success: true,
+            errorMessage: "",
+            redirect: returnTo
+        });
     } catch (err) {
         console.error(err);
     }
@@ -77,63 +93,28 @@ router.get("/login", async (req, res) => {
         console.error(err);
     }
 });
-router.post("/validate-login", async (req, res) => {
-    if (!req.body)
-        return res.json({
-            success: false,
-            errorMessage: "Please Enter Username and password"
-        });
-    const { username, password } = req.body;
-    let trimmedUsername = username.trim();
-    let regex = new RegExp(trimmedUsername, "gi");
-
-    const currentUser = await User.findOne({
-        $or: [{ username: regex }, { emailAddress: regex }]
-    });
-
-    if (!currentUser) {
-        return res.json({
-            success: false,
-            errorMessage: "Incorrect username or password"
-        });
-    }
-
-    const isCorrectPassword = await bcrypt.compare(
-        password,
-        currentUser.password
-    );
-
-    if (!isCorrectPassword) {
-        return res.json({
-            success: false,
-            errorMessage: "Incorrect username or password"
-        });
-    }
-
-    return res.json({
-        success: true,
-        errorMessage: ""
-    });
-});
 router.post("/login", async (req, res) => {
     try {
-        if (!req.body)
+        if (!req.body) {
             return res.json({
                 success: false,
                 errorMessage: "Please Enter Username and password"
             });
+        }
         const { username, password } = req.body;
-        let trimmedUsername = username.trim();
-        let regex = new RegExp(trimmedUsername, "gi");
 
+        const trimmedUsername = username.trim().toLowerCase()
         const currentUser = await User.findOne({
-            $or: [{ username: regex }, { emailAddress: regex }]
+            $or: [
+                { username: trimmedUsername },
+                { emailAddress: trimmedUsername }
+            ]
         });
 
         if (!currentUser) {
             return res.json({
                 success: false,
-                errorMessage: "Incorrect username or password"
+                errorMessage: "Incorrect Username"
             });
         }
 
@@ -143,25 +124,28 @@ router.post("/login", async (req, res) => {
         );
 
         if (!isCorrectPassword) {
+            console.log(currentUser);
             return res.json({
                 success: false,
-                errorMessage: "Incorrect username or password"
+                errorMessage: "Incorrect Password"
+            });
+        } else {
+            req.session.userId = currentUser._id;
+            req.session.username = currentUser.username;
+            req.session.role = currentUser.role;
+
+            let returnTo = req.session.returnTo || "/";
+
+            if (currentUser.role === "vendor") {
+                returnTo = req.session.returnTo || "/vendor/dashboard";
+            }
+
+            return res.json({
+                success: true,
+                errorMessage: "",
+                redirect: returnTo
             });
         }
-
-        //console.log(currentUser);
-        req.session.userId = currentUser._id;
-        req.session.username = currentUser.username;
-        req.session.role = currentUser.role;
-
-        let returnTo = req.session.returnTo || "/";
-
-        if (currentUser.role === "vendor") {
-            returnTo = req.session.returnTo || "/vendor/dashboard";
-        }
-        // console.log("user logged in successfully");
-
-        res.redirect(returnTo);
     } catch (err) {
         console.error(err);
     }
