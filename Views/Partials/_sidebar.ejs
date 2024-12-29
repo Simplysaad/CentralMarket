@@ -1,0 +1,43 @@
+<style>
+    .sidebar {
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 250px;
+        background-color: #343a40;
+        padding-top: 20px;
+    }
+
+    .sidebar a {
+        color: white;
+        padding: 10px 15px;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .sidebar a:hover {
+        background-color: #495057;
+        border-radius: 4px;
+    }
+
+    .content {
+        margin-left: 260px;
+    }
+
+    .content .dashboard-card {
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="sidebar">
+    <h2 class="text-white text-center">Vendor Dashboard</h2>
+    <a href="/vendor/products"><i class="fas fa-box"></i> Product Management</a>
+    <a href="/vendor/orders"><i class="fas fa-shopping-cart"></i> Orders</a>
+    <a href="/vendor/analytics"
+        ><i class="fas fa-chart-line"></i> Sales Analytics</a
+    >
+    <a href="/vendor/customers"><i class="fas fa-users"></i> Customers</a>
+    <a href="/vendor/settings"><i class="fas fa-cogs"></i> Settings</a>
+</div>
