@@ -19,6 +19,19 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         />
+        <script>
+            const goTo = url => {
+              try {
+                  fetch(url).then(data => {
+                    console.log(data);
+                    //document.write(data)
+                  });
+              } catch (err) {
+                  console.error(err);
+              }
+            };
+        </script>
+
     </head>
     <body>
     <%- include("../Partials/_header")%>
