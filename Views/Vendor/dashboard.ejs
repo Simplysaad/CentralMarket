@@ -1,145 +1,149 @@
-<main class="container">
-    <div class="heading py-3">
-        <h4 class="display-4">Hi, <%- currentUser.username%></h4>
+<style>
+    .content {
+        margin-left: 260px;
+    }
+
+    .content .dashboard-card {
+        margin-bottom: 20px;
+    }
+</style>
+
+<!-- Content -->
+<section class="content container-fluid">
+    <!-- Dashboard Header -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <h1>Welcome, Vendor!</h1>
+            <p class="lead">Manage your store and track performance.</p>
+        </div>
     </div>
-    <section class="widgets border px-2 border-danger my-4 mx-auto row g-5">
-        <div
-            class="widget d-flex orders shadow-sm border rounded my-3 col-md-6 py-3 px-3"
-        >
-            <div class="widget-info col-10 col-md-11">
-                <h4 class="widget-heading fs-4 text-secondary fw-light">
-                    Orders
-                </h4>
-                <h3 class="widget-data display-4 py-4">5,300</h3>
-                <div class="widget-extra-info">
-                    <span class="trend order me-3 text-success fw-light">
-                        <strong class="fa fa-arrow-up pe-1"></strong>
-                        5.06
-                    </span>
-                    <span class="time order"> This week </span>
+
+    <!-- Dashboard Cards -->
+    <div class="row">
+        <!-- Sales Summary -->
+        <div class="col-md-4">
+            <div class="card dashboard-card">
+                <div class="card-body">
+                    <h5 class="card-title">Sales Summary</h5>
+                    <p class="card-text">Total Sales: ₦500,000</p>
+                    <p class="card-text">Orders Processed: 150</p>
                 </div>
             </div>
-            <div
-                class="widget-icon text-center rounded top-0 p-1 m-0 me-5 col-2 col-md-1 h-25 bg-warning text-light"
-            >
-                <i class="fa fa-2x fa-shopping-cart"></i>
-            </div>
         </div>
-        <div
-            class="widget d-flex customers shadow-sm border rounded my-3 col-md-6 py-3 px-3"
-        >
-            <div class="widget-info col-10 col-md-11">
-                <h4 class="widget-heading fs-4 text-secondary fw-light">
-                    Customers
-                </h4>
-                <h3 class="widget-data display-4 py-4">300</h3>
-                <div class="widget-extra-info">
-                    <span class="trend order me-3 text-success fw-light">
-                        194
-                        <strong class="pe-1"> New</strong>
-                    </span>
-                    <span class="trend order me-3 text-success fw-light">
-                        106
-                        <strong class="pe-1"> Returning</strong>
-                    </span>
+
+        <!-- Recent Orders -->
+        <div class="col-md-4">
+            <div class="card dashboard-card">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Orders</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <i class="fas fa-check-circle"></i> Order #1234 -
+                            ₦5,000
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i> Order #1235 -
+                            ₦3,500
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i> Order #1236 -
+                            ₦7,000
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div
-                class="widget-icon text-center rounded top-0 p-1 m-0 me-5 col-2 col-md-1 h-25 bg-success text-light"
-            >
-                <i class="fa fa-2x fa-people-group"></i>
-            </div>
         </div>
-        <div
-            class="widget d-flex revenue shadow-sm border rounded my-3 col-md-6 py-3 px-3"
-        >
-            <div class="widget-info col-10 col-md-11">
-                <h4 class="widget-heading fs-4 text-secondary fw-light">
-                    Total Sales
-                </h4>
-                <h3 class="widget-data display-4 py-4">₦83,300</h3>
-                <div class="widget-extra-info">
-                    <span class="trend order me-3 text-success fw-light">
-                        <strong class="fa fa-arrow-up pe-1"></strong>
-                        12.59%
-                    </span>
-                    <span class="time order"> This month </span>
+
+        <!-- Low Stock Alert -->
+        <div class="col-md-4">
+            <div class="card dashboard-card">
+                <div class="card-body">
+                    <h5 class="card-title">Low Stock Alert</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Product A - 2 left
+                        </li>
+                        <li>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Product B - 3 left
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div
-                class="widget-icon text-center rounded top-0 p-1 m-0 me-5 col-2 col-md-1 h-25 bg-warning text-light"
-            >
-                <i class="fa fa-2x fa-people-group"></i>
-            </div>
         </div>
-        <div
-            class="widget d-flex orders shadow-sm border rounded my-3 col-md-6 py-3 px-3"
-        >
-            <div class="widget-info col-10 col-md-11">
-                <h4 class="widget-heading fs-4 text-secondary fw-light">
-                    Orders
-                </h4>
-                <h3 class="widget-data display-4 py-4">5,300</h3>
-                <div class="widget-extra-info">
-                    <span class="trend order me-3 text-success fw-light">
-                        <strong class="fa fa-arrow-up pe-1"></strong>
-                        5.06
-                    </span>
-                    <span class="time order"> This week </span>
+    </div>
+
+    <!-- Product Management Section -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Your Products</h5>
+                    <a href="/vendor/products/add" class="btn btn-primary"
+                        >Add New Product</a
+                    >
+                    <a href="/vendor/products" class="btn btn-secondary"
+                        >View Products</a
+                    >
                 </div>
             </div>
-            <div
-                class="widget-icon text-center rounded top-0 p-1 m-0 me-5 col-2 col-md-1 h-25 bg-warning text-light"
-            >
-                <i class="fa fa-2x fa-people-group"></i>
-            </div>
         </div>
-    </section>
-    <section class="product-list my-5">
-        <div class="table-heading py-4 top-0 position-relative">
-            <h3 class="display-6">Top Products this month</h3>
-        </div>
-        <div class="product-table-container overflow-scroll">
-            <table
-                class="table table-hover overflow-scroll text-nowrap table-striped"
-            >
-                <thead>
-                    <tr>
-                        <th>S/N</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Sold</th>
-                        <th>Amount</th>
-                        <th>Remaining</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% currentUserProducts.forEach(product=>{ %>
-                    <tr>
-                        <td><% currentUserProducts.indexOf(product) + 1 %></td>
-                        <td>
-                          <a class="text-decoration-none" href="/preview/<%= product._id%>">
+    </div>
+</section>
+
+<section class="product-list my-5">
+    <div class="table-heading py-4 top-0 position-relative">
+        <h3 class="display-6">Top Products this month</h3>
+    </div>
+    <div class="product-table-container overflow-scroll">
+        <table
+            class="table table-hover overflow-scroll text-nowrap table-striped"
+        >
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Sold</th>
+                    <th>Amount</th>
+                    <th>Remaining</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% currentUserProducts.forEach(product=>{ %>
+                <tr>
+                    <td><% currentUserProducts.indexOf(product) + 1 %></td>
+                    <td>
+                        <a
+                            class="text-decoration-none"
+                            href="/preview/<%= product._id%>"
+                        >
                             <%= product.name %>
-                          </a>
-                        </td>
-                        <td><%= product.price %></td>
-                        <td><%= product.amountSold * product.price %></td>
-                        <td><%= product.amountSold %></td>
-                        <td><%= product.amountInStock %></td>
-                        <td class="d-flex g-2">
-                          <a onclick="editProduct(<%= product._id %>)" class="btn btn-info mx-1">
+                        </a>
+                    </td>
+                    <td><%= product.price %></td>
+                    <td><%= product.amountSold * product.price %></td>
+                    <td><%= product.amountSold %></td>
+                    <td><%= product.amountInStock %></td>
+                    <td class="d-flex g-2">
+                        <a
+                            onclick="editProduct(<%= product._id %>)"
+                            class="btn btn-info mx-1"
+                        >
                             <i class="fa fa-pencil"></i>
-                          </a>
-                          <a onclick="deleteProduct(<%= product._id %>)" class="btn btn-danger mx-1">
+                        </a>
+                        <a
+                            onclick="deleteProduct(<%= product._id %>)"
+                            class="btn btn-danger mx-1"
+                        >
                             <i class="fa fa-trash"></i>
-                          </a>
-                        </td>
-                    </tr>
-                    <% })%>
-                </tbody>
-            </table>
-        </div>
-    </section>
-    <section class=""></section>
-</main>
+                        </a>
+                    </td>
+                </tr>
+                <% })%>
+            </tbody>
+        </table>
+    </div>
+</section>
