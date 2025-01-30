@@ -42,8 +42,51 @@
         </datalist>
       </form>
     </div>
-    <% if (categories) { %>
-      <div class="mt-2 mb-0 px-2 horizontal-nav">
+
+    </div>
+  </header>
+
+  <header class="navbar navbar-light bg-light py-3">
+    <div class="container">
+      <div class="navbar-brand">
+        <button id="btnShowSidebar" class="mx-0 btn btn-navbar-toggler">
+          <i class="navbar-toggler-icon"></i>
+        </button>
+        <a href="/" class="navbar-brand text-decoration-none mx-0">Central Market</a>
+      </div>
+      <div class="options d-flex">
+        <a id="btnShowSearch" class="option option-search text-end d-flex text-dark text-decoration-none">
+          <span class="d-none d-md-inline text-muted">Search for your products</span>
+          <i class="fas fa-search me-md-1"></i>
+        </a>
+        <div class="dropdown">
+          <a data-bs-toggle="dropdown" aria-expanded="false"
+                                                                                                                                  class="dropdown-toggle btn option d-flex text-dark text-decoration-none">
+            <i class="fas fa-user me-md-1"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-start">
+            <li><a href="/vendor/account" class="dropdown-item">Account</a></li>
+            <li><a href="/vendor/change-password" class="dropdown-item">Change Password</a></li>
+            <p class="dropdown-divider"></p>
+            <li><a href="/auth/logout" class="dropdown-item">Change Password</a></li>
+          </ul>
+        </div>
+        
+        
+        <a class="option d-flex text-dark text-decoration-none">
+          <i class="fas fa-bell fa-notification me-md-1"></i>
+        </a>
+      </div>
+    </div>
+    <div class="search-container container col-12 px-3">
+      <form action="/search" method="post" class="input-group">
+        <input class="form-control search-input placeholder-glow" type="search"
+                                                                                                                                placeholder="Search for products, categories and keywords">
+        <button class="btn btn-search btn-success">Go</button>
+      </form>
+    </div>
+      <% if (categories) { %>
+    <div class="mt-2 mb-0 px-2 horizontal-nav container">
       <% categories.forEach(category => {
         %>
         <a href="/category/<%= category %>" class="horizontal-nav-link">
@@ -53,6 +96,4 @@
       }) %>
     </div>
     <% } %>
-    </div>
   </header>
-
