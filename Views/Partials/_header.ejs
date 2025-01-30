@@ -30,14 +30,14 @@
         </a>
       </div>
     </div>
-    <div class="search-container container col-12 px-3">
+    <div class="search-container container-fluid col-12 px-3">
       <form action="/search" method="post" class="input-group">
         <input class="form-control search-input placeholder-glow" type="search"
                                                                                                                                 placeholder="Search for products, categories and keywords">
         <button class="btn btn-search btn-success">Go</button>
       </form>
     </div>
-      <% if (categories) { %>
+    <% if (categories) { %>
     <div class="mt-2 mb-0 px-2 horizontal-nav container">
       <% categories.forEach(category => {
         %>
