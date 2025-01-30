@@ -1,7 +1,16 @@
-const charArr = ["a", "b", "c", "d", "e", "f", 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-const ratings = [5, 4, 5, 5, 3, 1, 5, 3, 5, 5, 3, 4];
-//THIS RATING SHOULD COME FROM DATABASE
 
+// Array of characters used for generating random colors
+let charArray = ["a", "b", "c", "d", "e", "f", 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+// Array of ratings, this should come from database
+const ratings = [5, 4, 5, 5, 3, 1, 5, 3, 5, 5, 3, 4];
+
+
+
+/**
+ * getRatings()
+ * Fetches ratings data from the server.
+ * @returns {Promise<Response>} A promise that resolves to the fetched ratings data.
+ */
 const getRatings = async () => {
     try {
         const ratings = await fetch("/getRating", {
@@ -10,36 +19,84 @@ const getRatings = async () => {
                 "Content-Type": "application/json"
             }
         });
+         return ratings;
     } catch (err) {
-        console.error(err);
+        console.error("Error fetching ratings:", err);
+        return null; // Or handle error appropriately
     }
-
-    return ratings;
 };
 
+/**
+ * getRandomColor()
+ * Generates a random hexadecimal color code.
+ * @returns {string} A random color code in the format #RRGGBB.
+ */
 function getRandomColor() {
     let color = "#";
     for (let i = 0; i < 6; i++) {
         let ranInt = Math.floor(Math.random() * 16);
-        color += charArr[ranInt];
+        color += charArray[ranInt];
     }
     return color;
 }
-let cardImage = document.querySelectorAll(".card-image");
-let previewImage = document.querySelectorAll(".preview-image");
-randomImageColor(cardImage);
-randomImageColor(previewImage);
+
+/**
+ * randomImageColor()
+ * Applies a random background color to each image element in the provided NodeList.
+ * @param {NodeList} Images - A NodeList of HTML elements representing images.
+ */
 function randomImageColor(Images) {
     Images.forEach(image => {
-        //image.textContent += getRandomColor();
         image.style.backgroundColor = getRandomColor();
     });
 }
+// Select all card and preview images
+let cardImage = document.querySelectorAll(".card-image");
+let previewImage = document.querySelectorAll(".preview-image");
+// Apply random colors to card and preview images
+randomImageColor(cardImage);
+randomImageColor(previewImage);
 
+
+
+/**
+ * toggleDisplay()
+ * Function to toggle display of html element
+ * @param {HTMLElement} targetElement - The HTML element whose display will be toggled.
+ * @param {HTMLElement} control - The HTML element that triggers the toggle action.
+  * @param {string} event - The event that triggers the toggle action.
+ */
+const toggleDisplay = (targetElement, control, event) => {
+  control.addEventListener(event || "click", () => {
+    targetElement.style.display = targetElement.style.display === "block" ? "none" : "block"
+  })
+}
+// Select sidebar and buttons for toggle
+const sidebar = document.querySelector(".sidebar");
+const btnShowSidebar = document.getElementById("btnShowSidebar");
+const btnHideSidebar = document.getElementById("btnHideSidebar");
+// Implement toggle display for sidebar
+toggleDisplay(sidebar, btnShowSidebar);
+toggleDisplay(sidebar, btnHideSidebar)
+
+// Select search container and button for toggle
+const searchCont = document.querySelector(".search-container")
+const btnShowSearch = document.querySelector("#btnShowSearch")
+// Implement toggle display for search container
+toggleDisplay(searchCont, btnShowSearch)
+
+
+
+
+// Select search elements
 const btnSearch = document.querySelector("#btnSearch");
 const searchContainer = document.querySelector("#searchContainer");
 const searchInput = document.querySelector("#searchInput");
 
+/**
+ * showSearchCont()
+ * Toggles the visibility of the search container.
+ */
 const showSearchCont = () => {
     let searchDisplay = searchContainer.style.visibility;
 
@@ -50,14 +107,20 @@ const showSearchCont = () => {
         searchInput.focus();
     }
 };
-
+// Add event listeners to toggle search container
 searchContainer.addEventListener("blur", showSearchCont);
 btnSearch.addEventListener("click", showSearchCont);
 
+/**
+ * getAverage()
+ * Calculates the average of numeric values in an array.
+ * @param {Array<number>} arr - An array of numbers.
+ * @returns {number} The average of the numeric values in the array.
+ */
 function getAverage(arr) {
     let sum = 0;
     let average;
-    for (i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
         if (typeof arr[i] === "number") {
             sum += arr[i];
         }
@@ -65,6 +128,16 @@ function getAverage(arr) {
     average = sum / arr.length;
     return average;
 }
+
+/**
+ * createElement()
+ * Creates an HTML element with specified attributes and appends it to a parent element.
+ * @param {string} parentId - The ID of the parent HTML element.
+ * @param {string} tag - The HTML tag name for the new element.
+ * @param {string|Array<string>} classes - A string or array of CSS class names for the new element.
+ * @param {string} textContent - The text content for the new element.
+ * @param {string} src - The source URL for the new element if its a img or href for anchor element
+ */
 function createElement(parentId, tag, classes, textContent, src) {
     let element = document.createElement(tag);
     let parent = document.getElementById(parentId);
@@ -84,43 +157,62 @@ function createElement(parentId, tag, classes, textContent, src) {
     parent.append(element);
 }
 
+/**
+ * ratingStars()
+ * Creates star elements based on the average rating and appends them to the specified container.
+ */
 function ratingStars() {
     let avgRating = Math.ceil(getAverage(ratings));
 
-    for (i = 0; i < avgRating; i++) {
+    for (let i = 0; i < avgRating; i++) {
         createElement("ratingStars", "span", ["fa", "fa-star"]);
     }
-    for (i = 0; i < 5 - avgRating; i++) {
+    for (let i = 0; i < 5 - avgRating; i++) {
         createElement("ratingStars", "span", ["fa-regular", "fa-star"]);
     }
 }
+// Create rating stars on page load
 ratingStars();
 
+// Select the cart button
 const btnCart = document.getElementById("btnCart");
+// Get the offset top of the cart button
 const threshold = btnCart.offsetTop;
-//console.log(threshold)
+
+/**
+ * Event listener for window scroll that adds or removes sticky class
+ * based on user scroll Y position
+ */
 window.addEventListener("scroll", () => {
     if (window.scrollY >= threshold) {
         btnCart.classList.add("sticky");
-        //console.log("ive passed by "+ window.scrollY)
     } else {
         btnCart.classList.remove("sticky");
     }
 });
+// Remove sticky from the cart if widnow size is greater than 600px
 if (window.width >= 600) {
     btnCart.classList.remove("sticky");
 }
-
+// Select all tag button elements
 const btnTag = document.querySelectorAll(".btn-tag");
+
+/**
+ * Event listener for tag button that post the tag name to server
+ */
 btnTag.forEach(tag => {
     tag.addEventListener("click", async e => {
-        //e.preventDefault();
+        e.preventDefault();
         let searchTerm = tag.textContent;
         await postSearch(searchTerm);
         console.log(searchTerm);
     });
 });
-
+/**
+ * postSearch()
+ * Post search term to the server and replaces the body of the document with the response
+ * @param {string} searchTerm - The search term to be sent to the server.
+ */
 const postSearch = async searchTerm => {
     try {
         let response = await fetch("/search", {
@@ -142,19 +234,23 @@ const postSearch = async searchTerm => {
         console.error("Error:", err);
     }
 };
-
+/**
+ * showPassword()
+ * Toggle the password type between text and password
+ */
 const showPassword = () => {
     const inputPassword = document.getElementById("password");
     const confirmPassword = document.getElementById("confirmPassword");
-    console.log(inputPassword.type);
-
     const isVisible = inputPassword.type === "text";
 
     inputPassword.type = isVisible ? "password" : "text";
     confirmPassword.type = isVisible ? "password" : "text";
 };
-
+// select the show password buttons
 const btnShowPassword = document.querySelectorAll(".btnShowPassword");
+/**
+ * Event listener for show password button
+ */
 btnShowPassword.forEach(btn => {
     btn.addEventListener("click", e => {
         e.preventDefault();
@@ -162,7 +258,14 @@ btnShowPassword.forEach(btn => {
     });
 });
 
+// PLACE ORDER FUNCTION
 const placeOrder = () => {};
+
+
+/**
+ * search()
+ * Sends search term to the server via post request (IN PROGRESS)
+ */
 const search = async (req, res) => {
     try {
         const tagElements = document.querySelectorAll(".btn-tag");
@@ -181,8 +284,12 @@ const search = async (req, res) => {
     }
 };
 
-const btnAddCart = document.querySelectorAll(".btn-add-cart");
 
+// Select all add to cart buttons
+const btnAddCart = document.querySelectorAll(".btn-add-cart");
+/**
+ * Event listener for add to cart buttons
+ */
 btnAddCart.forEach(btn => {
     btn.addEventListener("click", async e => {
         e.preventDefault();
