@@ -24,9 +24,11 @@
         <input class="form-control col-9" list="searchSuggestions" type="search" placeholder="Search for products, categories and keywords">
         <button class="btn btn-search btn-success col-2 col-md-1">Go</button>
         <datalist id="searchSuggestions">
+          <% if(locals.searchSuggestions){ %>
           <% locals.searchSuggestions.forEach(suggestion=>{ %>
             <option value="<%=suggestion.searchTerm%>"></option>
           <% }) %>
+          <% } %>
         </datalist>
       </form>
     </div>
