@@ -1,37 +1,45 @@
-<header class="navbar-dark header">
-  <div class="container py-3">
-    <div class="brand">
-      <button
-        class="navbar-toggler"
-        data-bs-toggle="collapse"
-        data-bs-target="#sideNav"
-        >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a href="/" class="logo-image navbar-brand text-decoration-none ">
-        <img src="/IMG/text-logo.png" class="img-fluid d-inline" alt="Central Market">
-      </a>
+<header class="navbar header navbar-light bg-liht py-3">
+    <div class="container">
+      <div class="navbar-brand">
+        <button id="btnShowSidebar" class="mx-0 btn btn-navbar-toggler">
+          <i class="navbar-toggler-icon"></i>
+        </button>
+        <a href="/" class="navbar-brand text-decoration-none mx-0">Central Market</a>
+      </div>
+      <div class="options d-flex">
+        <a id="btnShowSearch" class="option option-search text-end d-flex text-dark text-decoration-none">
+          <span class="d-none d-md-inline text-muted">Search for your products</span>
+          <i class="fas fa-search me-md-1"></i>
+        </a>
+        <a class="option d-flex text-dark text-decoration-none">
+          <i class="fas fa-user me-md-1"></i>
+        </a>
+        <a class="option d-flex text-dark text-decoration-none">
+          <i class="fas fa-cog me-md-1"></i>
+        </a>
+      </div>
     </div>
-    <div class="options">
-      <span class="p-2 search" id="btnSearch">
-        <span class="text-decoration-none fa fa-search"></span>
-        <span  class="d-none d-lg-inline text-decoration-none">Search</span>
-      </span>
-      <span class="p-2 user">
-        <a href="/auth/login" class="text-decoration-none fa fa-user"></a>
-        <a href="/auth/login" class="d-none d-lg-inline text-decoration-none">Account</a>
-      </span>
-      <span class="p-2 cart">
-        <a href="/cart" class="text-decoration-none fa fa-shopping-cart"></a>
-        <a href="/cart" class="d-none d-lg-inline text-decoration-none">Cart</a>
-      </span>
+    <div class="search-container col-10 px-3">
+      <form action="/search" method="post" class="d-flex justify-content-center align-items-center">
+        <input class="form-control col-9" list="searchSuggestions" type="search" placeholder="Search for products, categories and keywords">
+        <button class="btn btn-search btn-success col-2 col-md-1">Go</button>
+        <datalist id="searchSuggestions">
+          <% locals.searchSuggestions.forEach(suggestion=>{ %>
+            <option value="<%=suggestion.searchTerm%>"></option>
+          <% }) %>
+        </datalist>
+      </form>
     </div>
-    <% if(categories){ %>
-    <div class="mt-2 mb-0 px-2 horizontal-nav">
-        <% categories.forEach(category=>{ %>
-          <a href="/category/<%= category %>"class="nav-link"> <%= category %></a>
-        <% }) %>
+    <% if (categories) { %>
+      <div class="mt-2 mb-0 px-2 horizontal-nav">
+      <% categories.forEach(category => {
+        %>
+        <a href="/category/<%= category %>" class="horizontal-nav-link">
+          <%= category %>
+        </a>
+        <%
+      }) %>
     </div>
     <% } %>
-  </div>
-</header>
+  </header>
+
