@@ -110,21 +110,79 @@ router.get("/preview/:id", async (req, res) => {
   }
 });
 
+// router.all("/search", async (req, res) => {
+//   try {
+//     const allProducts = await Product.find({});
+//     const relatedProducts = relatedProductsFunc(allProducts, 18);
+//     const categories = await Product.distinct("category");
+
+//     let { searchTerm } = req.query || req.body
+//     let { userId } = req.session
+
+//     const symbols = /[</\\>&;//]/gi
+//     searchTerm = searchTerm.replace(symbols, " ").trim();
+
+
+//     //const searchTerm = req.body.searchTerm.trim();
+//     let regex = new RegExp(searchTerm, "gi");
+
+//     const searchResults = await Product.find({
+//       $or: [
+//         { description: regex },
+//         { name: regex },
+//         { tags: regex },
+//         { category: regex },
+//         { subCategory: regex }
+//       ]
+//     });
+
+//     // const searchResults = await Product.find({
+//     //     $text: {
+//     //         $search: searchTerm
+//     //     },
+//     //     score: { $meta: "textScore" }
+//     // })
+//     //     .sort({ score: { $meta: "textScore" } })
+//     //     .lean();
+
+//     if (searchResults.length === 0) {
+//       console.log(searchTerm, "brought no results ");
+//       res.render("Pages/empty-search", {
+//         searchTerm,
+//         categories,
+//         relatedProducts,
+//         locals
+//       });
+//     } else {
+//       res.render("Pages/search.ejs", {
+//         searchResults,
+//         searchTerm,
+//         categories,
+//         locals
+//       });
+//     }
+//   } catch (err) {
+//     console.error("Error in search route:", err);
+//     res.status(500).send("Internal Server Error");
+//     // res.status(500).render("Pages/500");
+//   }
+// });
 router.all("/search", async (req, res) => {
   try {
-    const allProducts = await Product.find({});
+    const allProducts = await Product.find({}).populate("vendorId");
     const relatedProducts = relatedProductsFunc(allProducts, 18);
     const categories = await Product.distinct("category");
 
-    let { searchTerm } = req.query || req.body
+    console.log(req.body)
+    let { searchTerm } = req.body || req.query   
+    console.log(req.body, searchTerm)
     let { userId } = req.session
-
+    
     const symbols = /[</\\>&;//]/gi
     searchTerm = searchTerm.replace(symbols, " ").trim();
 
-
-    //const searchTerm = req.body.searchTerm.trim();
     let regex = new RegExp(searchTerm, "gi");
+
 
     const searchResults = await Product.find({
       $or: [
@@ -134,9 +192,45 @@ router.all("/search", async (req, res) => {
         { category: regex },
         { subCategory: regex }
       ]
+      // $text: {
+      //         $search: searchTerm,
+      //         $caseSensitive: false,
+      //         $diacriticSensitive: false
+      //       },
+      //       score: { $meta: "textScore" },
+      //     }, {
+      //       projection: {
+      //         name: 1,
+      //         price: 1,
+      //         previewCount: -1
+      //       }
     });
 
-    // const searchResults = await Product.find({
+    let newSearchResults = []
+    searchResults.forEach(data => {
+      data.productId = data._id
+
+      let productObj = {
+        productId: data._id,
+        matchPoint: "name"
+      }
+
+      newSearchResults.push(productObj)
+      //console.log(data.productId)
+    })
+
+    const newSearch = new Search({
+      searchResults: newSearchResults,
+      userId: userId || null,
+      searchTerm
+    })
+
+
+
+    await newSearch.save().then(() => {
+      console.log("search data saved")
+    })
+    //  const searchResults = await Product.find({
     //     $text: {
     //         $search: searchTerm
     //     },
