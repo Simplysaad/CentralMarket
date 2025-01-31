@@ -116,7 +116,9 @@ router.post("/search", async (req, res) => {
         const relatedProducts = relatedProductsFunc(allProducts, 18);
         const categories = await Product.distinct("category");
 
-        const searchTerm = req.body.searchTerm.trim() || req.query.searchTerm;
+        
+        const searchTerm = req.query.searchTerm.trim();
+        //const searchTerm = req.body.searchTerm.trim();
         let regex = new RegExp(searchTerm, "gi");
 
         const searchResults = await Product.find({
