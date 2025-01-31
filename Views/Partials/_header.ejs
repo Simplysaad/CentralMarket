@@ -1,5 +1,5 @@
   <header class="navbar header navbar-light bg-light py-3">
-    <div class="container">
+    <div class="container-fluid">
       <div class="navbar-brand">
         <button id="btnShowSidebar" class="mx-0 btn btn-navbar-toggler">
           <i class="navbar-toggler-icon"></i>
@@ -46,7 +46,7 @@
       </form>
     </div>
    <% if (categories) { %>
-      <div class="mt-2 mb-0 px-2 container horizontal-nav">
+      <div class="mt-2 mb-0 px-2 container-fluid horizontal-nav">
       <% categories.forEach(category => {
         %>
         <a href="/category/<%= category %>" class="horizontal-nav-link">
