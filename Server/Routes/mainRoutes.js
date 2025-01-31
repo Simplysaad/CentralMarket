@@ -110,7 +110,7 @@ router.get("/preview/:id", async (req, res) => {
     }
 });
 
-router.post("/search", async (req, res) => {
+router.all("/search", async (req, res) => {
     try {
         const allProducts = await Product.find({});
         const relatedProducts = relatedProductsFunc(allProducts, 18);
