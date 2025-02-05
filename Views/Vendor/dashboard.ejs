@@ -56,12 +56,12 @@
   <canvas id="performanceGraph"></canvas>
 </section>
 <section id="productsSection" class="my-5">
-  <div class="products-header d-flex justify-content-between align-items-center">
+  <div class="products-header d-flex justify-content-between align-items-baseline">
     <h3 class="display-6 text-heading">
       Top performing products
       <p class="text-muted fs-6">By percentage sold</p>
     </h3>
-    <a href="/products/" class="btn  btn-outline-success">Manage Products</a>
+    <a href="/vendor/products/" class="btn  btn-outline-success">Manage Products</a>
   </div>
   <div class="table-responsive">
     <table class="table text-nowrap table-striped ">
@@ -143,13 +143,14 @@
 </section>
 
 <section id="ordersSection" class="my-5">
-  <div class="products-header d-flex justify-content-between align-items-center">
+  <div class="products-header d-flex justify-content-between align-items-baseline">
     <h3 class="display-6 text-heading">
       Recent Orders
       <p class="text-muted fs-6">By Time Made</p>
     </h3>
-    <!-- <a href="/orders/" class="btn btn-outline-success">Manage Products</a> -->
+    <a href="/vendor/orders/" class="btn  btn-outline-success">Manage Orders</a>
   </div>
+
   <div class="table-responsive text-nowrap">
     <table class="table table-striped table-hover">
       <thead>
@@ -188,7 +189,7 @@
 
 
 
-<form action="/vendor/add-product" method="post" class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
+<form action="/vendor/products/add" method="post" class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
                                                                                                                         aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
