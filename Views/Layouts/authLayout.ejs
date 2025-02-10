@@ -9,7 +9,7 @@
         <meta property="og:image" content="<%= locals.imageUrl%>" />
         <meta charset="utf-8" />
         <meta name="author" content="simplysaad" />
-        <meta name="google-site-verification" content="bnG1Q_dq5p2qZnQ-0t4evRDnAGEV8a7nc8iem6LRy3E" />
+        <meta name="google-signin-client_id" content="7pd31h738e1degauam2hjavhvfputbso.apps.googleusercontent.com">
         <link rel="stylesheet" href="/CSS/style.css" />
         <link rel="icon" href="/IMG/favicon.png" type="image/x-icon">        
         <link
@@ -20,13 +20,15 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         />
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
     </head>
     <body>
-    <%#- include("../partials/_header")%>
-    <%#- include("../partials/_search")%>
+    <%#- include("../Partialsartials/_header")%>
+    <%#- include("../Partials/_search")%>
     
-    <main>
+    <main class="d-flex flex-column justify-content-center align-items-center">
       <a href="/" class="m-1 p-3 text-decoration-none fa-2x text-secondary float-left fa fa-home"></a>
+      <div class="g-signin2 my-3" data-onsuccess="onSignIn"></div>
       <%- body %>
     </main>
     
@@ -35,5 +37,14 @@
         <!-- <script src="/JS/login.js"></script> -->        
         <!-- <script src="/JS/register.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.js"></script>
+        <script>
+          function onSignIn(googleUser) {
+var profile = googleUser.getBasicProfile();
+ console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+console.log('Name: ' + profile.getName());
+console.log('Image URL: ' + profile.getImageUrl());
+console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
+        </script>
     </body>
 </html>
