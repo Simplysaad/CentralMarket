@@ -129,15 +129,17 @@ nav .logo a {
     justify-content: space-between;
     align-items: center;
   }
-  .option-search.header-search{
+  
+  .option-search.header-search {
     min-width: 350px;
     transition: width 1s ease-out;
-
+    
   }
+  
   .sidebar {
     height: 100vh;
     display: block;
-    min-width: 250px;
+    width: 100%;
     background-color: var(--bg-dark);
     padding-top: 20px;
     overflow: hidden;
@@ -154,7 +156,7 @@ nav .logo a {
     position: fixed;
     top: 0;
     left: 0;
-    width: 320px;
+    min-width: 70%;
     background: none;
     z-index: 2;
   }
@@ -165,7 +167,6 @@ nav .logo a {
   padding-top: 20px;
   overflow: hidden;
   z-index: 2;
-  background: green;
   overflow-y: auto;
 }
 
@@ -297,8 +298,8 @@ nav .logo a {
 
 /* Hover effect for button */
 .search-container .search-group .btn:hover {
-  background-color: var(--bg-green-accent);
-  color: var(--text-light);
+  background-color: var(--bg-green-fade);
+  color: var(--text-dark);
 }
 
 /* ========================================== */
@@ -364,12 +365,15 @@ nav .logo a {
 .product-card .card-image {
   height: 10rem;
   overflow: hidden;
+  background: inherit;
 }
 
 .card-body .card-title {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  display: block;
+  text-decoration: none;
 }
 
 .section-heading {
@@ -384,7 +388,6 @@ nav .logo a {
 .product-page {
   max-width: 1200px;
   margin: 20px auto;
-  padding: 0 20px;
 }
 
 .product-preview {
@@ -392,12 +395,12 @@ nav .logo a {
   justify-content: space-between;
   gap: 20px;
   margin-bottom: 40px;
+  padding: 32px 16px;
 }
 
-.product-image img {
+.product-image img,
+.card-image {
   width: 100%;
-  max-width: 500px;
-  object-fit: contain;
 }
 
 .product-details {
@@ -584,7 +587,7 @@ nav .logo a {
   
   .preview-image {
     max-height: 600px;
-    width: 100%;
+    max-width: 100%;
     overflow: hidden;
     margin: 0;
     grid-area: 1/1 / span 3/ 1;
@@ -630,7 +633,8 @@ nav .logo a {
 
 .preview-image {
   height: 50vh;
-  margin: 30px auto;
+  margin: 22px auto;
+  max-width: 100%;
 }
 
 .carousel .carousel-item {
@@ -674,46 +678,59 @@ nav .logo a {
 
 .cart-group .cart-item {
   display: flex;
+  flex-direction: column;
 }
 
-.cart-item .quantity {
+.cart-item .extra-info,
+.cart-item .main-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-item .main-info .quantity {
   width: 5%;
   color: var(--text-medium);
   font-weight: bolder;
   color: var(--text-danger);
 }
 
-.cart-item .name {
-  width: 45%;
-  overflow: hidden;
+.cart-item .main-info .name {
+  width: 60%;
+  text-align: start;
+  display: inline-flex;
+  overflow: scroll;
   white-space: nowrap;
   text-overflow: ellipsis;
   padding: 0 10px;
 }
 
-.cart-item .price {
-  width: 20%;
-  text-align: left;
+.cart-item .main-info .price {
+  width: 25%;
+  text-align: end;
   margin-right: 10px;
 }
 
-.cart-item .btn-group {
-  width: 22%;
-  background: none;
+.cart-item .extra-info .btn-group {
+  width: 40%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.cart-item .extra-info .cart-spec {
+  width: 60%;
+  text-align: start;
+  margin-top: 1rem;
+  color: var(--text-secondary);
+}
+
 
 .cart-total {
   text-align: right;
   margin-left: 0;
 }
 
-.cart-spec {
-  margin-top: 1rem;
-  color: var(--text-secondary);
-}
 
 /* ========================================== */
 /*          Empty Cart Styles               */
