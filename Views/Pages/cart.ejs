@@ -1,35 +1,39 @@
-<section class="container py-5">
   <h1 class="display-4 text-center mb-4">Your Shopping Cart</h1>
   
   <% if (!isCartEmpty) { %>
-    <form action="/place-order" method="post" id="placeOrderForm" class="mb-5">
+    <form action="/order/place" method="post" id="placeOrderForm" class="mb-5">
       <div class="cart-group">
-        <h3 class="fs-3 cart-title mb-4">Items in Your Cart</h3>
+        <h3 class="fs-3 cart-title mb-4"><%= cartItems.length + " " %> Items in Your Cart</h3>
         
         <% cartItems.forEach((item) => { %>
-          <div class="cart-box mb-4 p-3 border rounded shadow-sm">
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="cart-item">
-                <span class="quantity me-3">x<%= item.quantity %></span>
-                <a href="/preview/<%= item._id %>" class="text-dark text-decoration-none name"><%= item.name %></a>
-                <span class="price ms-3">₦<%- item.price.toLocaleString() %></span>
-              </div>
-              <div class="btn-group btn-group-sm">
-                <a class="btn btn-outline-danger" href="/remove-item/<%= item._id %>?color=<%= item.color || 'default' %>&size=<%= item.size || 'default' %>">
-                  <span class="fa fa-minus"></span> Remove
-                </a>
-                <input type="number" class="form-control form-control-sm mx-2" value="<%= item.quantity || 1 %>" style="width: 60px;">
-                <a class="btn btn-outline-success" href="/add-cart/<%= item._id %>?color=<%= item.color %>&size=<%= item.size %>">
-                  <span class="fa fa-plus"></span> Add
-                </a>
-              </div>
-            </div>
-            
-            <div class="cart-spec text-end mt-2">
-              <span class="color mx-1">Color: <%= item.color %></span>
-              <span class="size mx-1">Size: <%= item.size %></span>
-            </div>
+      <div class="cart-box mb-4 p-3 border rounded shadow-sm">
+        <div class="cart-item">
+          <div class="main-info d-flex flex-nowrap justify-content-between align-items-center">
+            <span class="quantity me-">x<%= item.quantity %></span>
+            <a href="/preview/<%= item._id %>" class="text-dark text-decoration-none name"><%= item.name %></a>
+            <span class="price ms-">₦<%= item.price.toLocaleString() %></span>
           </div>
+        
+        <div class="extra-info d-flex my-3 border p-2 justify-content-between align-items-center">
+          <div class="cart-spec text-start mt-2">
+            <span class="color mx-1">Color: <%= item.color %></span>
+            <span class="size mx-1">Size: <%= item.size %></span>
+          </div>
+          <div class="btn-group btn-group-sm">
+            <a class="btn btn-outline-danger" href="/cart/<%= item._id %>/remove?color=<%= item.color || 'default' %>&size=<%= item.size || 'default' %>">
+              <span class="fa fa-minus"></span>
+              <span class="d-none d-lg-inline">Remove</span>
+            </a>
+            <input id="inputQuantity" data-product-id="<%= item._id %>" type="number" class="input-quantity border btn mx-1" value="<%= item.quantity %>" style="width: 40px;">
+            <a class="btn btn-outline-success" href="/cart/<%= item._id %>/add?color=<%= item.color %>&size=<%= item.size %>">
+              <span class="fa fa-plus"></span>
+              <span class="d-none d-lg-inline">Add</span>
+            </a>
+          </div>
+        </div>
+        </div>
+        
+      </div>
         <% }) %>
         
         <div class="cart-total mt-4 d-flex justify-content-between align-items-center">
@@ -55,4 +59,40 @@
       <a href="/" class="btn btn-outline-primary">Continue Shopping</a>
     </div>
   <% } %>
-</section>
+  
+  
+  <script>
+    
+    const inputQuantityElements = document.querySelectorAll(".input-quantity")
+inputQuantityElements.forEach(inputElement => {
+  inputElement.addEventListener("change", async (e) => {
+    const productId = inputElement.dataset.productId;
+    let url = `/cart/${productId}/add?quantity=${inputElement.value}&color=default&size=default`
+    try {
+      console.log("Updating Cart quantity...")
+      let response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error: status ${response.status}`)
+      }
+      else {
+        console.log("Cart quantity.updated successfully")
+        window.history.go(0)  
+       // window.location.reload()  
+        }
+    }
+    catch (err) {
+      console.error(err)
+    }
+  })
+})
+
+    
+    
+
+  </script>
