@@ -1,8 +1,8 @@
-<nav id="sidebar" class="random-colo pt-5 pt-md-3 col-md-4 sidebar z-3 bg-light ">
+<nav id="sidebar" class="col-md-4 col-lg-3 sidebar bg-light navbar-light">
   <div id="btnHideSidebar" class=" navbar-toggler text-end d-flex justify-content-end">
     <a class="btn-close p-1 px-4"></a>
   </div>
-  <div class="nav-heading text-center my-4">
+  <div class="nav-heading  my-4">
     <div class="nav-logo my-3">
       <img src="favicon.png" class="img-fluid mx-1 profile-img" alt="CM">
     </div>
@@ -14,13 +14,13 @@
   <ul class="overflow-scroll nav-links px-2">
     <a href="/dashboard" class=" text-decoration-none fs6 text-uppercase text-muted">My account</a>
     <li class="nav-link">
-      <a href="/orders"><i class="fas fa-shopping-cart"></i> Orders</a>
+      <a href="/cart"><i class="fas fa-shopping-cart"></i> Cart</a>
     </li>
     <li class="nav-link">
       <a href="/wishlist" class="active"><i class="fas fa-list"></i> Wishlist</a>
     </li>
     <li class="nav-link">
-      <a href="/reviews"><i class="fas fa-clock"></i>Pending Reviews</a>
+      <a href="/reviews"><i class="fas fa-star-half"></i>Reviews</a>
     </li>
     <li class="nav-link">
       <a href="/history"><i class="fas fa-history"></i>History</a>
@@ -31,8 +31,7 @@
   <a href="/category/" class="text-decoration-none fs-6 text-uppercase text-muted">categories</a>
   <% if (categories) { %>
     <ul class="nav-links">
-      <% categories.forEach(category=> {
-        %>
+      <% categories.forEach(category=> {%>
         <li class="nav-link">
           <a href="/category/<%= category %>" class="nav-link">
             <i class="fas fa-tag"></i>
