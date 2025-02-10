@@ -11,7 +11,7 @@
           <i class="d-md-none fas fa-search"></i>
         </a>
         <form action="/search" method="post" class="option-search header-search search-box d-none col-5 d-md-flex justify-content-between align-items-center">
-          <input list="searchSuggestions" name="searchTerm" class="search-input border-0 col-10 text-muted" placeholder="Search for products" type="search">
+          <input list="searchSuggestions" required name="searchTerm" class="search-input border-0 col-10 text-muted" placeholder="Search for anything" type="search">
           <button class="border-0 fa fa-search col-md-1"></button>
         </form>
         <div class="dropdown">
@@ -19,7 +19,7 @@
             <i class="fas fa-user me-md-1"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-start">
-            <li><a href="/vendor/account" class="dropdown-item">Account</a></li>
+            <li><a href="/vendor/dashboard" class="dropdown-item">Account</a></li>
             <li><a href="/vendor/change-password" class="dropdown-item">Change Password</a></li>
             <p class="dropdown-divider"></p>
             <li><a href="/auth/logout" class="dropdown-item">Logout</a></li>
@@ -32,7 +32,7 @@
     </div>
     <div class="d-md-none d-sm-none search-container col-12 d-flex justify-content-center p-2">
       <form action="/search" method="post" class="d-flex search-group col-10 col-md-7 justify-content-between bg-back">
-        <input list="searchSuggestions" type="search" class="search-input border p-1" name="searchTerm" id="searchTerm" placeholder="Search">
+        <input required list="searchSuggestions" type="search" class="search-input border p-1" name="searchTerm" id="searchTerm" placeholder="Search for anything">
         <button class="ms- btn btn-outline-success" type="submit">
           Go
         </button>
