@@ -6,33 +6,27 @@
       </div>
       <div class="category-body flex-wrap pt-2">
         <% categoryItems.forEach((product)=> {%>
-            <div class="col-6 col-md-4 col-lg-3 p-0 mx- border product-card ">
-              <div class="card-image m-0">
-                <img src="/Uploads/Products/<%= product.productImage %>" alt="<%- `${product.name}'s image` %>" class="overflow-hidden img-fluid" />
-              </div>
-            <div class="card-body p-0 m-2">
-              <p class="fs-6 card-title">
-                <%= product.name %>
-              </p>
-              <div class="">
-                <span class="card-price fs-5"
-                  ><%- product.currency = "NGN"? "₦":product.currency %><%= product.price %></span
-                >
-                <s class="old-price fs-6 text-danger"
-                  ><%- product.currency = "NGN"? "₦":product.currency %><%= product.price %></s
-                >
-              </div>
-              <a
-                href="/preview/<%= product._id %>"
-                class="btn btn-view btn-secondary col-12"
-                >
-                View
-              </a>
+        <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+          <div class="card-image m-0 p-3">
+            <img src="<%= product.productImage %>" alt="<%= product.name %>" class="random-colo overflow-hidden img-fluid" />
+          </div>
+          <div class="card-body p-0 m-2">
+            <a href="/preview/<%=product._id %>" class="text-dark fs-6 card-title">
+              <%=product.name %>
+            </a>
+            <div class="">
+              <span class="card-price fs-5">
+                <%= product.price %>
+              </span>
+              <s class="old-price fs-6 text-danger">
+                <%= product.price %>
+              </s>
             </div>
           </div>
-
+        </div>
           <%
         }) %>
     </div>
   </div>
 </section>
+
