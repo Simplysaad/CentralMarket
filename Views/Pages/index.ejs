@@ -1,6 +1,5 @@
-
-    <section class="carousel " data-bs-ride="carousel">
-      <div class="carousel-inner">
+   <section class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner bg-secondary">
         <% for (let i = 0; i < ads.length; i++) { %>
           <div class="carousel-item bg-secondary mx-auto
           <%= i === 0 ? 'active bg-success' : '' %>
@@ -13,10 +12,10 @@
       </div>
     </section>
 
-    <section id="productDisplay" class="container my-4 product-display">
+    <section id="productDisplay" class="my-4 product-display">
         <% categories.forEach((category)=>{ %>
 
-        <div class="category mt-3">
+        <div class="category category-section mt-3">
             <div
                 class="category-heading d-flex align-items-center justify-content-between"
             >
@@ -26,32 +25,29 @@
                     class=" fs-6 text-decoration-none"
                     >see all <span class="fa fa-arrow-right"></span
                 ></a>
-            </div>
-            <div class="category-body pt-2">
+            </div>    
+            <div class="d-flex flex- overflow-scroll category-items">
+
                 <% products.forEach((product)=>{ %>
                   <% if(product.category == category){ %>
-                    <div class="col-6 col-md-4 col-lg-3 p-0 mx-2 border product-card rounded">
-                    <div class="card-image m-0">
-                        <img src="<%= product.productImage || "/Uploads/Products/" + product.productImage %>"  alt="<%- `${product.name}'s image` %>" class="overflow-hidden img-fluid" />
+                  <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+                    <div class="card-image m-0 p-3">
+                      <img src="<%= product.productImage %>" alt="<%= product.name %>" class="random-colo overflow-hidden img-fluid" />
                     </div>
                     <div class="card-body p-0 m-2">
-                        <p class="fs-6 card-title"><%= product.name %></p>
-                        <div class="">
-                            <span class="card-price fs-5"
-                                ><%- product.currency == "NGN"? "₦":product.currency  %><%= product.price %></span
-                            >
-                            <s class="old-price fs-6 text-danger"
-                                ><%- product.currency == "NGN"? "₦":product.currency  %><%= product.price %></s
-                            >
-                        </div>
-                        <a
-                            href="/preview/<%= product._id %>"
-                            class="btn btn-view btn-secondary col-12"
-                        >
-                            View
-                        </a>
+                      <a href="/preview/<%=product._id %>" class="text-dark fs-6 card-title">
+                        <%=product.name %>
+                      </a>
+                      <div class="">
+                        <span class="card-price fs-5">
+                          <%= product.price %>
+                        </span>
+                        <s class="old-price fs-6 text-danger">
+                          <%= product.price %>
+                        </s>
+                      </div>
                     </div>
-                </div>
+                  </div>
                   <% } %>
                 <% }) %>
             </div>
