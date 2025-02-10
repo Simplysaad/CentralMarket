@@ -1,0 +1,387 @@
+<% if (featuredProducts){ %>
+  <section id="featuredSection" class="py-5 px-3 my-5 random-colo category-section">
+    <div class="section-heading">
+      <h3 class="text-heading me-2 display-6">
+        Featured Products
+      </h3>
+      <a href="/category/featured" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+    </div>
+    <div class="d-flex flex- overflow-scroll category-items">
+      <% featuredProducts.forEach(product=>{ %>
+        <div class="col-9 col-md-5 col-lg-4 p-0 m-2  product-card rounded">
+          <div class="card-image m-0 p-3">
+            <img src="<%=product.productImage %>" alt="product image" class="random-colo overflow-hidden img-fluid" />
+          </div>
+          <div class="card-body p-0 m-2">
+            <a href="/preview/<%=product._id %>" class="text-decoration-none text-dark fs-6 card-title">
+              <%=product.name %>
+            </a>
+            <div class="">
+              <span class="card-price fs-5">
+                <%=product.price %>
+              </span>
+              <s class="old-price fs-6 text-danger">
+                $700
+              </s>
+            </div>
+            <div class="product-desc">
+              <p class="desc-text">
+                <%=product.description %>
+              </p>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+    </div>
+  </section>
+  <% } %>
+    
+<% if(popularProducts){ %>
+  <section id="popularSection" class="py-5 px-3 my-5 random-colo category-section">
+    <div class="section-heading">
+      <h3 class="text-heading me-2 display-6">
+        Shop by Trending
+      </h3>
+      <a href="/category/trending" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+    </div>
+    <div class="d-flex flex- overflow-scroll category-items">
+      <% popularProducts.forEach(product=>{ %>
+        <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+          <div class="card-image m-0 p-3">
+            <img src="<%= product.productImage %>" alt="<%= product.name %>"
+                                                                                                                                    class="random-colo overflow-hidden img-fluid" />
+          </div>
+          <div class="card-body p-0 m-2">
+            <a href="/preview/<%=product._id %>" class="text-dark fs-6 card-title">
+              <%=product.name %>
+            </a>
+            <div class="">
+              <span class="card-price fs-5">
+                <%= product.price %>
+              </span>
+              <s class="old-price fs-6 text-danger">
+                <%= product.price %>
+              </s>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </section>
+  <% } %>
+        
+<% if(recentSearches){ %>
+  <section id="recentSearchesSection" class="py-5 px-3 my-5 random-colo category-section">
+    <div class="section-heading">
+      <h3 class="text-heading me-2 display-6">
+        Based on recent searches
+      </h3>
+      <a href="/category/recent-searches" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+    </div>
+    <div class="d-flex flex- overflow-scroll category-items">
+      <% recentSearches.forEach(product=>{ %>
+        <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+          <div class="card-image m-0 p-3">
+            <img src="<%= product.productImage %>" alt="<%= product.name %>"
+                                                                                                                                    class="random-colo overflow-hidden img-fluid" />
+          </div>
+          <div class="card-body p-0 m-2">
+            <a href="/preview/<%=product._id %>" class="text-decoration-none text-dark fs-6 card-title">
+              <%=product.name %>
+            </a>
+
+            <div class="">
+              <span class="card-price fs-5">
+                <%= product.price %>
+              </span>
+              <s class="old-price fs-6 text-danger">
+                $700
+              </s>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+          
+    </div>
+  </section>
+<% } %>
+            
+<% if (newArrivals){ %>
+<section id="newArrivalsSection" class="py-5 px-3 my-5 random-colo category-section">
+  <div class="section-heading">
+    <h3 class="text-heading me-2 display-6">
+      New Arrivals
+    </h3>
+    <a href="/category/new-arrivals" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+  </div>
+  <div class="d-flex flex- overflow-scroll category-items">
+    <% newArrivals.forEach(product=>{ %>
+      <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+        <div class="card-image m-0 p-3">
+          <img src="<%= product.productImage %>" alt="<%= product.name %>"
+                                                                                                                                  class="random-colo overflow-hidden img-fluid" />
+        </div>
+        <div class="card-body p-0 m-2">
+          <a href="/preview/<%=product._id %>" class="text-decoration-none text-dark fs-6 card-title">
+              <%=product.name %>
+          </a>
+
+          <div class="">
+            <span class="card-price fs-5">
+              <%= product.price %>
+            </span>
+            <s class="old-price fs-6 text-danger">
+              $700
+            </s>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+        
+  </div>
+</section>
+<% } %>
+                    
+                    
+<% if (topSellingProducts){ %>
+  <section id="topSellingSection" class="py-5 px-3 my-5 random-colo category-section">
+    <div class="section-heading ">
+      <h3 class="text-heading me-2 display-6">
+        Top Selling Products
+      </h3>
+      <a href="/category/top-selling" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+    </div>
+    <div class="d-flex flex- overflow-scroll category-items">
+      <% topSellingProducts.forEach(product=>{ %>
+        <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+          <div class="card-image m-0 p-3">
+            <img src="<%= product.productImage %>" alt="<%= product.name %>"
+                                                                                                                                    class="random-colo overflow-hidden img-fluid" />
+          </div>
+          <div class="card-body p-0 m-2">
+            <a href="/preview/<%=product._id %>" class="text-decoration-none text-dark fs-6 card-title">
+              <%=product.name %>
+            </a>
+
+            <div class="">
+              <span class="card-price fs-5">
+                <%= product.price %>
+              </span>
+              <s class="old-price fs-6 text-danger">
+                $700
+              </s>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+          
+    </div>
+  </section>
+<% } %>
+ 
+ <%# if (areaPopularProducts){%>
+  <section id="areaPopularSection" class="py-5 px-3 my-5 random-colo category-section">
+    <div class="section-heading">
+      <h3 class="text-heading me-2 display-6">
+        Popular in your Area
+      </h3>
+      <a href="/category/trending" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+    </div>
+    <div class="d-flex flex- overflow-scroll category-items">
+      <%# areaPopularProducts.forEach(product=>{ %>
+        <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+          <div class="card-image m-0 p-3">
+            <img src="<%#= product.productImage %>" alt="<%#= product.name %>"
+                                                                                                                                    class="random-colo overflow-hidden img-fluid" />
+          </div>
+          <div class="card-body p-0 m-2">
+            <a href="/preview/<%#=product._id %>" class="text-decoration-none text-dark fs-6 card-title">
+              <%#=product.name %>
+            </a>
+            <div class="">
+              <span class="card-price fs-5">
+                <%#= product.price %>
+              </span>
+              <s class="old-price fs-6 text-danger">
+                $700
+              </s>
+            </div>
+          </div>
+        </div>
+        <%# }) %>
+    </div>
+  </section>
+<%# } %>
+                
+<section id="dealsSection" class="py-5 px-3 my-5 random-colo category-section">
+  <div class="section-heading">
+    <h3 class="text-heading me-2 display-6">
+      Today's deals
+    </h3>
+    <a href="/category/today-deals" class=" text-decoration-none  text-dark"></a>
+  </div>
+  <div class="d-flex flex- overflow-scroll category-items">
+    <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+      <div class="card-image m-0 p-3">
+        <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+      </div>
+      <div class="card-body p-0 m-2">
+        <p class="fs-6 card-title">
+          Infinix Smart 7
+        </p>
+        <div class="">
+          <span class="card-price fs-5">
+            $700
+          </span>
+          <s class="old-price fs-6 text-danger">
+            $700
+          </s>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+      
+ 
+                        
+<section id="testimonialSection" class="col-md-9 py-5 mx-auto px-3 my-5 random-colo category-section">
+  <div class="section-heading">
+    <h3 class="text-heading text-center me-2 display-6">
+      What Our Customers Say!
+    </h3>
+  </div>
+  <div class="testimonial-carousel carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item mx-auto col-md-7 border testimoial">
+        <div class="testimonial-image">
+          <img src="customer-image.jpg" alt="Customer Image">
+        </div>
+        <div class="testimonial-content">
+          <p class="testimonial-text">
+            "I was amazed by the quality of products from local vendors. The website is
+            easy to navigate and the customer support is excellent!"
+          </p>
+          <p class="testimonial-author">
+            - Emily R., Happy Customer
+          </p>
+        </div>
+      </div>
+      <div class="carousel-item mx-auto col-md-7 border active testionial">
+        <div class="testimonial-image">
+          <img src="customer-image.jpg" alt="Customer Image">
+        </div>
+        <div class="testimonial-content">
+          <p class="testimonial-text">
+            "I l Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, saepe
+            aliquid iusto illo laborum fuga necessitatibus vero!"
+          </p>
+          <p class="testimonial-author">
+            Rad delphi., Happy Customer
+          </p>
+        </div>
+      </div>
+      <div class="carousel-item mx-auto col-md-7 border testimnial">
+        <div class="testimonial-image">
+          <img src="customer-image.jpg" alt="Customer Image">
+        </div>
+        <div class="testimonial-content">
+          <p class="testimonial-text">
+            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
+            laborum facere eaque ducimus!"
+          </p>
+          <p class="testimonial-author">
+            - Emily R., Happy Customer
+          </p>
+        </div>
+      </div>
+      <div class="carousel-item mx-auto col-md-7 border testionial">
+        <div class="testimonial-image">
+          <img src="customer-image.jpg" alt="Customer Image">
+        </div>
+        <div class="testimonial-content">
+          <p class="testimonial-text">
+            " Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
+            itaque, ipsum omnis iusto ipsa provident assumenda deserunt suscipit, error quasi
+            consequatur."
+          </p>
+          <p class="testimonial-author">
+            - Emily R., Happy Customer
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<%# if(frequentlyAskedQuestions){ %>
+  <section id="FAQSection">
+    <div class="text-heading fs-4">
+      Frequently Asked Questions
+    </div>
+    <div class="accordion accordion-flush" id="FaqAccordion">
+      <div class="accordion-body">
+        <%# frequentlyAskedQuestions.forEach(question=>{ %>
+          <div class="accordion-item">
+            <div class="text-heading accordion-header">
+              <button class="accordion-button collapsed" aria-expanded="false" aria-controls="  <%#= " accordionItem" + (frequentlyAskedQuestions.indexOf(question)
+                                                                                                                                      +
+                                                                                                                                      1)
+                                                                                                                                      %>"
+                data-bs-target="#<%#= "accordionItem" + (frequentlyAskedQuestions.indexOf(question) + 1)
+                                                                                                                                        %>
+                  " data-bs-toggle="collapse">
+                  <%#= question.title %>
+              </button>
+            </div>
+            <div class="accordion-collapse collapse" data-bs-parent="#FaqAccordion" id="<%#= " accordionItem" + (frequentlyAskedQuestions.indexOf(question)
+                                                                                                                                    +
+                                                                                                                                    1)
+                                                                                                                                    %>
+              ">
+              <p class="accordion-body">
+                <%#= question.answer %>
+              </p>
+            </div>
+          </div>
+          <%# }) %>
+            
+            <div class="accordion-item">
+              <div class="text-heading accordion-header">
+                <button class="accordion-button collapsed" aria-expanded="false" aria-controls="accordionItem2" data-bs-target="#accordionItem2"
+                                                                                                                                        data-bs-toggle="collapse">
+                  Can i get Free delivery on all my orders
+                </button>
+              </div>
+              <div class="accordion-collapse collapse" data-bs-parent="#FaqAccordion"
+                                                                                                                                      id="accordionItem2">
+                <p class="accordion-body">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
+                  doloremque corporis! Nobis corporis culpa saepe, et in enim ipsam
+                  eos obcaecati soluta voluptatum, corrupti reiciendis beatae optio quod
+                  neque veniam, provident
+                  facere qui dicta illum voluptates! Voluptatibus repellendus eos veritatis?
+                </p>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <div class="text-heading accordion-header">
+                <button class="accordion-button collapsed" aria-expanded="false" aria-controls="accordionItem3" data-bs-target="#accordionItem3"
+                                                                                                                                        data-bs-toggle="collapse">
+                  What is the CentralMarket Customer care line
+                </button>
+              </div>
+              <div class="accordion-collapse collapse" data-bs-parent="#FaqAccordion"
+                                                                                                                                      id="accordionItem3">
+                <p class="accordion-body">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
+                  doloremque corporis! Nobis corporis culpa saepe, et in enim ipsam
+                  eos obcaecati soluta voluptatum, corrupti reiciendis beatae optio quod
+                  neque veniam, provident
+                  facere qui dicta illum voluptates! Voluptatibus repellendus eos veritatis?
+                </p>
+              </div>
+            </div>
+      </div>
+    </div>
+  </section>
+<%# } %>
