@@ -155,7 +155,7 @@ router.get("/logout", async (req, res) => {
     req.session.destroy(err => {
         if (!err) {
             console.log("user logged out successfully");
-            res.redirect("auth/login");
+            res.redirect("/auth/login");
         }
     });
 });
