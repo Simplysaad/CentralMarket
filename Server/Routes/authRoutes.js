@@ -9,10 +9,10 @@ router.use((req, res, next) => {
 });
 
 const locals = {
-    title: "Campus Mart - Auth",
-    description:
-        "an incampus shopping website for school online vendors and students, to buy , sell and deliver items without hassle",
-    imageUrl: "/IMG/favicon.png"
+  title: "Auth | CentralMarket",
+  description:
+    "an incampus shopping website for school online vendors and students, to buy , sell and deliver items without hassle",
+  imageUrl: "/IMG/favicon.png"
 };
 
 router.get("/register", async (req, res) => {
