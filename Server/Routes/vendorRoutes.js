@@ -26,7 +26,7 @@ getCategories("subCategory").then(data => {
 
 const multer = require("multer");
 const storage = multer.diskStorage({
-  destination: "PUBLIC/Uploads/Products",
+  destination: "Uploads/Products",
   filename: function (req, file, cb) {
     let myFileName = Date.now() + "_" + file.originalname;
     cb(null, myFileName);
