@@ -195,6 +195,7 @@ router.all("/search", async (req, res) => {
     const searchResults_business = await User.find({
       $or: [
         { businessName: regex },
+        { username: regex },
         { businessDesc: regex }
       ]
     });
