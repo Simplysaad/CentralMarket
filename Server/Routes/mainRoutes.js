@@ -155,7 +155,111 @@ router.get("/category/:category", async (req, res) => {
   }
 });
 
-// --- Product Preview Route ---
+// --- Search Route ---
+router.all("/search", async (req, res) => {
+  try {
+    // Fetch all products (consider optimizing this query later)
+    const allProducts = await Product.find({}).populate("vendorId");
+    const relatedProducts = relatedProductsFunc(allProducts, 18);
+    const categories = await Product.distinct("category");
+
+    // Extract search term from query or body (handle both GET and POST)
+    let { searchTerm } = req.body
+
+    if (!req.body.searchTerm) {
+      searchTerm = req.query.searchTerm
+    }
+
+
+    console.log("Request body:", req.body, "Request Query:", req.query, "Search Term:", searchTerm); // More useful log
+
+    //Get userId from session
+    let { userId } = req.session;
+    // Sanitize and trim search term to prevent injection
+    const symbols = /[</\\>&;//]/gi;
+    searchTerm = searchTerm.replace(symbols, " ").trim();
+
+    // Create regex for case-insensitive search
+    let regex = new RegExp(searchTerm, "gi");
+
+    // Search for products based on various fields using the regex
+    const searchResults_products = await Product.find({
+      $or: [
+        { description: regex },
+        { name: regex },
+        { tags: regex },
+        { category: regex },
+        { subCategory: regex },
+      ],
+    });
+    const searchResults_business = await User.find({
+      $or: [
+        { businessName: regex },
+        { businessDesc: regex }
+      ]
+    });
+
+    if (searchResults_products.length === 0 && searchResults_business.length === 0) {
+      console.log(searchTerm, "brought no results ");
+      return res.render("Pages/empty-search", {
+        searchTerm,
+        searchResults_business,
+        searchResults_products,
+        categories,
+        relatedProducts,
+        locals,
+      });
+    }
+    // Prepare search result objects
+    let newSearchResults = [];
+
+    searchResults_products.forEach((data) => {
+      //data.productId = data._id; // Add productId to each result
+
+      let productObj = {
+        productId: data._id,
+        matchPoint: "name", // Consider more robust matching logic
+      };
+
+      newSearchResults.push(productObj);
+      //console.log(data.productId);
+    });
+
+    // Create and save new search record
+    const newSearch = new Search({
+      userId: userId || null, // Store userId, if available
+      searchTerm,
+      searchResults: newSearchResults
+    });
+
+    await newSearch.save().then(() => {
+      console.log("Search data saved");
+    });
+
+    locals.title = "search For " + searchTerm + " | CentralMarket"; // Update title
+
+    // Handle empty search results
+
+    // Render search results page
+    const searchResults = {
+      searchResults_products,
+      searchResults_business
+    }
+    res.render("Pages/search.ejs", {
+      searchResults,
+      searchTerm,
+      categories,
+      locals,
+    });
+
+  } catch (err) {
+    console.error("Error in search route:", err); // More specific error message
+    res.status(502).redirect("/502");
+  }
+});
+
+
+// --- Store Route ---
 router.get("/store/:id", async (req, res) => {
   try {
     let vendorId = req.params.id
@@ -173,7 +277,7 @@ router.get("/store/:id", async (req, res) => {
 
     locals.title = vendor.businessName + " | CentralMarket"
     locals.description = vendor.businessDesc
-
+    locals.imageUrl = vendor.coverImage || locals.imageUrl
 
     res.render("Vendor/store", {
       vendor,
@@ -227,7 +331,7 @@ router.get("/preview/:id", async (req, res) => {
     });
 
     locals.title = currentProduct.name + "- CentralMarket"; // Update title
-
+    locals.imageUrl = currentProduct.productImage
     // Render product preview page
     res.render("Pages/preview", {
       locals,
@@ -241,96 +345,6 @@ router.get("/preview/:id", async (req, res) => {
   }
 });
 
-// --- Search Route ---
-router.all("/search", async (req, res) => {
-  try {
-    // Fetch all products (consider optimizing this query later)
-    const allProducts = await Product.find({}).populate("vendorId");
-    const relatedProducts = relatedProductsFunc(allProducts, 18);
-    const categories = await Product.distinct("category");
-
-    // Extract search term from query or body (handle both GET and POST)
-    let { searchTerm } = req.body
-
-    if (!req.body.searchTerm) {
-      searchTerm = req.query.searchTerm
-    }
-
-
-    console.log("Request body:", req.body, "Request Query:", req.query, "Search Term:", searchTerm); // More useful log
-
-    //Get userId from session
-    let { userId } = req.session;
-    // Sanitize and trim search term to prevent injection
-    const symbols = /[</\\>&;//]/gi;
-    searchTerm = searchTerm.replace(symbols, " ").trim();
-
-    // Create regex for case-insensitive search
-    let regex = new RegExp(searchTerm, "gi");
-
-    // Search for products based on various fields using the regex
-    const searchResults = await Product.find({
-      $or: [
-        { description: regex },
-        { name: regex },
-        { tags: regex },
-        { category: regex },
-        { subCategory: regex },
-      ],
-    });
-
-    if (searchResults.length === 0) {
-      console.log(searchTerm, "brought no results ");
-      return res.render("Pages/empty-search", {
-        searchTerm,
-        categories,
-        relatedProducts,
-        locals,
-      });
-    }
-    // Prepare search result objects
-    let newSearchResults = [];
-
-    searchResults.forEach((data) => {
-      //data.productId = data._id; // Add productId to each result
-
-      let productObj = {
-        productId: data._id,
-        matchPoint: "name", // Consider more robust matching logic
-      };
-
-      newSearchResults.push(productObj);
-      //console.log(data.productId);
-    });
-
-    // Create and save new search record
-    const newSearch = new Search({
-      userId: userId || null, // Store userId, if available
-      searchTerm,
-      searchResults: newSearchResults
-    });
-
-    await newSearch.save().then(() => {
-      console.log("Search data saved");
-    });
-
-    locals.title = "search For " + searchTerm + " | CentralMarket"; // Update title
-
-    // Handle empty search results
-
-    // Render search results page
-    res.render("Pages/search.ejs", {
-      searchResults,
-      searchTerm,
-      categories,
-      locals,
-    });
-
-  } catch (err) {
-    console.error("Error in search route:", err); // More specific error message
-    res.status(502).redirect("/502");
-  }
-});
 
 // --- Cart Route ---
 router.get("/cart", async (req, res) => {
@@ -448,7 +462,7 @@ router.get("/cart/:id/add", async (req, res) => {
 
       if (req.session.cart[itemIndex].quantity === 0)
         req.session.cart.splice(itemIndex, 1);
-      
+
       req.session.cart[itemIndex].price = getPrice(
         currentProduct,
         req.session.cart[itemIndex]
@@ -575,6 +589,15 @@ router.post("/order/place", async (req, res) => {
   }
 });
 
+// --- Feedback createb github Issue ---
+router.get("/feedback", async (req, res) => {
+  try {
+    return res.render("Pages/feedback")
+  }
+  catch (err) {
+    console.error(err)
+  }
+})
 // --- 502 Route ---
 router.get("/502", async (req, res) => {
   try {
