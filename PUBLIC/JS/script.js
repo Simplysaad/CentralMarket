@@ -1,11 +1,11 @@
 
 /**
- * toggleDisplay()
- * Function to toggle display of html element
- * @param {HTMLElement} targetElement - The HTML element whose display will be toggled.
- * @param {HTMLElement} control - The HTML element that triggers the toggle action.
+* toggleDisplay()
+* Function to toggle display of html element
+* @param {HTMLElement} targetElement - The HTML element whose display will be toggled.
+* @param {HTMLElement} control - The HTML element that triggers the toggle action.
   * @param {string} event - The event that triggers the toggle action.
- */
+*/
 const toggleDisplay = (targetElement, control, event) => {
   control.addEventListener(event || "click", () => {
     targetElement.style.display = targetElement.style.display === "block" ? "none" : "block"
@@ -45,9 +45,9 @@ const ratings = [5, 4, 5, 5, 3, 1, 5, 3, 5, 5, 3, 4];
 
 
 /**
- * ratingStars()
- * Creates star elements based on the average rating and appends them to the specified container.
- */
+* ratingStars()
+* Creates star elements based on the average rating and appends them to the specified container.
+*/
 function ratingStars() {
   let avgRating = Math.ceil(getAverage(ratings));
 
@@ -62,10 +62,10 @@ function ratingStars() {
 ratingStars();
 
 /**
- * getRatings()
- * Fetches ratings data from the server.
- * @returns {Promise<Response>} A promise that resolves to the fetched ratings data.
- */
+* getRatings()
+* Fetches ratings data from the server.
+* @returns {Promise<Response>} A promise that resolves to the fetched ratings data.
+*/
 const getRatings = async () => {
   try {
     const ratings = await fetch("/getRating", {
@@ -82,10 +82,10 @@ const getRatings = async () => {
 };
 
 /**
- * getRandomColor()
- * Generates a random hexadecimal color code.
- * @returns {string} A random color code in the format #RRGGBB.
- */
+* getRandomColor()
+* Generates a random hexadecimal color code.
+* @returns {string} A random color code in the format #RRGGBB.
+*/
 function getRandomColor() {
   let color = "#";
   for (let i = 0; i < 6; i++) {
@@ -96,10 +96,10 @@ function getRandomColor() {
 }
 
 /**
- * randomImageColor()
- * Applies a random background color to each image element in the provided NodeList.
- * @param {NodeList} Images - A NodeList of HTML elements representing images.
- */
+* randomImageColor()
+* Applies a random background color to each image element in the provided NodeList.
+* @param {NodeList} Images - A NodeList of HTML elements representing images.
+*/
 function randomImageColor(Images) {
   Images.forEach(image => {
     image.style.backgroundColor = getRandomColor();
@@ -124,9 +124,9 @@ const searchContainer = document.querySelector("#searchContainer");
 const searchInput = document.querySelector("#searchInput");
 
 /**
- * showSearchCont()
- * Toggles the visibility of the search container.
- */
+* showSearchCont()
+* Toggles the visibility of the search container.
+*/
 const showSearchCont = () => {
   let searchDisplay = searchContainer.style.visibility;
 
@@ -142,11 +142,11 @@ searchContainer.addEventListener("blur", showSearchCont);
 btnSearch.addEventListener("click", showSearchCont);
 
 /**
- * getAverage()
- * Calculates the average of numeric values in an array.
- * @param {Array<number>} arr - An array of numbers.
- * @returns {number} The average of the numeric values in the array.
- */
+* getAverage()
+* Calculates the average of numeric values in an array.
+* @param {Array<number>} arr - An array of numbers.
+* @returns {number} The average of the numeric values in the array.
+*/
 function getAverage(arr) {
   let sum = 0;
   let average;
@@ -160,14 +160,14 @@ function getAverage(arr) {
 }
 
 /**
- * createElement()
- * Creates an HTML element with specified attributes and appends it to a parent element.
- * @param {string} parentId - The ID of the parent HTML element.
- * @param {string} tag - The HTML tag name for the new element.
- * @param {string|Array<string>} classes - A string or array of CSS class names for the new element.
- * @param {string} textContent - The text content for the new element.
- * @param {string} src - The source URL for the new element if its a img or href for anchor element
- */
+* createElement()
+* Creates an HTML element with specified attributes and appends it to a parent element.
+* @param {string} parentId - The ID of the parent HTML element.
+* @param {string} tag - The HTML tag name for the new element.
+* @param {string|Array<string>} classes - A string or array of CSS class names for the new element.
+* @param {string} textContent - The text content for the new element.
+* @param {string} src - The source URL for the new element if its a img or href for anchor element
+*/
 function createElement(parentId, tag, classes, textContent, src) {
   let element = document.createElement(tag);
   let parent = document.getElementById(parentId);
@@ -194,9 +194,9 @@ const btnCart = document.getElementById("btnCart");
 const threshold = btnCart.offsetTop;
 
 /**
- * Event listener for window scroll that adds or removes sticky class
- * based on user scroll Y position
- */
+* Event listener for window scroll that adds or removes sticky class
+* based on user scroll Y position
+*/
 window.addEventListener("scroll", () => {
   if (window.scrollY >= threshold) {
     btnCart.classList.add("sticky");
@@ -212,8 +212,8 @@ if (window.width >= 600) {
 const btnTag = document.querySelectorAll(".btn-tag");
 
 /**
- * Event listener for tag button that post the tag name to server
- */
+* Event listener for tag button that post the tag name to server
+*/
 btnTag.forEach(tag => {
   tag.addEventListener("click", async e => {
     e.preventDefault();
@@ -223,10 +223,10 @@ btnTag.forEach(tag => {
   });
 });
 /**
- * postSearch()
- * Post search term to the server and replaces the body of the document with the response
- * @param {string} searchTerm - The search term to be sent to the server.
- */
+* postSearch()
+* Post search term to the server and replaces the body of the document with the response
+* @param {string} searchTerm - The search term to be sent to the server.
+*/
 const postSearch = async searchTerm => {
   try {
     let response = await fetch("/search", {
@@ -249,9 +249,9 @@ const postSearch = async searchTerm => {
   }
 };
 /**
- * showPassword()
- * Toggle the password type between text and password
- */
+* showPassword()
+* Toggle the password type between text and password
+*/
 const showPassword = () => {
   const inputPassword = document.getElementById("password");
   const confirmPassword = document.getElementById("confirmPassword");
@@ -263,8 +263,8 @@ const showPassword = () => {
 // select the show password buttons
 const btnShowPassword = document.querySelectorAll(".btnShowPassword");
 /**
- * Event listener for show password button
- */
+* Event listener for show password button
+*/
 btnShowPassword.forEach(btn => {
   btn.addEventListener("click", e => {
     e.preventDefault();
@@ -277,9 +277,9 @@ const placeOrder = () => { };
 
 
 /**
- * search()
- * Sends search term to the server via post request (IN PROGRESS)
- */
+* search()
+* Sends search term to the server via post request (IN PROGRESS)
+*/
 const search = async (req, res) => {
   try {
     const tagElements = document.querySelectorAll(".btn-tag");
@@ -302,8 +302,8 @@ const search = async (req, res) => {
 // Select all add to cart buttons
 const btnAddCart = document.querySelectorAll(".btn-add-cart");
 /**
- * Event listener for add to cart buttons
- */
+* Event listener for add to cart buttons
+*/
 // btnAddCart.forEach(btn => {
 //   btn.addEventListener("click", async e => {
 //     e.preventDefault();
@@ -382,4 +382,26 @@ appreciate.style.display = "none"
 issueForm.style.display = "block"
 issueForm.addEventListener("submit", createIssue)
 
+/**
+ * this function is used to shorten the links given preferredText and expiryDays
+ */
+const getShortUrl = async (originalUrl, preferredText, expiryDays) => {
+  try {
+    const body = { originalUrl, preferredText, expiryDays };
+    const response = await fetch("https://short-en.onrender.com/api", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    console.log(response)
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
+    const jsonData = await response.json();
+    console.log(jsonData);
+  } catch (err) {
+    console.error(err);
+  }
+}
+//getShortUrl()
