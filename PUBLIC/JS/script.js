@@ -375,10 +375,10 @@ const createIssue = async (e, title, description) => {
 const issueForm = document.getElementById("issueForm")
 let title = document.getElementById("title")
 let description = document.getElementById("description")
-let appreciate = document.getElementById("appreciate")
+let appreciation = document.getElementById("appreciate")
 
 
-appreciate.style.display = "none"
+appreciation.style.display = "none"
 issueForm.style.display = "block"
 issueForm.addEventListener("submit", createIssue)
 
