@@ -7,12 +7,11 @@
     <div class="overview-body py-4">
       <h3 class="">
         <span class="fs-6 fw-light m-0">₦</span>
-        <span class="display-1">126, 080</span>
+        <span class="display-1"><%= currentUser.totalSales.toFixed(2).toLocaleString()%></span>
       </h3>
       <p class="text-danger text-center border border-danger p-1 rounded w-25">
-        -13.6%
+        <%#= currentUser.totalSales.toLocaleString()  %>
       </p>
-      
     </div>
   </div>
   <div class="overview-box random-color col-md-5 my-4 mx-md-3">
@@ -22,9 +21,9 @@
       <p class="text-muted m-0 p-0">This month</p>
     </div>
     <div class="overview-body py-4">
-      <h3 class="display-1">73</h3>
+      <h3 class="display-1"><%= currentUser.completedOrders.length %></h3>
       <p class="text-success border border-success p-1 rounded w-25">
-        +13.6%
+        <%##= currentUser.completedOrders + "%>
       </p>
     </div>
   </div>
@@ -34,8 +33,7 @@
       <p class="text-muted m-0 p-0">Total</p>
     </div>
     <div class="overview-body py-4">
-      <h3 class="display-1">12</h3>
-      
+      <h3 class="display-1"><%= currentUser.products.length%></h3>
     </div>
   </div>
   <div class="overview-box random-color col-md-5 my-4 mx-md-3">
@@ -45,7 +43,7 @@
     </div>
     <div class="overview-body py-4">
       <h3 class="">
-        <span class="display-3">12.6</span>
+        <span class="display-3"><%= currentUser.weeklyGrowth || 10 %></span>
         <span class="fs-6 fw-light m-0">%</span>
       </h3>
     </div>
@@ -75,71 +73,43 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th class="text-warning">1</th>
-          <th><img class="table-image" src="https://via.placeholder.com/100"></th>
-          <th>Arsenal Jersey</th>
-          <th>14, 000</th>
-          <th>97%</th>
-        </tr>
-        <tr>
-          <th class="text-secondary">2</th>
-          <th><img class="table-image" src="https://via.placeholder.com/100"></th>
-          <th>Haiers water flask</th>
-          <th>84, 300</th>
-          <th>39%</th>
-        </tr>
-        <tr>
-          <th class="text-info">3</th>
-          <th><img class="table-image" src="https://via.placeholder.com/150"></th>
-          <th>Lacoste backpack</th>
-          <th>32, 000</th>
-          <th>23%</th>
-        </tr>
-        <tr>
-          <th>4</th>
-          <th><img class="table-image" src="https://via.placeholder.com/100"></th>
-          <th>Hoodlum hoodie</th>
-          <th>44, 000</th>
-          <th>17%</th>
-        </tr>
-        <tr>
-          <th>5</th>
-          <th><img class="table-image" src="https://via.placeholder.com/100"></th>
-          <th>Beetle beanie</th>
-          <th>12, 000</th>
-          <th>7%</th>
-        </tr>
+        <% currentUser.products.forEach(product=>{ %>
+          <tr>
+            <th class="text-warning"><%= currentUser.products.indexOf(product) + 1 %></th>
+            <th><img class="table-image" src="<%= product.productImage %>" alt="<%#= product.name + " image" %>"></th>
+            <th><a href="/products/<%= product._id%>"><%= product.name %></a></th>
+            <th><%= product.price.toLocaleString() %></th>
+            <th><%= (product.amountSold / product.amountInStock) * 100 + "%" %></th>
+          </tr>
+        <% })%>
       </tbody>
     </table>
   </div>
   
-  <div class="badge-box p-3 d-flex  justify-content-center align-items-center">
-    <div class="badge">
-      <div class="badge-cover random-color border col text-center" id="badgeCover">
-        <i class="fas my-3 fa-question fa-5x fa-beat text-warning"></i>
-        <h3 class="fs-5">Most searched Product</h3>
-        <p class="fs-6">Came up in most search results</p>
-      </div>
-      <div class="badge-info">
-        <div class="text-wrap p-3 m-2 overflow-hidden product-card rounded">
-          <div class="card-image img-fluid m-0 p-3">
-            <img src="image.png" alt="product image" class="object-fit-cover random-color overflow-hidden img-fluid" />
-          </div>
-          <div class="card-body col-12 text-start p-0 m-2">
-            <p class="fs-5 text-heading card-title">
-              Infinix Smart 7
-            </p>
-            <p class="fs-6 card-desc">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis id ex nostrum labore quibusdam
-              laudantium molestias.
-            </p>
-          </div>
+<div class="badge-box p-3 d-flex  justify-content-center align-items-center">
+  <div class="badge">
+    <div class="badge-cover random-color border col text-center" id="badgeCover">
+      <i class="fas my-3 fa-question fa-5x fa-beat text-warning"></i>
+      <h3 class="fs-5">Most searched Product</h3>
+      <p class="fs-6">Came up in most search results</p>
+    </div>
+    <div class="badge-info">
+      <div class="text-wrap p-3 m-2 overflow-hidden product-card rounded">
+        <div class="card-image img-fluid m-0 p-3">
+          <img src="<%= MostSearchedProduct.productImage %>" alt="<%= MostSearchedProduct.name %>" class="object-fit-cover random-color overflow-hidden img-fluid" />
+        </div>
+        <div class="card-body col-12 text-start p-0 m-2">
+          <p class="fs-5 text-heading card-title">
+            <%= MostSearchedProduct.name || "infinix Smart 7 plus" %>
+          </p>
+          <p class="fs-6 card-desc">
+            <%= MostSearchedProduct.description %>
+          </p>
         </div>
       </div>
-      
     </div>
   </div>
+</div>
 </section>
 
 <section id="ordersSection" class="my-5">
@@ -156,27 +126,28 @@
       <thead>
         <tr>
           <th>Order ID</th>
-          <th>Customer</th>
-          <th>Status</th>
-          <th>Total</th>
-          <th>Actions</th>
+          <th>Product Name</th>
+          <th>Customer Name</th>
+          <th>Rate</th>
+          <th>Quantity</th>
+          <th>Total Price</th>
+          <th>Brought In Status</th>
+          <th>Order Date</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>#001</td>
-          <td>John Doe</td>
-          <td>Completed</td>
-          <td>₦3,000</td>
-          <td><button class="btn btn-info btn-sm">View</button></td>
-        </tr>
-        <tr>
-          <td>#002</td>
-          <td>Jane Smith</td>
-          <td>Pending</td>
-          <td>₦5,500</td>
-          <td><button class="btn btn-info btn-sm">View</button></td>
-        </tr>
+        <% currentUser.orders.forEach(order=>{ %>
+          <tr>
+            <td><a href="/vendor/orders/<%= order.orderId %>"><%= order.orderId %></a></td>
+            <td><%= order.item.name %></td>
+            <td><%= order.customer%></td>
+            <td><%= order.item.price %></td>
+            <td><%= order.item.quantity %></td>
+            <td><%= (order.item.price * order.item.quantity).toLocaleString()  %></td>
+            <td><%= order.item.broughtIn || "false" %></td>
+            <td><%= order.updatedAt.toLocaleDateString() %></td>
+          </tr>
+        <% }); %>
       </tbody>
     </table>
   </div>
@@ -185,9 +156,6 @@
 <section id="profileSection">
   
 </section>
-
-
-
 
 <form action="/vendor/products/add" method="post" class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
                                                                                                                         aria-hidden="true">

@@ -137,9 +137,24 @@ const getFrequencies = (arr) => {
   return frequencyTable.sort((a, b) => b.frequency - a.frequency);
 };
 
+
+
+const sortArray = async (searches) => {
+  // Flatten the array of search results
+  const flatArray = searches.flatMap(item => item.searchResults);
+
+  // Get frequencies of each element
+  const searchProducts = getFrequencies(flatArray);
+
+  // Extract only the product objects (excluding frequencies)
+  const sortedProductsArray = searchProducts.map(element => element.element);
+  return sortedProductsArray
+}
+
 module.exports = {
   relatedProductsFunc,
   readTime,
   destroySession,
-  getFrequencies
+  getFrequencies,
+  sortArray
 };

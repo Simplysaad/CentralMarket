@@ -613,7 +613,19 @@ router.get("/502", async (req, res) => {
 // --- 404 Route ---
 router.get("/*", async (req, res) => {
   try {
-    res.render("Error/404", { layout: "Layouts/errorLayout" });
+    let returnTo = req.originalUrl || "/";
+
+
+    // setTimeout(()=>{
+    //       res.redirect(returnTo)
+    //     }, 3000)
+    res.render("Error/404", {
+      layout: "Layouts/errorLayout",
+      returnTo,
+      redirectDelay: 3000
+    });
+
+
   } catch (err) {
     console.error("Error in 404 route:", err);
     res.status(502).redirect("/502");

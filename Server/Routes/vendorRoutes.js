@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
 
 const User = require("../Models/User.js");
 const Product = require("../Models/Product.js");
@@ -14,6 +15,8 @@ const getCategories = async query => {
   return categoriesPromise;
 };
 
+const { sortArray } = require("../Utils/helper.js")
+
 var categories;
 getCategories("category").then(data => {
   categories = data;
@@ -25,20 +28,32 @@ getCategories("subCategory").then(data => {
 });
 
 const multer = require("multer");
-const storage = multer.diskStorage({
+
+const productStorage = multer.diskStorage({
   destination: "Uploads/Products",
   filename: function (req, file, cb) {
     let myFileName = Date.now() + "_" + file.originalname;
     cb(null, myFileName);
   }
 });
-const upload = multer({
-  storage: storage
+const uploadProduct = multer({
+  storage: productStorage
+});
+
+const userStorage = multer.diskStorage({
+  destination: "Uploads/Users",
+  filename: function (req, file, cb) {
+    let myFileName = Date.now() + "_" + file.originalname;
+    cb(null, myFileName);
+  }
+});
+const uploadUser = multer({
+  storage: userStorage
 });
 
 
 const locals = {
-  title: "vendor | CentralMarket",
+  title: "Vendor | CentralMarket",
   description:
     "an incampus shopping website for school online vendors and students, to buy , sell and deliver items without hassle",
   imageUrl: "/IMG/favicon.png"
@@ -64,7 +79,7 @@ router.get("/dashboard", async (req, res) => {
     }
 
     const currentUser = await User.findOne({ _id: req.session.userId })
-    console.log("currentUser", currentUser.usernname, currentUser.role);
+    console.log("currentUser", currentUser.username, currentUser.role);
 
     if (!currentUser) {
       return res.status(404).json({ message: "user not found" });
@@ -73,35 +88,100 @@ router.get("/dashboard", async (req, res) => {
 
     // ✓ currentUser.products = currentUserProducts
     // //PRODUCTS: all products with vendorId equal to current user
-
     const currentUserProducts = await Product.find({
       vendorId: currentUser._id
     }).sort({ amountSold: -1 });
-    console.log("currentUserProducts", currentUserProducts);
-
+    //
+    currentUser.products = currentUserProducts
 
 
     // currentUser.totalSales = totalSales
     // //TOTAL_SALES: sum total amount of product sales
+    //console.log("currentUserProducts", currentUserProducts);
 
-    const totalSales = currentUserProducts.reduce((product, acc) => {
-      return acc + product.price * product.amountSold;
-    }, 0);
-    console.log(totalSales);
+    // const totalSales = currentUserProducts.reduce((product, acc) => {
+    //   console.log("product", product )
+    //   console.log("product.price", product.price )
+    //   console.log("product.amountSold", product.amountSold )
+
+    //   return acc + (product.price * product.amountSold);
+    // }, 0);
+    let totalSales = 0;
+    currentUserProducts.forEach(product => {
+      console.log("product.price", product.price)
+      console.log("product.amountSold", product.amountSold)
+
+      return totalSales += (product.price * product.amountSold)
+    })
+    console.log("totalSales", totalSales);
+    currentUser.totalSales = totalSales
 
 
-    // currentUser.growth = currentUserGrowth
-    // //GROWTH: change in sales over total sales
+    // currentUser.orders = currentUserOrders
+    // ORDERS: change in sales over total sales
+    const currentUserOrders = await Order.aggregate([
+
+      // Step 1: Use index to filter orders with at least one matching item
+      { $match: { "items.vendorId": currentUser._id } },
+      { $sort: { "updatedAt": -1 } },
+      // Step 2: Break the items array into individual documents
+      { $unwind: "$items" },
+      //  Step 3: Filter to retain only the vendor's items
+      { $match: { "items.vendorId": currentUser._id } },
+
+      {
+        $lookup: {
+          from: "users",
+          localField: "customerId",
+          foreignField: "_id",
+          as: "customer"
+        }
+      },
+      {
+        $lookup: {
+          from: "products",
+          localField: "productId",
+          foreignField: "_id",
+          as: "product"
+        }
+      },
+      //Step 4: Reshape the output
+      {
+        $project: {
+          _id: 0,
+          customer: "$customer.username",
+          orderId: "$_id",
+          item: "$items",
+          broughtIn: "$items.broughtIn",
+          product: 1,
+          deliveryStatus: 1,
+          updatedAt: 1
+        }
+      }
+    ]);
+    currentUser.orders = currentUserOrders
+    // console.log("currentUserOrders", currentUserOrders)
+
+    // currentUser.completedOrders = currentUserOrders
+    // //COMPLETED_ORDERS: all orders with my products involved with deliveryStatus = "completed"
+    const completedOrders = currentUserOrders.filter((order) => order.deliveryStatus === "delivered")
+    currentUser.completedOrders = completedOrders
 
     // currentUser.mostSearched = bestPerformingProduct
-    // //MOST_SEARCHED: current User product with the highest show up in search results
+    // MOST_SEARCHED: current User product with the highest show up in search results
+    const mostSearched = await Search.find({}, { searchResults: 1 }).populate("searchResults.productId");
+    const mostSearchedProducts = await sortArray(mostSearched)
+    //console.log("mostSearched", mostSearchedProducts)
+
+    // currentUser.growth = currentUserGrowth
+    // GROWTH: change in sales over total sales
 
 
     res.render("Vendor/dashboard", {
       locals,
       currentUser,
-      categories,
-      currentUserProducts
+      MostSearchedProduct: mostSearchedProducts[0],
+      categories
     });
   } catch (err) {
     console.error(err);
@@ -127,7 +207,7 @@ router.get("/products/add", async (req, res) => {
     console.error(err);
   }
 });
-router.post("/products/add", upload.single("productImage"), async (req, res) => {
+router.post("/products/add", uploadProduct.single("productImage"), async (req, res) => {
   try {
     const { productTags, basePrice, discount } = req.body;
     let productImage
@@ -174,7 +254,7 @@ router.post("/products/add", upload.single("productImage"), async (req, res) => 
   }
 });
 
-router.get("/orders/", async (req, res) => {
+router.get("/orders/:id", async (req, res) => {
   try {
     const currentUserId = req.session.userId
     const currentUser = await User.findOne({ _id: currentUserId })
@@ -185,40 +265,64 @@ router.get("/orders/", async (req, res) => {
 
     // currentUser.orders = currentUserOrders
     // //ORDERS: all orders with my products involved
+    let currentOrderId = new mongoose.Types.ObjectId(req.params.id)
+
+
+    //.find({"_id": currentOrderId})
     const currentUserOrders = await Order.aggregate([
 
       // Step 1: Use index to filter orders with at least one matching item
-      { $match: { "items.vendorId": currentUser._id } },
-      { $sort: { "updatedAt": -1 } },
+      { $match: { "_id": currentOrderId } },
+
       // Step 2: Break the items array into individual documents
-      { $unwind: "$items" },
       //  Step 3: Filter to retain only the vendor's items
+
+      {
+        $lookup: {
+          from: "users",
+          localField: "customerId",
+          foreignField: "_id",
+          as: "customer"
+        }
+      },
+      { $unwind: "$items" },
       { $match: { "items.vendorId": currentUser._id } },
+      {
+        $lookup: {
+          from: "products",
+          localField: "items.productId",
+          foreignField: "_id",
+          as: "product"
+        }
+      },
       //Step 4: Reshape the output
       {
         $project: {
           _id: 0,
+          customer: { $first: "$customer.username" },
           orderId: "$_id",
           item: "$items",
+          broughtIn: "$items.broughtIn",
+          product: { $first: "$product" },
           deliveryStatus: 1,
           updatedAt: 1
         }
       }
     ]);
-    // currentUser.completedOrders = currentUserOrders
-    // //COMPLETED_ORDERS: all orders with my products involved with deliveryStatus = "completed"
+    console.log("currentUserOrders", currentUserOrders)
 
-    const completedOrders = currentUserOrders.filter((order) => order.deliveryStatus === "delivered")
-
-
-    return res.json({
-      currentUserOrders,
-      completedOrders
+    return res.render("Vendor/preview_order", {
+      locals,
+      categories,
+      currentOrder: currentUserOrders[0]
     })
   }
   catch (err) {
-
+    console.error(err)
+    return res.json({
+      "message": err.message,
+      "stack": err.stack
+    })
   }
 })
-
 module.exports = router;
