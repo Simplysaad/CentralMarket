@@ -370,6 +370,18 @@ router.get("/api/getAllOrders", async (req, res) => {
   let allOrders = Order.find({}, { updatedAt: -1 })
 })
 
+const getFrequencies = (array) => {
+  const frequencies = {};
+  array.forEach((element) => {
+    frequencies[element] = (frequencies[element] || 0) + 1;
+  });
+  return Object.keys(frequencies).map((key) => ({
+    element: key,
+    frequency: frequencies[key],
+  }));
+};
+
+
 const sortArray = async (searches) => {
   // Flatten the array of search results
   const flatArray = searches.flatMap(item => item.searchResults);
@@ -381,5 +393,3 @@ const sortArray = async (searches) => {
   const sortedProductsArray = searchProducts.map(element => element.element);
   return sortedProductsArray
 }
-
-
