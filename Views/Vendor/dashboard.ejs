@@ -39,7 +39,7 @@
       <h3 class="fs-3"><%= currentUser.products.length%></h3>
     </div>
   </div>
-  <%= if(currentUser.weeklyGrowth){ %>
+  <% if(currentUser.weeklyGrowth){ %>
     <div class="overview-box random-color col-md-5 my-4 mx-md-3">
       <div class="overview-heading">
         <h4 class="text-heading m-0 p-0">Weekly Growth</h4>
@@ -78,7 +78,7 @@
         </tr>
       </thead>
       <tbody>
-        <%if(currentUser.products){ %>
+        <% if(currentUser.products){ %>
         <% currentUser.products.forEach(product=>{ %>
           <tr>
             <th class="text-warning"><%= currentUser.products.indexOf(product) + 1 %></th>

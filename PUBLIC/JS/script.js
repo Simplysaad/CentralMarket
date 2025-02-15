@@ -333,20 +333,21 @@ const btnAddCart = document.querySelectorAll(".btn-add-cart");
 
 
 
-const createIssue = async (e, title, description) => {
+const createIssue = async (e, username,  title, description) => {
   e.preventDefault()
 
   title = title.value
+  username = username.value
   description = description.value
 
-  const url = "https://api.github.com/repos/simplysaad/campus_mart/issues"
+  const url = "https://api.github.com/repos/simplysaad/CentralMarket/issues"
   const headers = {
     "Content-Type": "application/json",
     "Authorization": "Bearer " + process.env.GITHUB_PERSONAL_ACCESS_TOKEN
   }
   const data = {
     "title": title,
-    "body": description,
+    "body": `${username} \n ${description}`,
     "assignees": ["simplysaad"],
     "labels": ["customer feedback"]
   }
@@ -364,6 +365,9 @@ const createIssue = async (e, title, description) => {
     }
     else {
       console.log("issue created successfully")
+      setTimeout(()=>{
+        window.location.href = "/"
+      }, 3000)
     }
   }
   catch (err) {
@@ -374,16 +378,53 @@ const createIssue = async (e, title, description) => {
 
 const issueForm = document.getElementById("issueForm")
 let title = document.getElementById("title")
+let username = document.getElementById("username")
 let description = document.getElementById("description")
+
+
 let appreciation = document.getElementById("appreciate")
 
 
 appreciation.style.display = "none"
 issueForm.style.display = "block"
-issueForm.addEventListener("submit", createIssue)
+issueForm.addEventListener("submit", (e)=>{
+  e.preventDefault()
+  createIssue(e, username,  title, description)
+})
 
 /**
  * this function is used to shorten the links given preferredText and expiryDays
+ */
+ 
+// const getShortUrl = async (originalUrl, preferredText, expiryDays) => {
+//   try {
+//     const body = { originalUrl, preferredText, expiryDays };
+//     const response = await fetch("https://short-en.onrender.com/api", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify(body),
+//     });
+//     console.log(response)
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+// 
+//     const jsonData = await response.json();
+//     console.log(jsonData);
+//   } catch (err) {
+//     console.error(err);
+//   }
+// }
+// 
+/**
+ * Generates a short URL using the short-en.onrender.com API.
+ *
+ * @async
+ * @param {string} originalUrl - The original URL to be shortened.
+ * @param {string} [preferredText] - The preferred text for the short URL.
+ * @param {number} [expiryDays] - The number of days until the short URL expires.
+ * @throws {Error} If the API request fails.
+ * @returns {Promise<void>}
  */
 const getShortUrl = async (originalUrl, preferredText, expiryDays) => {
   try {
@@ -397,11 +438,11 @@ const getShortUrl = async (originalUrl, preferredText, expiryDays) => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
     const jsonData = await response.json();
     console.log(jsonData);
   } catch (err) {
     console.error(err);
   }
 }
+
 //getShortUrl()

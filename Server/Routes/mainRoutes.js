@@ -593,7 +593,14 @@ router.post("/order/place", async (req, res) => {
 // --- Feedback createb github Issue ---
 router.get("/feedback", async (req, res) => {
   try {
-    return res.render("Pages/feedback")
+    let currentUser = await User.findOne({ _id: req.session.userId })
+    const categories = await Product.distinct("category");
+
+    return res.render("Pages/feedback", {
+      currentUser,
+      locals,
+      categories
+    })
   }
   catch (err) {
     console.error(err)
