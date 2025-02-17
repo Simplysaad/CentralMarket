@@ -1,0 +1,40 @@
+<form action="/product/<%= currentProduct._id %>/review" method="post" class="">
+ 
+  <div class="d-flex border-bottom mb-5 mt-2 p-1 align-items-center justify-content-between">
+    <a class="btn-close col-2"></a>
+    <div class="d-flex flex-column col-8">
+      <p class="m-0 fs-5 text-truncate  d-block"><%= currentProduct.name %></p>
+      <p class="m-0 fs-6">Rate this product</p>
+    </div>
+    <button type="submit" class="text-success border-0 bg-none fs-4">Post</button>
+  </div>
+  <div class="extra-stuff d-none">
+    <input hidden name="customerId" value="<%=currentUser._id%>">
+  </div>
+ 
+  <div class=" p-1 d-flex my-5 justify-content-between">
+    <div class="col-3 me-2 border rounded">
+      
+    </div>
+    <div class="col-9">
+      <h4 class="fs-5 fw-bold"><%=currentUser.username%></h4>
+      <p class="fs-6 fw-light">Reviews are public and includes your device and account info. Learn more</p>
+    </div>
+  </div>
+  <div class=" p-2 my-5" id="">
+    <div class="starRating d-flex justify-content-center">
+      <input  id="inputRange" name="rating" hidden class="form-range" type="range" max="5" min="1" value="1">
+      <div class="my-4 d-flex col-10 justify-content-between">
+        <i class="far fa-star fa-2x rating-star"></i>
+        <i class="far fa-star fa-2x rating-star"></i>
+        <i class="far fa-star fa-2x rating-star"></i>
+        <i class="far fa-star fa-2x rating-star"></i>
+        <i class="far fa-star fa-2x rating-star"></i>
+      </div>
+    </div>
+    <div class="form-floating">
+      <textarea class="form-control-text outline-none col-12 p-2" name="reviewText" id="reviewTextArea" placeholder="Describe your experience (optional)" rows="3"></textarea>
+      <label for="inputReview"></label>
+    </div>
+  </div>
+</form>
