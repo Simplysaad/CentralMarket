@@ -9,7 +9,7 @@
   <% if(searchResults.searchResults_business.length > 0){ %>
   <div class="category-heading d-flex flex-wrap align-items-center justify-content-between">
     <h3 class="category-title text-upper text-muted fs-4">
-      Businesses
+      Stores
     </h3>
   </div>
 
@@ -49,7 +49,7 @@
             </a>
             <div class="">
               <span class="card-price fs-5">
-                <%= product.price %>
+                <%= "₦" + product.price.toLocaleString() %>
               </span>
               <s class="old-price fs-6 text-danger">
                 <%= product.price %>

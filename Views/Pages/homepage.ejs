@@ -18,10 +18,10 @@
             </a>
             <div class="">
               <span class="card-price fs-5">
-                <%=product.price %>
+                ₦ <%=product.price.toLocaleString() %>
               </span>
               <s class="old-price fs-6 text-danger">
-                $700
+                ₦ <%=product.price.toLocaleString() %>
               </s>
             </div>
             <div class="product-desc">
@@ -57,18 +57,19 @@
             </a>
             <div class="">
               <span class="card-price fs-5">
-                <%= product.price %>
+                ₦ <%=product.price.toLocaleString() %>
               </span>
               <s class="old-price fs-6 text-danger">
-                <%= product.price %>
+                ₦ <%=product.price.toLocaleString() %>
               </s>
             </div>
+
           </div>
         </div>
       <% }) %>
     </div>
   </section>
-  <% } %>
+<% } %>
         
 <% if(recentSearches){ %>
   <section id="recentSearchesSection" class="py-5 px-3 my-5 random-colo category-section">
@@ -92,10 +93,10 @@
 
             <div class="">
               <span class="card-price fs-5">
-                <%= product.price %>
+                ₦ <%=product.price.toLocaleString() %>
               </span>
               <s class="old-price fs-6 text-danger">
-                $700
+                ₦ <%=product.price.toLocaleString() %>
               </s>
             </div>
           </div>
@@ -126,14 +127,14 @@
               <%=product.name %>
           </a>
 
-          <div class="">
-            <span class="card-price fs-5">
-              <%= product.price %>
-            </span>
-            <s class="old-price fs-6 text-danger">
-              $700
-            </s>
-          </div>
+            <div class="">
+              <span class="card-price fs-5">
+                ₦ <%=product.price.toLocaleString() %>
+              </span>
+              <s class="old-price fs-6 text-danger">
+                ₦ <%=product.price.toLocaleString() %>
+              </s>
+            </div>
         </div>
       </div>
       <% }) %>
@@ -179,7 +180,7 @@
   </section>
 <% } %>
  
- <%# if (areaPopularProducts){%>
+<%# if (areaPopularProducts){%>
   <section id="areaPopularSection" class="py-5 px-3 my-5 random-colo category-section">
     <div class="section-heading">
       <h3 class="text-heading me-2 display-6">

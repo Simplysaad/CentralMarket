@@ -21,7 +21,7 @@
         <td><a href="/admin/products/<%= item.productId._id %>"><%= item.productId._id %></a></td>
         <td><%= item.productId.name %></td>
         <td><%= item.vendorId ? item.vendorId.businessName : "ThisIsSaad"%></td>
-        <td><%= item.price %></td>
+        <td><%= item.price.toLocaleString() %></td>
         <td><%= item.broughtIn %></td>
         <td><a href="/admin/orders/<%= currentOrder._id %>/<%= item.productId %>"><%= item.productId.name %></a></td>
       </tr>

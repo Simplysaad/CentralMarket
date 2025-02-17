@@ -114,7 +114,7 @@ let randomColorImage = document.querySelectorAll(".random-color");
 randomImageColor(cardImage);
 randomImageColor(categoryBox);
 randomImageColor(randomColorImage);
-randomImageColor(previewImage);
+//randomImageColor(previewImage);
 
 
 

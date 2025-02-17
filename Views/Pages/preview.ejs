@@ -2,177 +2,187 @@
   <!-- Product Preview Section-->
   <section class="product-preview row">
     <!-- Product Image Area -->
-    <div class="col-md-6 product-image preview-image carusel slide" data-bs-ride="carousel">
+    <div id="previewImageCarousel" class="col-md-6 product-image preview-image slide" data-bs-ride="carousel">
       <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="<%= currentProduct.productImage %>" class="img-fluid" alt="<%= currentProduct.name %>" />
-        </div>
-        <% if(currentProduct.images && Array.isArray(currentProduct.images)){ %>
-          <% currentProduct.images.forEach((image)=> { %>
-            <div class="carousel-item">
-              <img src="<%= image %>" class="img-fluid" alt="<%= `${currentProduct.name} image` %>" />
-            </div>
-            <% }) %>
-              <% } %>
-      </div>
-      <!-- Carousel Controls -->
-      <% if (currentProduct.images && currentProduct.images.length> 1) {%>
-        <button class="carousel-control-prev" type="button" data-bs-target=".carousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target=".carousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-        <% } %>
-    </div>
-    <!-- Product Details -->
-    <!-- <div class="col-md-6 col-10 product-details">
-    
-    
-    </div> -->
-    <div class="col-md-6 product-details">
-      <h1 class="display-3">
-        <%= currentProduct.name %>
-      </h1>
-      <p class="product-description">
-        <%= currentProduct.description %>
-      </p>
-        
 
-      <div class="price">
-        <span class="current-price fs-4">
-          <%= currentProduct.price %>
-        </span>
-        <s class="old-price fs-6 text-danger">
-          <%= currentProduct.price %>
-        </s>
-        <span class="discount text-success">
-          
-        </span>
-      </div>
-      <div class="product-availability my-2">
-        <p>
-          Availability:
-          <span class="fw-bold">
-            <%= currentProduct.amountInStock >=1 ? "In Stock": "Out of Stock" %>
-          </span>
-        </p>
-      </div>
-      <div class="preview-tags d-flex flex-wrap">
-        <% currentProduct.tags.forEach(tag=>{ %>
-          <a href="/search?searchTerm=<%= tag %>" class="mx-1 my-1 btn btn-sm btn-secondary btn-tag"><%= tag %></a>
-        <% }) %>
-      </div>
-      <div class="col-10">
-        <a href="/cart/<%=currentProduct._id%>/add?quantity=1" id="btnCart" class="btn-cart col-12 btn btn-success">
-          Add to Cart
-        </a>
-      </div>
-      <div class="product-info">
-        <h3 class="fs-5 border-bottom pb-2">Product Information</h3>
-        <ul class="list-unstyled">
-          <li><strong>Brand:</strong>
-            <%= currentProduct.brand %>
-          </li>
-          <li>
-            <strong>Category:</strong>
-            <%= currentProduct.category %> </li>
-          <li><strong>Model:</strong>
-            <%= currentProduct.productModel %>
-          </li>
-          <li><strong>Warranty:</strong> 1 Year</li>
-            <%= currentProduct.productModel %>
-          <li>
-            <strong>Shipping:</strong>
-            <%= currentProduct.productModel %>
-          </li>
-        </ul>
-      </div>
-    </div>
-    
-  </section>
-  
-  <!-- Product Review Section-->
-  <section id="reviewsSection">
-    <div class="social-proof mt-3">
-        <h3 class="fs-4 border-bottom pb-2">Customer Reviews</h3>
-        <div id="ratings" class="my-3">
-          <h4 class="fw-light text-muted fs-5">
-            Overall Rating
-          </h4>
-          <div id="ratingStars" class="text-heading my-3 display-3 fw-lighter text-warning"></div>
-          <span> <data id="averageRating"><%= currentProduct.averageRating %></data> /5 (Based on
-            <data id="totalRatings"><%= currentProduct.totalRatings %></data>
-            reviews)
-          </span>
-        </div>
-      </div>
-    <% if(currentProduct.reviews){ %>
-      <div id="reviews" class="my-5 p">
-        <% currentProduct.reviews.forEach(product=>{ %>
-          <div class="review-box py-3 border-bottom">
-            <div class="review-info">
-              <p class="fs-5 my-0">
-                <%= review.author %>
-              </p>
-              <p class="fs-6 my-0 text-muted">
-                <%= review.updatedAt.toLocaleString() %>
-              </p>
-            </div>
-            <div class="rating-stars">
-              <%= review.rating %>
-            </div>
-            <div class="review-text">
-              <p class="text-muted text-wrap">
-                <%= review.body %>
-              </p>
-            </div>
-          </div>
-          <% }) %>
-          <a href="/reviews" class="py-3 text-decoration-underline">Read all reviews</a>
 
-      </div>
-      <% } %>
-        
-        
-  </section>
+      <% if (currentProduct.productGallery && Array.isArray(currentProduct.productGallery)) {%>
+        <% currentProduct.productGallery.forEach((image)=> {
+          %>
+          <div class="carousel-item  <%= currentProduct.productGallery.indexOf(image) === 0 ? 'active': ''%>">
+            <img src="<%= image %>" class="img-fluid" alt="<%= `${currentProduct.name} image` %>" />
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+  <!-- Carousel Controls -->
   
-  <!-- Related Products Section-->
-  <section id="relatedProducts" class="py-5 px-3 my-5 random-colo category-section">
-    <div class="section-heading">
-      <h3 class="text-heading me-2 display-6">
-        People also checked
-      </h3>
-      <a href="/category/" class="fa text-decoration-none fa-arrow-right text-dark"></a>
-    </div>  
-    <div class="d-flex flex- overflow-scroll category-items">
-      <% if(relatedProducts && Array.isArray(relatedProducts)){ %>
-        <% relatedProducts.forEach((product)=> { %>
-          <div class="col-7 col-md-4 col-lg-3 p-0 m-2 product-card rounded">
-            <div class="card-image m-0 p-3">
-              <img src="<%= product.productImage %>" alt="<%= product.name %>"
-                                                                                                                                      class="random-colo overflow-hidden img-fluid" />
-            </div>
-            <div class="card-body p-0 m-2">
-              <a href="/preview/<%=product._id %>" class="text-dark d-block fs-6 card-title">
-                <%=product.name %>
-              </a>
-              <div class="">
-                <span class="card-price fs-5">
-                  <%= product.price %>
-                </span>
-                <s class="old-price fs-6 text-danger">
-                  <%= product.price %>
-                </s>
-              </div>
-            </div>
-          </div>
-          <% }) %>
-            <% } %>
-    </div>
-    </div>
-    
-  </section>
+  
+
+<button class="carousel-control-prev text-success" type="button" data-bs-target="#previewImageCarousel" data-bs-slide="prev">
+  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  <span class="visually-hidden">Previous</span>
+</button>
+<button class="carousel-control-next text-danger" type="button" data-bs-target="#previewImageCarousel" data-bs-slide="next">
+  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  <span class="visually-hidden">Next</span>
+</button>
+
+</div>
+<!-- Product Details -->
+<!-- <div class="col-md-6 col-10 product-details">
+      </div> -->
+<div class="col-md-6 product-details">
+  <h1 class="display-3">
+    <%= currentProduct.name %>
+  </h1>
+  <p class="product-description">
+    <%= currentProduct.description %>
+  </p>
+
+
+  <div class="price">
+    <span class="current-prce fs-4 ">
+      ₦<%= currentProduct.price %>
+    </span>
+    <s class="old-price fs-6 text-danger">
+      ₦<%= currentProduct.price %>
+    </s>
+    <span class="discount text-success">
+
+    </span>
+  </div>
+  <div class="product-availability my-2">
+    <p>
+      Availability:
+      <span class="fw-bold">
+        <%= currentProduct.amountInStock >= 1 ? "In Stock": "Out of Stock" %>
+      </span>
+    </p>
+  </div>
+  <div class="preview-tags d-flex flex-wrap">
+    <% currentProduct.tags.forEach(tag => {
+      %>
+      <a href="/search?searchTerm=<%= tag %>" class="mx-1 my-1 btn btn-sm btn-secondary btn-tag"><%= tag %></a>
+      <%
+    }) %>
+  </div>
+  <div class="col-10">
+    <a href="/cart/<%=currentProduct._id%>/add?quantity=1" id="btnCart" class="btn-cart col-12 btn btn-success">
+      Add to Cart
+    </a>
+  </div>
+  <div class="product-info">
+    <h3 class="fs-5 border-bottom pb-2">Product Information</h3>
+    <ul class="list-unstyled">
+      <li><strong>Brand:</strong>
+        <%= currentProduct.brand %>
+      </li>
+      <li>
+        <strong>Category:</strong>
+        <%= currentProduct.category %> </li>
+      <li><strong>Model:</strong>
+        <%= currentProduct.productModel %>
+      </li>
+      <li><strong>Warranty:</strong> 1 Year</li>
+      <%= currentProduct.productModel %>
+      <li>
+        <strong>Shipping:</strong>
+        <%= currentProduct.productModel %>
+      </li>
+    </ul>
+  </div>
+</div>
+
+</section>
+
+<!-- Product Review Section-->
+<section id="reviewsSection">
+<div class="social-proof mt-3">
+<h3 class="fs-4 border-bottom pb-2">Customer Reviews</h3>
+<div id="ratings" class="my-3">
+<h4 class="fw-light text-muted fs-5">
+Overall Rating
+</h4>
+<div id="ratingStars" class="text-heading my-3 display-3 fw-lighter text-warning"></div>
+<span> <data id="averageRating"><%= currentProduct.averageRating %></data> /5 (Based on
+<data id="totalRatings"><%= currentProduct.totalRatings %></data>
+reviews)
+</span>
+</div>
+</div>
+<% if (currentProduct.reviews) {
+%>
+<div id="reviews" class="my-5 p">
+<% currentProduct.reviews.forEach(product => {
+%>
+<div class="review-box py-3 border-bottom">
+<div class="review-info">
+<p class="fs-5 my-0">
+<%= review.author %>
+</p>
+<p class="fs-6 my-0 text-muted">
+<%= review.updatedAt.toLocaleString() %>
+</p>
+</div>
+<div class="rating-stars">
+<%= review.rating %>
+</div>
+<div class="review-text">
+<p class="text-muted text-wrap">
+<%= review.body %>
+</p>
+</div>
+</div>
+<%
+}) %>
+<a href="/reviews" class="py-3 text-decoration-underline">Read all reviews</a>
+
+</div>
+<%
+} %>
+
+
+</section>
+
+<!-- Related Products Section-->
+<section id="relatedProducts" class="py-5 px-3 my-5 random-colo category-section">
+<div class="section-heading">
+<h3 class="text-heading me-2 display-6">
+People also checked
+</h3>
+<a href="/category/" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+</div>
+<div class="d-flex flex- overflow-scroll category-items">
+<% if (relatedProducts && Array.isArray(relatedProducts)) {
+%>
+<% relatedProducts.forEach((product)=> {
+%>
+<div class="col-7 col-md-4 col-lg-3 p-0 m-2 product-card rounded">
+<div class="card-image m-0 p-3">
+<img src="<%= product.productImage %>" alt="<%= product.name %>"
+class="random-colo overflow-hidden img-fluid" />
+</div>
+<div class="card-body p-0 m-2">
+<a href="/preview/<%=product._id %>" class="text-dark d-block fs-6 card-title">
+<%=product.name %>
+</a>
+<div class="">
+<span class="card-price fs-5">
+₦<%= product.price.toLocaleString() %>
+</span>
+<s class="old-price fs-6 text-danger">
+₦<%= product.price.toLocaleString() %>
+</s>
+</div>
+</div>
+</div>
+<%
+}) %>
+<%
+} %>
+</div>
+</div>
+
+</section>
 </main>

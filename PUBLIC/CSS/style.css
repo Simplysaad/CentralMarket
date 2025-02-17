@@ -399,9 +399,16 @@ nav .logo a {
   padding: 32px 16px;
 }
 
+.product-image{
+  overflow-y: hidden;
+  border: .1px solid;
+  padding: 2px;
+}
+
 .product-image img,
 .card-image {
   width: 100%;
+  
 }
 
 .product-details {

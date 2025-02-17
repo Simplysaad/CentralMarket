@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
+const fetch = require("node-fetch")
 
 // Import necessary models
 const Product = require("../Models/Product.js");
@@ -12,6 +13,7 @@ const Review = require("../Models/Review.js");
 
 // Import helper function
 const { relatedProductsFunc } = require("../Utils/helper.js");
+const { uploadToImgur } = require("../Utils/helper.js");
 
 let suggestions = new Set()
 Search.find({}, { searchTerm: 1 }).then(data => suggestions.add(data))
@@ -590,7 +592,7 @@ router.post("/order/place", async (req, res) => {
   }
 });
 
-// --- Feedback createb github Issue ---
+// --- Feedback creates github Issue ---
 router.get("/feedback", async (req, res) => {
   try {
     let currentUser = await User.findOne({ _id: req.session.userId })
@@ -606,6 +608,17 @@ router.get("/feedback", async (req, res) => {
     console.error(err)
   }
 })
+
+// --- Reviews route ---
+router.post("/product/:id/review", async(req, res)=>{
+  try{
+    const {reviewText, rating, customerId} = req.body
+  }
+  catch(err){
+    console.error(err)
+  }
+})
+
 // --- 502 Route ---
 router.get("/502", async (req, res) => {
   try {
@@ -638,6 +651,8 @@ router.get("/*", async (req, res) => {
     res.status(502).redirect("/502");
   }
 });
+
+
 
 
 module.exports = router;
