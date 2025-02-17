@@ -95,13 +95,29 @@ router.get("/", async (req, res) => {
 router.post("/product/:id/review", async (req, res) => {
     try {
         const { reviewText, rating, customerId } = req.body;
-        let productId = req.params.id;
+        const { id: productId } = req.params;
 
-        res.json({ reviewText, rating, customerId, productId });
+        const newReview = new Review({
+            reviewText,
+            rating,
+            customerId,
+            productId
+        });
+        const savedReview = await newReview.save();
+
+        // return res.json({
+        //             message: "Review saved successfully",
+        //             data: savedReview
+        //         });
+        return res.redirect("/preview/" + productId);
     } catch (err) {
         console.error(err);
+        return res
+            .status(500)
+            .json({ message: "Error saving review", error: err.message });
     }
 });
+
 router.get("/product/:id/review", async (req, res) => {
     try {
         let currentProduct = await Product.findById(req.params.id);
@@ -354,6 +370,14 @@ router.get("/preview/:id", async (req, res) => {
             // throw new Error("No product matches that ID"); // Throwing an error stops the execution
         }
 
+        let currentProductReviews = await Review.find({
+            productId: currentProduct._id
+        })
+            .limit(10)
+            .sort("helpfulVotes")
+            .sort("updatedAt")
+            .populate("customerId");
+
         // Increment preview count - using findByIdAndUpdate for cleaner code
         await Product.findByIdAndUpdate(req.params.id, {
             $inc: {
@@ -368,7 +392,8 @@ router.get("/preview/:id", async (req, res) => {
             locals,
             currentProduct,
             relatedProducts,
-            categories
+            categories,
+            currentProductReviews
         });
     } catch (err) {
         console.error("Error in preview route:", err);

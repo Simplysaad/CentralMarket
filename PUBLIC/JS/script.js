@@ -1,23 +1,3 @@
-let inputRange = document.getElementById("inputRange");
-let stars = document.querySelectorAll(".rating-star");
-
-stars.forEach((star, index) => {
-    star.addEventListener("click", () => {
-        stars.forEach((s, i) => {
-            s.classList.toggle("fas", i <= index);
-        });
-        inputRange.value = index + 1;
-        console.log(inputRange.value);
-    });
-});
-
-let reviewTextArea = document.getElementById("reviewTextArea")
-reviewTextArea.addEventListener("input", ()=>{
-  reviewTextArea.style.height = "auto"
-  reviewTextArea.style.height = reviewTextArea.scrollHeight + "px"
-})
-
-
 
 /**
 * toggleDisplay()
@@ -51,35 +31,17 @@ toggleDisplay(searchCont, btnShowSearch)
 const anchorTags = document.querySelectorAll("a[href]")
 anchorTags.forEach(tag => {
   tag.classList.toggle("active", tag.href == window.location.href)
-  // if(tag.href == window.location.href)
-  //   tag.classList.add("active")
-  //   else
-  //   tag.classList.remove("active")
 })
 
 
 // Array of characters used for generating random colors
 let charArray = ["a", "b", "c", "d", "e", "f", 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-// Array of ratings, this should come from database
-const ratings = [5, 4, 5, 5, 3, 1, 5, 3, 5, 5, 3, 4];
 
 
-/**
-* ratingStars()
-* Creates star elements based on the average rating and appends them to the specified container.
-*/
-function ratingStars() {
-  let avgRating = Math.ceil(getAverage(ratings));
 
-  for (let i = 0; i < avgRating; i++) {
-    createElement("ratingStars", "span", ["fa", "fa-star"]);
-  }
-  for (let i = 0; i < 5 - avgRating; i++) {
-    createElement("ratingStars", "span", ["fa-regular", "fa-star"]);
-  }
-}
-// Create rating stars on page load
-ratingStars();
+
+
+
 
 /**
 * getRatings()
@@ -292,8 +254,6 @@ btnShowPassword.forEach(btn => {
   });
 });
 
-// PLACE ORDER FUNCTION
-const placeOrder = () => { };
 
 
 /**
