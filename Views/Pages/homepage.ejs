@@ -1,3 +1,22 @@
+
+   <section class="carusel slide" data-bs-ride="carousel">
+      <div class="carousel-inner bg-secondary">
+        <% for (let i = 0; i < ads.length; i++) { %>
+          <div class="carousel-item bg-secondary mx-auto
+          <%= i === 0 ? 'active bg-success' : '' %>
+          <%= i === 1 ? ' bg-danger' : '' %>
+          <%= i === 2 ? ' bg-warning' : '' %>
+          ">
+            <img src="<%= ads[i].imageUrl %>" alt="<%= ads[i].title %>" class="img-fluid">
+          </div>
+        <% } %>
+      </div>
+    </section>
+
+
+
+
+
 <% if (featuredProducts){ %>
   <section id="featuredSection" class="py-5 px-3 my-5 random-colo category-section">
     <div class="section-heading">
@@ -16,14 +35,20 @@
             <a href="/preview/<%=product._id %>" class="text-decoration-none text-dark fs-6 card-title">
               <%=product.name %>
             </a>
-            <div class="">
-              <span class="card-price fs-5">
-                <%=product.price %>
-              </span>
-              <s class="old-price fs-6 text-danger">
-                $700
-              </s>
-            </div>
+          <div class="product-price">
+            <% if(product.discount){%>
+            <p class="card-price my-0 fs-5">
+              ₦<%=  (product.price - (product.discount/100) * product.price).toLocaleString() %>
+            </p>
+            <p class="old-price my-0 fs-6 text-danger">
+              ₦<%= product.price.toLocaleString() %>
+            </p>
+            <% }else{ %>
+            <p class="card-price my-0 fs-5">
+              ₦<%= product.price.toLocaleString() %>
+            </p>
+            <% }%>
+          </div>
             <div class="product-desc">
               <p class="desc-text">
                 <%=product.description %>
@@ -55,20 +80,27 @@
             <a href="/preview/<%=product._id %>" class="text-dark fs-6 card-title">
               <%=product.name %>
             </a>
-            <div class="">
-              <span class="card-price fs-5">
-                <%= product.price %>
-              </span>
-              <s class="old-price fs-6 text-danger">
-                <%= product.price %>
-              </s>
-            </div>
+          <div class="product-price">
+            <% if(product.discount){%>
+            <p class="card-price my-0 fs-5">
+              ₦<%=  (product.price - (product.discount/100) * product.price).toLocaleString() %>
+            </p>
+            <p class="old-price my-0 fs-6 text-danger">
+              ₦<%= product.price.toLocaleString() %>
+            </p>
+            <% }else{ %>
+            <p class="card-price my-0 fs-5">
+              ₦<%= product.price.toLocaleString() %>
+            </p>
+            <% }%>
+          </div>
+
           </div>
         </div>
       <% }) %>
     </div>
   </section>
-  <% } %>
+<% } %>
         
 <% if(recentSearches){ %>
   <section id="recentSearchesSection" class="py-5 px-3 my-5 random-colo category-section">
@@ -90,14 +122,20 @@
               <%=product.name %>
             </a>
 
-            <div class="">
-              <span class="card-price fs-5">
-                <%= product.price %>
-              </span>
-              <s class="old-price fs-6 text-danger">
-                $700
-              </s>
-            </div>
+          <div class="product-price">
+            <% if(product.discount){%>
+            <p class="card-price my-0 fs-5">
+              ₦<%=  (product.price - (product.discount/100) * product.price).toLocaleString() %>
+            </p>
+            <p class="old-price my-0 fs-6 text-danger">
+              ₦<%= product.price.toLocaleString() %>
+            </p>
+            <% }else{ %>
+            <p class="card-price my-0 fs-5">
+              ₦<%= product.price.toLocaleString() %>
+            </p>
+            <% }%>
+          </div>
           </div>
         </div>
         <% }) %>
@@ -126,13 +164,19 @@
               <%=product.name %>
           </a>
 
-          <div class="">
-            <span class="card-price fs-5">
-              <%= product.price %>
-            </span>
-            <s class="old-price fs-6 text-danger">
-              $700
-            </s>
+          <div class="product-price">
+            <% if(product.discount){%>
+            <p class="card-price my-0 fs-5">
+              ₦<%=  (product.price - (product.discount/100) * product.price).toLocaleString() %>
+            </p>
+            <p class="old-price my-0 fs-6 text-danger">
+              ₦<%= product.price.toLocaleString() %>
+            </p>
+            <% }else{ %>
+            <p class="card-price my-0 fs-5">
+              ₦<%= product.price.toLocaleString() %>
+            </p>
+            <% }%>
           </div>
         </div>
       </div>
@@ -163,23 +207,29 @@
               <%=product.name %>
             </a>
 
-            <div class="">
-              <span class="card-price fs-5">
-                <%= product.price %>
-              </span>
-              <s class="old-price fs-6 text-danger">
-                $700
-              </s>
-            </div>
+          <div class="product-price">
+            <% if(product.discount){%>
+            <p class="card-price my-0 fs-5">
+              ₦<%=  (product.price - (product.discount/100) * product.price).toLocaleString() %>
+            </p>
+            <p class="old-price my-0 fs-6 text-danger">
+              ₦<%= product.price.toLocaleString() %>
+            </p>
+            <% }else{ %>
+            <p class="card-price my-0 fs-5">
+              ₦<%= product.price.toLocaleString() %>
+            </p>
+            <% }%>
+          </div>
           </div>
         </div>
-        <% }) %>
+      <% }) %>
           
     </div>
   </section>
 <% } %>
  
- <%# if (areaPopularProducts){%>
+<%# if (areaPopularProducts){%>
   <section id="areaPopularSection" class="py-5 px-3 my-5 random-colo category-section">
     <div class="section-heading">
       <h3 class="text-heading me-2 display-6">
@@ -198,14 +248,20 @@
             <a href="/preview/<%#=product._id %>" class="text-decoration-none text-dark fs-6 card-title">
               <%#=product.name %>
             </a>
-            <div class="">
-              <span class="card-price fs-5">
-                <%#= product.price %>
-              </span>
-              <s class="old-price fs-6 text-danger">
-                $700
-              </s>
-            </div>
+          <div class="product-price">
+            <%# if(product.discount){%>
+            <p class="card-price my-0 fs-5">
+              ₦<%#=  (product.price - (product.discount/100) * product.price).toLocaleString() %>
+            </p>
+            <p class="old-price my-0 fs-6 text-danger">
+              ₦<%#= product.price.toLocaleString() %>
+            </p>
+            <%# }else{ %>
+            <p class="card-price my-0 fs-5">
+              ₦<%#= product.price.toLocaleString() %>
+            </p>
+            <%# }%>
+          </div>
           </div>
         </div>
         <%# }) %>
@@ -221,25 +277,35 @@
     <a href="/category/today-deals" class=" text-decoration-none  text-dark"></a>
   </div>
   <div class="d-flex flex- overflow-scroll category-items">
-    <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
-      <div class="card-image m-0 p-3">
-        <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
-      </div>
-      <div class="card-body p-0 m-2">
-        <p class="fs-6 card-title">
-          Infinix Smart 7
-        </p>
-        <div class="">
-          <span class="card-price fs-5">
-            $700
-          </span>
-          <s class="old-price fs-6 text-danger">
-            $700
-          </s>
+    <% todayDeals.forEach(product=>{ %>
+              <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+          <div class="card-image m-0 p-3">
+            <img src="<%= product.productImage %>" alt="<%= product.name %>"
+                                                                                                                                    class="random-colo overflow-hidden img-fluid" />
+          </div>
+          <div class="card-body p-0 m-2">
+            <a href="/preview/<%=product._id %>" class="text-decoration-none text-dark fs-6 card-title">
+              <%=product.name %>
+            </a>
+
+          <div class="product-price">
+            <% if(product.discount){%>
+            <p class="card-price my-0 fs-5">
+              ₦<%=  (product.price - (product.discount/100) * product.price).toLocaleString() %>
+            </p>
+            <p class="old-price my-0 fs-6 text-danger">
+              ₦<%= product.price.toLocaleString() %>
+            </p>
+            <% }else{ %>
+            <p class="card-price my-0 fs-5">
+              ₦<%= product.price.toLocaleString() %>
+            </p>
+            <% }%>
+          </div>
+          </div>
         </div>
-      </div>
-    </div>
-    
+
+    <% }) %>
   </div>
 </section>
       
@@ -251,7 +317,7 @@
       What Our Customers Say!
     </h3>
   </div>
-  <div class="testimonial-carousel carousel slide" data-bs-ride="carousel">
+  <div class="testimonial-carousel carouel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item mx-auto col-md-7 border testimoial">
         <div class="testimonial-image">

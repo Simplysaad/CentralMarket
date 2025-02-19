@@ -26,13 +26,14 @@
               </a>
             </td>
             <td>
-              <%= product.price %>
+              <%= 
+              "₦" + product.price.toLocaleString() %>
             </td>
             <td>
-              <%= product.amountSold * product.price %>
+              <%= "₦" + ( product.amountSold * product.price ).toLocaleString()%>
             </td>
             <td>
-              <%= product.amountSold %>
+              <%=   product.amountSold %>
             </td>
             <td>
               <%= product.amountInStock %>

@@ -1,21 +1,25 @@
 <form id="issueForm" class="mx-auto col-lg-6 border p-3">
   <div class="text-heading text-center my-5">
     <h1 class="display-4 fw-bold ">Customer Feedback</h1>
-    <p class="text-muted">We value your feedback</p>
+    <p class="text-muted">We welcome your criticism, complains and suggestions</p>
   </div>
   
-  <div class="form-">
-    <label class="text-muted" for="title">Title</label>
-    <input required class="form-control" id="title" name="title">
+  <div class="form-floating">
+    <input required class="form-control" value="<%= currentUser.username %>" id="name" name="username">
+    <label class="text-muted" for="username">Username</label>
   </div>
-  <div class="form-">
-    <label class="text-muted" for="description">Description</label>
+  <div class="form-floating">
+    <input required class="form-control" id="title" name="title">
+    <label class="text-muted" for="title">Title</label>
+  </div>
+  <div class="form-floating">
     <textarea required class="form-control" id="description" name="description"></textarea>
+    <label class="text-muted" for="description">Description</label>
   </div>
   <button class="btn btn-lg my-5 col-12 col-lg-6 btn-outline-success">Submit</button>
 </form>
 
-<div id="appreciate" class="mx-auto col-lg-6 text-center">
+<div id="appreciate" class="d-none mx-auto col-lg-6 text-center">
   
   <div class="message">
     <h3 class="display-4 text-center fw-bold my-4">Thank you for your Feedback!</h3>

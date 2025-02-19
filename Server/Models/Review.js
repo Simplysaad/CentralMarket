@@ -9,11 +9,27 @@ const reviewSchema = new mongoose.Schema({
     ref: "User"
   },
   rating: Number,
-  review: String,
+  reviewText: String,
+  status: {
+    type: String,
+    enum: ["pending", "approved", "rejected"],
+    default: "pending"
+  },
+  helpfulVotes: {
+    type: Number,
+    default: 0
+  },
+  response: {
+    type: String
+  },
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  },
 })
 const Review = new mongoose.model("Review", reviewSchema);
 module.exports = Review;

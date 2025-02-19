@@ -31,35 +31,17 @@ toggleDisplay(searchCont, btnShowSearch)
 const anchorTags = document.querySelectorAll("a[href]")
 anchorTags.forEach(tag => {
   tag.classList.toggle("active", tag.href == window.location.href)
-  // if(tag.href == window.location.href)
-  //   tag.classList.add("active")
-  //   else
-  //   tag.classList.remove("active")
 })
 
 
 // Array of characters used for generating random colors
 let charArray = ["a", "b", "c", "d", "e", "f", 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-// Array of ratings, this should come from database
-const ratings = [5, 4, 5, 5, 3, 1, 5, 3, 5, 5, 3, 4];
 
 
-/**
-* ratingStars()
-* Creates star elements based on the average rating and appends them to the specified container.
-*/
-function ratingStars() {
-  let avgRating = Math.ceil(getAverage(ratings));
 
-  for (let i = 0; i < avgRating; i++) {
-    createElement("ratingStars", "span", ["fa", "fa-star"]);
-  }
-  for (let i = 0; i < 5 - avgRating; i++) {
-    createElement("ratingStars", "span", ["fa-regular", "fa-star"]);
-  }
-}
-// Create rating stars on page load
-ratingStars();
+
+
+
 
 /**
 * getRatings()
@@ -114,7 +96,7 @@ let randomColorImage = document.querySelectorAll(".random-color");
 randomImageColor(cardImage);
 randomImageColor(categoryBox);
 randomImageColor(randomColorImage);
-randomImageColor(previewImage);
+//randomImageColor(previewImage);
 
 
 
@@ -272,8 +254,6 @@ btnShowPassword.forEach(btn => {
   });
 });
 
-// PLACE ORDER FUNCTION
-const placeOrder = () => { };
 
 
 /**
@@ -333,20 +313,21 @@ const btnAddCart = document.querySelectorAll(".btn-add-cart");
 
 
 
-const createIssue = async (e, title, description) => {
+const createIssue = async (e, username,  title, description) => {
   e.preventDefault()
 
   title = title.value
+  username = username.value
   description = description.value
 
-  const url = "https://api.github.com/repos/simplysaad/campus_mart/issues"
+  const url = "https://api.github.com/repos/simplysaad/CentralMarket/issues"
   const headers = {
     "Content-Type": "application/json",
     "Authorization": "Bearer " + process.env.GITHUB_PERSONAL_ACCESS_TOKEN
   }
   const data = {
     "title": title,
-    "body": description,
+    "body": `${username} \n ${description}`,
     "assignees": ["simplysaad"],
     "labels": ["customer feedback"]
   }
@@ -364,6 +345,9 @@ const createIssue = async (e, title, description) => {
     }
     else {
       console.log("issue created successfully")
+      setTimeout(()=>{
+        window.location.href = "/"
+      }, 3000)
     }
   }
   catch (err) {
@@ -374,16 +358,53 @@ const createIssue = async (e, title, description) => {
 
 const issueForm = document.getElementById("issueForm")
 let title = document.getElementById("title")
+let username = document.getElementById("username")
 let description = document.getElementById("description")
+
+
 let appreciation = document.getElementById("appreciate")
 
 
 appreciation.style.display = "none"
 issueForm.style.display = "block"
-issueForm.addEventListener("submit", createIssue)
+issueForm.addEventListener("submit", (e)=>{
+  e.preventDefault()
+  createIssue(e, username,  title, description)
+})
 
 /**
  * this function is used to shorten the links given preferredText and expiryDays
+ */
+ 
+// const getShortUrl = async (originalUrl, preferredText, expiryDays) => {
+//   try {
+//     const body = { originalUrl, preferredText, expiryDays };
+//     const response = await fetch("https://short-en.onrender.com/api", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify(body),
+//     });
+//     console.log(response)
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+// 
+//     const jsonData = await response.json();
+//     console.log(jsonData);
+//   } catch (err) {
+//     console.error(err);
+//   }
+// }
+// 
+/**
+ * Generates a short URL using the short-en.onrender.com API.
+ *
+ * @async
+ * @param {string} originalUrl - The original URL to be shortened.
+ * @param {string} [preferredText] - The preferred text for the short URL.
+ * @param {number} [expiryDays] - The number of days until the short URL expires.
+ * @throws {Error} If the API request fails.
+ * @returns {Promise<void>}
  */
 const getShortUrl = async (originalUrl, preferredText, expiryDays) => {
   try {
@@ -397,11 +418,11 @@ const getShortUrl = async (originalUrl, preferredText, expiryDays) => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
     const jsonData = await response.json();
     console.log(jsonData);
   } catch (err) {
     console.error(err);
   }
 }
+
 //getShortUrl()

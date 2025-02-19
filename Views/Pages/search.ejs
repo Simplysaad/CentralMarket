@@ -9,7 +9,7 @@
   <% if(searchResults.searchResults_business.length > 0){ %>
   <div class="category-heading d-flex flex-wrap align-items-center justify-content-between">
     <h3 class="category-title text-upper text-muted fs-4">
-      Businesses
+      Stores
     </h3>
   </div>
 
@@ -47,14 +47,16 @@
             <a href="/preview/<%=product._id %>" class="text-dark d-block text-decoration-none fs-6 card-title">
               <%=product.name %>
             </a>
-            <div class="">
-              <span class="card-price fs-5">
-                <%= product.price %>
-              </span>
-              <s class="old-price fs-6 text-danger">
-                <%= product.price %>
-              </s>
-            </div>
+          <div class="product-price">
+            <p class="card-price my-0 fs-5">
+              ₦<%= product.price.toLocaleString() %>
+            </p>
+            <% if(product.discount){%>
+            <p class="old-price my-0 fs-6 text-danger">
+              ₦<%=  (product.price - (product.discount/100) * product.price).toLocaleString() %>
+            </p>
+            <% }%>
+          </div>
           </div>
         </div>
         <% }) %>

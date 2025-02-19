@@ -2,6 +2,8 @@ const express = require("express");
 const expressLayout = require("express-ejs-layouts");
 const ejs = require("ejs");
 const morgan = require("morgan");
+const fileUpload = require("express-fileupload");
+
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -31,6 +33,7 @@ app.get("/api", (req, res) => {
 app.use(morgan("tiny"));
 
 app.use(cookieParser());
+app.use(fileUpload())
 app.use(
     session({
         store: mongoStore.create({
