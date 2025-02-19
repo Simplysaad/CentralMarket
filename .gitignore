@@ -1,4 +1,4 @@
 .env
-node_modules/
 gitshow.txt
 gitcommits.txt
+node_modules/
