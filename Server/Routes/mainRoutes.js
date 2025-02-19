@@ -72,6 +72,9 @@ router.get("/", async (req, res) => {
         const newArrivals = await Product.find({})
             .sort({ createdAt: -1 })
             .limit(11);
+        const todayDeals = await Product.find({ discount: { $exists: true } })
+            .sort({ createdAt: -1 })
+            .limit(10);
         // Get distinct categories
         const categories = await Product.distinct("category");
 
@@ -82,6 +85,7 @@ router.get("/", async (req, res) => {
             popularProducts,
             featuredProducts,
             recentSearches,
+            todayDeals,
             topSellingProducts,
             newArrivals
         });
@@ -362,7 +366,7 @@ router.get("/preview/:id", async (req, res) => {
 
         // Find product by ID
         const currentProduct = await Product.findById(req.params.id);
-
+        console.log("req.params", req.params);
         // Handle product not found explicitly
         if (!currentProduct) {
             console.log(`Product with ID ${req.params.id} not found`); // Log the error
@@ -378,6 +382,40 @@ router.get("/preview/:id", async (req, res) => {
             .sort("updatedAt")
             .populate("customerId");
 
+        console.log("currentProductReviews", currentProductReviews);
+
+        // let {
+        //     overallRating,// = 0,
+        //     averageRating, // = 0,
+        //     ratingsCount // = 0
+        // }
+        let ratingObject = await Review.aggregate([
+            {
+                $match: {
+                    productId: currentProduct._id
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    overallRating: { $sum: "$rating" },
+                    averageRating: { $avg: "$rating" },
+                    ratingsCount: { $sum: 1 }
+                }
+            }
+        ]);
+        // console.log({ overallRating, averageRating, ratingsCount });
+        console.log({ ratingObject });
+
+        const overallRating = currentProductReviews.reduce((acc, review) => {
+            return acc + review.rating;
+        }, 0);
+        const averageRating =
+            currentProductReviews.length === 0
+                ? 0
+                : overallRating / currentProductReviews.length;
+        console.log({ overallRating, averageRating });
+
         // Increment preview count - using findByIdAndUpdate for cleaner code
         await Product.findByIdAndUpdate(req.params.id, {
             $inc: {
@@ -391,6 +429,9 @@ router.get("/preview/:id", async (req, res) => {
         res.render("Pages/preview", {
             locals,
             currentProduct,
+            overallRating,
+            averageRating,
+            ratingsCount: currentProductReviews.length,
             relatedProducts,
             categories,
             currentProductReviews
@@ -424,8 +465,9 @@ router.get("/cart", async (req, res) => {
         // Set flag for cart empty check
         const isCartEmpty = cart.length === 0;
 
-        locals.title = "Cart | CentralMarket"; // Update title
+        locals.title = "My Cart | CentralMarket"; // Update title
 
+        console.log("cartItems", req.session.cart);
         // Render cart page
         res.render("Pages/cart", {
             categories,

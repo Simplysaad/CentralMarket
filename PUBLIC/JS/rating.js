@@ -1,13 +1,12 @@
 let ratingStarsDivs = document.querySelectorAll(".rating-stars");
 ratingStarsDivs.forEach((starDiv, index) => {
-    console.log(starDiv);
     let ratingNumberDiv = starDiv.querySelector("data");
 
-    let ratingNumber = Number(ratingNumberDiv.textContent);
-    console.log(ratingNumber);
+    let ratingNumber = Number(ratingNumberDiv.textContent) * 1;
+    console.log("ratingNumber * 10 = ", ratingNumber * 10);
 
     // createRatingStars(starDiv, ratingNumber);
-
+    ratingNumber = Math.ceil(ratingNumber);
     for (let i = 0; i < ratingNumber; i++) {
         let newStar = document.createElement("i");
         newStar.classList.add("fas", "fa-star");
@@ -71,9 +70,6 @@ function createElement(parentSelector, tag, classes, textContent, src) {
     element.href = src;
     parent.append(element);
 }
-
-const ratings = [5, 4, 5, 5, 3, 1, 5, 3, 5, 5, 3, 4];
-
 /**
  * createRatingStars()
  * Creates star elements based on the average rating and appends them to the specified container.
@@ -86,6 +82,7 @@ function createRatingStars(rating, parent) {
         createElement(parent, "i", ["fa-regular", "fa-star"]);
     }
 }
-// Create rating stars on page load
-let avgRating = Math.ceil(getAverage(ratings));
-createRatingStars(avgRating);
+
+let avgRatingDiv = document.getElementById("averageRating");
+let avgRating = Number(avgRatingDiv.textContent);
+createRatingStars(avgRating, "#avgRating");

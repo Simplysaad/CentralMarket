@@ -45,12 +45,20 @@
 
 
     <div class="price">
+      <% if(currentProduct.discount){%>
+      <span class="current-prce fs-4 ">
+              ₦<%=  (currentProduct.price - (currentProduct.discount/100) * currentProduct.price).toLocaleString() %>
+      </span>
+
+            <s class="old-price my-0 fs-6 text-danger">
+        ₦<%= currentProduct.price.toLocaleString() %>
+            </s>
+      <% }else{ %>
       <span class="current-prce fs-4 ">
         ₦<%= currentProduct.price %>
       </span>
-      <s class="old-price fs-6 text-danger">
-        ₦<%= currentProduct.price %>
-      </s>
+     <% }%>
+
       <span class="discount text-success">
 
       </span>
@@ -107,11 +115,17 @@
       <h4 class="fw-light text-muted fs-5">
         Overall Rating
       </h4>
-      <div id="ratingStars" class="text-heading my-3 display-3 fw-lighter text-warning"></div>
-      <span> <data id="averageRating"><%= currentProduct.averageRating %></data> /5 (Based on
-        <data id="totalRatings"><%= currentProduct.totalRatings %></data>
-        reviews)
-      </span>
+      <div id="ratingStars" class="text-heading rating-stars my-3 display-3 fw-lighter text-warning">
+        <data class="d-none"><%=averageRating %></data>
+      </div>
+      <div> 
+        <span id="averageRating">
+          <%= averageRating.toFixed(1) + "/5" %>
+        </span>  
+        <span id="totalRatings">
+          <%= "(Based on " +  ratingsCount + " reviews)" %>
+        </span>
+      </div>
     </div>
   </div>
   <% if (currentProductReviews) {
@@ -119,6 +133,7 @@
     <div id="reviews" class="my-5 p">
       <% currentProductReviews.forEach(review => {
         %>
+        <%if(review.reviewText){%>
         <div class="review-box py-3 border-bottom">
           <div class="review-info">
             <p class="fs-5 my-0">
@@ -137,6 +152,7 @@
             </p>
           </div>
         </div>
+        <% } %>
         <%
       }) %>
       <a href="/product/<%= currentProduct._id %>/review" class="py-3 text-decoration-underline">See all reviews</a>
@@ -171,13 +187,20 @@
           <a href="/preview/<%=product._id %>" class="text-dark d-block fs-6 card-title">
             <%=product.name %>
           </a>
-          <div class="">
-            <span class="card-price fs-5">
+          <div class="product-price">
+            <% if(product.discount){%>
+            <p class="card-price my-0 fs-5">
+              ₦<%=  (product.price - (product.discount/100) * product.price).toLocaleString() %>
+            </p>
+            <p class="old-price my-0 fs-6 text-danger">
               ₦<%= product.price.toLocaleString() %>
-            </span>
-            <s class="old-price fs-6 text-danger">
+            </p>
+            <% }else{%>
+              <p class="card-price my-0 fs-5">
               ₦<%= product.price.toLocaleString() %>
-            </s>
+            </p>
+            <% } %>
+            
           </div>
         </div>
       </div>

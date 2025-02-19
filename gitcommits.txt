@@ -1,3 +1,12 @@
+commit a472696a6042d1b5749b00ec2ca2a114d7e04bda
+Author: simplysaad <saadidris23@gmail.com>
+Date:   Mon Feb 17 18:47:01 2025 +0100
+
+    improved the rating and review functionality
+    added a way to view reviews from preview page
+  a link to add a review about a product
+    but i'll remove it later so customers can only review after they have bought a product
+
 commit 708a773e137043c12a7ff9d0a0b301a195acbc91
 Author: simplysaad <saadidris23@gmail.com>
 Date:   Mon Feb 17 16:42:17 2025 +0100

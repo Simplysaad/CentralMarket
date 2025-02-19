@@ -42,14 +42,16 @@
               <a href="/preview/<%=product._id%>" class="fs-6 text-decoration-none text-dark card-title">
                 <%= product.name %>
               </a>
-              <div class="">
-                <span class="card-price fs-5">
-                  <%= product.price %>
-                </span>
-                <s class="old-price fs-6 text-danger">
-                  <%= product.price %>
-                </s>
-              </div>
+            <div class="product-price">
+              <p class="card-price my-0 fs-5">
+                ₦<%= product.price.toLocaleString() %>
+              </p>
+              <% if(product.discount){%>
+              <p class="old-price my-0 fs-6 text-danger">
+                ₦<%= product.price.toLocaleString() %>
+              </p>
+              <% }%>
+            </div>
             </div>
           </div>
           <% }) %>
