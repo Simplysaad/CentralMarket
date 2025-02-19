@@ -56,32 +56,68 @@
           </div>
           <% }) %>
       </div>
-      <% } %>
+    <% } %>
   </section>
-  <section id="messageSection" class="my-5">
-    <div class="text-heading display-6">
-      <i class="fa fa-note">
-      
-      </i>
-      <span class="">
-        Leave a message
-      </span>
-    </div>
-    <form class="py-3 container border text-start" action="/store/<%= vendor.id %>" method="post">
-      <div class="form-group my-2">
-        <label class="form-text" for="emailAddress">
-          Email Address
-        </label>
-        <input placeholder="input email" value="<%= currentUser.emailAddress || "" %>" class="form-control" type="text" id="emailAddress"
-                                                                                                                                name="emailAddress">
+  
+    <% if (currentUser._id.equals(vendor._id)) { %>
+    <section id="messages" class="my-5 ">      
+      <h3 class="text-heading me-2 fs-4 fw-light">
+        My Messages
+      </h3>
+      <%if(!currentUser.messages){%>
+        <div class="empty-messages">
+          <p class="text-muted display-5 fw-semibold">
+            No messages here yet
+          </p>
+        </div>
+      <% }else{ %>
+      <% vendor.messages.forEach(message => { %>
+        <%if(message.messageText){%>
+        <div class="review-box py-3 border-bottom">
+          <div class="review-info">
+            <p class="fs-5 my-0">
+              <%= message.senderName %>
+            </p>
+            <p class="fs-6 my-0 text-muted">
+              <%= message.updatedAt.toLocaleString() %>
+            </p>
+          </div>
+          <div class="review-text">
+            <p class="text-muted text-wrap">
+              <%= message.messageText %>
+            </p>
+          </div>
+        </div>
+        <% } %>
+      <% }) %>
+    <% } %>
+
+    </section>
+    <% } else { %>
+    <section id="messageSection" class="my-5">
+      <div class="text-heading text-center">
+        <h5 class="my-0 display-6">
+          Leave a message
+        </h5>
+        <p class="fs-6 my-0 text-muted">This message can only be seen by the vendor</p>
       </div>
-      <div class="form-group my-2">
-        <label class="form-text" for="messageText">
-          Message Text
-        </label>
-        <textarea class="form-control" name="messageText" id="messageText"></textarea>
-      </div>
-      <button class="mx-3 col-10 btn btn-lg btn-outline-success">
-        Submit
-      </button>
-    </form>
+      <form class="py-3 container border text-start" action="/store/<%= vendor.id %>" method="post">
+        <div class="form-group my-2">
+          <label class="form-text" for="username">
+            Username 
+          </label>
+          <input required placeholder="Enter username" value="<%= currentUser.username || "" %>" class="form-control" type="text" id="senderName" name="senderName">
+        </div>
+        <input class="d-none" hidden value="<%=currentUser._id %>" name="senderId">
+        <div class="form-group my-2">
+          <label class="form-text" for="messageText">
+            Message Text
+          </label>
+          <textarea required class="form-control" name="messageText" id="messageText"></textarea>
+        </div>
+        <button class="mx-3 col-10 btn btn-lg btn-outline-success">
+          Submit
+        </button>
+      </form>
+    </section>
+    <% } %>

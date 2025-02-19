@@ -10,7 +10,7 @@ const notificationSchema = new mongoose.Schema(
         },
         type: {
             type: String,
-            enum: ["order", "products", "payment", "review", "general"],
+            enum: ["order", "products", "payment", "review", "general", "mesaage"],
             default: "general"
         },
         status: {
@@ -21,10 +21,39 @@ const notificationSchema = new mongoose.Schema(
         createdAt: {
             type: Date,
             default: Date.now
+        },
+        link: String
+    },
+    { _id: false }
+);
+const messageSchema = new mongoose.Schema(
+    {
+        senderId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        senderName: {
+            type: String,
+            default: "Anonymous"
+        },
+        messageText: String,
+        messageStatus: {
+            type: String,
+            enum: ["read", "unread"],
+            default: "unread"
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now
+        },
+        updatedAt: {
+            type: Date,
+            default: Date.now
         }
     },
     { _id: false }
 );
+
 const UserSchema = new mongoose.Schema({
     username: String,
     emailAddress: {
@@ -56,6 +85,7 @@ const UserSchema = new mongoose.Schema({
         zipcode: String
     },
     notifications: [notificationSchema],
+    messages: [messageSchema],
     businessName: {
         type: String,
         unique: true

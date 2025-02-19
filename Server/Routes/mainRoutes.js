@@ -25,7 +25,7 @@ const locals = {
     imageUrl: "/IMG/favicon.png",
     searchSuggestions: suggestions
 };
-
+const dirtyRegex = /[</\\>&;//]/gi;
 // Commented out code - consider enabling or removing
 // Search.find({}, { searchTerm: 1 }).then(data => locals.searchSuggestions = data)
 // Product.createIndex({
@@ -109,10 +109,34 @@ router.post("/product/:id/review", async (req, res) => {
         });
         const savedReview = await newReview.save();
 
-        // return res.json({
-        //             message: "Review saved successfully",
-        //             data: savedReview
-        //         });
+        let reviewedProduct = await Product.findOne(
+            { _id: productId },
+            { name: 1, vendorId: 1 }
+        );
+
+        let newNotification = {
+            title: `New review on ${reviewedProduct.name}`,
+            body:
+                reviewText.length > 60
+                    ? reviewText.substring(0, 20) + "..."
+                    : reviewText,
+            type: "review",
+            link: `/preview/${productId}#reviews`
+        };
+
+        await User.updateOne(
+            {
+                _id: reviewedProduct.vendorId
+            },
+            {
+                $push: {
+                    notifications: newNotification
+                }
+            }
+        ).then(data => {
+            console.log(`new notification sent to vendor`);
+        });
+
         return res.redirect("/preview/" + productId);
     } catch (err) {
         console.error(err);
@@ -233,8 +257,7 @@ router.all("/search", async (req, res) => {
         //Get userId from session
         let { userId } = req.session;
         // Sanitize and trim search term to prevent injection
-        const symbols = /[</\\>&;//]/gi;
-        searchTerm = searchTerm.replace(symbols, " ").trim();
+        searchTerm = searchTerm.replace(dirtyRegex, " ").trim();
 
         // Create regex for case-insensitive search
         let regex = new RegExp(searchTerm, "gi");
@@ -324,14 +347,17 @@ router.get("/store/:id", async (req, res) => {
         let vendorId = req.params.id;
         let categories = await Product.distinct("category");
         let vendor = await User.findOne({ _id: vendorId });
-
+        
         vendor.products = await Product.find({ vendorId: vendor._id });
 
         let currentUser;
         if (req.session.userId)
             currentUser = await User.findOne({ _id: req.session.userId });
         else currentUser = {};
-
+        
+        
+        console.log({"currentUser._id": currentUser._id, "vendor._id": vendor._id})
+        
         locals.title = vendor.businessName + " | CentralMarket";
         locals.description = vendor.businessDesc;
         locals.imageUrl = vendor.coverImage || locals.imageUrl;
@@ -351,6 +377,37 @@ router.get("/store/:id", async (req, res) => {
 router.post("/store/:id", async (req, res) => {
     try {
         //this route is for the leave a message form
+        let { senderName, messageText, senderId } = req.body;
+
+        messageText = messageText.replace(dirtyRegex, "_");
+        senderName = senderName.replace(dirtyRegex, "_");
+
+        let newMessage = {
+            messageText,
+            senderId,
+            senderName
+        };
+        let newNotification = {
+            title: `New message from ${senderName}`,
+            body:
+                messageText > 40
+                    ? messageText.substring(0, 40) + "..."
+                    : messageText,
+            type: "message",
+            link: `/vendor/store/${req.params.id}#messages`
+        };
+
+        let currentVendor = await User.updateOne(
+            { _id: req.params.id },
+            {
+                $push: {
+                    messages: newMessage,
+                    notifications: newNotification
+                }
+            }
+        );
+        //return res.redirect(`/store/${req.params.id}`);
+        return res.redirect("/");
     } catch (err) {
         console.error(err);
     }
@@ -725,5 +782,27 @@ router.get("/*", async (req, res) => {
         res.status(502).redirect("/502");
     }
 });
+
+const createNewNotification = async (title, body, type, link) => {
+    let newNotification = {
+        title,
+        body,
+        type,
+        link
+    };
+
+    await User.updateOne(
+        {
+            _id: reviewedProduct.vendorId
+        },
+        {
+            $push: {
+                notifications: newNotification
+            }
+        }
+    ).then(data => {
+        console.log(`new notification sent to vendor`);
+    });
+};
 
 module.exports = router;
