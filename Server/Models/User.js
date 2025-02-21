@@ -1,16 +1,26 @@
+/** @format */
+
 const mongoose = require("mongoose");
 const notificationSchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            required: true
+            required: true,
+            index: true
         },
         body: {
             type: String
         },
         type: {
             type: String,
-            enum: ["order", "products", "payment", "review", "general", "mesaage"],
+            enum: [
+                "order",
+                "products",
+                "payment",
+                "review",
+                "general",
+                "mesaage"
+            ],
             default: "general"
         },
         status: {
@@ -75,7 +85,11 @@ const UserSchema = new mongoose.Schema({
     },
     profileImage: {
         type: String,
-        default: "random-profile.jpg"
+        default: "https://placehold.co/400"
+    },
+    coverImage: {
+        type: String,
+        default: "https://placehold.co/600x200"
     },
     deliveryAddress: {
         recipientName: String,
@@ -92,10 +106,6 @@ const UserSchema = new mongoose.Schema({
     },
     businessDesc: {
         type: String
-    },
-    coverImage: {
-        type: String,
-        default: "random-color.jpg"
     },
     socials: [
         {
