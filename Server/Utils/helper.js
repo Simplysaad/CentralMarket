@@ -1,7 +1,58 @@
+/** @format */
+
 const User = require("../Models/User");
 const Product = require("../Models/Product");
 const Order = require("../Models/Order");
-//const fetch = require("node-fetch");
+const fetch = require("node-fetch");
+const nodemailer = require("nodemailer");
+const ejs = require("ejs");
+const fs = require("fs");
+
+const dotenv = require("dotenv");
+dotenv.config();
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASSWORD
+    }
+});
+
+/**
+ * Sends an email using a predefined template.
+ *
+ * @param {string} subject - The subject of the email.
+ * @param {string} recipient - The recipient's email address.
+ * @param {string} template - The path to the mail template ejs file
+ * @param {object} data - The data to be rendered in the email template.
+ * @param {string} text - The plain text version of the email.
+ *
+ * @returns {Promise<void>}
+ */
+const sendMessage = async (subject, recipient, template, data, text) => {
+    try {
+        const htmlFile = await ejs.renderFile(
+            template || "../../Views/Pages/mail-template.ejs",
+            data
+        );
+
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            bcc: [recipient],
+            subject,
+            text,
+            html: htmlFile
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log("Email Sent", info);
+    } catch (err) {
+        console.error(err);
+    }
+};
 
 //helper functions
 const relatedProductsFunc = (arr, n) => {
@@ -190,13 +241,13 @@ const getAge = timestamp => {
 
 const uploadToImgur = async file => {
     /**
-     * 
+     *
      */
     try {
-    //  console.log(file)
+        //  console.log(file)
         let url = "https://api.imgur.com/3/upload";
         let formData = new FormData();
-        let newBlob = new Blob([file.data])
+        let newBlob = new Blob([file.data]);
         formData.append("image", new Blob([file.data]), file.name);
 
         let response = await fetch(url, {
@@ -207,7 +258,7 @@ const uploadToImgur = async file => {
             body: formData
         });
         let responseJson = await response.json();
-        console.log("responseJson", responseJson)
+        console.log("responseJson", responseJson);
         let { link, title, description } = responseJson.data;
 
         return { link, title, description };
@@ -215,9 +266,6 @@ const uploadToImgur = async file => {
         console.error(err);
     }
 };
-
-
-
 
 // const uploadToImgur = async (files) => {
 //   const imgurUploads = [];
@@ -243,9 +291,7 @@ const uploadToImgur = async file => {
 //   }
 //   return imgurUploads;
 // }
-// 
-
-
+//
 
 module.exports = {
     relatedProductsFunc,
@@ -254,5 +300,6 @@ module.exports = {
     getFrequencies,
     sortArray,
     getAge,
-    uploadToImgur
+    uploadToImgur, 
+    sendMessage
 };

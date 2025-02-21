@@ -1,3 +1,5 @@
+/** @format */
+
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
@@ -13,6 +15,7 @@ const Review = require("../Models/Review.js");
 // Import helper function
 const { relatedProductsFunc } = require("../Utils/helper.js");
 const { uploadToImgur } = require("../Utils/helper.js");
+const { sendMessage } = require("../Utils/helper.js");
 
 let suggestions = new Set();
 Search.find({}, { searchTerm: 1 }).then(data => suggestions.add(data));
@@ -134,7 +137,9 @@ router.post("/product/:id/review", async (req, res) => {
                 }
             }
         ).then(data => {
-            console.log(`new notification sent to vendor`);
+            
+                //sendMessage(data.title, );
+                console.log(`new notification sent to vendor`);
         });
 
         return res.redirect("/preview/" + productId);
@@ -347,17 +352,19 @@ router.get("/store/:id", async (req, res) => {
         let vendorId = req.params.id;
         let categories = await Product.distinct("category");
         let vendor = await User.findOne({ _id: vendorId });
-        
+
         vendor.products = await Product.find({ vendorId: vendor._id });
 
         let currentUser;
         if (req.session.userId)
             currentUser = await User.findOne({ _id: req.session.userId });
         else currentUser = {};
-        
-        
-        console.log({"currentUser._id": currentUser._id, "vendor._id": vendor._id})
-        
+
+        console.log({
+            "currentUser._id": currentUser._id,
+            "vendor._id": vendor._id
+        });
+
         locals.title = vendor.businessName + " | CentralMarket";
         locals.description = vendor.businessDesc;
         locals.imageUrl = vendor.coverImage || locals.imageUrl;
