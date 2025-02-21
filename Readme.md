@@ -28,7 +28,7 @@ To install and run Central Market on your local machine:
 
 ## Usage
 - Visit `http://localhost:8000` to access the website on your device 
-- or visit [CentralMarket](https://centralmarket.onrender.com/)
+- or visit [CentralMarket](https://centralmarket.onrender.com/auth/register)
 - Register as a vendor or customer to start using the platform
 
 ## Contributing
