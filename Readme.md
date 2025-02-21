@@ -27,7 +27,8 @@ To install and run Central Market on your local machine:
 4. Start the server using `npm start` or `yarn start`
 
 ## Usage
-- Visit `http://localhost:8000` to access the website
+- Visit `http://localhost:8000` to access the website on your device 
+- or visit [CentralMarket](https://centralmarket.onrender.com/)
 - Register as a vendor or customer to start using the platform
 
 ## Contributing
