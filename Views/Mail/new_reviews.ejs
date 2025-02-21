@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= newNotification.title  %>
+  </title>
+  <meta charset="utf-8" />
+  <meta name="author" content="simplysaad" />
+  <link rel="stylesheet" href="/CSS/style.css" />
+
+  <link rel="icon" href="/IMG/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+
+</head>
+
+<body>
+  <main class="d-flex main container justify-content-center">
+    <section
+    id="main-content"
+    class="mt-5 container-sm col-md-8 pe-md-4 content col-md-9 ml-sm-auto col-lg-10 px-4 py-5"
+>
+    <p class="fs-5">Hi <%= newNotification.businessName %>,</p>
+
+    <p class="fs-6"> <%= newNotification.title %></p>
+
+    <div class="review-box my-4">
+        <p class="my-0 review-name"><%= newNotification.reviewName %></p>
+        <div>
+
+        </div>
+        <div class="review-text">
+          <%= newNotification.reviewText %>
+        </div>
+        <div class="review-date"><%= "10 minutes ago" %></div>
+    </div>
+
+    <div class="fs-6">
+        
+    </div>
+    <a
+        href="https://centralmarket.onrender.com/preview/<%= newNotification.productId %>#reviews"
+        class="fs-6 text-primary"
+        >View more</a
+    >
+</section>
+  </main>
+
+      <!-- Bootstrap JS and dependencies -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.js"></script>
+      <script defer src="/JS/script.js"></script>
+      <script defer src="/JS/rating.js"></script>
+</body>
+
+</html>

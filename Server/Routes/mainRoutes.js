@@ -126,6 +126,27 @@ router.post("/product/:id/review", async (req, res) => {
             type: "review",
             link: `/preview/${productId}#reviews`
         };
+        let template = "../../Views/Mail/new_reviews.ejs";
+        let vendor = await User.findById(reviewedProduct.vendorId).select(
+            "emailAddress businessName"
+        );
+        let customer = await User.findById(customerId).select(
+            "emailAddress username"
+        );
+
+        newNotification.reviewText = reviewText;
+        newNotification.reviewName = customer.username;
+        newNotification.businessName = vendor.businessName;
+        newNotification.productId = productId;
+
+        console.log("vendor", vendor);
+        let message = await sendMessage(
+            newNotification.title,
+            vendor.emailAddress,
+            template,
+            {newNotification}
+        );
+        console.log("message", vendor);
 
         await User.updateOne(
             {
@@ -137,9 +158,8 @@ router.post("/product/:id/review", async (req, res) => {
                 }
             }
         ).then(data => {
-            
-                //sendMessage(data.title, );
-                console.log(`new notification sent to vendor`);
+            //sendMessage(data.title, );
+            console.log(`new notification sent to vendor`);
         });
 
         return res.redirect("/preview/" + productId);
@@ -403,6 +423,15 @@ router.post("/store/:id", async (req, res) => {
             type: "message",
             link: `/vendor/store/${req.params.id}#messages`
         };
+
+        let template = "../../Views/Mail/new_message.ejs";
+        let vendor = await User.findById(req.params.id).select("emailAddress");
+        let message = await sendMessage(
+            newNotification.title,
+            vendor.emailAddress,
+            template,
+            newNotification
+        );
 
         let currentVendor = await User.updateOne(
             { _id: req.params.id },
