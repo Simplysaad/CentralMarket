@@ -7,6 +7,7 @@ const fetch = require("node-fetch");
 const nodemailer = require("nodemailer");
 const ejs = require("ejs");
 const fs = require("fs");
+const path = require("path");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -34,21 +35,26 @@ const transporter = nodemailer.createTransport({
  */
 const sendMessage = async (subject, recipient, template, data, text) => {
     try {
-        const htmlFile = await ejs.renderFile(
-            template || "../../Views/Pages/mail-template.ejs",
-            data
+        const htmlContent = await ejs.renderFile(
+            path.resolve(__dirname, template || "../../Test/mail-template.ejs"),
+            data || {}
         );
-
+        //let htmlFile = "../../Test/mail-template.html";
+        // let htmlContent = fs.readFileSync(
+        //     path.resolve(__dirname, htmlFile),
+        //     "utf8"
+        // );
         const mailOptions = {
             from: process.env.GMAIL_USER,
             bcc: [recipient],
             subject,
             text,
-            html: htmlFile
+            html: htmlContent
         };
 
         const info = await transporter.sendMail(mailOptions);
         console.log("Email Sent", info);
+        return info;
     } catch (err) {
         console.error(err);
     }
@@ -300,6 +306,6 @@ module.exports = {
     getFrequencies,
     sortArray,
     getAge,
-    uploadToImgur, 
+    uploadToImgur,
     sendMessage
 };

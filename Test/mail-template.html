@@ -25,201 +25,7 @@
     </head>
 
     <body>
-        <header class="navbar header fixed-top navbar-light bg-liht py-3">
-            <div class="container">
-                <div class="navbar-brand">
-                    <button
-                        id="btnShowSidebar"
-                        class="mx-0 btn btn-navbar-toggler"
-                    >
-                        <i class="navbar-toggler-icon"></i>
-                    </button>
-                    <a href="/" class="navbar-brand text-decoration-none mx-0"
-                        >Central Market</a
-                    >
-                </div>
-
-                <div class="options d-flex">
-                    <a
-                        id="btnShowSearch"
-                        class="option option-search text-end d-flex text-dark text-decoration-none"
-                    >
-                        <span class="d-none d-md-inline text-muted"
-                            >Search for your products</span
-                        >
-                        <i class="fas fa-search me-md-1"></i>
-                    </a>
-                    <a class="option d-flex text-dark text-decoration-none">
-                        <i class="fas fa-user me-md-1"></i>
-                    </a>
-                    <a class="option d-flex text-dark text-decoration-none">
-                        <i class="fas fa-cog me-md-1"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="search-container col-12 px-3">
-                <form action="/search" method="post" class="input-goup">
-                    <input
-                        class="form-control search-input col-9"
-                        type="search"
-                        placeholder="Search for products, categorys and keywords"
-                    />
-                    <button class="btn btn-search btn-success">Go</button>
-                </form>
-            </div>
-        </header>
-
         <main class="-flex main justify-content-center">
-            <nav
-                id="sidebar"
-                class="random-colo pt-5 pt-md-3 col-md-4 sidebar z-3 bg-light"
-            >
-                <div class="container-fluid overflow-scroll">
-                    <div
-                        id="btnHideSidebar"
-                        class="d-none navbar-toggler text-end d-flex justify-content-end"
-                    >
-                        <a class="btn-close p-1 px-4"></a>
-                    </div>
-                    <div class="nav-heading text-center my-4">
-                        <div class="nav-logo my-3">
-                            <img
-                                src="favicon.png"
-                                class="img-fluid mx-1 profile-img"
-                                alt="CM"
-                            />
-                        </div>
-                        <div class="col-9">
-                            <h2 class="text-heading profile-name my-0 fw-bold">
-                                John Doe
-                            </h2>
-                            <p
-                                class="d-block my-2 fs-5 profile-role text-muted text-white"
-                            >
-                                Guest/Customer
-                            </p>
-                        </div>
-                    </div>
-                    <ul class="overflow-scroll nav-links px-2">
-                        <a
-                            href="/Dashboard.html"
-                            class="text-decoration-none fs6 text-uppercase text-muted"
-                            >My account</a
-                        >
-                        <li class="nav-link">
-                            <a href="/dashboard.html"
-                                ><i class="fas fa-shopping-cart"></i> Orders</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/products.html" class="active"
-                                ><i class="fas fa-list"></i> Wishlist</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/orders.html"
-                                ><i class="fas fa-clock"></i>Pending Reviews</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/history.html"
-                                ><i class="fas fa-history"></i>History</a
-                            >
-                        </li>
-                    </ul>
-
-                    <hr />
-                    <a
-                        href="/category/"
-                        class="text-decoration-none fs-6 text-uppercase text-muted"
-                        >categories</a
-                    >
-                    <ul class="nav-links">
-                        <li class="nav-link">
-                            <a href="/category/Electronics"
-                                ><i class="fas fa-users"></i> Electronics</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/category/home-appliances"
-                                ><i class="fas fa-home"></i> Electronics</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/category/Electronics"
-                                ><i class="fas fa-users"></i> Electronics</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/category/home-appliances"
-                                ><i class="fas fa-home"></i> Electronics</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/category/Electronics"
-                                ><i class="fas fa-users"></i> Electronics</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/category/Furniture"
-                                ><i class="fas fa-home"></i> Electronics</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/category/Furniture"
-                                ><i class="fas fa-home"></i> Electronics</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/category/home-appliances"
-                                ><i class="fas fa-home"></i> Electronics</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/category/Furniture"
-                                ><i class="fas fa-home"></i> Electronics</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/category/Furniture"
-                                ><i class="fas fa-home"></i> Electronics</a
-                            >
-                        </li>
-                    </ul>
-
-                    <hr />
-                    <ul class="nav-links">
-                        <li class="nav-link">
-                            <a href="/revenue.html"
-                                ><i class="fas fa-shop"></i> Sell on
-                                CentralMarket</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/blog.html"
-                                ><i class="fas fa-blog"></i> CentralMarket
-                                Blog</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/settings.html"
-                                ><i class="fas fa-cogs"></i> Settings</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/settings.html"
-                                ><i class="fas fa-user-cog"></i> Service
-                                Center</a
-                            >
-                        </li>
-                        <li class="nav-link">
-                            <a href="/settings.html"
-                                ><i class="fas fa-sign-out"></i> Logout</a
-                            >
-                        </li>
-                    </ul>
-                </div>
-            </nav>
             <section
                 id="main-content"
                 class="mt-5 container-sm col-md-8 pe-md-4 content col-md-9 ml-sm-auto col-lg-10 px-4 py-5"
@@ -248,6 +54,7 @@
                     >View messages</a
                 >
             </section>
+            <hr>
             <section
                 id="main-content"
                 class="mt-5 container-sm col-md-8 pe-md-4 content col-md-9 ml-sm-auto col-lg-10 px-4 py-5"
@@ -273,6 +80,7 @@
                 >
                 <p class="fs-6 my-4">lorem30</p>
             </section>
+            <hr>
             <section
                 id="main-content"
                 class="mt-5 container-sm col-md-8 pe-md-4 content col-md-9 ml-sm-auto col-lg-10 px-4 py-5"
@@ -320,7 +128,7 @@
                     >View more</a
                 >
             </section>
-
+            <hr>
             <section
                 id="main-content"
                 class="mt-5 container-sm col-md-8 pe-md-4 content col-md-9 ml-sm-auto col-lg-10 px-4 py-5"
@@ -353,67 +161,63 @@
                 >
                 <p class="fs-6 my-4">lorem30</p>
             </section>
-
+            <hr>
             <section
                 id="main-content"
                 class="mt-5 container-sm col-md-8 pe-md-4 content col-md-9 ml-sm-auto col-lg-10 px-4 py-5"
             >
-                <h2 class="display-5">Purchase confirmed</h2>
+                <h2 class="display-5">Order confirmation ; OrderID: 2020230198039df</h2>
                 <p class="fs-5">Hi Simplysaad,</p>
 
-                <p class="fs-6">We've confirmed your order, Kindly do so too</p>
-                <p class="display-6">OrderID: 2020230198039df</p>
+                <p class="fs-6">Thank you for your order, We're thrilled to confirm your order, and are excited to start processing it</p>
+                <p class="fs-5 order-id">OrderID: 2020230198039df</p>
+                <p class="fs-5 order-date">Order date: 23/02/2025</p>
+                <p class="fs-5 order-date">Total: ₦327, 000</p>
                 <table class="table">
+                  <div class="">Order Summary</div>
                     <thead>
                         <tr>
-                            <th>Quantity</th>
                             <th>Item</th>
+                            <th>Quantity</th>
                             <th>Price</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <th>2</th>
-                            <th>Arsenal Jersey</th>
-                            <th>₦12, 000</th>
+                            <td>Arsenal Jersey</td>
+                            <td>2</td>
+                            <td>₦12, 000</td>
                         </tr>
                         <tr>
-                            <th>1</th>
-                            <th>10 in one notebook</th>
-                            <th>₦2, 000</th>
+                            <td>10 in one notebook</td>
+                            <td>1</td>
+                            <td>₦2, 000</td>
                         </tr>
                         <tr>
-                            <th>1</th>
-                            <th>Iphone 12 pro</th>
-                            <th>₦312, 000</th>
+                            <td>Iphone 12 pro</td>
+                            <td>1</td>
+                            <td>₦312, 000</td>
                         </tr>
                         <tr>
-                            <th></th>
-                            <th>Delivery fees</th>
-                            <th>₦300</th>
+                            <td>Delivery fees</td>
+                            <td></td>
+                            <td>₦300</td>
                         </tr>
                         <tr>
-                            <th></th>
-                            <th>Processing fees</th>
-                            <th>₦100</th>
+                            <td>Processing fees</td>
+                            <td></td>
+                            <td>₦100</td>
                         </tr>
                         <tr>
-                            <th></th>
-                            <th>Total</th>
-                            <th>₦327, 000</th>
+                            <td>Total</td>
+                            <td></td>
+                            <td>₦327, 000</td>
                         </tr>
                     </tbody>
                 </table>
-                <p class="fs-6">
-                    You should recieve your order in 3-5 business days, you can
-                    <a
-                        href="https://centralmarket.onrender.com/"
-                        class="text-primary"
-                    >
-                        check other items as you wait
-                    </a>
-                </p>
-                <a
+                
+                <div class=" my-4">
+                  <a
                     href="https://centralmarket.onrender.com/vendor/orders"
                     class="fs-5 btn btn-success my-3"
                     >View Order</a
@@ -425,7 +229,42 @@
                     class="fs-6 text-primary text-underline"
                     >https://centralmarket.onrender.com/orders</a
                 >
+                </div>
+                <div class="shippingDetails">
+                  <h6 class="fs-5">Shipping Details</h6>
+                  <p class="fs-6">Estimated Delivery Date: 3-5 business days </p>
+                  <p class="fs-6">Shipping Address: Block 3 room 207, Awolowo hall, obafemi Awolowo University, ile ife </p>
+                </div>
+                <div class="paymentDetails">
+                  <h6 class="fs-5">Payment Details</h6>
+                  <p class="fs-6">Payment Method: Card</p>
+                  <p class="fs-6">Payment Status: Confirmed</p>
+                </div>
+                <p class="fs-6">
+                  If you uave any questions or concerns about your order, kindly reach out to us at
+                  <a href="mailto:centralmarket25@gmail.com" class="text-primary"> centralmarket25@gmail.com </a> or 
+                  <a href="tel:+234(0)9076147178" class="text-primary"> +234(0)9076147178 </a> 
+                  we're always here to help
+                  <a
+                        href="https://centralmarket.onrender.com/"
+                        class="text-primary"
+                    >
+                    </a>
+                </p>
+                <p class="fs-6">
+                  Thank you again for your order, we apprwciate your business and look forward to serving you in the future
+                </p>
+                <p class="fs-6">
+                  Best regards
+                </p>
+                <p class="fs-6">
+                  CentralMarket Team
+                </p>
+                <a href="https://centralmarket.onrender.com/about" class="d-block fs-6">
+                  CentralMarket
+                </a>
             </section>
+            <hr>
         </main>
         <!-- Bootstrap JS and dependencies -->
         <footer class="mt-5 text-center text-secondary bg-light">

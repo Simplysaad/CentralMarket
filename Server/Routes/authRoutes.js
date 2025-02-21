@@ -1,3 +1,5 @@
+/** @format */
+
 const bcrypt = require("bcryptjs");
 const express = require("express");
 const router = express.Router();
@@ -9,10 +11,10 @@ router.use((req, res, next) => {
 });
 
 const locals = {
-  title: "Auth | CentralMarket",
-  description:
-    "an incampus shopping website for school online vendors and students, to buy , sell and deliver items without hassle",
-  imageUrl: "/IMG/favicon.png"
+    title: "Auth | CentralMarket",
+    description:
+        "an incampus shopping website for school online vendors and students, to buy , sell and deliver items without hassle",
+    imageUrl: "/IMG/favicon.png"
 };
 
 router.get("/register", async (req, res) => {
@@ -30,9 +32,9 @@ router.post("/register", async (req, res) => {
                 errorMessage: "Please enter into all fields"
             });
         }
-        console.log("reqBody", req.body)
+        console.log("reqBody", req.body);
         const { emailAddress } = req.body;
-        console.log("emailAddress", emailAddress)
+        console.log("emailAddress", emailAddress);
 
         let isEmailExist = await User.findOne({ emailAddress }, { _id: 1 });
         console.log("isEmailExist", isEmailExist);
@@ -45,13 +47,11 @@ router.post("/register", async (req, res) => {
         }
 
         const { password } = req.body;
-        console.log("password", password)
-       
+
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const { username } = req.body;
-        console.log("username", username)
         const newUsername = username.trim().toLowerCase();
 
         const newUser = new User({
@@ -103,7 +103,7 @@ router.post("/login", async (req, res) => {
         }
         const { username, password } = req.body;
 
-        const trimmedUsername = username.trim().toLowerCase()
+        const trimmedUsername = username.trim().toLowerCase();
         const currentUser = await User.findOne({
             $or: [
                 { username: trimmedUsername },
@@ -146,6 +146,37 @@ router.post("/login", async (req, res) => {
                 redirect: returnTo
             });
         }
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+router.get("/reset-password", async (req, res) => {
+    try {
+    } catch (err) {
+        console.error(err);
+    }
+});
+router.post("/reset-password", async (req, res) => {
+    try {
+        const { password } = req.body;
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const currentUser = await User.updateOne(
+            {
+                _id: req.params.id
+            },
+            {
+                $set: {
+                    password: hashedPassword
+                }
+            },
+            {
+                new: true
+            }
+        );
     } catch (err) {
         console.error(err);
     }
