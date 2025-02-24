@@ -82,7 +82,7 @@
         <% currentUser.products.forEach(product=>{ %>
           <tr>
             <th class="text-warning"><%= currentUser.products.indexOf(product) + 1 %></th>
-            <th><img class="table-image" src="<%= product.productImage %>" alt="<%#= product.name + " image" %>"></th>
+            <th class=""><img class="table-image img-fluid" src="<%= product.productImage %>" alt="<%#= product.name + " image" %>"></img>
             <th><a href="/products/<%= product._id%>"><%= product.name %></a></th>
             <th><%= product.price.toLocaleString() %></th>
             <th><%= (product.amountSold / product.amountInStock) * 100 + "%" %></th>

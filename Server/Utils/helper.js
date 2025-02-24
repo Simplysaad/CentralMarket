@@ -259,7 +259,8 @@ const uploadToImgur = async file => {
         let response = await fetch(url, {
             method: "POST",
             headers: {
-                Authorization: "Client-ID e2b328ad29f2fa8"
+                Authorization: "Client-ID e2b328ad29f2fa8",
+                "Content-Type": "application/octet-stream"
             },
             body: formData
         });

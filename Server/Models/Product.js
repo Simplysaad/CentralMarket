@@ -25,7 +25,7 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         required: true,
         index: true,
-        default: "https://placehold.co/400x600"
+        default: "https://placehold.co/400x400"
     },
     productGallery: [String], //URLs
     price: {
