@@ -101,11 +101,20 @@ const UserSchema = new mongoose.Schema({
     notifications: [notificationSchema],
     messages: [messageSchema],
     businessName: {
-        type: String,
-        unique: true
+        type: String
+        // ,unique: true
     },
     businessDesc: {
         type: String
+    },
+    bankDetails: {
+        account_number: Number,
+        account_name: String,
+        recipient_type: {
+            type: String,
+            default: "nuban"
+        },
+        bank_code: String
     },
     socials: [
         {

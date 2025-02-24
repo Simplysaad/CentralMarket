@@ -29,16 +29,6 @@ const locals = {
     searchSuggestions: suggestions
 };
 const dirtyRegex = /[</\\>&;//]/gi;
-// Commented out code - consider enabling or removing
-// Search.find({}, { searchTerm: 1 }).then(data => locals.searchSuggestions = data)
-// Product.createIndex({
-//   name: "text",
-//   description: "text",
-//   tags: "text",
-//   category: "text",
-//   subCategory: "text",
-//   "vendorId.name": "text"
-// }).exec()
 
 const {
     getRecentSearches,
@@ -144,7 +134,7 @@ router.post("/product/:id/review", async (req, res) => {
             newNotification.title,
             vendor.emailAddress,
             template,
-            {newNotification}
+            { newNotification }
         );
         console.log("message", vendor);
 
@@ -591,10 +581,10 @@ router.get("/cart/:id/add", async (req, res) => {
         const customerId = req.session.userId;
 
         // Protect route if user is not logged in
-        if (!customerId || !req.session) {
-            console.error(`Customer Id not Available`);
-            return res.redirect("/auth/login");
-        }
+        // if (!customerId || !req.session) {
+        //     console.error(`Customer Id not Available`);
+        //     return res.redirect("/auth/login");
+        // }
 
         // Find the product using ID
         const currentProduct = await Product.findOne(
@@ -720,6 +710,16 @@ router.post("/order/place", async (req, res) => {
     try {
         // Get cart from session
         let cart = req.session.cart;
+
+        // Get customerId from session
+        const customerId = req.session.userId;
+
+        // Protect route if user is not logged in
+        if (!customerId || !req.session) {
+            req.session.returnTo = "/cart" //req.originalUrl;
+            console.error(`Customer Id not Available`);
+            return res.redirect("/auth/login");
+        }
 
         // Calculate cart total
         const CART_TOTAL = cart.reduce(

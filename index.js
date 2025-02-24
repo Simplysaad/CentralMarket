@@ -66,6 +66,7 @@ app.use(expressLayout);
 app.set("layout", "Layouts/mainLayout");
 
 //SECONDARY ROUTING
+app.use("/pay", require("./Server/Routes/paystack_routes.js"));
 app.use("/admin", require("./Server/Routes/adminRoutes"));
 app.use("/auth", require("./Server/Routes/authRoutes"));
 app.use("/vendor", require("./Server/Routes/vendorRoutes"));
