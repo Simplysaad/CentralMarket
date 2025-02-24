@@ -79,14 +79,47 @@ router.post("/order/place", async (req, res) => {
         res.status(502).redirect("/502");
     }
 });
-router.get("/banks", async (req, res) => {
+router.get("/getAllBanks", async (req, res) => {
     try {
-        let response = await fetch(
-            "https://api.paystack.co/bank?currency=NGN",
-            {}
-        );
-        console.log(response);
+        fetch("https://api.paystack.co/bank?currency=NGN", {
+            headers: {
+                Authorization: "Bearer " + process.env.PAYSTACK_SECRET_TEST,
+                "Content-Type": "application/json"
+            },
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("data", data);
+                return res.json(data);
+            });
     } catch (err) {
         console.error(err);
+        //res.json(err);
     }
 });
+router.get("/chargeCustomer", async (req, res) => {
+    try {
+        fetch("https://api.paystack.co/charge", {
+            headers: {
+                Authorization: "Bearer " + process.env.PAYSTACK_SECRET_TEST,
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify({
+                email: "saadidris23@gmail.com",
+                amount: "100000"
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("data", data);
+                return res.json(data);
+            });
+    } catch (err) {
+        console.error(err);
+        //res.json(err);
+    }
+});
+
+module.exports = router;

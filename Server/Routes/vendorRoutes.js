@@ -1,3 +1,5 @@
+/** @format */
+
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
@@ -221,8 +223,15 @@ router.post(
             console.log("images to upload", images);
 
             let productGallery = [];
-            for (let image of images) {
-                let data = await uploadToImgur(image);
+            if (Array.isArray(images)) {
+                for (let image of images) {
+                    let data = await uploadToImgur(image);
+                    console.log("data from imgur", data);
+
+                    if (data.link) productGallery.push(data.link);
+                }
+            } else {
+                let data = await uploadToImgur(images);
                 console.log("data from imgur", data);
 
                 if (data.link) productGallery.push(data.link);
