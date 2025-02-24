@@ -75,11 +75,15 @@ router.post("/register", async (req, res) => {
 
         let returnTo = req.session.returnTo || "/cart";
 
-        return res.json({
-            success: true,
-            errorMessage: "",
-            redirect: returnTo
-        });
+        if (newUser.role === "vendor") returnTo = "/vendor/products/add";
+        else returnTo = "/";
+
+        return res.redirect(returnTo)
+        // return res.json({
+        //     success: true,
+        //     errorMessage: "",
+        //     redirect: returnTo
+        // });
     } catch (err) {
         console.error(err);
     }
