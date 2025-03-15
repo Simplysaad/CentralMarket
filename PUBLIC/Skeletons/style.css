@@ -1,0 +1,31 @@
+:root {
+    --bg-light: #f2efef;
+}
+
+.bg-skeleton {
+    overflow: hidden;
+    background: var(--bg-light);
+    background-image: linear-gradient(
+        to right,
+        #d7d3d3 0%,
+        #eadede 10%,
+        #d3d1d1 10%
+    );
+    /* transform: rotate(45deg);
+    transform-origin: 0 0; */
+    background-repeat: no-repeat;
+    background-size: 200px 100%;
+    animation: shimmer 2s infinite linear;
+}
+button {
+    border: 1px solid;
+    background: var(--bg-light);
+}
+@keyframes shimmer {
+    0% {
+        background-position: -450px 0;
+    }
+    100% {
+        background-position: 450px 0;
+    }
+}
