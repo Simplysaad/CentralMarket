@@ -3,7 +3,12 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const router = express.Router();
-const User = require("../Models/user");
+const User = require("../Models/user.model.js");
+const {
+    login,
+    register,
+    resetPassword
+} = require("../Controllers/auth.controller.js");
 
 let secretKey = process.env.SECRET_KEY;
 
@@ -110,7 +115,7 @@ router.post("/register", async (req, res) => {
 });
 router.post("/reset-password", async (req, res) => {
     try {
-         console.log({ req });
+        console.log({ req });
     } catch (err) {
         console.error(err);
         return res.status(500).json({
