@@ -1,12 +1,16 @@
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const cloudinary = require("cloudinary").v2;
+const User = require("../Models/user.model.js");
+
 const login = async (req, res) => {
     try {
         req.session.trialCount = 0;
         let { emailAddress, password } = req.body;
-        // let isUserExist = true;
-        await User.findOne({ emailAddress }).select(
+        let currentUser = await User.findOne({ emailAddress }).select(
             "_id emailAddress password role"
         );
-        if (!isUserExist) {
+        if (!currentUser) {
             req.session.trialCount += 1;
             return res.status(403).json({
                 success: false,
@@ -14,11 +18,9 @@ const login = async (req, res) => {
                 advice: "check your email address and try again"
             });
         }
-        //let hashedPassword = await bcrypt.hash(password, 10);
         let isPasswordCorrect = await bcrypt.compare(
             password,
-            //hashedPassword
-            isUserExist.password
+            currentUser.password
         );
         if (!isPasswordCorrect || !password) {
             req.session.trialCount += 1;
@@ -28,14 +30,22 @@ const login = async (req, res) => {
                 advice: "check your password and try again"
             });
         }
-        let token = jwt.sign({ userId: "saadidris70" }, secretKey, {
-            expiresIn: "1d"
-        });
-        req.cookie("token", token);
-        req.session.userId = isUserExist._id;
+        let token = jwt.sign(
+            { userId: "saadidris70" },
+            process.env.SECRET_KEY,
+            {
+                expiresIn: "1d"
+            }
+        );
+        res.cookie("token", token);
+        
+        console.log(req.cookies)
+        
+        req.session.userId = currentUser._id;
         return res.status(200).json({
             success: true,
             message: "user has logged in successfully",
+            currentUser,
             advice: ""
         });
     } catch (err) {
@@ -66,19 +76,31 @@ const register = async (req, res) => {
         let hashedPassword = await bcrypt.hash(password, salt);
         req.body.password = hashedPassword;
 
+        const cloudinary_response = await cloudinary.uploader.upload(
+            req.file.path,
+            {
+                folder: "users"
+            }
+        );
+
         let newUser = new User({
-            ...req.body
+            ...req.body,
+            profileImage: cloudinary_response.secure_url
         });
 
         await newUser.save();
         //let { emailAddress, password, role } = req.body;
         //let { emailAddress, password, role } = newUser;
 
-        let token = jwt.sign({ emailAddress, password, role }, secretKey, {
-            expiresIn: "1d"
-        });
+        let token = jwt.sign(
+            { emailAddress, password, role },
+            process.env.SECRET_KEY,
+            {
+                expiresIn: "1d"
+            }
+        );
 
-        req.cookie("token", token);
+        res.cookie("token", token);
         req.session.userId = newUser._id;
 
         return res.status(200).json({
@@ -99,9 +121,81 @@ const register = async (req, res) => {
         });
     }
 };
-const resetPassword = async (req, res) => {
+
+const nodemailer = require("nodemailer");
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    //host: "smtp.ethereal.email",
+    secure: false,
+    port: 587,
+    // auth: {
+    //     user: "maddison53@ethereal.email",
+    //     pass: "jn7jnAPss4f63QBp6D"
+    // },
+    auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS
+    }
+});
+
+const getResetPasswordLink = async (req, res) => {
     try {
-        console.log({ req });
+        let { emailAddress } = req.body;
+        let token = jwt.sign({ emailAddress }, process.env.SECRET_KEY);
+        let reset_link = `http://localhost:8000/reset-password?token=${token}`;
+
+        let info = await transporter.sendMail({
+            from: "CentralMarket",
+            to: emailAddress,
+            subject: "Password Reset",
+            html: `<p>There was an attempt to reset your password, ignore if this was not you</p><br><a href=${reset_link}> click to reset </a>`
+        });
+
+        return res.status(200).json({
+            token,
+            info
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};
+const getResetPassword = async (req, res) => {
+    try {
+        return res
+            .status(200)
+            .send("use api tester instead to send 'POST' request directly");
+    } catch (err) {
+        console.error(err);
+    }
+};
+const putResetPassword = async (req, res) => {
+    try {
+        let { token } = req.query;
+        let user = jwt.verify(token, process.env.SECRET_KEY);
+
+        console.log("user", user);
+
+        let { emailAddress } = user;
+        let { password } = req.body;
+
+        let hashedPassword = await bcrypt.hash(password, 10);
+
+        let currentUser = await User.findOneAndUpdate(
+            { emailAddress },
+            {
+                $set: {
+                    password: hashedPassword
+                }
+            },
+            { new: true }
+        );
+        //res.redirect("/auth/login")
+        return res.status(201).json({
+            success: true,
+            currentUser,
+            message: "nothing to see here"
+        });
+        console.log({});
     } catch (err) {
         console.error(err);
         return res.status(500).json({
@@ -114,8 +208,28 @@ const resetPassword = async (req, res) => {
     }
 };
 
+
+const logout = async(req, res)=>{
+  try {
+    req.session.destroy()
+    res.clearCookie("token")
+    
+    
+    return res.status(200).json({
+      success: true,
+      message: "user logged out successfully",
+      advice: ""
+    })
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 module.exports = {
     login,
+    logout,
     register,
-    resetPassword
+    //resetPassword,
+    putResetPassword,
+    getResetPasswordLink
 };

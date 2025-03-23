@@ -3,7 +3,7 @@ const productSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        index: true
+        text: true
     },
     description: {
         type: String,
@@ -13,13 +13,16 @@ const productSchema = new mongoose.Schema({
         type: Number,
         index: true
     },
+    keywords: [String],
     category: {
         type: String,
-        index: true
+        //index: true,
+        text: true
     },
     imageUrl: {
         type: String
     },
+    imageGallery: [String],
     createdAt: {
         type: Date,
         default: Date.now
@@ -27,12 +30,35 @@ const productSchema = new mongoose.Schema({
     updatedAt: {
         type: Date,
         default: Date.now
+    },
+    interests: {
+        type: Number,
+        default: 0
+    },
+    purchases: {
+        type: Number,
+        default: 0
+    },
+    preveiewCount: {
+        type: Number,
+        default: 0
     }
 });
 
 const product = new mongoose.model("product", productSchema);
-product.createIndexes({
-    category: 1,
-    price: 1
-});
+// product.createIndexes({
+//     category: 1,
+//     price: 1
+// });
+// product.createIndex({
+//     name: "autocomplete",
+//     mappings: {
+//         fields: {
+//             title: {
+//                 type: "autocomplete",
+//                 tokenization: "edgeGram"
+//             }
+//         }
+//     }
+// });
 module.exports = product;

@@ -50,3 +50,21 @@ function multiply(currentArray, count) {
 multiply(employees, 4);
 
 //shuffle(employees);
+
+const multer = require("multer");
+const { cloudinary } = require("cloudinary").v2;
+const upload = multer({ dest: "./uploads" });
+
+const uploadImage = async () => {
+    try {
+        const cloudinary_response = await cloudinary.uploader.upload(
+            req.file.path
+        );
+        if(cloudinary_response.ok)
+          return res.json({
+            message: "image uploaded successfully",
+            cloudinary_response
+          })
+        
+    } catch (err) {}
+};

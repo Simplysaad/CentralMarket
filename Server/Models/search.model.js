@@ -2,11 +2,10 @@ const mongoose = require("mongoose");
 const itemSchema = new mongoose.Schema(
     {
         name: {
-            type: String,
+            type: String
         },
         imageUrl: {
             type: String
-            
         },
         productId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -16,11 +15,11 @@ const itemSchema = new mongoose.Schema(
     { _id: false }
 );
 const searchSchema = new mongoose.Schema({
-    searcherId: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
     },
-    searcherTerm: {
+    searchTerm: {
         type: String
     },
     items: [itemSchema],
@@ -28,12 +27,11 @@ const searchSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-    
 });
 
 const search = new mongoose.model("search", searchSchema);
 search.createIndexes({
-  items: 1,
-  createdAt: -1
-})
+    items: 1,
+    createdAt: -1
+});
 module.exports = search;

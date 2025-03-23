@@ -1,35 +1,37 @@
 const express = require("express");
 const router = express.Router();
 
-const Product = require("../Models/product.model.js");
-const authMiddleware = require("../Utils/auth.middleware");
+const multer = require("multer");
+const upload = multer({ dest: "./Uploads" });
 
-router.post("/products/add", async (req, res) => {
-    try {
-        if (!req.body)
-            return res.status(401).json({
-                success: false,
-                message: "nothing is being sent"
-            });
 
-        let newProduct = new Product({
-            ...req.body
-        });
-
-        let savedProduct = await newProduct.save();
-        return res.json({ newProduct, savedProduct });
-
-        //return res.json({ newProduct });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({
-                success: false,
-                message: "internal server error",
-                advice: "something's wrong here, try again later",
-                errorMessage: err.message,
-                errorStack: err.stack,
-            });
-    }
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
+
+const Product = require("../Models/product.model.js");
+
+const { authMiddleware } = require("../Utils/auth.middleware");
+router.use(authMiddleware);
+
+const {
+    addProduct,
+    deleteProduct,
+    editProduct,
+    getProducts
+} = require("../Controllers/admin.controller.js");
+
+router.get("/products/", getProducts);
+router.post(
+    "/products/",
+    upload.single("productImage"),
+    // upload.array("productImages", 6),
+    addProduct
+);
+router.delete("/products/:productId", deleteProduct);
+router.put("/products/:productId", editProduct);
 
 module.exports = router;

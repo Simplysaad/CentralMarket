@@ -8,9 +8,10 @@ const mongoStore = require("connect-mongo");
 const session = require("express-session");
 
 const morgan = require("morgan");
-//const cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
+const expressFileUpload = require("express-fileUpload");
 
-//const connectDB = require("./Config/db.js");
+const connectDB = require("./Config/db.js");
 
 const PORT = process.env.PORT;
 
@@ -18,15 +19,8 @@ const app = express();
 
 app.listen(PORT, (err, info) => {
     if (!err) {
-        //connectDB();
-        console.log("hello world", info);
-        console.log(
-            JSON.stringify({
-                message: "server is started",
-                address: `http://localhost:${PORT}/`,
-                success: true
-            })
-        );
+        connectDB();
+        console.log(`server is started at port ${PORT}`);
     } else {
         console.error(err);
     }
@@ -55,7 +49,8 @@ app.use(
     })
 );
 app.use(morgan("tiny"));
-//app.use(cookieParser());
+app.use(cookieParser());
+//app.use(expressFileUpload())
 
 app.use("/admin", require("./Server/Routes/admin.route.js"));
 app.use("/auth", require("./Server/Routes/auth.route.js"));

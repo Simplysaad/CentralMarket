@@ -4,6 +4,11 @@ const addressSchema = new mongoose.Schema(
         street: String,
         city: String,
         state: String,
+        address_type: {
+            type: String,
+            enum: ["home", "work", "other"],
+            default: "home"
+        },
         country: {
             type: String,
             default: "nigeria"
@@ -34,7 +39,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["customer", "employee", "manager", "admin"],
+        enum: ["admin", "manager", "employee", "customer"],
         required: true
     },
     address: addressSchema,
