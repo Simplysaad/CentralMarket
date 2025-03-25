@@ -53,7 +53,7 @@ const addProduct = async (req, res) => {
 };
 const deleteProduct = async (req, res) => {
     try {
-        let { productId } = req.params;
+        let { id:productId } = req.params;
 
         let info = await Product.findByIdAndDelete(productId);
 
@@ -84,7 +84,16 @@ const getProducts = async (req, res) => {
             message: "products fetched successfully",
             products
         });
-    } catch (e) {}
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: "internal server error",
+            advice: "something's wrong here, try again later",
+            errorMessage: err.message,
+            errorStack: err.stack
+        });
+    }
 };
 const editProduct = async (req, res) => {
     try {
@@ -93,13 +102,9 @@ const editProduct = async (req, res) => {
                 success: false,
                 message: "nothing is being sent"
             });
-        let { productId } = req.params;
+        let { id:productId } = req.params;
 
         let imageGallery = [];
-
-        let newProduct = {
-            ...req.body
-        };
 
         if (req.file) {
             const cloudinary_response = await cloudinary.uploader.upload(
@@ -108,8 +113,15 @@ const editProduct = async (req, res) => {
 
             imageGallery.push(cloudinary_response.secure_url);
 
-            newProduct.imageUrl = cloudinary_response.secure_url;
-            newProduct.imageGallery = imageGallery;
+            req.body.imageUrl = cloudinary_response.secure_url;
+            req.body.imageGallery = imageGallery;
+        }
+
+        let newProduct = {};
+        for (prop in req.body) {
+            if (req.body[prop]) {
+                newProduct[prop] = req.body[prop];
+            }
         }
 
         let updatedProduct = await Product.findByIdAndUpdate(
@@ -142,5 +154,6 @@ const editProduct = async (req, res) => {
 module.exports = {
     addProduct,
     deleteProduct,
-    editProduct, getProducts
+    editProduct,
+    getProducts
 };

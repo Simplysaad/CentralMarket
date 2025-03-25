@@ -77,8 +77,8 @@ let searchController = async (req, res) => {
 
         let items = [];
         searchResults.forEach((item, index) => {
-            let {_id: productId,  name, imageUrl, category} = item
-            let newItem = { productId,  name, imageUrl, category}
+            let { _id: productId, name, imageUrl, category } = item;
+            let newItem = { productId, name, imageUrl, category };
             items.push(newItem);
             console.log(newItem);
         });
@@ -112,6 +112,144 @@ let searchController = async (req, res) => {
         });
     }
 };
-module.exports = {
-    searchController
+
+const postCart = async (req, res) => {
+    try {
+        if (!req.session.cart) req.session.cart = [];
+
+        let { userId, cart } = req.session;
+        let { id: productId } = req.params;
+        let { quantity } = req.query;
+
+        if (quantity && quantity !== "") {
+            quantity = Number(quantity);
+        }
+
+        //if req.query.quantity exist, change the item quantity to req.query.quantity
+        //else increment by 1
+
+        let currentProduct = await Product.findOneAndUpdate(
+            { _id: productId },
+            {
+                $inc: {
+                    addToCartCount: quantity
+                }
+            },
+            { new: true }
+        );
+
+        let index = cart.findIndex(item => item.productId === productId);
+        if (index === -1) {
+            //TODO: implement discount calculations
+            quantity = quantity || 1;
+
+            let singleProduct = {
+                name: currentProduct.name,
+                price: currentProduct.price * quantity,
+                quantity,
+                productId
+            };
+            req.session.cart.push(singleProduct);
+
+            return res.status(201).json({
+                success: true,
+                message: "new product added to cart",
+                cart: req.session.cart
+            });
+        } else {
+            quantity
+                ? (req.session.cart[index].quantity = quantity)
+                : (req.session.cart[index].quantity += 1);
+
+            return res.status(201).json({
+                success: true,
+                message: "existing product incremented successfully",
+                cart: req.session.cart
+            });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(422).json({
+            success: false,
+            message: "error encountered while adding product to cart "
+            // ,cart: req.session.cart
+        });
+    }
 };
+const deleteCartItem = async (req, res) => {
+    try {
+        let { userId, cart } = req.session;
+        let { id: productId } = req.params;
+        let { quantity, removeAll } = req.query;
+
+        if (quantity && quantity !== "") {
+            quantity = Number(quantity);
+        }
+
+        let currentProduct = await Product.findOne({ _id: productId }).select(
+            "name _id price addToCartCount"
+        );
+        if (!currentProduct)
+            return res.status(404).json({
+                success: false,
+                message: `couldn't find a document with id ${productId}`
+            });
+
+        let index = cart.findIndex(item => item.productId === productId);
+        //If productnis not in the cart
+        if (index === -1)
+            return res.status(404).json({
+                success: false,
+                message: `product with productId: ${productId} is not in cart`
+            });
+
+        //what if product is in the cart
+
+        if (cart[index].quantity <= 1 || removeAll) {
+            //if product quantity is less than or equal to one, remove the product from cart
+            req.session.cart.splice(index, 1);
+            return res.status(201).json({
+                success: true,
+                message: `item removed successfully`,
+                cart: req.session.cart
+            });
+        } else {
+            //if the quantity of the item is more than one, then reduce by one
+            req.session.cart[index].quantity -= 1;
+            return res.status(201).json({
+                success: true,
+                message: `item quantity decremented successfully by ${quantity}`,
+                cart: req.session.cart
+            });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: `internal server error: error encountered while adding item to cart`,
+            errorMessage: err.message,
+            errorStack: err.stack
+        });
+    }
+};
+
+const getCart = async (req, res) => {
+    try {
+        /* code */
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: `internal server error: error encountered while adding item to cart`,
+            errorMessage: err.message,
+            errorStack: err.stack
+        });
+    }
+};
+module.exports = {
+    searchController,
+    postCart,
+    deleteCartItem,
+    getCart
+};
+

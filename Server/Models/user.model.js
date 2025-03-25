@@ -43,6 +43,16 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     address: addressSchema,
+    
+    wishlist: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "products"
+    }],
+    orderHistory: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "orders"
+    }],
+    
     createdAt: {
         type: Date,
         default: Date.now
@@ -55,7 +65,6 @@ const userSchema = new mongoose.Schema({
 const user = new mongoose.model("user", userSchema);
 user.createIndexes({
     emailAddress: 1,
-    profileImage: 1,
-    password: -1
+    profileImage: 1
 });
 module.exports = user;
