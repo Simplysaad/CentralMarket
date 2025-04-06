@@ -1,0 +1,150 @@
+<section class="col-12 my-5 py-5">
+    <div class="shipping-info col-12 col-md-6 col-lg-4">
+        <div class="category-heading text-center">
+            <h3 class="text-heading">Delivery Information</h3>
+        </div>
+        <div class="address-info"></div>
+    </div>
+
+    <form id="changeAddress" action="/cart/change-address" method="post">
+        <fieldset id="addressTypeSection" class="my-5">
+            <legend class="text-center">where do you stay?</legend>
+            <div
+                class="d-flex col-8 mx-auto justify-content-between align-items-center"
+            >
+                <div class="form-check col- p-3 border">
+                    <label class="form-check-label" for="address_type1"
+                        >hostel</label
+                    >
+                    <input
+                        type="radio"
+                        name="address_type"
+                        hidden
+                        checked
+                        class="checkbox form-check-input"
+                        id="address_type1"
+                        value="hostel"
+                    />
+                </div>
+                <div class="form-check p-3 border">
+                    <label for="address_type2" class="form-check-label"
+                        >Off campus</label
+                    >
+                    <input
+                        type="radio"
+                        name="address_type"
+                        hidden
+                        class="checkbox"
+                        id="address_type2"
+                        value="off campus"
+                    />
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset id="personal_info" class="my-5 d-flex flex-column gap-3">
+            <legend>Personal Information</legend>
+            <div class="form-floating">
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    value=""
+                    class="form-control"
+                    placeholder=""
+                />
+                <label for="name">Full name</label>
+            </div>
+            <div class="form-floating">
+                <input
+                    type="email"
+                    class="form-control"
+                    name="emailAddress"
+                    id="emailAddress"
+                    value=""
+                    placeholder=""
+                />
+                <label for="emailAddress">Email address</label>
+            </div>
+            <div class="form-floating">
+                <input
+                    type="tel"
+                    class="form-control"
+                    name="phoneNumber"
+                    id="phoneNumber"
+                    value=""
+                    placeholder=""
+                />
+                <label for="phoneNumber">Phone number</label>
+            </div>
+        </fieldset>
+        <fieldset id="address_info" class="my-5 d-flex flex-column gap-3">
+            <legend>Address information</legend>
+
+            <div class="form-floating">
+                <input
+                    type="text"
+                    class="form-control"
+                    name="address_line1"
+                    id="address_line1"
+                    value=""
+                    placeholder=""
+                />
+                <label for="address_line1">Address line 1</label>
+            </div>
+            <div class="form-floating">
+                <input
+                    type="text"
+                    class="form-control"
+                    name="address_line2"
+                    id="address_line2"
+                    value=""
+                    placeholder=""
+                />
+                <label for="address_line2">Address line 2 (optional)</label>
+            </div>
+            <div class="form-floating">
+                <input
+                    type="text"
+                    class="form-control"
+                    name="school_name"
+                    id="school_name"
+                    value=""
+                    placeholder=""
+                    list="schoolList"
+                />
+
+                <datalist id="schoolList">
+                    <option value="obafemi awolowo university">
+                        obafemi awolowo university
+                    </option>
+                    <option value="university of ibadan">
+                        university of ibadan
+                    </option>
+                    <option value="kwara state university">
+                        kwara state university
+                    </option>
+                    <option value="university of ilorin">
+                        university of ilorin
+                    </option>
+                </datalist>
+                <label for="school_name">School name</label>
+            </div>
+            <div class="form-floating">
+                <input
+                    type="text"
+                    class="form-control"
+                    name="state"
+                    id="state"
+                    value=""
+                    placeholder=""
+                />
+                <label for="state">State</label>
+            </div>
+        </fieldset>
+
+        <button class="btn btn-dark btn-lg col-12 p-3 fs-4 btn-save">
+            Save changes
+        </button>
+    </form>
+</section>

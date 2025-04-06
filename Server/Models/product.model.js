@@ -13,6 +13,14 @@ const productSchema = new mongoose.Schema({
         type: Number,
         index: true
     },
+    available: {
+      type: Boolean,
+      default: true
+    },
+    isFeatured: {
+      type: Boolean,
+      default: false
+    },
     keywords: [String],
     category: {
         type: String,
@@ -35,7 +43,7 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    purchases: {
+    purchaseCount: {
         type: Number,
         default: 0
     },

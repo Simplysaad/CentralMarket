@@ -16,10 +16,24 @@ const {
     getResetPasswordLink
 } = require("../Controllers/auth.controller.js");
 
-
 let secretKey = process.env.SECRET_KEY;
 
+router.get("/login", async (req, res) => {
+    try {
+        res.status(200).render("Pages/Auth/login", {});
+    } catch (e) {
+        console.error(err);
+    }
+});
 router.post("/login", login);
+
+router.get("/register", async (req, res) => {
+    try {
+        res.status(200).render("Pages/Auth/register", {});
+    } catch (e) {
+        console.error(err);
+    }
+});
 router.post("/register", upload.single("profileImage"), register);
 
 router.post("/reset-password", getResetPasswordLink);

@@ -38,9 +38,9 @@ const login = async (req, res) => {
             }
         );
         res.cookie("token", token);
-        
-        console.log(req.cookies)
-        
+
+        console.log(req.cookies);
+
         req.session.userId = currentUser._id;
         return res.status(200).json({
             success: true,
@@ -76,6 +76,15 @@ const register = async (req, res) => {
         let hashedPassword = await bcrypt.hash(password, salt);
         req.body.password = hashedPassword;
 
+        let { address_1, address_2, state, school_name, address_type } =
+            req.body;
+
+        let address = {
+            address: address_1 + " " + address_2,
+            school: school_name,
+            address_type,
+            state
+        };
         const cloudinary_response = await cloudinary.uploader.upload(
             req.file.path,
             {
@@ -84,7 +93,7 @@ const register = async (req, res) => {
         );
 
         let newUser = new User({
-            ...req.body,
+            ...req.body,address,
             profileImage: cloudinary_response.secure_url
         });
 
@@ -103,6 +112,7 @@ const register = async (req, res) => {
         res.cookie("token", token);
         req.session.userId = newUser._id;
 
+        //should go to homepage after signup
         return res.status(200).json({
             success: true,
             message: "user registered successfully",
@@ -208,22 +218,20 @@ const putResetPassword = async (req, res) => {
     }
 };
 
+const logout = async (req, res) => {
+    try {
+        req.session.destroy();
+        res.clearCookie("token");
 
-const logout = async(req, res)=>{
-  try {
-    req.session.destroy()
-    res.clearCookie("token")
-    
-    
-    return res.status(200).json({
-      success: true,
-      message: "user logged out successfully",
-      advice: ""
-    })
-  } catch (err) {
-    console.error(err)
-  }
-}
+        return res.status(200).json({
+            success: true,
+            message: "user logged out successfully",
+            advice: ""
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};
 
 module.exports = {
     login,

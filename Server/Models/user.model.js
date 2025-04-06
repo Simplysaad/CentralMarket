@@ -1,18 +1,19 @@
 const mongoose = require("mongoose");
 const addressSchema = new mongoose.Schema(
     {
-        street: String,
-        city: String,
+        address: String,
         state: String,
         address_type: {
             type: String,
             enum: ["home", "work", "other"],
             default: "home"
         },
+        school: String,
         country: {
             type: String,
             default: "nigeria"
         },
+
         longitude: Number,
         latitude: Number,
         zipcode: String
@@ -33,6 +34,11 @@ const userSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
+    phoneNumber: {
+        type: String,
+       //, unique: true,
+        //,required: true
+    },
     password: {
         type: String,
         required: true
@@ -43,16 +49,27 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     address: addressSchema,
-    
-    wishlist: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "products"
-    }],
-    orderHistory: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "orders"
-    }],
-    
+    birthDate: {
+        type: Date
+        //,required: true
+    },
+    gender: {
+        type: String,
+        enum: ["male", "female"]
+    },
+    wishlist: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "products"
+        }
+    ],
+    orderHistory: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "orders"
+        }
+    ],
+
     createdAt: {
         type: Date,
         default: Date.now

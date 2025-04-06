@@ -1,6 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
+const cors = require("cors");
+
+const expressLayouts = require("express-ejs-layouts");
+
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -25,6 +29,12 @@ app.listen(PORT, (err, info) => {
         console.error(err);
     }
 });
+app.use(
+    cors({
+        origin: "http://localhost:8000",
+        credentials: true
+    })
+);
 
 app.use(
     session({
@@ -41,6 +51,13 @@ app.use(
         }
     })
 );
+
+app.use(expressLayouts);
+
+app.use(express.static("./Public"));
+app.set("view engine", "ejs");
+app.set("views", "./Views");
+app.set("layout", "Layouts/customer_layout.ejs");
 
 app.use(express.json());
 app.use(

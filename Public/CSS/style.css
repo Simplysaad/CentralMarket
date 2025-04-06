@@ -1,0 +1,32 @@
+.text-overflow-ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.form-check:has(.checkbox:checked) {
+    border: 1.35px solid;
+    background: #c1f1c1;
+    /* background-blend-mode: multiply; */
+    scale: 1.1;
+    transition: all 1s ease-in;
+}
+#searchTerm:focus {
+    border: none;
+    outline: none;
+}
+.nav-item.d-flex {
+    justify-content: start;
+    align-items: center;
+}
+@media all and (max-width: 600px) {
+    .side-nav {
+        position: absolute;
+        z-index: 10;
+        background: #f8f8f8dd;
+    }
+}
+@media all and (min-width: 600px) {
+    .side-nav {
+      position: relative;
+    }
+}
