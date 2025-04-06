@@ -1,6 +1,11 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 const User = require("../Models/user.model.js");
 
 const login = async (req, res) => {
@@ -93,7 +98,8 @@ const register = async (req, res) => {
         );
 
         let newUser = new User({
-            ...req.body,address,
+            ...req.body,
+            address,
             profileImage: cloudinary_response.secure_url
         });
 
@@ -117,6 +123,7 @@ const register = async (req, res) => {
             success: true,
             message: "user registered successfully",
             token,
+            newUser,
             request: req.body,
             advice: ""
         });

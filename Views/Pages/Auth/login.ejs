@@ -15,7 +15,12 @@
         </div>
 
         <fieldset class="my-5 p-2 d-flex flex-column gap-3">
-            <legend class="display-4 fw-semibold text-start">Login</legend>
+            <legend class="display-4 fw-semibold text-start">
+                <span class="d-block fw-light text-muted fs-6">
+                    Welcome back!
+                </span>
+                Login
+            </legend>
             <div class="form-floating">
                 <input
                     type="email"
@@ -47,7 +52,7 @@
                     <a class="" href="#"> terms and privacy policy </a>
                 </p>
             </div>
-            <div class="cta col-12">
+            <div class="cta col-12 d-flex flex-column gap-1">
                 <button
                     id="btnSubmit"
                     class="btn btn-dark p-3 btn-lg col-12"
@@ -55,6 +60,12 @@
                 >
                     Submit
                 </button>
+                <span class="fs-6">
+                    Don't have an account yet?
+                    <a class="text-decoration-none" href="/auth/register">
+                        Create one!
+                    </a>
+                </span>
             </div>
         </fieldset>
     </form>

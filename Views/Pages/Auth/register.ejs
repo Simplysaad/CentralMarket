@@ -294,11 +294,24 @@
                 </p>
             </div>
 
-            <div class="cta col-12">
-                <button class="btn btn-dark p-3 btn-lg col-12" id="btnSubmit">
-                    Submit
-                </button>
-            </div>
+          <div class="cta col-12 d-flex flex-column gap-1">
+              <button
+                  id="btnSubmit"
+                  class="btn btn-dark p-3 btn-lg col-12"
+                  type="submit"
+              >
+                  Submit
+              </button>
+              <span class="fs-6">
+                  Already have an account?
+                  <a
+                      class="text-decoration-none"
+                      href="/auth/login"
+                  >
+                      login!
+                  </a>
+              </span>
+          </div>
         </fieldset>
     </form>
 </section>

@@ -14,12 +14,17 @@ const productSchema = new mongoose.Schema({
         index: true
     },
     available: {
-      type: Boolean,
-      default: true
+        type: Boolean,
+        default: true
     },
     isFeatured: {
-      type: Boolean,
-      default: false
+        type: Boolean,
+        default: false
+    },
+    status: {
+        type: String,
+        enum: ["pending", "approved", "not approved"],
+        default: "pending"
     },
     keywords: [String],
     category: {
@@ -40,6 +45,11 @@ const productSchema = new mongoose.Schema({
         default: Date.now
     },
     interests: {
+        type: Number,
+        default: 0
+    },
+    
+    addToCartCount: {
         type: Number,
         default: 0
     },
