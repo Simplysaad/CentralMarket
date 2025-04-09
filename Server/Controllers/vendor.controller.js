@@ -14,26 +14,32 @@ const addProduct = async (req, res) => {
                 message: "nothing is being sent"
             });
         // if (!req.files) {
+        let imageUrl;
         if (!req.file) {
+            // return res.status(401).json({
+            //     success: false,
+            //     message: "no file is being sent"
+            // });
             // console.log(req.body);
-            return res.status(401).json({
-                success: false,
-                message: "no file is being sent"
-            });
         }
 
         console.log(req.file);
-        const cloudinary_response = await cloudinary.uploader.upload(
-            req.file.path
-        );
+        if (req.file) {
+            const cloudinary_response = await cloudinary.uploader.upload(
+                req.file.path,
+                {
+                    folder: "products"
+                }
+            );
+            imageUrl = cloudinary_response.secure_url;
+        } else imageUrl = "https://placehold.co/400";
 
-        //console.log(cloudinary_response);
         let imageGallery = [];
-        imageGallery.push(cloudinary_response.secure_url);
+        imageGallery.push(imageUrl);
 
         let newProduct = new Product({
             ...req.body,
-            imageUrl: cloudinary_response.secure_url,
+            imageUrl,
             imageGallery
         });
 
@@ -43,7 +49,6 @@ const addProduct = async (req, res) => {
             newProduct,
             savedProduct,
             message: "new product created successfully",
-            cloudinary_response
         });
     } catch (err) {
         console.error(err);

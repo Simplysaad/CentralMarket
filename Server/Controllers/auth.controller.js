@@ -90,17 +90,26 @@ const register = async (req, res) => {
             address_type,
             state
         };
-        const cloudinary_response = await cloudinary.uploader.upload(
-            req.file.path,
-            {
-                folder: "users"
-            }
-        );
+       // console.log(req);
+        let profileImage;
+        if (req.file) {
+            const cloudinary_response = await cloudinary.uploader.upload(
+                req.file.path,
+                {
+                    folder: "users"
+                }
+            );
+            profileImage = cloudinary_response.secure_url;
+        } else profileImage = "https://placehold.co/400";
+                //TODO: I want to change the placeholder image for profile picture
+
 
         let newUser = new User({
             ...req.body,
             address,
-            profileImage: cloudinary_response.secure_url
+            role: "admin",
+            //this is supposed to come from the form but i've not added a field to the form yet
+            profileImage
         });
 
         await newUser.save();

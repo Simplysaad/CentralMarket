@@ -109,22 +109,22 @@ addProductsForm.addEventListener("submit", e => {
     });
 
     let formDataObject = Object.fromEntries(formdata.entries());
-    formDataObject.tags = tags;
+    formDataObject.keywords = tags;
     console.log(formDataObject);
 
     let newFormdata = new FormData();
     Object.keys(formDataObject).forEach(key => {
         newFormdata.append(key, formDataObject[key]);
     });
-    let response = fetch("/products/add", {
+    let response = fetch("/vendor/products/add", {
         method: "post",
-        headers: {
-            "Content-Type": "multipart/form-data"
-        },
+        // headers: {
+        //     "Content-Type": "multipart/form-data"
+        // },
         body: newFormdata
     })
         .then(response => response.json())
         .catch(err => console.error(err));
-        
-        console.log(response)
+
+    console.log(response);
 });

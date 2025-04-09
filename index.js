@@ -70,5 +70,7 @@ app.use(cookieParser());
 //app.use(expressFileUpload())
 
 app.use("/admin", require("./Server/Routes/admin.route.js"));
+app.use("/vendor", require("./Server/Routes/vendor.route.js"));
 app.use("/auth", require("./Server/Routes/auth.route.js"));
+app.use("/api", require("./Server/Routes/api.route.js"));
 app.use("/", require("./Server/Routes/customer.route.js"));

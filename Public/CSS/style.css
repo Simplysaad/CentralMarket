@@ -1,15 +1,4 @@
-.text-overflow-ellipsis {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-.form-check:has(.checkbox:checked) {
-    border: 1.35px solid;
-    background: #c1f1c1;
-    /* background-blend-mode: multiply; */
-    scale: 1.1;
-    transition: all 1s ease-in;
-}
+/* LAYOUT STYLE */
 #searchTerm:focus {
     border: none;
     outline: none;
@@ -27,6 +16,40 @@
 }
 @media all and (min-width: 600px) {
     .side-nav {
-      position: relative;
+        position: relative;
     }
+}
+
+/* UTILS STYLES */
+.text-overflow-ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.form-check:has(.checkbox:checked) {
+    border: 1.35px solid;
+    background: #c1f1c1;
+    /* background-blend-mode: multiply; */
+    scale: 1.1;
+    transition: all 1s ease-in;
+}
+
+/* ADD PRODUCT PAGE */
+#profileImageCont {
+    height: 120px;
+    width: 120px;
+    padding: 2px;
+    background: #696969dd;
+    border-radius:;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.input-desc {
+    resize: vertical;
+    transition: height 0.2s ease-in;
+}
+.tag-input input:focus {
+    border: none;
+    outline: none;
 }

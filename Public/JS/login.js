@@ -12,6 +12,7 @@ function showPassword(passwordElement) {
 }
 btnShowPassword.addEventListener("click", () => {
     showPassword(password);
+    
 });
 function showToast(message, success) {
     let messageToastCont = document.getElementById("messageToastCont");
