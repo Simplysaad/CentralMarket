@@ -18,27 +18,7 @@
     <div
         class="navbar-search order-3 flex-fill order-md-2 col-12 float-end mx-auto col-md-auto col-lg- float-end d-noe d-md-inline"
     >
-        <form
-            class="border d-flex justify-content-between border-2 justify-content-center align-items-center rounded-pill p-1 my-2 mx-2"
-            action="/search"
-            method="post"
-        >
-            <input
-                type="search"
-                name="searchTerm"
-                id="searchTerm"
-                list="searchSuggestions"
-                placeholder="Search for anything..."
-                class="w-100 form-control px-3 py-1 bg-transparent border-0 outline-0"
-                value=""
-            />
-            <datalist id="searchSuggestions"> </datalist>
-            <button
-                type="submit"
-                for="searchTerm"
-                class="fa-solid p-2 fa-search"
-            ></button>
-        </form>
+      <%- include("../Components/search_form.ejs") %>
     </div>
     <div
         class="navbar-nav order-2 border flex-shrink-1 order-md-3 d-flex justify-content-center align-items-center px-2"

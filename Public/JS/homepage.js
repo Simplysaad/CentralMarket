@@ -42,7 +42,8 @@ btnCart.forEach((btn, index) => {
 //     });
 // });
 btnSearch.addEventListener("click", e => {
-    e.preventDefault();
+    //e.preventDefault();
+    console.log("btnSearch clikced");
     navBarSearch.classList.toggle("d-none");
     btnSearch.classList.toggle("text-muted");
 });

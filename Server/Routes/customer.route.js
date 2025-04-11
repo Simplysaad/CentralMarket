@@ -47,14 +47,15 @@ router.get("/", async (req, res) => {
         };
 
         const checkWishList = product => {
-            let { wishlist } = req.session || currentUser || [];
+            // let { wishlist } =  req.session || currentUser || [];
+            let wishlist = []; //req.session || currentUser || [];
             if (product) {
                 return wishlist.find(item => item === product._id);
             } else {
-                return wishlist.length ? wishlist.length : ""
+                return wishlist.length ? wishlist.length : "";
             }
         };
-        return res.status(200).render("Pages/customer", {
+        return res.status(200).render("Pages/Customer/index_page", {
             topRatedProducts,
             featuredProducts,
             deals,
@@ -68,8 +69,7 @@ router.get("/", async (req, res) => {
 });
 //[new arrivals, top rated, deals of the day, christmas collection, clearance sales]
 
-router.all("/search", customerController.searchController);
-router.all("/atlas-search", customerController.atlasSearchController);
+router.all("/search/:searchType", customerController.searchController);
 
 router.get("/cart", customerController.getCart);
 router.post("/cart/:id", customerController.postCart);

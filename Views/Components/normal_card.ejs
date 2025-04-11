@@ -3,7 +3,8 @@
 >
     <div class="card-image">
         <img
-            src="/IMG/image-1.jpg"
+            src="/IMG/image-1.jpg" 
+            src="<%#= product.imageUrl %>"
             class="img-fluid w-100 h-100"
             alt="<%= product.name %>"
         />
@@ -19,7 +20,7 @@
             <i class="fa fa-map-marker"> </i>
 
             <span class="fs-6 fw-light">
-                Fantech trading
+                <%= product.vendorId.name %>
             </span>
         </div>
         <% } %>

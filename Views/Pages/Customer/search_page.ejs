@@ -1,0 +1,5 @@
+<section class="d-flex gap-2 flex-wrap overflow">
+  <% searchResults.forEach(product =>{ %>
+    <%- include('../../Components/search_card.ejs', { product }) %>
+  <% })%>
+</section >

@@ -27,16 +27,16 @@
     </head>
     <body>
         <header class="py-md-4 pb-2">
-              <%#- include('../Partials/_header')%>
+              <%- include('../Partials/_header') %>
         </header>
         <main class="container d-flex gap-3">
             <aside
                 id="sideNav"
-                class="side-nav mh-100 collapse overflow-scroll position-absolute border col-6 col-md-3 col-lg-2"
+                class="side-nav mh-100 collapse  overflow-scroll position-relative border col-6 col-md-3 col-lg-2"
             >
               <%- include('../Partials/_side_nav')%>
             </aside>
-            <main class="col-12">
+            <main class="col-12 flex-md-grow-1">
               <%- body %>
             </main>
         </main>

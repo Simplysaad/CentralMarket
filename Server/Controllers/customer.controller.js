@@ -1,90 +1,6 @@
 const Product = require("../Models/product.model.js");
 const Search = require("../Models/search.model.js");
 
-exports.atlasSearchController = async (req, res) => {
-    try {
-        const dirtyRegex = /[</\\>&;//]/gi;
-
-        // Extract search term from query or body (handle both GET and POST)
-        // Sanitize and trim search term to prevent injection
-        let searchTerm = (req.body.searchTerm || req.query.searchTerm)
-            ?.toLowerCase()
-            .replace(dirtyRegex, " ")
-            .trim();
-
-        console.log(
-            "Request body:",
-            req.body,
-            "Request Query:",
-            req.query,
-            "Search Term:",
-            searchTerm
-        ); // More useful log
-
-        //Get userId from session
-        let { userId } = req.session;
-
-        // Create regex for case-insensitive search
-        let regex = new RegExp(searchTerm, "gi");
-
-        // Search for products based on various fields using the regex
-        const searchResults = await Product.aggregate([
-            {
-                $search: {
-                    index: "products_index",
-                    text: {
-                        query: searchTerm,
-                        path: ["name", "description", "keywords"]
-                    }
-                }
-            }
-        ]);
-        // Handle empty search results
-        if (searchResults.length === 0) {
-            console.log(searchTerm, "brought no results ");
-            return res.status(204).json({
-                success: true,
-                message: "empty search",
-                advice: "seems we can't find what you seek! please try again later"
-            });
-        }
-
-        let items = [];
-        searchResults.forEach((item, index) => {
-            let { _id: productId, name, imageUrl, category } = item;
-            let newItem = { productId, name, imageUrl, category };
-            items.push(newItem);
-            console.log(newItem);
-        });
-
-        // Create and save new search record
-        const newSearch = new Search({
-            userId, // Store userId, if available
-            searchTerm,
-            items
-        });
-
-        await newSearch.save().then(() => {
-            console.log("Search data saved");
-        });
-
-        //locals.title = "search for " + searchTerm + " | CentralMarket"; // Update title
-
-        // return search results page
-        res.status(200).json({
-            success: true,
-            searchResults,
-            searchTerm
-        });
-    } catch (err) {
-        console.error("Error in search route:", err); // More specific error message
-        return res.status(502).json({
-            success: false,
-            message: "internal server error", //"Incorrect credentials", same as password for security
-            advice: "something's wrong on our end! please try again later"
-        });
-    }
-};
 exports.searchController = async (req, res) => {
     try {
         const dirtyRegex = /[</\\>&;//]/gi;
@@ -96,14 +12,14 @@ exports.searchController = async (req, res) => {
             .replace(dirtyRegex, " ")
             .trim();
 
-        // console.log(
-        //     "Request body:",
-        //     req.body,
-        //     "Request Query:",
-        //     req.query,
-        //     "Search Term:",
-        //     searchTerm
-        // ); // More useful log
+        if (!searchTerm || searchTerm === "") {
+            return res.status(400).json({
+                success: false,
+                searchTerm,
+                message: "empty search term"
+            });
+        }
+
 
         //Get userId from session
         let { userId } = req.session;
@@ -112,19 +28,33 @@ exports.searchController = async (req, res) => {
         let regex = new RegExp(searchTerm, "gi");
 
         // Search for products based on various fields using the regex
-
-        const searchResults = await Product.find({
-            $or: [
-                { name: regex },
-                { description: regex },
-                { category: regex },
-                { keywords: regex }
-            ]
-        })
-            .sort({ interests: -1 })
-            .limit(20)
-            .select("_id name imageUrl category")
-            .lean();
+        let searchResults = [];
+        if (req.params.searchType === "atlas") {
+            const searchResults = await Product.aggregate([
+                {
+                    $search: {
+                        index: "products_index",
+                        text: {
+                            query: searchTerm,
+                            path: ["name", "description", "keywords"]
+                        }
+                    }
+                }
+            ]);
+        } else {
+            searchResults = await Product.find({
+                $or: [
+                    { name: regex },
+                    { description: regex },
+                    { category: regex },
+                    { keywords: regex }
+                ]
+            })
+                .sort({ interests: -1 })
+                .limit(20)
+                .select("_id name imageUrl category")
+                .lean();
+        }
 
         // Handle empty search results
         if (searchResults.length === 0) {
@@ -159,7 +89,12 @@ exports.searchController = async (req, res) => {
         //locals.title = "search for " + searchTerm + " | CentralMarket"; // Update title
 
         // return search results page
-        res.status(200).json({
+        // return res.status(200).json({
+        //     success: true,
+        //     searchResults,
+        //     searchTerm
+        // });
+        return res.status(201).render("Pages/Customer/search_page", {
             success: true,
             searchResults,
             searchTerm
@@ -221,7 +156,7 @@ exports.postCart = async (req, res) => {
                 item => item.productId === productId
             );
 
-           // console.log({ cart: req.session.cart });
+            // console.log({ cart: req.session.cart });
             return res.status(201).json({
                 success: true,
                 message: "new product added to cart",
@@ -381,7 +316,7 @@ exports.getProducts = async (req, res) => {
             success: false,
             message: "error encountered while fetching products",
             errorMessage: err.message,
-            errorStack: err.stack,
+            errorStack: err.stack
         });
     }
 };
