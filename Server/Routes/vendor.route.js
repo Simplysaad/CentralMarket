@@ -13,8 +13,8 @@ cloudinary.config({
 
 const Product = require("../Models/product.model.js");
 
-//const { authMiddleware } = require("../Utils/auth.middleware");
-//router.use(authMiddleware);
+const { authMiddleware } = require("../Utils/auth.middleware");
+router.use(authMiddleware);
 
 const {
     addProduct,

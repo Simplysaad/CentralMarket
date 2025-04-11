@@ -1,0 +1,797 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link
+            rel="stylesheet"
+            href="./Public/fontawesome-free-6.7.2-web/css/all.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            href="./Public/bootstrap-5.3.3-dist/css/bootstrap.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link rel="stylesheet" type="text/css" media="all" />
+        <title></title>
+    </head>
+    <body>
+        <header class="py-md-4 pb-2">
+            <div
+                class="nav navbar p-md-2 border container flex-wrap justify-content-between navbar-light d-flex"
+            >
+                <div
+                    class="navbar-brand order-1 justify-content-center align-items-center gap-1 d-flex flex-nowrap p-2 col-md-"
+                >
+                    <button
+                        class="btn navbar-toggler"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#sideNav"
+                    >
+                        <span class="navbar-toggler-icon"> </span>
+                    </button>
+                    <div class="p-auto">
+                        <h1 class="text-heading display-6">Restaurant</h1>
+                    </div>
+                </div>
+                <div
+                    class="navbar-search order-3 col-12 flex-fill order-lg-2 order-md-3 float-end mx-auto col-md-auto col-lg- float-end d-noe d-md-inline"
+                >
+                    <form
+                        class="border d-flex justify-content-between border-2 justify-content-center align-items-center rounded-pill p-1 my-2 mx-2"
+                        action="/search"
+                        method="post"
+                    >
+                        <input
+                            type="search"
+                            name="searchTerm"
+                            id="searchTerm"
+                            list="searchSuggestions"
+                            placeholder="Search for anything..."
+                            class="w-100 form-control px-3 py-1 bg-transparent border-0 outline-0"
+                            value=""
+                        />
+                        <datalist id="searchSuggestions"> </datalist>
+                        <!-- <label for="searchTerm"></label> -->
+                        <button class="fa-solid p-2 fa-search"></button>
+                    </form>
+                </div>
+                <div
+                    class="navbar-nav order-2 flex-md-shrink-1 order-lg-3 order-md-2 d-flex justify-content-center align-items-center px-2"
+                >
+                    <div
+                        class="nav-items d-flex gap-3 gap-md-2 justify-content-end"
+                    >
+                        <div class="nav-item d-lg-none">
+                            <a href="#" class="nav-link" id="btnSearch">
+                                <i class="fa-solid fa-search"> </i>
+                                <span class="d-none d-md-inline"> Search </span>
+                            </a>
+                        </div>
+                        <div class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa fa-shopping-cart"> </i>
+                                <span class="d-none d-md-inline"> Cart </span>
+                            </a>
+                        </div>
+                        <div class="nav-item dropdown">
+                            <button
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                id="accountDropdown"
+                                type="button"
+                                class="nav-link dropdown-toggle"
+                            >
+                                <i class="fa fa-user-circle"> </i>
+                                <span class="d-none d-md-inline">
+                                    Account
+                                </span>
+                            </button>
+                            <ul
+                                class="dropdown-menu position-absolute"
+                                aria-labelledby="accountDropdown"
+                            >
+                                <li
+                                    class="dropdown-item border-1 border-bottom justify-content-start align-items-center d-flex gap-2"
+                                >
+                                    <i class="fa fa-heart"> </i>
+                                    <a href="/wishlist" class="nav-link">
+                                        Wishlist
+                                    </a>
+                                </li>
+                                <li
+                                    class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2"
+                                >
+                                    <i class="fa fa-box"> </i>
+                                    <a href="/order" class="nav-link">
+                                        Orders
+                                    </a>
+                                </li>
+                                <li
+                                    class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2"
+                                >
+                                    <i class="fa fa-cog"> </i>
+                                    <a href="/settings" class="nav-link">
+                                        Settings
+                                    </a>
+                                </li>
+                                <li
+                                    class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2"
+                                >
+                                    <a href="" class="nav-link"> settings </a>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li
+                                    class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2 d-flex justify-content-start gap-2 align-items-center"
+                                >
+                                    <i class="fa fa-sign-out"> </i>
+                                    <a href="" class="nav-link"> logout </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="container d-flex gap-3">
+            <aside
+                id="sideNav"
+                class="side-nav mh-100 collapse overflow-scroll position-absolute border col-6 col-md-3 col-lg-2"
+            ></aside>
+            <section class="col-12">
+                <section id="heroSection">
+                    <div class="carousel slide vh-50" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="carousel-image"></div>
+                                <div
+                                    class="carousel-info bg-none posiion-absolute top-50 d-flex flex-column p-2"
+                                >
+                                    <h3 class="text-heading display-6">
+                                        Lorem ipsum, dolor sit amet
+                                    </h3>
+                                    <p class="text-description fs-6 fw-light">
+                                        Lorem ipsum, dolor sit amet consectetur
+                                        adipisicing elit. Repellat sapiente,
+                                    </p>
+                                    <button class="btn border btn-cta">
+                                        Buy now
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="carousel-item bg-dark-subtle">
+                                <div class="carousel-image"></div>
+                                <div
+                                    class="carousel-info bg-none posiion-absolute top-50 d-flex flex-column p-2"
+                                >
+                                    <h3 class="text-heading display-6">
+                                        Lorem ipsum, dolor sit amet
+                                    </h3>
+                                    <p class="text-description fs-6 fw-light">
+                                        Lorem ipsum, dolor sit amet consectetur
+                                        adipisicing elit. Repellat sapiente,
+                                    </p>
+                                    <button class="btn border btn-cta">
+                                        Buy now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="categoriesSection" class="categories my-4">
+                    <div class="container">
+                        <h4 class="text-heading display-6 fw-old">
+                            Browse by categories
+                        </h4>
+                    </div>
+                    <div
+                        class="container d-flex gap-2 py-3 flex-wap overflow-scroll mx-auto"
+                    >
+                        <div
+                            class="category-box col-4 col-md-3 d-flex border p-2 rounded flex-column gap-2 justify-content-center align-items-center"
+                        >
+                            <div class="category-icon">
+                                <i class="fa fa-3x fa-child"> </i>
+                                <!-- <i class="fa fa-laptop"> </i> -->
+                                <!-- <i class="fa fa-mobile"> </i> -->
+                            </div>
+                            <div class="category-text text-center">
+                                <span class="fs-6 text-success">
+                                    Children toys
+                                </span>
+                            </div>
+                        </div>
+                        <div
+                            class="category-box col-4 col-md-3 d-flex border p-2 rounded flex-column gap-2 justify-content-center align-items-center"
+                        >
+                            <div class="category-icon">
+                                <!-- <i class="fa fa-3x fa-child"> </i> -->
+                                <i class="fa fa-3x fa-laptop"> </i>
+                                <!-- <i class="fa fa-3x fa-mobile"> </i> -->
+                            </div>
+                            <div class="category-text text-center">
+                                <span class="fs-6 text-success text-center">
+                                    Electronics
+                                </span>
+                            </div>
+                        </div>
+                        <div
+                            class="category-box col-4 col-md-3 d-flex border p-2 rounded flex-column gap-2 justify-content-center align-items-center"
+                        >
+                            <div class="category-icon">
+                                <!-- <i class="fa fa-3x fa-child"> </i> -->
+                                <!-- <i class="fa fa-laptop"> </i> -->
+                                <i class="fa fa-3x fa-pizza-slice"> </i>
+                            </div>
+                            <div class="category-text text-center">
+                                <span
+                                    class="fs-6 text-success text-center text-wrap"
+                                >
+                                    Food and veggies
+                                </span>
+                            </div>
+                        </div>
+                        <div
+                            class="category-box col-4 col-md-3 d-flex border p-2 rounded flex-column gap-2 justify-content-center align-items-center"
+                        >
+                            <div class="category-icon">
+                                <i class="fa fa-3x fa-child"> </i>
+                                <!-- <i class="fa fa-laptop"> </i> -->
+                                <!-- <i class="fa fa-mobile"> </i> -->
+                            </div>
+                            <div class="category-text text-center">
+                                <span class="fs-6 text-success text-center">
+                                    Children toys
+                                </span>
+                            </div>
+                        </div>
+                        <div
+                            class="category-box col-4 col-md-3 d-flex border p-2 rounded flex-column gap-2 justify-content-center align-items-center"
+                        >
+                            <div class="category-icon">
+                                <!-- <i class="fa fa-3x fa-child"> </i> -->
+                                <i class="fa fa-3x fa-laptop"> </i>
+                                <!-- <i class="fa fa-3x fa-mobile"> </i> -->
+                            </div>
+                            <div class="category-text text-center">
+                                <span class="fs-6 text-success text-center">
+                                    Electronics
+                                </span>
+                            </div>
+                        </div>
+                        <div
+                            class="category-box col-4 col-md-3 d-flex border p-2 rounded flex-column gap-2 justify-content-center align-items-center"
+                        >
+                            <div class="category-icon">
+                                <!-- <i class="fa fa-3x fa-child"> </i> -->
+                                <!-- <i class="fa fa-laptop"> </i> -->
+                                <i class="fa fa-3x fa-pizza-slice"> </i>
+                            </div>
+                            <div class="category-text text-center">
+                                <span
+                                    class="fs-6 text-success text-center text-wrap"
+                                >
+                                    Food and veggies
+                                </span>
+                            </div>
+                        </div>
+                        <div
+                            class="category-box col-4 col-md-3 d-flex border p-2 rounded flex-column gap-2 justify-content-center align-items-center"
+                        >
+                            <div class="category-icon">
+                                <i class="fa fa-3x fa-child"> </i>
+                                <!-- <i class="fa fa-laptop"> </i> -->
+                                <!-- <i class="fa fa-mobile"> </i> -->
+                            </div>
+                            <div class="category-text text-center">
+                                <span class="fs-6 text-success text-center">
+                                    Children toys
+                                </span>
+                            </div>
+                        </div>
+                        <div
+                            class="category-box col-4 col-md-3 d-flex border p-2 rounded flex-column gap-2 justify-content-center align-items-center"
+                        >
+                            <div class="category-icon">
+                                <!-- <i class="fa fa-3x fa-child"> </i> -->
+                                <i class="fa fa-3x fa-laptop"> </i>
+                                <!-- <i class="fa fa-3x fa-mobile"> </i> -->
+                            </div>
+                            <div class="category-text text-center">
+                                <span class="fs-6 text-success text-center">
+                                    Electronics
+                                </span>
+                            </div>
+                        </div>
+                        <div
+                            class="category-box col-4 col-md-3 d-flex border p-2 rounded flex-column gap-2 justify-content-center align-items-center"
+                        >
+                            <div class="category-icon">
+                                <!-- <i class="fa fa-3x fa-child"> </i> -->
+                                <!-- <i class="fa fa-laptop"> </i> -->
+                                <i class="fa fa-3x fa-pizza-slice"> </i>
+                            </div>
+                            <div class="category-text text-center">
+                                <span
+                                    class="fs-6 text-success text-center text-wrap"
+                                >
+                                    Food and veggies
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="featuredCombos" class="overflow-hidden my-4">
+                    <div class="category-heading">
+                        <h4 class="display-6 text-heading">Featured Combos</h4>
+                    </div>
+                    <div class="d-flex p-2 gap-4 overflow-scroll">
+                        <div
+                            class="card d-flex flex-column gap-2 flex-md-row col-9 col-md-8 col-lg-5"
+                        >
+                            <div class="card-image col-md-6">
+                                <img
+                                    src="./Public/IMG/image-1.jpg"
+                                    class="img-fluid w-100 h-100"
+                                    alt=""
+                                />
+                            </div>
+                            <div class="card-info my-2 flex-column d-flex p-2">
+                                <h4 class="fs-5 cart-title">
+                                    Lorem ipsum dolor sit amet.
+                                </h4>
+                                <p class="fs-6 fw-light card-description">
+                                    Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Sint ullam aliquid nihil.
+                                </p>
+                                <div
+                                    class="vendor-info col- gap-2 d-flex justify-content-start align-items-center"
+                                >
+                                    <i class="fa fa-map-marker"> </i>
+
+                                    <span class="fs-6"> Fantech trading </span>
+                                </div>
+                                <div
+                                    class="d-flex py-3 justify-content-between align-items-center"
+                                >
+                                    <div
+                                        class="product-rating d-flex gap-0 align-items-center"
+                                    >
+                                        <div class="rating-stars">
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="far fa-star"> </i>
+                                            <i class="far fa-star"> </i>
+                                        </div>
+
+                                        <span class="px-2"> (220)</span>
+                                    </div>
+                                    <span class="fs-6 card-price fw-bold"
+                                        >$14.99</span
+                                    >
+                                </div>
+                                <button class="cta btn btn-dark m-2 btn-cta">
+                                    Get Now
+                                </button>
+                            </div>
+                        </div>
+
+                        <div
+                            class="card d-flex flex-column gap-2 flex-md-row col-9 col-md-8 col-lg-5 placeholder-glow"
+                        >
+                            <div
+                                class="card-image p-5 mh-100 col-md-6 placeholder"
+                            >
+                                <span
+                                    class="placeholder p-5 w-100 h-100"
+                                ></span>
+                                <span
+                                    class="placeholder p-3 w-100 h-100"
+                                ></span>
+                            </div>
+                            <div class="card-info my-2 flex-column d-flex p-2">
+                                <h4 class="fs-5 cart-title placeholder">
+                                    <span class="placeholder col-6"></span>
+                                </h4>
+                                <p
+                                    class="fs-6 fw-light card-description placeholder"
+                                >
+                                    <span class="placeholder py-2 col-4"></span>
+                                    <span class="placeholder py-2 col-4"></span>
+                                    <span class="placeholder py-2 col-4"></span>
+                                    <span class="placeholder py-2 col-4"></span>
+                                </p>
+                                <div
+                                    class="vendor-info col- my-2 gap-3 d-flex justify-content-start align-items-center placeholder"
+                                >
+                                    <span class="placeholder col-2"></span>
+                                    <span class="placeholder col-4"></span>
+                                </div>
+                                <div
+                                    class="d-flex p3 my-2 justify-content-between align-items-center placeholder"
+                                >
+                                    <div
+                                        class="product-rating d-flex align-items-center placeholder"
+                                    >
+                                        <span class="placeholder col-2"></span>
+                                        <span class="placeholder col-1"></span>
+                                    </div>
+                                    <span class="fs-6 card-price placeholder">
+                                        <span class="placeholder col-2"></span>
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex p3 my-2 justify-content-between align-items-center placeholder"
+                                >
+                                    <div
+                                        class="product-rating d-flex align-items-center placeholder"
+                                    >
+                                        <span class="placeholder col-2"></span>
+                                        <span class="placeholder col-1"></span>
+                                    </div>
+                                    <span class="fs-6 card-price placeholder">
+                                        <span class="placeholder col-2"></span>
+                                    </span>
+                                </div>
+                                <button
+                                    class="cta btn btn-dark m-2 btn-cta placeholder"
+                                >
+                                    <span class="placeholder col-4"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="newArrivals" class="product-list">
+                    <div class="category-heading my-4">
+                        <h4 class="display-6 text-heading">
+                            Trending products
+                        </h4>
+                    </div>
+                    <div class="d-flex p-1 gap-3 overflow-scroll">
+                        <div
+                            class="border card d-flex flex-column gap-2 col-7 col-md-5 col-lg-2"
+                        >
+                            <div class="card-image">
+                                <img
+                                    src="./Public/IMG/image-1.jpg"
+                                    class="img-fluid w-100 h-100"
+                                    alt=""
+                                />
+                            </div>
+                            <div class="card-info my-2 flex-column d-flex p-2">
+                                <h4 class="fs-6 text-capitalize cart-title">
+                                    Lorem ipsum dolor sit amet.
+                                </h4>
+
+                                <div
+                                    class="vendor-info text-muted col- gap-2 d-flex justify-content-start align-items-center"
+                                >
+                                    <i class="fa fa-map-marker"> </i>
+
+                                    <span class="fs-6 fw-light">
+                                        Fantech trading
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex py-3 flex-colmn justify-content-between align-items-center"
+                                >
+                                    <div
+                                        class="product-rating d-flex align-items-center"
+                                    >
+                                        <div class="rating-stars">
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                        </div>
+
+                                        <!-- <span class="px-2 text-muted">
+                                            4.9
+                                        </span> -->
+                                    </div>
+                                    <span class="fs-6 card-price">$14.99</span>
+                                </div>
+                                <div class="cta btn-group">
+                                    <button
+                                        class="btn btn-outline-dark justify-content-center align-items-center d-flex gap-2"
+                                    >
+                                        <i class="fa fa-shopping-cart"> </i>
+                                        Add to cart
+                                    </button>
+                                    <button class="btn btn-outline-dark">
+                                        <i class="far fa-heart"> </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="" class="product-list">
+                    <div class="category-heading my-4">
+                        <h4 class="display-6 text-heading">Top rated</h4>
+                    </div>
+                    <div class="d-flex p-1 gap-3 overflow-scroll">
+                        <div
+                            class="border card d-flex flex-column gap-2 col-7 col-md-5 col-lg-2"
+                        >
+                            <div class="card-image">
+                                <img
+                                    src="./Public/IMG/image-1.jpg"
+                                    class="img-fluid w-100 h-100"
+                                    alt=""
+                                />
+                            </div>
+                            <div class="card-info my-2 flex-column d-flex p-2">
+                                <h4 class="fs-6 text-capitalize cart-title">
+                                    Lorem ipsum dolor sit amet.
+                                </h4>
+
+                                <div
+                                    class="vendor-info text-muted col- gap-2 d-flex justify-content-start align-items-center"
+                                >
+                                    <i class="fa fa-map-marker"> </i>
+
+                                    <span class="fs-6 fw-light">
+                                        Fantech trading
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex py-3 flex-colmn justify-content-between align-items-center"
+                                >
+                                    <div
+                                        class="product-rating d-flex align-items-center"
+                                    >
+                                        <div class="rating-stars">
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                        </div>
+
+                                        <!-- <span class="px-2 text-muted">
+                                            4.9
+                                        </span> -->
+                                    </div>
+                                    <span class="fs-6 card-price">$14.99</span>
+                                </div>
+                                <div class="cta btn-group">
+                                    <button
+                                        class="btn btn-outline-dark justify-content-center align-items-center d-flex gap-2"
+                                    >
+                                        <i class="fa fa-shopping-cart"> </i>
+                                        Add to cart
+                                    </button>
+                                    <button class="btn btn-outline-dark">
+                                        <i class="far fa-heart"> </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="" class="product-list">
+                    <div class="category-heading my-4">
+                        <h4 class="display-6 text-heading">New arrivals</h4>
+                    </div>
+                    <div class="d-flex p-1 gap-3 overflow-scroll">
+                        <div
+                            class="border card d-flex flex-column gap-2 col-7 col-md-5 col-lg-2"
+                        >
+                            <div class="card-image">
+                                <img
+                                    src="./Public/IMG/image-1.jpg"
+                                    class="img-fluid w-100 h-100"
+                                    alt=""
+                                />
+                            </div>
+                            <div class="card-info my-2 flex-column d-flex p-2">
+                                <h4 class="fs-6 text-capitalize cart-title">
+                                    Lorem ipsum dolor sit amet.
+                                </h4>
+
+                                <div
+                                    class="vendor-info text-muted col- gap-2 d-flex justify-content-start align-items-center"
+                                >
+                                    <i class="fa fa-map-marker"> </i>
+
+                                    <span class="fs-6 fw-light">
+                                        Fantech trading
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex py-3 flex-colmn justify-content-between align-items-center"
+                                >
+                                    <div
+                                        class="product-rating d-flex align-items-center"
+                                    >
+                                        <div class="rating-stars">
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                        </div>
+
+                                        <!-- <span class="px-2 text-muted">
+                                            4.9
+                                        </span> -->
+                                    </div>
+                                    <span class="fs-6 card-price">$14.99</span>
+                                </div>
+                                <div class="cta btn-group">
+                                    <button
+                                        class="btn btn-outline-dark justify-content-center align-items-center d-flex gap-2"
+                                    >
+                                        <i class="fa fa-shopping-cart"> </i>
+                                        Add to cart
+                                    </button>
+                                    <button class="btn btn-outline-dark">
+                                        <i class="far fa-heart"> </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="" class="product-list">
+                    <div class="category-heading my-4">
+                        <h4 class="display-6 text-heading">Deals of the day</h4>
+                    </div>
+                    <div class="d-flex p-1 gap-3 overflow-scroll">
+                        <div
+                            class="border card d-flex flex-column gap-2 col-7 col-md-5 col-lg-2"
+                        >
+                            <div class="card-image">
+                                <img
+                                    src="./Public/IMG/image-1.jpg"
+                                    class="img-fluid w-100 h-100"
+                                    alt=""
+                                />
+                            </div>
+                            <div class="card-info my-2 flex-column d-flex p-2">
+                                <h4 class="fs-6 text-capitalize cart-title">
+                                    Lorem ipsum dolor sit amet.
+                                </h4>
+
+                                <div
+                                    class="vendor-info text-muted col- gap-2 d-flex justify-content-start align-items-center"
+                                >
+                                    <i class="fa fa-map-marker"> </i>
+
+                                    <span class="fs-6 fw-light">
+                                        Fantech trading
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex py-3 flex-colmn justify-content-between align-items-center"
+                                >
+                                    <div
+                                        class="product-rating d-flex align-items-center"
+                                    >
+                                        <div class="rating-stars">
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                        </div>
+
+                                        <!-- <span class="px-2 text-muted">
+                                            4.9
+                                        </span> -->
+                                    </div>
+                                    <span class="fs-6 card-price">$14.99</span>
+                                </div>
+                                <div class="cta btn-group">
+                                    <button
+                                        class="btn btn-outline-dark justify-content-center align-items-center d-flex gap-2"
+                                    >
+                                        <i class="fa fa-shopping-cart"> </i>
+                                        Add to cart
+                                    </button>
+                                    <button class="btn btn-outline-dark">
+                                        <i class="far fa-heart"> </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="" class="product-list">
+                    <div class="category-heading my-4">
+                        <h4 class="display-6 text-heading">Clearance sales</h4>
+                    </div>
+                    <div class="d-flex p-1 gap-3 overflow-scroll">
+                        <div
+                            class="border card d-flex flex-column gap-2 col-7 col-md-5 col-lg-2"
+                        >
+                            <div class="card-image">
+                                <img
+                                    src="./Public/IMG/image-1.jpg"
+                                    class="img-fluid w-100 h-100"
+                                    alt=""
+                                />
+                            </div>
+                            <div class="card-info my-2 flex-column d-flex p-2">
+                                <h4 class="fs-6 text-capitalize cart-title">
+                                    Lorem ipsum dolor sit amet.
+                                </h4>
+
+                                <div
+                                    class="vendor-info text-muted col- gap-2 d-flex justify-content-start align-items-center"
+                                >
+                                    <i class="fa fa-map-marker"> </i>
+
+                                    <span class="fs-6 fw-light">
+                                        Fantech trading
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex py-3 flex-colmn justify-content-between align-items-center"
+                                >
+                                    <div
+                                        class="product-rating d-flex align-items-center"
+                                    >
+                                        <div class="rating-stars">
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                            <i class="fa fa-star"> </i>
+                                        </div>
+
+                                        <!-- <span class="px-2 text-muted">
+                                            4.9
+                                        </span> -->
+                                    </div>
+                                    <span class="fs-6 card-price">$14.99</span>
+                                </div>
+                                <div class="cta btn-group">
+                                    <button
+                                        class="btn btn-outline-dark justify-content-center align-items-center d-flex gap-2"
+                                    >
+                                        <i class="fa fa-shopping-cart"> </i>
+                                        Add to cart
+                                    </button>
+                                    <button class="btn btn-outline-dark">
+                                        <i class="far fa-heart"> </i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <script src="/JS/register.js"></script>
+        </main>
+        <script src="login.js" type="text/javascript" charset="utf-8"></script>
+        <script
+            src="./Public/fontawesome-free-6.7.2-web/js/all.js"
+            type="text/javascript"
+            charset="utf-8"
+        ></script>
+        <script
+            src="./Public/bootstrap-5.3.3-dist/js/bootstrap.bundle.js"
+            type="text/javascript"
+            charset="utf-8"
+        ></script>
+        <style type="text/css" media="all">
+            .navbar-search {
+              display: none;
+            }
+        </style>
+
+        <script src="./Public/JS/homepage.js"></script>
+    </body>
+</html>

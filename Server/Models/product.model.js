@@ -13,9 +13,21 @@ const productSchema = new mongoose.Schema({
         type: Number,
         index: true
     },
+    discount: {
+      type: Number,
+      default : 0
+    },
     available: {
         type: Boolean,
         default: true
+    },
+    vendorId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users"
+    },
+    averageRating: {
+        type: Number,
+        default: 5
     },
     isFeatured: {
         type: Boolean,
@@ -48,7 +60,7 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    
+
     addToCartCount: {
         type: Number,
         default: 0

@@ -1,8 +1,8 @@
 <div
-    class="nav navbar shadow p-md-2 border container flex-nowrap justify-content-between navbar-light d-flex"
+    class="nav navbar p-md-2 border container flex-wrap justify-content-between navbar-light d-flex"
 >
     <div
-        class="navbar-brand justify-content-center align-items-center gap-1 d-flex flex-nowrap p-2 col-md-"
+        class="navbar-brand order-1 justify-content-center align-items-center gap-1 d-flex flex-nowrap p-2 col-md-"
     >
         <button
             class="btn navbar-toggler"
@@ -16,10 +16,10 @@
         </div>
     </div>
     <div
-        class="navbar-search float-end mx-auto col-md- col-lg- float-end d-none d-md-inline"
+        class="navbar-search order-3 flex-fill order-md-2 col-12 float-end mx-auto col-md-auto col-lg- float-end d-noe d-md-inline"
     >
         <form
-            class="border d-flex shadow justify-content-between border-2 justify-content-center align-items-center rounded-pill"
+            class="border d-flex justify-content-between border-2 justify-content-center align-items-center rounded-pill p-1 my-2 mx-2"
             action="/search"
             method="post"
         >
@@ -27,25 +27,33 @@
                 type="search"
                 name="searchTerm"
                 id="searchTerm"
-                placeholder="search for anything..."
-                class="w-100 px-3 py-1 bg-transparent border-0 outline-0"
+                list="searchSuggestions"
+                placeholder="Search for anything..."
+                class="w-100 form-control px-3 py-1 bg-transparent border-0 outline-0"
                 value=""
             />
-            <button for="searchTerm" class="fa-solid p-2 fa-search"></button>
+            <datalist id="searchSuggestions"> </datalist>
+            <button
+                type="submit"
+                for="searchTerm"
+                class="fa-solid p-2 fa-search"
+            ></button>
         </form>
     </div>
     <div
-        class="navbar-nav col-md-3 d-flex justify-content-center align-items-center p-2 mx-2"
+        class="navbar-nav order-2 border flex-shrink-1 order-md-3 d-flex justify-content-center align-items-center px-2"
     >
-        <div class="nav-items d-flex gap-3 gap-md-2 justify-content-end">
+        <div
+            class="nav-items d-flex gap-3 gap-md-2 justify-content-end"
+        >
             <div class="nav-item d-md-none">
-                <a href="#" class="nav-link">
+                <a href="#" class="nav-link" id="btnSearch">
                     <i class="fa-solid fa-search"> </i>
                     <span class="d-none d-md-inline"> Search </span>
                 </a>
             </div>
             <div class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="/cart" class="nav-link">
                     <i class="fa fa-shopping-cart"> </i>
                     <span class="d-none d-md-inline"> Cart </span>
                 </a>
@@ -59,7 +67,9 @@
                     class="nav-link dropdown-toggle"
                 >
                     <i class="fa fa-user-circle"> </i>
-                    <span class="d-none d-md-inline"> Account </span>
+                    <span class="d-none d-md-inline">
+                        Account
+                    </span>
                 </button>
                 <ul
                     class="dropdown-menu position-absolute"

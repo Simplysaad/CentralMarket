@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const { shuffle } = require("../Utils/helper.js");
 //const fetch = require("node-fetch");
 const { default: fetch } = require("node-fetch");
 
@@ -8,151 +8,76 @@ const Product = require("../Models/product.model.js");
 const User = require("../Models/user.model.js");
 const Order = require("../Models/order.model.js");
 const Search = require("../Models/search.model.js");
-const {
-    postCart,
-    deleteCartItem,
-    searchController,
-    getCart,
-    atlasSearchController,
-    getProducts
-} = require("../Controllers/customer.controller.js");
+const customerController = require("../Controllers/customer.controller.js");
 
-router.all("/search", searchController);
-router.all("/atlas-search", atlasSearchController);
-
-router.get("/cart", getCart);
-router.post("/cart/:id", postCart);
-router.delete("/cart/:id", deleteCartItem);
-
-router.get("/products", getProducts);
-
-router.post("/order", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
-        let { userId: customerId, cart: items } = req.session;
-        console.log("items", items);
-        console.log("req.session", req.session);
-        //let { customerId, items } = req.body;
+        // GET NEW ARRIVALS
+        let newArrivals = await Product.find({})
+            .sort({ createdAt: -1 })
+            .limit(14);
+        //newArrivals = shuffle(newArrivals);
 
-        // if (!customerId)
-        //     return res.status(403).json({
-        //         success: false,
-        //         message: "user not logged in"
-        //     });
+        //DEALS OF THE DAY
+        let deals = await Product.find({ discount: { $gt: 0 } });
+        //deals = shuffle(deals, 14);
 
-        items.forEach(async item => {
-            let itemId = item.productId;
+        //FEATURED BRANDS
+        let featuredProducts = await Product.find({ isFeatured: true })
+            .sort({ updatedAt: -1 })
+            .limit(16);
+        //   featuredProducts = shuffle(featuredProducts);
 
-            let updatedItem = await Product.findOneAndUpdate(
-                { _id: itemId },
-                {
-                    $inc: {
-                        purchaseCount: item.quantity
-                    }
-                },
-                { new: true }
-            );
-        });
+        //TOP RATED PRODUCTS
+        let topRatedProducts = await Product.find({})
+            .sort({ averageRating: -1 })
+            .limit(16);
 
-        let newOrder = new Order({
-            customerId,
-            items
-        });
+        let cart = req.session.cart ? req.session.cart : [];
+        const checkCart = product => {
+            if (product) {
+                let item = cart.find(
+                    item => item.productId === product._id.toString()
+                );
+                //console.log("cart item", item);
+                return item;
+            } else {
+                return cart.length ? cart.length : "";
+            }
+        };
 
-        await newOrder.save().then(() => {
-            req.session.cart = [];
-            console.log("cart cleared");
-        });
-
-        return res.status(200).json({
-            success: true,
-            message: "order placed successfully",
-            newOrder
+        const checkWishList = product => {
+            let { wishlist } = req.session || currentUser || [];
+            if (product) {
+                return wishlist.find(item => item === product._id);
+            } else {
+                return wishlist.length ? wishlist.length : ""
+            }
+        };
+        return res.status(200).render("Pages/customer", {
+            topRatedProducts,
+            featuredProducts,
+            deals,
+            checkCart,
+            checkWishList,
+            newArrivals
         });
     } catch (err) {
         console.error(err);
-        return res.status(500).json({
-            success: false,
-            message: "error encountered while placing order"
-        });
     }
 });
-router.get("/order", async (req, res) => {
-    try {
-        let allOrders = await Order.find();
-        return res.status(200).json({
-            success: true,
-            message: "orders retrieved successfully",
-            allOrders
-        });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({
-            success: false,
-            message: "error encountered while placing order"
-        });
-    }
-});
-router.post("/order/massive", async (req, res) => {
-    try {
-        let allProducts = await Product.find({}).select("_id name price");
-        let { massive = 5 } = req.query;
+//[new arrivals, top rated, deals of the day, christmas collection, clearance sales]
 
-        let BASE_URL = "http://localhost:8000";
+router.all("/search", customerController.searchController);
+router.all("/atlas-search", customerController.atlasSearchController);
 
-        // for (let i = 0; i < massive; i++) {
-        let randomQuantity = Math.floor(Math.random() * 10);
-        let randomCartLength = Math.floor(Math.random() * 10);
-        let randomIndex = Math.floor(Math.random() * allProducts.length);
+router.get("/cart", customerController.getCart);
+router.post("/cart/:id", customerController.postCart);
+router.delete("/cart/:id", customerController.deleteCartItem);
 
-        let randomItem = allProducts[randomIndex];
-
-        //     console.log(
-        //         "randomQuantity",
-        //         randomQuantity,
-        //         "randomCartLength",
-        //         randomCartLength,
-        //         "randomItem",
-        //         randomItem
-        //     );
-        //     setTimeout(async function () {
-        //         let orderResponse = await fetch(`${BASE_URL}/order`, {
-        //             method: "POST",
-        //             headers: {
-        //                 "Content-Type": "application/json"
-        //             }
-        //         });
-        //     }, 3000);
-        // }
-        for (let i = 0; i < randomCartLength; i++) {
-            fetch(
-                // `${BASE_URL}/cart/${randomItem._id}?quantity=${randomQuantity}`,
-                `/cart/${randomItem._id}?quantity=${randomQuantity}`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    credentials: "include"
-                }
-            )
-                .then(response => response.json())
-                .then(data => console.log("cart data", data));
-
-            //console.log("orderResponse", orderResponse);
-        }
-        return res.status(200).json({
-            success: true,
-            message: "massive orders made successfully"
-        });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({
-            success: false,
-            message: "error encountered while placing massive orders",
-            errorMessage: err.message,
-            errorStack: err.stack
-        });
-    }
-});
+router.get("/products", customerController.getProducts);
+router.post("/order", customerController.postOrder);
+router.get("/order", customerController.getOrder);
+router.post("/order/massive", customerController.postOrderMassive);
 
 module.exports = router;

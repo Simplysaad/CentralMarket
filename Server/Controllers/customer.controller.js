@@ -1,7 +1,7 @@
 const Product = require("../Models/product.model.js");
 const Search = require("../Models/search.model.js");
 
-let atlasSearchController = async (req, res) => {
+exports.atlasSearchController = async (req, res) => {
     try {
         const dirtyRegex = /[</\\>&;//]/gi;
 
@@ -85,7 +85,7 @@ let atlasSearchController = async (req, res) => {
         });
     }
 };
-let searchController = async (req, res) => {
+exports.searchController = async (req, res) => {
     try {
         const dirtyRegex = /[</\\>&;//]/gi;
 
@@ -96,14 +96,14 @@ let searchController = async (req, res) => {
             .replace(dirtyRegex, " ")
             .trim();
 
-        console.log(
-            "Request body:",
-            req.body,
-            "Request Query:",
-            req.query,
-            "Search Term:",
-            searchTerm
-        ); // More useful log
+        // console.log(
+        //     "Request body:",
+        //     req.body,
+        //     "Request Query:",
+        //     req.query,
+        //     "Search Term:",
+        //     searchTerm
+        // ); // More useful log
 
         //Get userId from session
         let { userId } = req.session;
@@ -174,7 +174,7 @@ let searchController = async (req, res) => {
     }
 };
 
-const postCart = async (req, res) => {
+exports.postCart = async (req, res) => {
     try {
         if (!req.session.cart) req.session.cart = [];
 
@@ -193,7 +193,7 @@ const postCart = async (req, res) => {
             { $and: [{ _id: productId }, { available: true }] },
             {
                 $inc: {
-                    addToCartCount: quantity
+                    addToCartCount: quantity || 1
                 }
             },
             { new: true }
@@ -217,11 +217,16 @@ const postCart = async (req, res) => {
                 productId
             };
             req.session.cart.push(singleProduct);
+            let index = req.session.cart.findIndex(
+                item => item.productId === productId
+            );
 
+           // console.log({ cart: req.session.cart });
             return res.status(201).json({
                 success: true,
                 message: "new product added to cart",
-                cart: req.session.cart
+                cart: req.session.cart,
+                item: req.session.cart[index]
             });
         } else {
             if (quantity) {
@@ -232,6 +237,7 @@ const postCart = async (req, res) => {
                 req.session.cart[index].price =
                     currentProduct.price * req.session.cart[index].quantity;
             }
+            //console.log({ cart: req.session.cart });
 
             return res.status(201).json({
                 success: true,
@@ -248,7 +254,7 @@ const postCart = async (req, res) => {
         });
     }
 };
-const deleteCartItem = async (req, res) => {
+exports.deleteCartItem = async (req, res) => {
     try {
         let { userId, cart } = req.session;
         let { id: productId } = req.params;
@@ -311,7 +317,7 @@ const deleteCartItem = async (req, res) => {
     }
 };
 
-const getCart = async (req, res) => {
+exports.getCart = async (req, res) => {
     try {
         let { cart } = req.session;
 
@@ -338,11 +344,13 @@ const getCart = async (req, res) => {
     }
 };
 
-let getProducts = async (req, res) => {
+exports.getProducts = async (req, res) => {
     try {
         let products = await Product.find({ available: true }).select(
             "name _id price description"
         );
+        let cart = req.session.cart ? req.session.cart : [];
+
         let popularProducts = await Product.find({ available: true })
             .sort({
                 amountSold: -1,
@@ -358,19 +366,26 @@ let getProducts = async (req, res) => {
         //     message: "products fetched successfully",
         //     products,
         //     popularProducts
-
         // });
-        return res.status(200).render("Pages/Customer/index",{
+
+        return res.status(200).render("Pages/Customer/index", {
             success: true,
             message: "products fetched successfully",
             products,
+            cart,
             popularProducts
         });
     } catch (err) {
         console.error(err);
+        return res.status(200).json({
+            success: false,
+            message: "error encountered while fetching products",
+            errorMessage: err.message,
+            errorStack: err.stack,
+        });
     }
 };
-let getSearchResults = async (req, res) => {
+exports.getSearchResults = async (req, res) => {
     try {
         let { userId } = req.session;
 
@@ -397,11 +412,132 @@ let getSearchResults = async (req, res) => {
     }
 };
 
-module.exports = {
-    searchController,
-    atlasSearchController,
-    postCart,
-    deleteCartItem,
-    getCart,
-    getProducts
+exports.postOrder = async (req, res) => {
+    try {
+        let { userId: customerId, cart: items } = req.session;
+        console.log("items", items);
+        console.log("req.session", req.session);
+        //let { customerId, items } = req.body;
+
+        // if (!customerId)
+        //     return res.status(403).json({
+        //         success: false,
+        //         message: "user not logged in"
+        //     });
+
+        items.forEach(async item => {
+            let itemId = item.productId;
+
+            let updatedItem = await Product.findOneAndUpdate(
+                { _id: itemId },
+                {
+                    $inc: {
+                        purchaseCount: item.quantity
+                    }
+                },
+                { new: true }
+            );
+        });
+
+        let newOrder = new Order({
+            customerId,
+            items
+        });
+
+        await newOrder.save().then(() => {
+            req.session.cart = [];
+            console.log("cart cleared");
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "order placed successfully",
+            newOrder
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: "error encountered while placing order"
+        });
+    }
+};
+
+exports.getOrder = async (req, res) => {
+    try {
+        let allOrders = await Order.find();
+        return res.status(200).json({
+            success: true,
+            message: "orders retrieved successfully",
+            allOrders
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: "error encountered while placing order"
+        });
+    }
+};
+exports.postOrderMassive = async (req, res) => {
+    try {
+        let allProducts = await Product.find({}).select("_id name price");
+        let { massive = 5 } = req.query;
+
+        let BASE_URL = "http://localhost:8000";
+
+        // for (let i = 0; i < massive; i++) {
+        let randomQuantity = Math.floor(Math.random() * 10);
+        let randomCartLength = Math.floor(Math.random() * 10);
+        let randomIndex = Math.floor(Math.random() * allProducts.length);
+
+        let randomItem = allProducts[randomIndex];
+
+        //     console.log(
+        //         "randomQuantity",
+        //         randomQuantity,
+        //         "randomCartLength",
+        //         randomCartLength,
+        //         "randomItem",
+        //         randomItem
+        //     );
+        //     setTimeout(async function () {
+        //         let orderResponse = await fetch(`${BASE_URL}/order`, {
+        //             method: "POST",
+        //             headers: {
+        //                 "Content-Type": "application/json"
+        //             }
+        //         });
+        //     }, 3000);
+        // }
+        for (let i = 0; i < randomCartLength; i++) {
+            fetch(
+                // `${BASE_URL}/cart/${randomItem._id}?quantity=${randomQuantity}`,
+                `/cart/${randomItem._id}?quantity=${randomQuantity}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "include"
+                }
+            )
+                .then(response => response.json())
+                .then(data => console.log("cart data", data));
+
+            //console.log("orderResponse", orderResponse);
+        }
+        return res.status(200).json({
+            success: true,
+            message: "massive orders made successfully"
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: "error encountered while placing massive orders",
+            errorMessage: err.message,
+            errorStack: err.stack
+        });
+    }
 };

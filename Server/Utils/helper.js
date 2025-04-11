@@ -24,21 +24,20 @@ function generateRandom(count) {
 }
 //generateRandom();
 
-function shuffle(currentArray) {
+function shuffle(currentArray, maxCount) {
     let randomArray = generateRandom(currentArray.length);
 
     let shuffledArray = [];
     randomArray.forEach(randomIndex => {
-        shuffledArray.push(currentArray[randomIndex]);
+        if (maxCount && randomArray.length > maxCount) return;
+        else shuffledArray.push(currentArray[randomIndex]);
     });
-
-    //console.log("shuffledArray", shuffledArray);
 
     return shuffledArray;
 }
 
 function multiply(currentArray, count) {
-    console.log("currentArray", currentArray);
+    //console.log("currentArray", currentArray);
     let newArray = [];
     for (i = 0; i < count; i++) {
         newArray = newArray.concat(currentArray);
@@ -47,7 +46,7 @@ function multiply(currentArray, count) {
     let shuffledArray = shuffle(newArray);
     console.log(shuffledArray);
 }
-multiply(employees, 4);
+//multiply(employees, 4);
 
 //shuffle(employees);
 
@@ -60,11 +59,16 @@ const uploadImage = async () => {
         const cloudinary_response = await cloudinary.uploader.upload(
             req.file.path
         );
-        if(cloudinary_response.ok)
-          return res.json({
-            message: "image uploaded successfully",
-            cloudinary_response
-          })
-        
+        if (cloudinary_response.ok)
+            return res.json({
+                message: "image uploaded successfully",
+                cloudinary_response
+            });
     } catch (err) {}
+};
+module.exports = {
+    shuffle,
+    uploadImage,
+    multiply,
+    generateRandom
 };

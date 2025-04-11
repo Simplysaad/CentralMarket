@@ -15,14 +15,7 @@ const addProduct = async (req, res) => {
             });
         // if (!req.files) {
         let imageUrl;
-        if (!req.file) {
-            // return res.status(401).json({
-            //     success: false,
-            //     message: "no file is being sent"
-            // });
-            // console.log(req.body);
-        }
-
+        
         console.log(req.file);
         if (req.file) {
             const cloudinary_response = await cloudinary.uploader.upload(
@@ -36,11 +29,13 @@ const addProduct = async (req, res) => {
 
         let imageGallery = [];
         imageGallery.push(imageUrl);
+        
+        let vendorId = req.session.userId
 
         let newProduct = new Product({
             ...req.body,
             imageUrl,
-            imageGallery
+            imageGallery,vendorId
         });
 
         let savedProduct = await newProduct.save();

@@ -5,12 +5,12 @@ const authMiddleware = (req, res, next) => {
     try {
         let token = req.cookies.token;
         if (!token) {
-            return res.status(403).json({
+            console.log({
                 success: false,
                 message: "invalid token",
                 advice: "login first"
             });
-            // res.redirect("/auth/login");
+            return res.redirect("/auth/login");
         }
         let decoded = jwt.verify(token, secretKey);
         // req.session.userId = decoded.userId;
