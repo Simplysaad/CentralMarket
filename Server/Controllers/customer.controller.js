@@ -1,5 +1,6 @@
 const Product = require("../Models/product.model.js");
 const Search = require("../Models/search.model.js");
+const User = require("../Models/user.model.js");
 
 exports.searchController = async (req, res) => {
     try {
@@ -20,17 +21,20 @@ exports.searchController = async (req, res) => {
             });
         }
 
-
         //Get userId from session
         let { userId } = req.session;
+        let { searchType } = req.params;
 
         // Create regex for case-insensitive search
         let regex = new RegExp(searchTerm, "gi");
 
         // Search for products based on various fields using the regex
-        let searchResults = [];
-        if (req.params.searchType === "atlas") {
-            const searchResults = await Product.aggregate([
+        let searchResults = {
+            products: [],
+            vendors: []
+        };
+        if (searchType === "atlas") {
+            searchResults.products = await Product.aggregate([
                 {
                     $search: {
                         index: "products_index",
@@ -41,8 +45,20 @@ exports.searchController = async (req, res) => {
                     }
                 }
             ]);
+            // Ive not created the users index yet
+            // searchResults.vendors = await User.aggregate([
+            //     {
+            //         $search: {
+            //             index: "user_index",
+            //             text: {
+            //                 query: searchTerm,
+            //                 path: ["businessName", "description", "keywords"]
+            //             }
+            //         }
+            //     }
+            // ]);
         } else {
-            searchResults = await Product.find({
+            searchResults.products = await Product.find({
                 $or: [
                     { name: regex },
                     { description: regex },
@@ -52,12 +68,26 @@ exports.searchController = async (req, res) => {
             })
                 .sort({ interests: -1 })
                 .limit(20)
-                .select("_id name imageUrl category")
+                .select("_id name imageUrl category price discount")
+                .lean();
+            searchResults.vendors = await User.find({
+                $or: [
+                    { businessName: regex },
+                    { description: regex },
+                    { keywords: regex }
+                ]
+            })
+                .limit(20)
+                .select("-password ")
+                .select("_id businessName description profileImage category")
                 .lean();
         }
 
         // Handle empty search results
-        if (searchResults.length === 0) {
+        if (
+            searchResults.products.length === 0 &&
+            searchResults.vendors.length === 0
+        ) {
             console.log(searchTerm, "brought no results ");
             return res.status(204).json({
                 success: true,
@@ -67,12 +97,6 @@ exports.searchController = async (req, res) => {
         }
 
         let items = [];
-        searchResults.forEach((item, index) => {
-            let { _id: productId, name, imageUrl, category } = item;
-            let newItem = { productId, name, imageUrl, category };
-            items.push(newItem);
-            console.log(newItem);
-        });
 
         console.log(items);
         // Create and save new search record
@@ -145,6 +169,7 @@ exports.postCart = async (req, res) => {
             quantity = quantity || 1;
 
             let singleProduct = {
+                // _id: currentProduct._id,
                 name: currentProduct.name,
                 price: currentProduct.price * quantity,
                 unitPrice: currentProduct.price,
@@ -156,9 +181,20 @@ exports.postCart = async (req, res) => {
                 item => item.productId === productId
             );
 
+            let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
+            let cartQuantity = cart.reduce(
+                (acc, item) => acc + item.quantity,
+                0
+            );
+            let cartItemsCount = cart.length;
+            let deliveryFee = 0;
+
             // console.log({ cart: req.session.cart });
             return res.status(201).json({
                 success: true,
+                cartTotal,
+                cartQuantity,
+                deliveryFee,
                 message: "new product added to cart",
                 cart: req.session.cart,
                 item: req.session.cart[index]
@@ -172,12 +208,25 @@ exports.postCart = async (req, res) => {
                 req.session.cart[index].price =
                     currentProduct.price * req.session.cart[index].quantity;
             }
-            //console.log({ cart: req.session.cart });
+            console.log({ cart: req.session.cart });
 
+            let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
+            let cartQuantity = cart.reduce(
+                (acc, item) => acc + item.quantity,
+                0
+            );
+            let cartItemsCount = cart.length;
+            let deliveryFee = 0;
+
+            // console.log({ cart: req.session.cart });
             return res.status(201).json({
                 success: true,
+                cartTotal,
+                cartQuantity,
+                deliveryFee,
                 message: "existing product incremented successfully",
-                cart: req.session.cart
+                cart: req.session.cart,
+                item: req.session.cart[index]
             });
         }
     } catch (err) {
@@ -209,7 +258,7 @@ exports.deleteCartItem = async (req, res) => {
             });
 
         let index = cart.findIndex(item => item.productId === productId);
-        //If productnis not in the cart
+        //If product is not in the cart
         if (index === -1)
             return res.status(404).json({
                 success: false,
@@ -224,10 +273,23 @@ exports.deleteCartItem = async (req, res) => {
         ) {
             //if product quantity is less than or equal to one, remove the product from cart
             req.session.cart.splice(index, 1);
+            let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
+            let cartQuantity = cart.reduce(
+                (acc, item) => acc + item.quantity,
+                0
+            );
+            let cartItemsCount = cart.length;
+            let deliveryFee = 0;
+
+            // console.log({ cart: req.session.cart });
             return res.status(201).json({
                 success: true,
+                cartTotal,
+                cartQuantity,
+                deliveryFee,
                 message: `item removed successfully`,
-                cart: req.session.cart
+                cart: req.session.cart,
+                item: req.session.cart[index]
             });
         } else {
             //if the quantity of the item is more than one, then reduce by one
@@ -235,10 +297,24 @@ exports.deleteCartItem = async (req, res) => {
             req.session.cart[index].price =
                 currentProduct.price * req.session.cart[index].quantity;
 
+            console.log({ cart: req.session.cart });
+            let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
+            let cartQuantity = cart.reduce(
+                (acc, item) => acc + item.quantity,
+                0
+            );
+            let cartItemsCount = cart.length;
+            let deliveryFee = 0;
+
+            // console.log({ cart: req.session.cart });
             return res.status(201).json({
                 success: true,
+                cartTotal,
+                cartQuantity,
+                deliveryFee,
                 message: `item quantity decremented successfully by ${quantity}`,
-                cart: req.session.cart
+                cart: req.session.cart,
+                item: req.session.cart[index]
             });
         }
     } catch (err) {
@@ -254,18 +330,25 @@ exports.deleteCartItem = async (req, res) => {
 
 exports.getCart = async (req, res) => {
     try {
-        let { cart } = req.session;
+        let currentUser = await User.findOne({
+            _id: req.session.userId
+        }).select("-password");
+
+        let { cart = [] } = req.session;
 
         let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
         let cartQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
         let cartItemsCount = cart.length;
+        let deliveryFee = 0;
 
-        return res.status(200).json({
+        return res.status(200).render("Pages/Customer/cart_page", {
             success: true,
             message: "cart items fetched successfully",
             cart,
+            deliveryFee,
             cartTotal,
             cartQuantity,
+            currentUser,
             cartItemsCount
         });
     } catch (err) {

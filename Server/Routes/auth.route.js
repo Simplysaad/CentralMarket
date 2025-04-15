@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
-const upload = multer({ dest: "./Uploads" });
+const upload = multer({ dest: "./Uploads/Users/" });
 
 const router = express.Router();
 const User = require("../Models/user.model.js");

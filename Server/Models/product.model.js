@@ -13,6 +13,11 @@ const productSchema = new mongoose.Schema({
         type: Number,
         index: true
     },
+    condition:{
+      type: String,
+      enum: ["new", "used"],
+      required:true
+    },
     discount: {
       type: Number,
       default : 0

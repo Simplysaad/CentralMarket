@@ -26,17 +26,17 @@
         <title></title>
     </head>
     <body>
-        <header class="py-md-4 pb-2">
+        <header id="mainHeader" class="py-md-4 pb-2">
               <%- include('../Partials/_header') %>
         </header>
         <main class="container d-flex gap-3">
             <aside
                 id="sideNav"
-                class="side-nav mh-100 collapse  overflow-scroll position-relative border col-6 col-md-3 col-lg-2"
+                class="side-nav mh-100 collapse opacity-1 overflow-scroll position-relative border col-6 col-md-3 col-lg-2"
             >
               <%- include('../Partials/_side_nav')%>
             </aside>
-            <main class="col-12 flex-md-grow-1">
+            <main class="col container  flex-md-grow-1">
               <%- body %>
             </main>
         </main>
@@ -51,5 +51,6 @@
             type="text/javascript"
             charset="utf-8"
         ></script>
-    </body>
+        <script src="/JS/utility.js" ></script>
+  </body>
 </html>

@@ -1,197 +1,55 @@
-<section class="col-12">
-    <div class="cart-heading">
-        <h3 class="display-5 my-3 text-muted">My Cart</h3>
-    </div>
-    <div class="cart-container col-12 col-md-6 col-lg-4">
-        <div
-            class="cart-item border p-2 d-flex justify-content-between align-items-center"
-        >
-            <div class="cart-item-image col-2">
-                <img
-                    src="./Public/IMG/image-1.jpg"
-                    alt=""
-                    class="img-fluid img-thumbnail h-auto"
-                />
-            </div>
-            <div class="cart-item-info d-flex flex-column col-5">
-                <p class="my-0 cart-item-title fw-bold text-overflow-ellipsis">
-                    eba and egusi Lorem ipsum dolor sit amet consectetur
-                    adipisicing elit. Facilis, soluta.
-                </p>
-                <div class="d-flex text-muted justify-content-between">
-                    <span class="item-price">$600</span>
-                    <span class="item-size">xxl</span>
-                    <span class="item-color">pink</span>
-                </div>
-            </div>
-            <div class="col- cart-item-quantity">
-                <div class="btn-group btn-group-sm">
-                    <button class="btn btn-outline-dark">
-                        <i class="fa fa-plus"> </i>
-                    </button>
-                    <button class="btn btn-outline-dark">2</button>
-                    <button class="btn btn-outline-dark">
-                        <i class="fa fa-minus"> </i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="d-nne cart-summary float-end fs-4 my-4">
-            <span class="text-total text-danger fw-bold"> Total: </span>
-            <span class="text-total-price"> $750.00 </span>
-        </div>
-        <button
-            class="cart-cta my-5 p-3 d-flex justify-content-between align-items-center btn btn-dark btn-order col-12 fs-4 my-4"
-        >
-            <span class="fs-4"> Set an order </span>
-            <span class="text-total-price"> $750.00 </span>
-        </button>
-    </div>
-    <div class="shipping-info col-12 col-md-6 col-lg-4">
-        <div class="category-heading">
-            <h3 class="text-heading">Address</h3>
-        </div>
-        <div class="address-info"></div>
-    </div>
+<section
+    class="col-12 container-fluid mh-100 d-flx flex-column justify-content-center align-items-center"
+>
+    <% if(cart.length > 0){ %>
 
-    <form id="changeAddress" action="/cart/change-address" method="post">
-        <fieldset id="addressTypeSection" class="">
-            <legend>Delivery Information</legend>
-            <div
-                class="d-flex col-8 mx-auto justify-content-between align-items-center"
+    <div class="d-md-flex gap-2 justify-content-center align-items-center">
+        <div class="cart-container col-12 col-md-6">
+            <div class="cart-heading">
+                <h3 class="display-5 my-3 text-muted">My Cart</h3>
+            </div>
+            <div class="cart-items">
+                <% cart.forEach((item, index)=>{ %> <%-
+                include("../../Components/cart_item.ejs", {item}) %> <% }) %>
+            </div>
+
+            <div class="d-nne cart-summary float-end fs-4 my-4">
+                <span class="text-total text-danger fw-bold"> Total: </span>
+                <span class="text-total-price cart-total">
+                    <%= "$" + cartTotal.toLocaleString() %>
+                </span>
+            </div>
+            <button
+                class="cart-cta my-5 p-3 d-flex justify-content-between align-items-center btn btn-dark btn-order col-12 fs-4 my-4"
             >
-                <div class="form-check col- p-3 border">
-                    <label class="form-check-label" for="address_type1"
-                        >hostel</label
-                    >
-                    <input
-                        type="radio"
-                        name="address_type"
-                        hidden
-                        class="checkbox form-check-input"
-                        id="address_type1"
-                        value="hostel"
-                    />
-                </div>
-                <div class="form-check p-3 border">
-                    <label for="address_type2" class="form-check-label"
-                        >Off campus</label
-                    >
-                    <input
-                        type="radio"
-                        name="address_type"
-                        hidden
-                        class="checkbox"
-                        id="address_type2"
-                        value="off campus"
-                    />
-                </div>
-            </div>
-        </fieldset>
+                <span class="fs-4"> Set an order </span>
+                <span class="text-total-price cart-total">
+                    <%= "$" + cartTotal.toLocaleString() %>
+                </span>
+            </button>
+        </div>
 
-        <fieldset id="personal_info" class="my-5 d-flex flex-column gap-3">
-            <legend>Personal Information</legend>
-            <div class="form-floating">
-                <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    value=""
-                    class="form-control"
-                    placeholder=""
-                />
-                <label for="name">Full name</label>
-            </div>
-            <div class="form-floating">
-                <input
-                    type="email"
-                    class="form-control"
-                    name="emailAddress"
-                    id="emailAddress"
-                    value=""
-                    placeholder=""
-                />
-                <label for="emailAddress">Email address</label>
-            </div>
-            <div class="form-floating">
-                <input
-                    type="tel"
-                    class="form-control"
-                    name="phoneNumber"
-                    id="phoneNumber"
-                    value=""
-                    placeholder=""
-                />
-                <label for="phoneNumber">Phone number</label>
-            </div>
-        </fieldset>
-        <fieldset id="address_info" class="my-5 d-flex flex-column gap-3">
-            <legend>Address information</legend>
+        <section id="addressForm" class="shipping-info col-12 col-md-6 col-lg-4">
+            <%-include("../../Components/address_form_2.ejs", {currentUser, deliveryFee}) %>
+        </section>
+    </div>
 
-            <div class="form-floating">
-                <input
-                    type="text"
-                    class="form-control"
-                    name="address_line1"
-                    id="address_line1"
-                    value=""
-                    placeholder=""
-                />
-                <label for="address_line1">Address line 1</label>
-            </div>
-            <div class="form-floating">
-                <input
-                    type="text"
-                    class="form-control"
-                    name="address_line2"
-                    id="address_line2"
-                    value=""
-                    placeholder=""
-                />
-                <label for="address_line2">Address line 2</label>
-            </div>
-            <div class="form-floating">
-                <input
-                    type="text"
-                    class="form-control"
-                    name="school_name"
-                    id="school_name"
-                    value=""
-                    placeholder=""
-                    list="schoolList"
-                />
-
-                <datalist id="schoolList">
-                    <option value="obafemi awolowo university">
-                        obafemi awolowo university
-                    </option>
-                    <option value="university of ibadan">
-                        university of ibadan
-                    </option>
-                    <option value="kwara state university">
-                        kwara state university
-                    </option>
-                    <option value="university of ilorin">
-                        university of ilorin
-                    </option>
-                </datalist>
-                <label for="school_name">School name</label>
-            </div>
-            <div class="form-floating">
-                <input
-                    type="text"
-                    class="form-control"
-                    name="state"
-                    id="state"
-                    value=""
-                    placeholder=""
-                />
-                <label for="state">State</label>
-            </div>
-        </fieldset>
-
-        <button class="btn btn-dark btn-lg col-12 p-3 fs-4 btn-save">
-            Save changes
-        </button>
-    </form>
+    <% } else{ %>
+    <div class="cart-container col-12 col-md-6">
+        <div class="empty-cart-image">
+            <img
+                src="/IMG/empty-cart.jpg"
+                alt="empty cart-items"
+                class="img-fluid object-fit-cover"
+            />
+        </div>
+        <a href="/" class="my-3 btn btn-outline-dark btn-lg">
+            Continue Shopping
+        </a>
+    </div>
+    <% } %>
+    
+    
+    
 </section>
+<script src="/JS/cart.js"></script>

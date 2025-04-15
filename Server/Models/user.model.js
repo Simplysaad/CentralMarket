@@ -35,8 +35,8 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     phoneNumber: {
-        type: String,
-       //, unique: true,
+        type: String
+        //, unique: true,
         //,required: true
     },
     password: {
@@ -45,9 +45,18 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["admin", "manager", "employee", "customer"],
+        enum: ["admin", "vendor", "customer"],
         required: true
     },
+    businessName: {
+        type: String
+        //unique: true
+    },
+    description: {
+        type: String
+    },
+    keywords: [String],
+    businessAddress: addressSchema,
     address: addressSchema,
     birthDate: {
         type: Date
@@ -63,7 +72,7 @@ const userSchema = new mongoose.Schema({
             ref: "products"
         }
     ],
-    orderHistory: [
+    orders: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "orders"
@@ -79,9 +88,17 @@ const userSchema = new mongoose.Schema({
         default: Date.now
     }
 });
-const user = new mongoose.model("user", userSchema);
-user.createIndexes({
+
+userSchema.index({
     emailAddress: 1,
     profileImage: 1
 });
+userSchema.index(
+    {
+        businessName: 1
+    },
+    { sparse: true, unique: true }
+);
+
+const user = new mongoose.model("user", userSchema);
 module.exports = user;

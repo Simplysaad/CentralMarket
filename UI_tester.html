@@ -137,20 +137,724 @@
                 </div>
             </div>
         </header>
+
         <main class="container d-flex gap-3">
             <aside
                 id="sideNav"
                 class="side-nav mh-100 collapse overflow-scroll position-absolute border col-6 col-md-3 col-lg-2"
             ></aside>
-            <form action="/go" method="get" accept-charset="utf-8">
-                <input
-                    type="search"
-                    name="searchTerm"
-                    id="searchTerm"
-                    value=""
-                />
-                <button type="submit">submit</button>
-            </form>
+            <main class="col-12 d-flex flex-column flex-wrap flex-md-row">
+                <section
+                    class="d-flex col-12 justify-content-between align-items-baseline"
+                    id="headingSection"
+                >
+                    <div
+                        class="results-heading d-flex align-items-center col-8"
+                    >
+                        <h1 class="fw-light text-heading text-truncate lead">
+                            Results for "paprika very norma for guys and no
+                            other"
+                        </h1>
+                    </div>
+                    <div class="results-info d-flex align-items-center">
+                        <span class="text-muted fs-6"> 234 found </span>
+                        <span
+                            id="btnFilter"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#filterSection"
+                            class="flex-md-shrink-1 p-1 mx-1"
+                        >
+                            <i class="fa fa-sliders"> </i>
+                        </span>
+                    </div>
+                </section>
+                <!-- Filter Section -->
+
+                <section
+                    id="filterSection"
+                    class="border collapse collapse p-2 col-md-3 px-2 col-lg-2"
+                >
+                    <!-- Category Filters -->
+                    <div class="filter-category my-3">
+                        <h4>Category</h4>
+                        <div>
+                            <div class="form-check">
+                                <input
+                                    type="checkbox"
+                                    id="electronics"
+                                    name="category"
+                                    class="form-check-input"
+                                    value="electronics"
+                                />
+                                <label
+                                    class="form-check-label"
+                                    for="electronics"
+                                    >Electronics</label
+                                >
+                            </div>
+                            <div class="form-check">
+                                <input
+                                    type="checkbox"
+                                    id="books"
+                                    class="form-check-input"
+                                    name="category"
+                                    value="books"
+                                />
+                                <label class="form-check-label" for="books"
+                                    >Books</label
+                                >
+                            </div>
+                            <!-- Add more categories as needed -->
+                        </div>
+                    </div>
+
+                    <!-- Price Filters -->
+                    <div class="filter-price d-flex flex-wrap row-gap-2">
+                        <h4>Price</h4>
+                        <select
+                            id="price-range"
+                            name="price-range "
+                            class="form-select col-12"
+                        >
+                            <option value="">Any Price</option>
+                            <option value="0-10">$0 - $5000</option>
+                            <option value="10-50">$5000-$20000</option>
+                            <option value="50-100">$20000 and above</option>
+                            <!-- Add more price ranges as needed -->
+                        </select>
+
+                        <div class="form-floating col-6">
+                            <input
+                                type="number"
+                                id="min-price"
+                                name="min-price"
+                                class="form-control col-6"
+                                placeholder="Min Price"
+                            />
+                            <label for="min-price" class="form-label"
+                                >Min price</label
+                            >
+                        </div>
+                        <div class="form-floating col-6">
+                            <input
+                                type="number"
+                                id="max-price"
+                                name="max-price"
+                                class="form-control col-6"
+                                placeholder="Max Price"
+                            />
+                            <label for="max-price" class="form-label"
+                                >max price</label
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Rating filter -->
+                    <div class="filter-rating my-3">
+                        <h4>Rating</h4>
+                        <div class="form-check">
+                            <input
+                                type="radio"
+                                id="filter-radio-1"
+                                name="filter-radio"
+                                class="form-check-input"
+                            />
+                            <label
+                                for="filter-radio-1"
+                                class="form-check-label"
+                            >
+                                <i class="fa fa-star"> </i>
+                                <i class="fa fa-star"> </i>
+                                <i class="fa fa-star"> </i>
+                                <i class="fa fa-star"> </i>
+                                <i class="fa fa-star"> </i>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                type="radio"
+                                id="filter-radio-2"
+                                name="filter-radio"
+                                class="form-check-input"
+                            />
+                            <label
+                                for="filter-radio-2"
+                                class="form-check-label"
+                            >
+                                <i class="fa fa-star"> </i>
+                                <i class="fa fa-star"> </i>
+                                <i class="fa fa-star"> </i>
+                                <i class="fa fa-star"> </i>
+                                <i class="far fa-star"> </i>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                type="radio"
+                                id="filter-radio-3"
+                                name="filter-radio"
+                                class="form-check-input"
+                            />
+                            <label
+                                for="filter-radio-3"
+                                class="form-check-label"
+                            >
+                                <i class="fa fa-star"> </i>
+                                <i class="fa fa-star"> </i>
+                                <i class="fa fa-star"> </i>
+                                <i class="far fa-star"> </i>
+                                <i class="far fa-star"> </i>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                type="radio"
+                                id="filter-radio-4"
+                                name="filter-radio"
+                                class="form-check-input"
+                            />
+                            <label
+                                for="filter-radio-4"
+                                class="form-check-label"
+                            >
+                                <i class="fa fa-star"> </i>
+                                <i class="fa fa-star"> </i>
+                                <i class="far fa-star"> </i>
+                                <i class="far fa-star"> </i>
+                                <i class="far fa-star"> </i>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                type="radio"
+                                id="filter-radio-5"
+                                name="filter-radio"
+                                class="form-check-input"
+                            />
+                            <label
+                                for="filter-radio-5"
+                                class="form-check-label"
+                            >
+                                <i class="fa fa-star"> </i>
+                                <i class="far fa-star"> </i>
+                                <i class="far fa-star"> </i>
+                                <i class="far fa-star"> </i>
+                                <i class="far fa-star"> </i>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="filter-rating my-3">
+                        <h4>Rating</h4>
+                        <div class="form-check">
+                            <input
+                                type="radio"
+                                id="filter-radio-1"
+                                name="filter-radio"
+                                class="form-check-input"
+                            />
+                            <label
+                                for="filter-radio-1"
+                                class="form-check-label"
+                            >
+                                more than 5 star
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                type="radio"
+                                id="filter-radio-2"
+                                name="filter-radio"
+                                class="form-check-input"
+                            />
+                            <label
+                                for="filter-radio-2"
+                                class="form-check-label"
+                            >
+                                4 star
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                type="radio"
+                                id="filter-radio-3"
+                                name="filter-radio"
+                                class="form-check-input"
+                            />
+                            <label
+                                for="filter-radio-3"
+                                class="form-check-label"
+                            >
+                                Less than 3 star
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Location Filters -->
+                    <div class="filter-location my-3">
+                        <h4>Location</h4>
+                        <select
+                            id="campus-location"
+                            class="form-select"
+                            name="campus-location"
+                        >
+                            <option value="">Any Location</option>
+                            <option value="main-campus">Main Campus</option>
+                            <option value="off-campus">Off Campus</option>
+                            <!-- Add more locations as needed -->
+                        </select>
+                    </div>
+
+                    <!-- Condition Filters -->
+                    <div class="filter-condition my-3">
+                        <h4>Condition</h4>
+                        <div class="form-">
+                            <div class="form-check">
+                                <input
+                                    type="checkbox"
+                                    id="new"
+                                    name="condition"
+                                    value="new"
+                                    class="form-check-input"
+                                />
+                                <label class="form-check-label" for="new"
+                                    >New</label
+                                >
+                            </div>
+                            <div class="form-check">
+                                <input
+                                    type="checkbox"
+                                    id="used"
+                                    name="condition"
+                                    value="used"
+                                    class="form-check-input"
+                                />
+                                <label class="form-check-label" for="used"
+                                    >Used</label
+                                >
+                            </div>
+                            <!-- Add more conditions as needed -->
+                        </div>
+                    </div>
+
+                    <!-- Sorting Options -->
+                    <div class="filter-sorting my-3">
+                        <h4>Sort By</h4>
+                        <select class="form-select" id="sort-by" name="sort-by">
+                            <option value="price-low-high">
+                                Price (Low to High)
+                            </option>
+                            <option value="price-high-low">
+                                Price (High to Low)
+                            </option>
+                            <option value="newest">Newest</option>
+                            <option value="relevance">Relevance</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section id="listingSection" class="col-md-9 col-lg-10 px-2">
+                    <section
+                        id="vendorListingSection"
+                        class="d-flex flex-wrap gap-"
+                    >
+                        <div class="d-block col-12">
+                            <h4 class="text-muted py-3 lead text-capitalize">
+                                Vendors
+                            </h4>
+                        </div>
+                        <div
+                            class="single-vendor col-12 col-md-6 col-lg-4 d-flex p-2 border rounded my-2"
+                        >
+                            <div class="col-2 overflow-hidden rounded-circle">
+                                <img
+                                    src="./Public/IMG/image-1.jpg"
+                                    alt=""
+                                    class="img-fluid object-fit-cover"
+                                />
+                            </div>
+                            <div class="profile-info px-2 d-flex flex-column">
+                                <span class="fs-6 lead fw-semibold"
+                                    >Simplysaad shop</span
+                                >
+                                <span class="m-0 text-muted fs-6"
+                                    >Lorem, ipsum.</span
+                                >
+                            </div>
+                        </div>
+                        <div
+                            class="single-vendor col-12 col-md-6 col-lg-4 d-flex p-2 border rounded my-2"
+                        >
+                            <div class="col-2 overflow-hidden rounded-circle">
+                                <img
+                                    src="./Public/IMG/image-1.jpg"
+                                    alt=""
+                                    class="img-fluid object-fit-cover"
+                                />
+                            </div>
+                            <div class="profile-info px-2 d-flex flex-column">
+                                <span class="fs-6 lead fw-semibold"
+                                    >Simplysaad shop</span
+                                >
+                                <span class="m-0 text-muted fs-6"
+                                    >Lorem, ipsum.</span
+                                >
+                            </div>
+                        </div>
+                        <div
+                            class="single-vendor col-12 col-md-6 col-lg-4 d-flex p-2 border rounded my-2"
+                        >
+                            <div class="col-2 overflow-hidden rounded-circle">
+                                <img
+                                    src="./Public/IMG/image-1.jpg"
+                                    alt=""
+                                    class="img-fluid object-fit-cover"
+                                />
+                            </div>
+                            <div class="profile-info px-2 d-flex flex-column">
+                                <span class="fs-6 lead fw-semibold"
+                                    >Simplysaad shop</span
+                                >
+                                <span class="m-0 text-muted fs-6"
+                                    >Lorem, ipsum.</span
+                                >
+                            </div>
+                        </div>
+                        <div
+                            class="single-vendor col-12 col-md-6 col-lg-4 d-flex p-2 border rounded my-2"
+                        >
+                            <div class="col-2 overflow-hidden rounded-circle">
+                                <img
+                                    src="./Public/IMG/image-1.jpg"
+                                    alt=""
+                                    class="img-fluid object-fit-cover"
+                                />
+                            </div>
+                            <div class="profile-info px-2 d-flex flex-column">
+                                <span class="fs-6 lead fw-semibold"
+                                    >Simplysaad shop</span
+                                >
+                                <span class="m-0 text-muted fs-6"
+                                    >Lorem, ipsum.</span
+                                >
+                            </div>
+                        </div>
+                        <div
+                            class="single-vendor col-12 col-md-6 col-lg-4 d-flex p-2 border rounded my-2"
+                        >
+                            <div class="col-2 overflow-hidden rounded-circle">
+                                <img
+                                    src="./Public/IMG/image-1.jpg"
+                                    alt=""
+                                    class="img-fluid object-fit-cover"
+                                />
+                            </div>
+                            <div class="profile-info px-2 d-flex flex-column">
+                                <span class="fs-6 lead fw-semibold"
+                                    >Simplysaad shop</span
+                                >
+                                <span class="m-0 text-muted fs-6"
+                                    >Lorem, ipsum.</span
+                                >
+                            </div>
+                        </div>
+                        <div
+                            class="single-vendor col-12 col-md-6 col-lg-4 d-flex p-2 border rounded my-2"
+                        >
+                            <div class="col-2 overflow-hidden rounded-circle">
+                                <img
+                                    src="./Public/IMG/image-1.jpg"
+                                    alt=""
+                                    class="img-fluid object-fit-cover"
+                                />
+                            </div>
+                            <div class="profile-info px-2 d-flex flex-column">
+                                <span class="fs-6 lead fw-semibold"
+                                    >Simplysaad shop</span
+                                >
+                                <span class="m-0 text-muted fs-6"
+                                    >Lorem, ipsum.</span
+                                >
+                            </div>
+                        </div>
+                    </section>
+                    <section
+                        class="d-flex my-5 justify-content-start align-items-center flex-wrap flex"
+                        id="productListingSection"
+                    >
+                        <div class="d-block col-12">
+                            <h4 class="text-muted py-3 lead text-capitalize">
+                                Products
+                            </h4>
+                        </div>
+                        <div
+                            class="single-product p-2 col-6 col-md-4 col-lg-3 card border-0"
+                        >
+                            <div class="card-image position-relative">
+                                <img
+                                    src="./Public/IMG/image-4.jpg"
+                                    alt=""
+                                    class="img-fluid object-fit-cover aspect-ratio-square"
+                                />
+                            </div>
+                            <div class="card-info py-3">
+                                <div class="">
+                                    <span
+                                        class="fs-6 text-capitalize lead semibold"
+                                    >
+                                        paprika pepper
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
+                                >
+                                    <div class="old-price text-muted -emphasis">
+                                        <span
+                                            class="text-decoration-line-through fw-light"
+                                        >
+                                            $720</span
+                                        >
+                                    </div>
+                                    <div class="price">
+                                        <p class="fs-5">$600</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="single-product p-2 col-6 col-md-4 col-lg-3 card border-0"
+                        >
+                            <div class="card-image position-relative">
+                                <img
+                                    src="./Public/IMG/image-4.jpg"
+                                    alt=""
+                                    class="img-fluid object-fit-cover aspect-ratio-square"
+                                />
+                            </div>
+                            <div class="card-info py-3">
+                                <div class="">
+                                    <span
+                                        class="fs-6 text-capitalize lead semibold"
+                                    >
+                                        paprika pepper
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
+                                >
+                                    <div class="old-price text-muted -emphasis">
+                                        <span
+                                            class="text-decoration-line-through fw-light"
+                                        >
+                                            $720</span
+                                        >
+                                    </div>
+                                    <div class="price">
+                                        <p class="fs-5">$600</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="single-product p-2 col-6 col-md-4 col-lg-3 card border-0"
+                        >
+                            <div class="card-image position-relative">
+                                <img
+                                    src="./Public/IMG/image-4.jpg"
+                                    alt=""
+                                    class="img-fluid object-fit-cover aspect-ratio-square"
+                                />
+                            </div>
+                            <div class="card-info py-3">
+                                <div class="">
+                                    <span
+                                        class="fs-6 text-capitalize lead semibold"
+                                    >
+                                        paprika pepper
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
+                                >
+                                    <div class="old-price text-muted -emphasis">
+                                        <span
+                                            class="text-decoration-line-through fw-light"
+                                        >
+                                            $720</span
+                                        >
+                                    </div>
+                                    <div class="price">
+                                        <p class="fs-5">$600</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="single-product p-2 col-6 col-md-4 col-lg-3 card border-0"
+                        >
+                            <div class="card-image position-relative">
+                                <img
+                                    src="./Public/IMG/image-4.jpg"
+                                    alt=""
+                                    class="img-fluid object-fit-cover aspect-ratio-square"
+                                />
+                            </div>
+                            <div class="card-info py-3">
+                                <div class="">
+                                    <span
+                                        class="fs-6 text-capitalize lead semibold"
+                                    >
+                                        paprika pepper
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
+                                >
+                                    <div class="old-price text-muted -emphasis">
+                                        <span
+                                            class="text-decoration-line-through fw-light"
+                                        >
+                                            $720</span
+                                        >
+                                    </div>
+                                    <div class="price">
+                                        <p class="fs-5">$600</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="single-product p-2 col-6 col-md-4 col-lg-3 card border-0"
+                        >
+                            <div class="card-image position-relative">
+                                <img
+                                    src="./Public/IMG/image-4.jpg"
+                                    alt=""
+                                    class="img-fluid object-fit-cover aspect-ratio-square"
+                                />
+                            </div>
+                            <div class="card-info py-3">
+                                <div class="">
+                                    <span
+                                        class="fs-6 text-capitalize lead semibold"
+                                    >
+                                        paprika pepper
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
+                                >
+                                    <div class="old-price text-muted -emphasis">
+                                        <span
+                                            class="text-decoration-line-through fw-light"
+                                        >
+                                            $720</span
+                                        >
+                                    </div>
+                                    <div class="price">
+                                        <p class="fs-5">$600</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="single-product p-2 col-6 col-md-4 col-lg-3 card border-0"
+                        >
+                            <div class="card-image position-relative">
+                                <img
+                                    src="./Public/IMG/image-4.jpg"
+                                    alt=""
+                                    class="img-fluid object-fit-cover aspect-ratio-square"
+                                />
+                            </div>
+                            <div class="card-info py-3">
+                                <div class="">
+                                    <span
+                                        class="fs-6 text-capitalize lead semibold"
+                                    >
+                                        paprika pepper
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
+                                >
+                                    <div class="old-price text-muted -emphasis">
+                                        <span
+                                            class="text-decoration-line-through fw-light"
+                                        >
+                                            $720</span
+                                        >
+                                    </div>
+                                    <div class="price">
+                                        <p class="fs-5">$600</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="single-product p-2 col-6 col-md-4 col-lg-3 card border-0"
+                        >
+                            <div class="card-image position-relative">
+                                <img
+                                    src="./Public/IMG/image-4.jpg"
+                                    alt=""
+                                    class="img-fluid object-fit-cover aspect-ratio-square"
+                                />
+                            </div>
+                            <div class="card-info py-3">
+                                <div class="">
+                                    <span
+                                        class="fs-6 text-capitalize lead semibold"
+                                    >
+                                        paprika pepper
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
+                                >
+                                    <div class="old-price text-muted -emphasis">
+                                        <span
+                                            class="text-decoration-line-through fw-light"
+                                        >
+                                            $720</span
+                                        >
+                                    </div>
+                                    <div class="price">
+                                        <p class="fs-5">$600</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+                <section
+                    id="paginationSection"
+                    class="col-12 d-flex justify-content-center"
+                >
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a href="#" class="page-link"> Previous </a>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link"> 1 </a>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link"> 2 </a>
+                        </li>
+                        <li class="page-item active">
+                            <a href="#" class="page-link"> 3 </a>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link"> ... </a>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link"> 7 </a>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link"> Next </a>
+                        </li>
+                    </ul>
+                </section>
+            </main>
             <script src="/JS/register.js"></script>
         </main>
         <script src="login.js" type="text/javascript" charset="utf-8"></script>
@@ -173,3 +877,40 @@
         <script src="./Public/JS/homepage.js"></script>
     </body>
 </html>
+<div
+    class="single-product m-md-aut px-md-3 p-2 col-6 col-md-4 col-lg-3 card border-0"
+>
+    <div class="card-image bg-secondary border h-100 ratio-1x1 ratio position-relative">
+        <img
+            src="<%= product.imageUrl ? product.imageUrl : '/IMG/image-4.jpg' %>"
+            alt=""
+            class="img-fluid object-fit-cover aspect-ratio-square"
+        />
+    </div>
+    <div class="card-info py-3">
+        <div class="">
+            <a
+            href="/preview/<%= product._id %>"
+                class="fs-6 text-decoration-none text-capitalize lead semibold"
+            >
+                <%= product.name %>
+            </a>
+        </div>
+        <div
+            class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
+        >
+            <div class="old-price text-muted -emphasis">
+                <span
+                    class="text-decoration-line-through fw-light"
+                >
+                    <%= "$" + product.price.toLocaleString() %></span
+                >
+            </div>
+            <div class="price">
+                <p class="fs-5">
+                    <%= "$" + product.price.toLocaleString() %>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,37 +1,47 @@
 const mongoose = require("mongoose");
-const itemSchema = new mongoose.Schema(
+
+const productSchema = new mongoose.Schema(
     {
-        name: {
-            type: String
-        },
-        imageUrl: {
-            type: String
-        },
-        productId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "products"
-        }
+        _id: { type: mongoose.Schema.Types.ObjectId, ref: "products" },
+        name: { type: String },
+        imageUrl: { type: String },
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "products" }
     },
     { _id: false }
 );
+
+const vendorSchema = new mongoose.Schema(
+    {
+        _id: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+        businessName: { type: String },
+        profileImage: { type: String },
+        vendorId: { type: mongoose.Schema.Types.ObjectId, ref: "users" }
+    },
+    { _id: false }
+);
+
+const resultSchema = new mongoose.Schema(
+    {
+        products: [productSchema],
+        vendors: [vendorSchema]
+    },
+    { _id: false }
+);
+
 const searchSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "users"
+        ref: "users",
+        
     },
-    searchTerm: {
-        type: String
-    },
-    items: [itemSchema],
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+    searchTerm: { type: String, required: true },
+    searchResults: resultSchema,
+    createdAt: { type: Date, default: Date.now }
 });
 
-const search = new mongoose.model("search", searchSchema);
-search.createIndexes({
-    items: 1,
-    createdAt: -1
-});
-module.exports = search;
+searchSchema.index({ searchTerm: "text" });
+searchSchema.index({ userId: 1, createdAt: -1 });
+
+const Search = mongoose.model("Search", searchSchema);
+
+module.exports = Search;

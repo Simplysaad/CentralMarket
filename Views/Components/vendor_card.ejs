@@ -1,0 +1,21 @@
+<div
+    class="single-vendor col-12 col-md-6 col-lg-4 d-flex p-2 border rounded my-2"
+>
+    <div class="col-2 overflow-hidden rounded">
+        <img
+            src="<%= vendor.profileImage||'/IMG/image-1.jpg' %> "
+            alt=""
+            class="img-fluid img-thumbnail object-fit-cover"
+        />
+    </div>
+    <div class="profile-info px-2 d-flex flex-column">
+        <span class="fs-6 lead fw-semibold">
+          <a
+                href="/store/<%= vendor._id %>" 
+                class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold" href="/store/<%=vendor._id %>" class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold">
+                <%= vendor.businessName %>
+            </a>
+        </span>
+        <span class="m-0 text-muted fs-6">Lorem, ipsum.</span>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div data-item-id="<%= item.productId %>" class="cart-item gap-1 my-3 d-flex justify-content-between align-items-center border p-1 rounded">
+    <div class="item-image col-2 h-auto raio rato-1x1 border">
+        <img src="<%= item.imageUr || '/IMG/image-1.jpg' %>" alt="" class="img-fluid img-thumbnail" />
+    </div>
+    <div class="item-info d-flex overflow-hidden flex-column gap-2 col-6">
+        <div class="item-title text-capitalize text-truncate fw-semibold fs-6">
+            <span class="text-truncate"> <%= item.name %> </span>
+        </div>
+        <div class="item-extra-info d-flex justify-content-start text-muted fs-6">
+            <span class="item-size"> <%= item.size %> </span>
+            <span class="item-color"> <%= item.color %> </span>
+            <span class="item-price"> <%= "$" + item.price.toLocaleString() %> </span>
+        </div>
+    </div>
+    <div class="item-actions col-3">
+        <div class="btn-group btn-group-sm">
+            <button  class="btn-add btn btn-outline-dark">
+              <i class="fa fa-plus"> </i>
+          </button>
+          <span class="btn-add btn item-quantity btn-outline-dark"> <%= item.quantity %> </span>
+          <button  class="btn-remove btn btn-outline-dark">
+              <i class="fa fa-minus"> </i>
+          </button>
+        </div>
+    </div>
+</div>

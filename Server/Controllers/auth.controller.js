@@ -85,7 +85,7 @@ const register = async (req, res) => {
             req.body;
 
         let address = {
-            address: address_1 + " " + address_2,
+            address: address_1 + "_" + address_2,
             school: school_name,
             address_type,
             state
