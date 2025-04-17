@@ -27,7 +27,12 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     profileImage: {
-        type: String
+        type: String,
+        default: "https://placehold.co/400x400"
+    },
+    coverImage: {
+        type: String,
+        default: "https://placehold.co/600x200?text=CentralMarket+Store"
     },
     emailAddress: {
         type: String,
@@ -39,6 +44,10 @@ const userSchema = new mongoose.Schema({
         //, unique: true,
         //,required: true
     },
+    socials: [{
+      name: String,
+      url: String
+    }],
     password: {
         type: String,
         required: true

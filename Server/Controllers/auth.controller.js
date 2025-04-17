@@ -8,6 +8,17 @@ cloudinary.config({
 });
 const User = require("../Models/user.model.js");
 
+function generate_random_color() {
+    let color = "#";
+    let characters = "0123456789ABCDEF";
+
+    for (let i = 0; i < 6; i++) {
+        color += characters[Math.floor(Math.random() * 16)];
+    }
+    console.log(color);
+    return color
+}
+
 const login = async (req, res) => {
     try {
         req.session.trialCount = 0;
@@ -90,26 +101,35 @@ const register = async (req, res) => {
             address_type,
             state
         };
-       // console.log(req);
+        // console.log(req);
         let profileImage;
+        let profile_color = generate_random_color();
+
         if (req.file) {
             const cloudinary_response = await cloudinary.uploader.upload(
                 req.file.path,
                 {
+                    aspect_ratio: "1:1",
+                    width: 400,
+                    crop: "limit",
                     folder: "users"
                 }
             );
             profileImage = cloudinary_response.secure_url;
-        } else profileImage = "https://placehold.co/400";
-                //TODO: I want to change the placeholder image for profile picture
-
+        } else
+            profileImage = `https://placehold.co/400/${profile_color}/white?text=${
+                req.body.name[0].toUpperCase() + "00"
+            }&color=${profile_color}`;
 
         let newUser = new User({
             ...req.body,
             address,
             role: "admin",
             //this is supposed to come from the form but i've not added a field to the form yet
-            profileImage
+            profileImage,
+            coverImage: `https://placehold.co/600x200?text=${
+                req.body.businessName || "CentralMarket"
+            }&color=${profile_color + "cd"}`
         });
 
         await newUser.save();

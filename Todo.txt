@@ -1,1 +1,4 @@
-<!-- TODO: I WANT TO STYLE AND START WORKING ON THE PREVIEW PAGE -->
+<!-- TODO: I WANT TO DESIGN AND START WORKING ON THE PREVIEW PAGE AND FUNCTIONALITY -->
+<!-- TODO: I WANT TO DESIGN AND START WORKING ON THE STORE PAGE AND FUNCTIONALITY -->
+      cover image placeholder 
+        <img src="https://placehold.co/600x200?text=Hello+saad" alt="" />

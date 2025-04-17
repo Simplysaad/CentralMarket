@@ -1,6 +1,65 @@
 const Product = require("../Models/product.model.js");
 const Search = require("../Models/search.model.js");
 const User = require("../Models/user.model.js");
+const Review = require("../Models/review.model.js");
+
+exports.getHomeProducts = async (req, res) => {
+    try {
+        // GET NEW ARRIVALS
+        let newArrivals = await Product.find({})
+            .sort({ createdAt: -1 })
+            .limit(14);
+        //newArrivals = shuffle(newArrivals);
+
+        //DEALS OF THE DAY
+        let deals = await Product.find({ discount: { $gt: 0 } });
+        //deals = shuffle(deals, 14);
+
+        //FEATURED BRANDS
+        let featuredProducts = await Product.find({ isFeatured: true })
+            .sort({ updatedAt: -1 })
+            .limit(16);
+        //   featuredProducts = shuffle(featuredProducts);
+
+        //TOP RATED PRODUCTS
+        let topRatedProducts = await Product.find({})
+            .sort({ averageRating: -1 })
+            .limit(16);
+
+        let cart = req.session.cart ? req.session.cart : [];
+        const checkCart = product => {
+            if (product) {
+                let item = cart.find(
+                    item => item.productId === product._id.toString()
+                );
+                //console.log("cart item", item);
+                return item;
+            } else {
+                return cart.length ? cart.length : "";
+            }
+        };
+
+        const checkWishList = product => {
+            // let { wishlist } =  req.session || currentUser || [];
+            let wishlist = []; //req.session || currentUser || [];
+            if (product) {
+                return wishlist.find(item => item === product._id);
+            } else {
+                return wishlist.length ? wishlist.length : "";
+            }
+        };
+        return res.status(200).render("Pages/Customer/index_page", {
+            topRatedProducts,
+            featuredProducts,
+            deals,
+            checkCart,
+            checkWishList,
+            newArrivals
+        });
+    } catch (err) {
+        console.error(err);
+    }
+}
 
 exports.searchController = async (req, res) => {
     try {
@@ -559,3 +618,19 @@ exports.postOrderMassive = async (req, res) => {
         });
     }
 };
+
+
+exports.getPreview =async (req, res)=>{
+  try {
+    let {id: productId} = req.params
+    let currentProduct = await Product.findOne({_id: productId})
+    let reviews = await Review.find({ productId})
+    
+    return res.render("Pages/Customer/preview_page", {
+      currentProduct,
+      reviews
+    })
+  } catch (err) {
+    console.error(err)
+  }
+}

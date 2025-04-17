@@ -1,0 +1,261 @@
+<section id="imagesSection" class="pb-5">
+    <div class="preview-image mx-auto">
+        <img
+            id="productImage"
+            src="<%= currentProduct.imageUrl || `https://placehold.co/400?text=${currentProduct.name}` %>"
+            alt="placeholder"
+            class="img-fluid object-fit-cover"
+        />
+    </div>
+</section>
+<section id="infoSection" class="py-5">
+    <div class="main-info d-flex my-4 flex-column">
+        <span
+            id="productCategory"
+            class="text-muted m-0 p-0 fs-6"
+        >
+            <%= currentProduct.category %>
+        </span>
+        <span id="productName" class="fs-2 p-0 m-0 fw-bold">
+            <%= currentProduct.name %>
+        </span>
+    </div>
+
+    <div class="product-price d-flex gap-2">
+        <h4
+            class="fs-5 fw-light text-decoration-line-through text-danger"
+        >
+            <%= "$" + currentProduct.price %>
+        </h4>
+        <h4 class="fs-1 fw-semibold">
+            <%= "$" + currentProduct.price %>
+        </h4>
+    </div>
+
+    <div class="product-desc mt-4">
+        <h4 class="text-heading fs-5 fw-semibold">
+            Description
+        </h4>
+        <span id="productDesc" class="text-desc fs-6 fw-light">
+            <%= currentProduct.description %>
+        </span>
+    </div>
+    <div class="product-tags py-4">
+        <h4 class="text-heading">Tags</h4>
+        <div
+            id="productTags"
+            class="tags d-flex gap-1 flex-wrap"
+        >
+        <%= currentProduct.keywords.forEach((tag, index)=>{ %>
+        
+            <a
+            href="/search/normal?searchTerm=<%= tag %>"
+                class="btn rounded-pill btn-outline-dark border py-1 px-3"
+            >
+                <%= tag %>
+            </a>
+        <% }) %>
+        </div>
+    </div>
+</section>
+
+<section id="actionsSection">
+    <div
+        class="my-4 d-flex flex-column col-12 col-md-8 col-lg-6 gap-3"
+    >
+        <div class="btn-group">
+            <button class="btn btn-lg btn-outline-dark col-12">
+                <i class="fa fa-shopping-cart"> </i>
+                <span class=""> Add to cart </span>
+            </button>
+            <button class="btn btn-lg btn-outline-dark">
+                <i class="far fa-heart"> </i>
+            </button>
+        </div>
+    </div>
+</section>
+<section id="specsSection" class="my-5">
+    <div
+        class="heading d-flex justify-content-between align-items-center"
+    >
+        <h4 class="text-heading fw-semibold">Specifications</h4>
+    </div>
+    <div class="container p-2">
+    <% if(currentProduct.specs.colors){ %>
+        <div class="my-4">
+            <h6 class="heading fs-6 fw-semibold">Colors</h6>
+            <div class="sizes-select d-flex gap-2">
+                <% currentProduct.specs.colors.forEach((color, index)=>{ %>
+                <span
+                    class="text-capitalize btn btn-outline-dark rounded"
+                >
+                    <input
+                        type="radio"
+                        name="color"
+                        class="input-color"
+                        hidden
+                        value="<%= color %>"
+                        id="<%=`color_${color}`%>"
+                    />
+                    <label for="<%=`color_${color}`%>"><%= color %></label>
+                </span>
+                <% }) %>
+            </div>
+        </div>
+    <% }%>
+    <% if(currentProduct.specs.sizes){ %>
+        <div class="my-4">
+            <h6 class="heading fs-6 fw-semibold">Sizes</h6>
+            <div class="sizes-select d-flex gap-2">
+                <% currentProduct.specs.sizes.forEach((size, index)=>{ %>
+                <span
+                    class="text-capitalize btn btn-outline-dark rounded"
+                >
+                    <input
+                        type="radio"
+                        name="size"
+                        class="input-size"
+                        hidden
+                        value="<%= size %>"
+                        id="<%=`size_${size}`%>"
+                    />
+                    <label for="<%=`size_${size}`%>"><%= size %></label>
+                </span>
+                <% }) %>
+            </div>
+        </div>
+    <% }%>
+
+    </div>
+</section>
+<section id="reviewsSection" class="py-5 p-2">
+    <div
+        class="heading d-flex justify-content-between align-items-center"
+    >
+        <h4 class="text-heading fs-4">Ratings and reviews</h4>
+        <a class="link-dark" href="#">
+            <i class="fa fa-arrow-right"> </i>
+        </a>
+    </div>
+    <div class="product-rating my-3">
+        <% if(currentProduct.averageRating){ %>
+        <div class="rating-number">
+            <h3 class="display-1 fw-bold m-0 p-0">3.6</h3>
+        </div>
+        <div class="rating-stars">
+        <% for(i=0; i< Math.ceil(currentProduct.averageRating); i++){ %>
+            <i class="fa fa-star"> </i>
+        <% } %>
+        <% for(i=0; i<(5-Math.ceil(currentProduct.averageRating)); i++){ %>
+            <i class="far fa-star"></i>
+        <% } %>
+        </div>
+        <div class="rating-count">
+            <span class="fs-6"> (<%= reviews.length ?? 0 %>) </span>
+        </div>
+        <% } %>
+    </div>
+    <div class="reviews my-5">
+    <% reviews.forEach((review, index)=>{ %>
+      
+        <div
+            class="single-review my-4 d-flex flex-column gap-3"
+        >
+            <div class="review-heading d-flex gap-2">
+                <div
+                    class="review-image overflow-hidden rounded-circle col-2"
+                >
+                    <img
+                        src="https://placehold.co/400"
+                        alt=""
+                        class="img-fluid"
+                    />
+                </div>
+                <div class="review-info">
+                    <h4
+                        class="fs-6 review-name text-capitalize"
+                    >
+                        Bukola saraki
+                    </h4>
+                    <span class="rating-stars fs-6 text-muted">
+                        <i class="fa fa-star"> </i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="review-text">
+                <p class="text-dark">
+                    Lorem ipsum dolor sit amet consectetur
+                    adipisicing elit. Amet rerum facere quidem
+                    eius dicta deleniti exercitationem dolor.
+                </p>
+                <small class="text-muted">
+                    74 people found this helpful
+                </small>
+            </div>
+            <div
+                class="review-action d-flex align-items-center justify-content-between"
+            >
+                <small class="">
+                    Was this review helpful?
+                </small>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-dark">
+                        Yes
+                    </button>
+                    <button class="btn btn-outline-dark">
+                        No
+                    </button>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+    </div>
+</section>
+<section id="relatedProducts" class="">
+    <div
+        class="heading d-flex py-3 align-items-start justify-content-between"
+    >
+        <h4 class="text-heading">People also viewed</h4>
+    </div>
+    <div class="d-flex flex-wrap">
+        <div
+            class="single-product p-2 col-6 col-md-4 col-lg-3 card border-0"
+        >
+            <div class="card-image position-relative">
+                <img
+                    src="./Public/IMG/image-4.jpg"
+                    alt=""
+                    class="img-fluid object-fit-cover aspect-ratio-square"
+                />
+            </div>
+            <div class="card-info py-3">
+                <div class="">
+                    <a
+                        href="/preview/<%= product._id %>"
+                        class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold"
+                    >
+                        Lorem, ipsum dolor.
+                    </a>
+                </div>
+                <div
+                    class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
+                >
+                    <div class="old-price text-muted -emphasis">
+                        <span
+                            class="text-decoration-line-through fw-light"
+                        >
+                            $600</span
+                        >
+                    </div>
+                    <div class="price">
+                        <p class="fs-5">$600</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

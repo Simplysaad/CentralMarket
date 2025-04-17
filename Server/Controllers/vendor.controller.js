@@ -15,27 +15,31 @@ const addProduct = async (req, res) => {
             });
         // if (!req.files) {
         let imageUrl;
-        
+
         console.log(req.file);
         if (req.file) {
             const cloudinary_response = await cloudinary.uploader.upload(
                 req.file.path,
                 {
-                    folder: "products"
+                    folder: "products",
+                    aspect_ratio: "1:1",
+                    width: 400,
+                    crop: "limit"
                 }
             );
             imageUrl = cloudinary_response.secure_url;
-        } else imageUrl = "https://placehold.co/400";
+        } else imageUrl = "https://placehold.co/400x400";
 
         let imageGallery = [];
         imageGallery.push(imageUrl);
-        
-        let vendorId = req.session.userId
+
+        let vendorId = req.session.userId;
 
         let newProduct = new Product({
             ...req.body,
             imageUrl,
-            imageGallery,vendorId
+            imageGallery,
+            vendorId
         });
 
         let savedProduct = await newProduct.save();
@@ -43,7 +47,7 @@ const addProduct = async (req, res) => {
             success: true,
             newProduct,
             savedProduct,
-            message: "new product created successfully",
+            message: "new product created successfully"
         });
     } catch (err) {
         console.error(err);
@@ -113,7 +117,13 @@ const editProduct = async (req, res) => {
 
         if (req.file) {
             const cloudinary_response = await cloudinary.uploader.upload(
-                req.file.path
+                req.file.path,
+                {
+                    aspect_ratio: "1:1",
+                    width: 400,
+                    crop: "limit",
+                    folder: "product_galleries"
+                }
             );
 
             imageGallery.push(cloudinary_response.secure_url);
