@@ -1,6 +1,14 @@
 .env
+<<<<<<< HEAD
 node_modules/
 Trial/
 Uploads/
 Public/fontawesome-free-6.7.2-web/
 Public/bootstrap-5.3.3-dist/
+=======
+gitshow.txt
+gitcommits.txt
+node_modules/
+.git/
+.github/
+>>>>>>> origin/version/2.1.0
