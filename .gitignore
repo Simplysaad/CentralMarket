@@ -2,3 +2,5 @@
 gitshow.txt
 gitcommits.txt
 node_modules/
+.git/
+.github/
