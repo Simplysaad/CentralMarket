@@ -46,7 +46,7 @@
             id="productTags"
             class="tags d-flex gap-1 flex-wrap"
         >
-        <%= currentProduct.keywords.forEach((tag, index)=>{ %>
+        <% currentProduct.keywords.forEach((tag, index)=>{ %>
         
             <a
             href="/search/normal?searchTerm=<%= tag %>"
@@ -59,29 +59,32 @@
     </div>
 </section>
 
+<div class="data-text">
+</div>
 <section id="actionsSection">
     <div
         class="my-4 d-flex flex-column col-12 col-md-8 col-lg-6 gap-3"
     >
-        <div class="btn-group">
-            <button class="btn btn-lg btn-outline-dark col-12">
+        <div data-product-id="<%= currentProduct._id %>" class="btn-group actions bg-light p-1">
+            <button  class="btn btn-lg btn-outline-dark btn-cart  col-12">
                 <i class="fa fa-shopping-cart"> </i>
-                <span class=""> Add to cart </span>
+                <span class="cart-text"> Add to cart </span>
             </button>
-            <button class="btn btn-lg btn-outline-dark">
+            <button class="btn btn-wish btn-lg btn-outline-dark">
                 <i class="far fa-heart"> </i>
             </button>
         </div>
     </div>
 </section>
 <section id="specsSection" class="my-5">
+<% if(currentProduct.specs){ %>
     <div
         class="heading d-flex justify-content-between align-items-center"
     >
         <h4 class="text-heading fw-semibold">Specifications</h4>
     </div>
     <div class="container p-2">
-    <% if(currentProduct.specs.colors){ %>
+    <% if(currentProduct.specs?.colors){ %>
         <div class="my-4">
             <h6 class="heading fs-6 fw-semibold">Colors</h6>
             <div class="sizes-select d-flex gap-2">
@@ -103,7 +106,7 @@
             </div>
         </div>
     <% }%>
-    <% if(currentProduct.specs.sizes){ %>
+    <% if(currentProduct.specs?.sizes){ %>
         <div class="my-4">
             <h6 class="heading fs-6 fw-semibold">Sizes</h6>
             <div class="sizes-select d-flex gap-2">
@@ -127,12 +130,13 @@
     <% }%>
 
     </div>
+    <% } %>
 </section>
 <section id="reviewsSection" class="py-5 p-2">
     <div
         class="heading d-flex justify-content-between align-items-center"
     >
-        <h4 class="text-heading fs-4">Ratings and reviews</h4>
+        <h4 class="text-heading">Ratings and reviews</h4>
         <a class="link-dark" href="#">
             <i class="fa fa-arrow-right"> </i>
         </a>
@@ -140,7 +144,9 @@
     <div class="product-rating my-3">
         <% if(currentProduct.averageRating){ %>
         <div class="rating-number">
-            <h3 class="display-1 fw-bold m-0 p-0">3.6</h3>
+            <h3 class="display-1 fw-bold m-0 p-0">
+              <%= currentProduct.averageRating.toFixed(1)%>
+            </h3>
         </div>
         <div class="rating-stars">
         <% for(i=0; i< Math.ceil(currentProduct.averageRating); i++){ %>
@@ -156,8 +162,7 @@
         <% } %>
     </div>
     <div class="reviews my-5">
-    <% reviews.forEach((review, index)=>{ %>
-      
+    <%# reviews.forEach((review, index)=>{ %>
         <div
             class="single-review my-4 d-flex flex-column gap-3"
         >
@@ -212,7 +217,7 @@
                 </div>
             </div>
         </div>
-    <% }) %>
+    <%# }) %>
     </div>
 </section>
 <section id="relatedProducts" class="">
@@ -227,7 +232,7 @@
         >
             <div class="card-image position-relative">
                 <img
-                    src="./Public/IMG/image-4.jpg"
+                    src=" /IMG/image-4.jpg"
                     alt=""
                     class="img-fluid object-fit-cover aspect-ratio-square"
                 />
@@ -235,7 +240,7 @@
             <div class="card-info py-3">
                 <div class="">
                     <a
-                        href="/preview/<%= product._id %>"
+                        href="/preview/<%= currentProduct._id %>"
                         class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold"
                     >
                         Lorem, ipsum dolor.
@@ -259,3 +264,4 @@
         </div>
     </div>
 </section>
+<script src="/JS/preview.js"></script>

@@ -83,9 +83,11 @@
                         class="form-control"
                     />
                     <datalist id="categoryList">
-                        <option value="electronics" class="">
-                            Electronic appliances
+                      <%# categoryList.forEach((category, index)=>{ %>
+                        <option value="<%#=category %>" class="">
+                            <%#=category %>
                         </option>
+                      <%# }) %>
                     </datalist>
 
                     <label for="category">Category</label>
@@ -113,9 +115,57 @@
                         />
                     </div>
                     <datalist id="tagsList">
-                        <option value="ios,">IOS</option>
-                        <option value="iphone,">Iphone</option>
+                      <%# keywordsList.forEach((keyword, index)=>{ %>
+                        <option value="<%#=keyword %>" class="">
+                            <%#=keyword %>
+                        </option>
+                      <%# }) %>
                     </datalist>
+                </div>
+                <div class="border p-1">
+                    <div class="selected-colors">
+                        <ul
+                            id="selectedColorsList"
+                            class="d-flex border-bottom flex-wrap gap-2 list-unstyled"
+                        >
+                            <li
+                                class="p-2 position-relative top-50"
+                            >
+                                Separate colors with commas
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="color-input">
+                        <input
+                            type="text"
+                            id="colorInput"
+                            list="colorsList"
+                            placeholder="Colors"
+                            class="form-control m-0 border-0"
+                        />
+                    </div>
+                </div>
+                <div class="border p-1">
+                    <div class="selected-sizes">
+                        <ul
+                            id="selectedSizesList"
+                            class="d-flex border-bottom flex-wrap gap-2 list-unstyled"
+                        >
+                            <li
+                                class="p-2 position-relative top-50"
+                            >
+                                Separate tags with commas
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="size-input">
+                        <input
+                            type="text"
+                            id="sizeInput"
+                            placeholder="sizes"
+                            class="form-control m-0 border-0"
+                        />
+                    </div>
                 </div>
                 <div class="form-floating">
                     <input

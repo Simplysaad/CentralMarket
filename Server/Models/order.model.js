@@ -10,6 +10,14 @@ const itemSchema = new mongoose.Schema(
         price: {
             type: Number
         },
+        color: {
+            type: String,
+            default: "default"
+        },
+        size: {
+            type: String,
+            default: "default"
+        },
         productId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "products"
@@ -22,7 +30,7 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
     },
-    employeeId: {
+    vendorId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
     },
@@ -36,6 +44,7 @@ const orderSchema = new mongoose.Schema({
         default: "pending",
         enum: ["pending", "successful", "failed", "abandoned", "completed"]
     },
+
     paymentToken: {
         type: String
     },
@@ -54,8 +63,12 @@ const orderSchema = new mongoose.Schema({
 });
 
 orderSchema.virtual("subtotal").get(() => {
-    return this.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    return this.items.reduce(
+        (acc, item) => acc + item.price * item.quantity,
+        0
+    );
 });
 
 const order = new mongoose.model("order", orderSchema);
 module.exports = order;
+//add a separaye payment object 

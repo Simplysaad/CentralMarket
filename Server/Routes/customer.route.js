@@ -10,7 +10,8 @@ const Order = require("../Models/order.model.js");
 const Search = require("../Models/search.model.js");
 const customerController = require("../Controllers/customer.controller.js");
 
-router.get("/", customerController.getProducts);
+router.get("/", customerController.getHomeProducts);
+router.get("/home", customerController.getProducts);
 //[new arrivals, top rated, deals of the day, christmas collection, clearance sales]
 
 router.all("/search/:searchType", customerController.searchController);
@@ -23,5 +24,7 @@ router.get("/products", customerController.getProducts);
 router.post("/order", customerController.postOrder);
 router.get("/order", customerController.getOrder);
 router.post("/order/massive", customerController.postOrderMassive);
+
+router.get("/preview/:id", customerController.getPreview);
 
 module.exports = router;

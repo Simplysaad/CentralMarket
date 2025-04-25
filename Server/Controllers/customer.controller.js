@@ -59,7 +59,7 @@ exports.getHomeProducts = async (req, res) => {
     } catch (err) {
         console.error(err);
     }
-}
+};
 
 exports.searchController = async (req, res) => {
     try {
@@ -199,6 +199,7 @@ exports.postCart = async (req, res) => {
         let { userId, cart } = req.session;
         let { id: productId } = req.params;
         let { quantity } = req.query;
+        let { size = "default", color = "default" } = req.body;
 
         if (quantity && quantity !== "") {
             quantity = Number(quantity);
@@ -222,7 +223,12 @@ exports.postCart = async (req, res) => {
                 message: `product with id: ${productId}.does not exist or is not available`
             });
 
-        let index = cart.findIndex(item => item.productId === productId);
+        let index = cart.findIndex(
+            item =>
+                item.productId === productId &&
+                item.color === color &&
+                item.size === size
+        );
         if (index === -1) {
             //TODO: implement discount calculations
             quantity = quantity || 1;
@@ -233,6 +239,7 @@ exports.postCart = async (req, res) => {
                 price: currentProduct.price * quantity,
                 unitPrice: currentProduct.price,
                 quantity,
+                color, size,
                 productId
             };
             req.session.cart.push(singleProduct);
@@ -445,7 +452,7 @@ exports.getProducts = async (req, res) => {
         //     popularProducts
         // });
 
-        return res.status(200).render("Pages/Customer/index", {
+        return res.status(200).render("Pages/Customer/index_page", {
             success: true,
             message: "products fetched successfully",
             products,
@@ -619,18 +626,17 @@ exports.postOrderMassive = async (req, res) => {
     }
 };
 
+exports.getPreview = async (req, res) => {
+    try {
+        let { id: productId } = req.params;
+        let currentProduct = await Product.findOne({ _id: productId });
+        let reviews = await Review.find({ productId });
 
-exports.getPreview =async (req, res)=>{
-  try {
-    let {id: productId} = req.params
-    let currentProduct = await Product.findOne({_id: productId})
-    let reviews = await Review.find({ productId})
-    
-    return res.render("Pages/Customer/preview_page", {
-      currentProduct,
-      reviews
-    })
-  } catch (err) {
-    console.error(err)
-  }
-}
+        return res.render("Pages/Customer/preview_page", {
+            currentProduct,
+            reviews
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};

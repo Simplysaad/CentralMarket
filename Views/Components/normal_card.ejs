@@ -10,9 +10,9 @@
         />
     </div>
     <div class="card-info my-2 flex-column d-flex p-2">
-        <h4 class="fs-6 text-capitalize cart-title">
+        <a href="/preview/<%= product._id  %>" class="fs-6 text-capitalize cart-title">
             <%= product.name %>
-        </h4>
+        </a>
         <% if(product.vendorId){ %>
         <div
             class="vendor-info text-muted col- gap-2 d-flex justify-content-start align-items-center"
@@ -50,16 +50,16 @@
         <div class="cta btn-group">
             <button
                 data-product-id="<%= product._id %>"
-                class="btn btn-cart <%= checkCart(product) ? 'btn-dark': 'btn-outline-dark' %> justify-content-center align-items-center d-flex gap-2"
+                class="btn btn-cart <%#= checkCart(product) ? 'btn-dark': 'btn-outline-dark' %> justify-content-center align-items-center d-flex gap-2"
             >
                 <i class="fa fa-shopping-cart"> </i>
                 <span class="">
-                <%= checkCart(product) ? `${checkCart(product).quantity} in cart`: "Add to cart" %>
+                <%#= checkCart(product) ? `${checkCart(product).quantity} in cart`: "Add to cart" %>
                 
                 </span>
             </button>
-            <button data-product-id="<%= product._id %>" class="btn btn-wish <%= checkWishList(product) ?'btn-dark': 'btn-outline-dark' %> ">
-                <i class="<%= checkWishList(product) ?'far': 'fa' %> fa-heart"> </i>
+            <button data-product-id="<%= product._id %>" class="btn btn-wish <%#= checkWishList(product) ?'btn-dark': 'btn-outline-dark' %> ">
+                <i class="<%#= checkWishList(product) ?'far': 'fa' %> fa-heart"> </i>
             </button>
         </div>
     </div>

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+
 const multer = require("multer");
 const uploadProducts = multer({ dest: "./Uploads/Products" });
 
@@ -11,19 +12,16 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+const User = require("../Models/user.model.js");
 const Product = require("../Models/product.model.js");
 
 const { authMiddleware } = require("../Utils/auth.middleware");
 router.use(authMiddleware);
 
-const {
-    addProduct,
-    deleteProduct,
-    editProduct,
-    getProducts
-} = require("../Controllers/vendor.controller.js");
+const vendorController = require("../Controllers/vendor.controller.js");
 
-router.get("/products", getProducts);
+router.get("/products", vendorController.getProducts);
+router.get("/", vendorController.dashboard);
 router.post(
     "/products/add",
     uploadProducts.single("productImage"),
@@ -31,7 +29,7 @@ router.post(
     //     { name: "productImage", maxCount: 1 },
     //     { name: "productGallery", maxCount: 6 }
     // ]),
-    addProduct
+    vendorController.addProduct
 );
 router.get("/products/add", async (req, res) => {
     try {
@@ -41,7 +39,11 @@ router.get("/products/add", async (req, res) => {
     }
 });
 
-router.delete("/product/:id", deleteProduct);
-router.put("/product/:id", uploadProducts.single("productImage"), editProduct);
+router.delete("/product/:id", vendorController.deleteProduct);
+router.put(
+    "/product/:id",
+    uploadProducts.single("productImage"),
+    vendorController.editProduct
+);
 
 module.exports = router;

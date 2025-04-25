@@ -17,7 +17,7 @@
             media="all"
         />
         <link rel="stylesheet" type="text/css" media="all" />
-        <title></title>
+        <title> </title>
     </head>
     <body>
         <header class="py-md-4 pb-2">
@@ -234,19 +234,19 @@
                     </div>
                 </section>
 
-                <section id="actionsSection">
+                <section id="actionsSection" class="actions">
                     <div
-                        class="my-4 d-flex flex-column col-12 col-md-8 col-lg-6 gap-3"
+                        class="actions mx-auto px-1 btn-group bg-white col-12 col-md-8 col-lg-6"
                     >
-                        <div class="btn-group">
-                            <button class="btn btn-lg btn-outline-dark col-12">
-                                <i class="fa fa-shopping-cart"> </i>
-                                <span class=""> Add to cart </span>
-                            </button>
-                            <button class="btn btn-lg btn-outline-dark">
-                                <i class="far fa-heart"> </i>
-                            </button>
-                        </div>
+                        <button
+                            class="btn btn-lg btn-dark  btn-outline-dark col-12"
+                        >
+                            <i class="fa fa-shopping-cart"> </i>
+                            <span class=""> Add to cart </span>
+                        </button>
+                        <button class="btn btn-lg btn-outline-dark">
+                            <i class="far fa-heart"> </i>
+                        </button>
                     </div>
                 </section>
                 <section id="specsSection" class="my-5">
@@ -272,7 +272,6 @@
                                     />
                                     <label for="color_green">green</label>
                                 </span>
-
                             </div>
                         </div>
                         <div class="my-4">
@@ -491,9 +490,7 @@
                     </div>
                 </section>
             </main>
-            <script src="/JS/register.js"></script>
         </main>
-        <script src="login.js" type="text/javascript" charset="utf-8"></script>
         <script
             src="./Public/fontawesome-free-6.7.2-web/js/all.js"
             type="text/javascript"
@@ -508,9 +505,17 @@
             .navbar-search {
                 display: none;
             }
-            .btn {
+            .sticky {
+                position: sticky;
+                top: 0;
+                left: 0;
+                width: 100%;
             }
         </style>
-        <script src="./Public/JS/homepage.js"></script>
+        <script
+            src="./public/JS/preview.js"
+            type="text/javascript"
+            charset="utf-8"
+        ></script>
     </body>
 </html>

@@ -53,3 +53,6 @@
     border: none;
     outline: none;
 }
+.actions {
+    position: absolute;
+}

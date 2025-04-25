@@ -1,4 +1,12 @@
-let Product = require("../Models/product.model.js");
+const mongoose = require("mongoose");
+
+const Product = require("../Models/product.model.js");
+const Search = require("../Models/search.model.js");
+const User = require("../Models/user.model.js");
+const Review = require("../Models/review.model.js");
+const Order = require("../Models/order.model.js");
+
+
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -6,7 +14,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-const addProduct = async (req, res) => {
+exports.addProduct = async (req, res) => {
     try {
         if (!req.body)
             return res.status(401).json({
@@ -60,7 +68,7 @@ const addProduct = async (req, res) => {
         });
     }
 };
-const deleteProduct = async (req, res) => {
+exports.deleteProduct = async (req, res) => {
     try {
         let { id: productId } = req.params;
 
@@ -82,7 +90,7 @@ const deleteProduct = async (req, res) => {
         });
     }
 };
-const getProducts = async (req, res) => {
+exports.getProducts = async (req, res) => {
     try {
         let products = await Product.find({})
             .sort({ createdAt: -1 })
@@ -104,7 +112,7 @@ const getProducts = async (req, res) => {
         });
     }
 };
-const editProduct = async (req, res) => {
+exports.editProduct = async (req, res) => {
     try {
         if (!req.body)
             return res.status(401).json({
@@ -166,9 +174,45 @@ const editProduct = async (req, res) => {
     }
 };
 
-module.exports = {
-    addProduct,
-    deleteProduct,
-    editProduct,
-    getProducts
+exports.dashboard = async (req, res) => {
+    try {
+        let { userId } = req.session;
+        let currentVendor = await User.findOne({ _id: userId });
+
+        let pipeline = [
+            {
+                $unwind: "$items"
+            },
+            {
+                $match: {
+                    "items.vendorId": new mongoose.Types.ObjectId(userId)
+                }
+            },
+            {
+                $sort: {
+                    status: -1
+                }
+            },
+            {
+                $project: {
+                    name: "$items.name",
+                    productId: "$items.productId",
+                    quantity: "$items.quantity",
+                    size: "$items.size",
+                    color: "$items.color",
+                    price: "$items.price",
+                    orderId: "$_id"
+                }
+            }
+        ];
+
+        let myOrders = await Order.aggregate(pipeline);
+        return res.status(200).json({
+            success: true,
+            message: "orders processed",
+            myOrders
+        });
+    } catch (err) {
+        console.error(err);
+    }
 };
