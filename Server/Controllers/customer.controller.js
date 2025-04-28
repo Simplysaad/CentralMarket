@@ -2,6 +2,7 @@ const Product = require("../Models/product.model.js");
 const Search = require("../Models/search.model.js");
 const User = require("../Models/user.model.js");
 const Review = require("../Models/review.model.js");
+const Order = require("../Models/order.model.js");
 
 exports.getHomeProducts = async (req, res) => {
     try {
@@ -41,7 +42,7 @@ exports.getHomeProducts = async (req, res) => {
 
         const checkWishList = product => {
             // let { wishlist } =  req.session || currentUser || [];
-            let wishlist = []; //req.session || currentUser || [];
+            let { wishlist = [] } = req.session || currentUser;
             if (product) {
                 return wishlist.find(item => item === product._id);
             } else {
@@ -59,7 +60,7 @@ exports.getHomeProducts = async (req, res) => {
     } catch (err) {
         console.error(err);
     }
-}
+};
 
 exports.searchController = async (req, res) => {
     try {
@@ -228,7 +229,7 @@ exports.postCart = async (req, res) => {
             quantity = quantity || 1;
 
             let singleProduct = {
-                // _id: currentProduct._id,
+                vendorId: currentProduct.vendorId,
                 name: currentProduct.name,
                 price: currentProduct.price * quantity,
                 unitPrice: currentProduct.price,
@@ -428,7 +429,7 @@ exports.getProducts = async (req, res) => {
         );
         let cart = req.session.cart ? req.session.cart : [];
 
-        let popularProducts = await Product.find({ available: true })
+        let newArrivals = await Product.find({ available: true })
             .sort({
                 amountSold: -1,
                 addToCartCount: -1,
@@ -442,15 +443,15 @@ exports.getProducts = async (req, res) => {
         //     success: true,
         //     message: "products fetched successfully",
         //     products,
-        //     popularProducts
+        //     newArrivals
         // });
 
-        return res.status(200).render("Pages/Customer/index", {
+        return res.status(200).render("Pages/Customer/index_page", {
             success: true,
             message: "products fetched successfully",
             products,
             cart,
-            popularProducts
+            newArrivals
         });
     } catch (err) {
         console.error(err);
@@ -619,18 +620,17 @@ exports.postOrderMassive = async (req, res) => {
     }
 };
 
+exports.getPreview = async (req, res) => {
+    try {
+        let { id: productId } = req.params;
+        let currentProduct = await Product.findOne({ _id: productId });
+        let reviews = await Review.find({ productId });
 
-exports.getPreview =async (req, res)=>{
-  try {
-    let {id: productId} = req.params
-    let currentProduct = await Product.findOne({_id: productId})
-    let reviews = await Review.find({ productId})
-    
-    return res.render("Pages/Customer/preview_page", {
-      currentProduct,
-      reviews
-    })
-  } catch (err) {
-    console.error(err)
-  }
-}
+        return res.render("Pages/Customer/preview_page", {
+            currentProduct,
+            reviews
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};

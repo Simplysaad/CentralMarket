@@ -43,3 +43,14 @@ cartItems.forEach((item, index) => {
         await handleRequest("delete");
     });
 });
+let btnOrder = document.querySelectorAll(".btn-order");
+btnOrder.forEach((btn, index) => {
+    btn.addEventListener("click", async e => {
+      console.log("order is placed")
+        let response = await fetch("/order", {
+            method: "post"
+        });
+        let data = await response.json();
+        return (window.location.href = "/vendor/");
+    });
+});

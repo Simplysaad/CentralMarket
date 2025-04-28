@@ -6,7 +6,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-const addProduct = async (req, res) => {
+exports.addProduct = async (req, res) => {
     try {
         if (!req.body)
             return res.status(401).json({
@@ -60,7 +60,7 @@ const addProduct = async (req, res) => {
         });
     }
 };
-const deleteProduct = async (req, res) => {
+exports.deleteProduct = async (req, res) => {
     try {
         let { id: productId } = req.params;
 
@@ -82,7 +82,7 @@ const deleteProduct = async (req, res) => {
         });
     }
 };
-const getProducts = async (req, res) => {
+exports.getProducts = async (req, res) => {
     try {
         let products = await Product.find({})
             .sort({ createdAt: -1 })
@@ -104,7 +104,7 @@ const getProducts = async (req, res) => {
         });
     }
 };
-const editProduct = async (req, res) => {
+exports.editProduct = async (req, res) => {
     try {
         if (!req.body)
             return res.status(401).json({
@@ -166,9 +166,3 @@ const editProduct = async (req, res) => {
     }
 };
 
-module.exports = {
-    addProduct,
-    deleteProduct,
-    editProduct,
-    getProducts
-};

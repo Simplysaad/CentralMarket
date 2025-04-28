@@ -12,18 +12,28 @@ cloudinary.config({
 });
 
 const Product = require("../Models/product.model.js");
+const User = require("../Models/user.model.js");
+const Order = require("../Models/order.model.js");
+const Review = require("../Models/review.model.js");
+const Search = require("../Models/search.model.js");
+const vendorController = require("../Controllers/vendor.controller.js");
 
 const { authMiddleware } = require("../Utils/auth.middleware");
 router.use(authMiddleware);
 
-const {
-    addProduct,
-    deleteProduct,
-    editProduct,
-    getProducts
-} = require("../Controllers/vendor.controller.js");
-
-router.get("/products", getProducts);
+router.get("/", async (req, res) => {
+    try {
+        let myOrders = await Order.aggregate([
+            {
+                $unwind: "$items"
+            }
+        ]);
+        return res.json({ myOrders });
+    } catch (err) {
+        console.error(err);
+    }
+});
+router.get("/products", vendorController.getProducts);
 router.post(
     "/products/add",
     uploadProducts.single("productImage"),
@@ -31,7 +41,7 @@ router.post(
     //     { name: "productImage", maxCount: 1 },
     //     { name: "productGallery", maxCount: 6 }
     // ]),
-    addProduct
+    vendorController.addProduct
 );
 router.get("/products/add", async (req, res) => {
     try {
@@ -41,7 +51,11 @@ router.get("/products/add", async (req, res) => {
     }
 });
 
-router.delete("/product/:id", deleteProduct);
-router.put("/product/:id", uploadProducts.single("productImage"), editProduct);
+router.delete("/product/:id", vendorController.deleteProduct);
+router.put(
+    "/product/:id",
+    uploadProducts.single("productImage"),
+    vendorController.editProduct
+);
 
 module.exports = router;

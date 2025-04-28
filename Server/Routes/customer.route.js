@@ -11,6 +11,7 @@ const Search = require("../Models/search.model.js");
 const customerController = require("../Controllers/customer.controller.js");
 
 router.get("/", customerController.getProducts);
+router.get("/home", customerController.getHomeProducts);
 //[new arrivals, top rated, deals of the day, christmas collection, clearance sales]
 
 router.all("/search/:searchType", customerController.searchController);
