@@ -1,4 +1,22 @@
 const mongoose = require("mongoose");
+
+const discountSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String
+        },
+        value: {
+            type: Number,
+            default: 0
+        },
+        type: {
+            type: String,
+            enum: ["amount", "percentage"]
+        }
+    },
+    { _id: false }
+);
+
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -13,15 +31,12 @@ const productSchema = new mongoose.Schema({
         type: Number,
         index: true
     },
-    condition:{
-      type: String,
-      enum: ["new", "used"],
-      required:true
+    condition: {
+        type: String,
+        enum: ["new", "used"],
+        required: true
     },
-    discount: {
-      type: Number,
-      default : 0
-    },
+    discount: discountSchema,
     available: {
         type: Boolean,
         default: true
@@ -40,15 +55,29 @@ const productSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["pending", "approved", "not approved"],
+        enum: ["pending", "approved", "rejected"],
         default: "pending"
     },
     keywords: [String],
     category: {
         type: String,
         //index: true,
-        text: true
+        text: true,
+        enum: [
+            "study materials",
+            "electronics",
+            "hostel essentials",
+            "clothing and accessories",
+            "groceries and snacks",
+            "health and personal care",
+            "events and experiences",
+            "secondhand marketplace",
+            "services",
+            "hobbies and entertainment",
+            "gifts and handmade goods"
+        ]
     },
+    subCategory: String,
     imageUrl: {
         type: String
     },

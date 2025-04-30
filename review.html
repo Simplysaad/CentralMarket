@@ -1,0 +1,257 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link
+            rel="stylesheet"
+            href="./Public/fontawesome-free-6.7.2-web/css/all.min.css"
+            type="text/css"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            href="./Public/bootstrap-5.3.3-dist/css/bootstrap.min.css"
+            type="text/css"
+            media="all"
+        />
+
+        <link rel="stylesheet" type="text/css" media="all" />
+        <title></title>
+    </head>
+    <body>
+        <header class="py-md-4 pb-2">
+            <div
+                class="nav navbar p-md-2 shadow mx-auto container position-fixe mx-md-5 bg-success flex-wrap justify-content-between navbar-light d-flex"
+            >
+                <div
+                    class="navbar-brand order-1 justify-content-center align-items-center gap-1 d-flex flex-nowrap p-2 col-md-"
+                >
+                    <button
+                        class="btn navbar-toggler"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#sideNav"
+                    >
+                        <span class="navbar-toggler-icon"> </span>
+                    </button>
+                    <div class="p-auto">
+                        <h1 class="text-heading display-6">Restaurant</h1>
+                    </div>
+                </div>
+                <div
+                    class="navbar-search order-3 col-12 flex-fill order-lg-2 order-md-3 float-end mx-auto col-md-auto col-lg- float-end d-noe d-md-inline"
+                >
+                    <form
+                        class="border d-flex justify-content-between border-2 justify-content-center align-items-center rounded-pill p-1 my-2 mx-2"
+                        action="/search"
+                        method="post"
+                    >
+                        <input
+                            type="search"
+                            name="searchTerm"
+                            id="searchTerm"
+                            list="searchSuggestions"
+                            placeholder="Search for anything..."
+                            class="w-100 form-control px-3 py-1 bg-transparent border-0 outline-0"
+                            value=""
+                        />
+                        <datalist id="searchSuggestions"> </datalist>
+                        <!-- <label for="searchTerm"></label> -->
+                        <button class="fa-solid p-2 fa-search"></button>
+                    </form>
+                </div>
+                <div
+                    class="navbar-nav order-2 flex-md-shrink-1 order-lg-3 order-md-2 d-flex justify-content-center align-items-center px-2"
+                >
+                    <div
+                        class="nav-items d-flex gap-3 gap-md-2 justify-content-end"
+                    >
+                        <div class="nav-item d-lg-none">
+                            <a href="#" class="nav-link" id="btnSearch">
+                                <i class="fa-solid fa-search"> </i>
+                                <span class="d-none d-md-inline"> Search </span>
+                            </a>
+                        </div>
+                        <div class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa fa-shopping-cart"> </i>
+                                <span class="d-none d-md-inline"> Cart </span>
+                            </a>
+                        </div>
+                        <div class="nav-item dropdown">
+                            <button
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                id="accountDropdown"
+                                type="button"
+                                class="nav-link dropdown-toggle"
+                            >
+                                <i class="fa fa-user-circle"> </i>
+                                <span class="d-none d-md-inline">
+                                    Account
+                                </span>
+                            </button>
+                            <ul
+                                class="dropdown-menu position-absolute"
+                                aria-labelledby="accountDropdown"
+                            >
+                                <li
+                                    class="dropdown-item border-1 border-bottom justify-content-start align-items-center d-flex gap-2"
+                                >
+                                    <i class="fa fa-heart"> </i>
+                                    <a href="/wishlist" class="nav-link">
+                                        Wishlist
+                                    </a>
+                                </li>
+                                <li
+                                    class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2"
+                                >
+                                    <i class="fa fa-box"> </i>
+                                    <a href="/order" class="nav-link">
+                                        Orders
+                                    </a>
+                                </li>
+                                <li
+                                    class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2"
+                                >
+                                    <i class="fa fa-cog"> </i>
+                                    <a href="/settings" class="nav-link">
+                                        Settings
+                                    </a>
+                                </li>
+                                <li
+                                    class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2"
+                                >
+                                    <a href="" class="nav-link"> settings </a>
+                                </li>
+                                <li class="dropdown-divider"></li>
+                                <li
+                                    class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2 d-flex justify-content-start gap-2 align-items-center"
+                                >
+                                    <i class="fa fa-sign-out"> </i>
+                                    <a href="" class="nav-link"> logout </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mt-5 pt-5 d-flex gap-3">
+            <aside
+                id="sideNav"
+                class="side-nav mh-100 collapse overflow-scroll position-absolute border col-6 col-md-3 col-lg-2"
+            ></aside>
+            <main class="col-12 d-flex flex-column flex-wrap flex-md-row">
+                <form
+                    action="/product/<%= currentProduct._id %>/review"
+                    method="post"
+                    class=""
+                >
+                    <div
+                        class="d-flex border-bottom mb-5 mt-2 p-1 align-items-center justify-content-between"
+                    >
+                        <a class="btn-close col-2"></a>
+                        <div class="d-flex flex-column col-8">
+                            <p class="m-0 fs-5 text-truncate d-block">
+                                Chinese sunglasses
+                            </p>
+                            <p class="m-0 fs-6">Rate this product</p>
+                        </div>
+                        <button
+                            type="submit"
+                            class="text-success border-0 bg-none fs-4"
+                        >
+                            Post
+                        </button>
+                    </div>
+                    <div class="extra-stuff d-none">
+                        <input
+                            hidden
+                            name="customerId"
+                            value="<%=currentUser._id%>"
+                        />
+                    </div>
+
+                    <div class="p-1 d-flex my-5 justify-content-between">
+                        <div class="col-3 me-2 border rounded"></div>
+                        <div class="col-9">
+                            <h4 class="fs-5 fw-bold">Saad Idris</h4>
+                            <p class="fs-6 fw-light">
+                                Reviews are public and includes your device and
+                                account info. Learn more
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-2 my-5" id="">
+                        <div class="starRating d-flex justify-content-center">
+                            <input
+                                id="inputRange"
+                                name="rating"
+                                hidden
+                                class="form-range"
+                                type="range"
+                                max="5"
+                                min="1"
+                                value="1"
+                            />
+                            <div
+                                class="my-4 d-flex col-10 justify-content-between"
+                            >
+                                <span class="rating-star text-warning">
+                                    <i class="far fa-star fa-2x"></i>
+                                </span>
+                                <span class="rating-star text-warning">
+                                    <i class="far fa-star fa-2x"></i>
+                                </span>
+                                <span class="rating-star text-warning">
+                                    <i class="far fa-star fa-2x"></i>
+                                </span>
+                                <span class="rating-star text-warning">
+                                    <i class="far fa-star fa-2x"></i>
+                                </span>
+                                <span class="rating-star text-warning">
+                                    <i class="far fa-star fa-2x"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-">
+                            <textarea
+                                class="form-control outline-none col-12 p-2"
+                                name="reviewText"
+                                style="max-height: 150px"
+                                id="reviewTextArea"
+                                placeholder="Describe your experience (optional)"
+                                rows="3"
+                            ></textarea>
+                            <label class="float-end py-2" for="inputReview"
+                                >25/300</label
+                            >
+                        </div>
+                    </div>
+                </form>
+            </main>
+            <lorem35w></lorem35w>
+        </main>
+        <script
+            src="./Public/fontawesome-free-6.7.2-web/js/all.js"
+            type="text/javascript"
+            charset="utf-8"
+        ></script>
+        <script
+            src="./Public/bootstrap-5.3.3-dist/js/bootstrap.bundle.js"
+            type="text/javascript"
+            charset="utf-8"
+        ></script>
+        <style type="text/css" media="all">
+            .navbar-search {
+                display: none;
+            }
+            .btn {
+            }
+        </style>
+        <script src="./Public/JS/review.js"></script>
+    </body>
+</html>

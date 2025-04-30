@@ -1,66 +1,72 @@
-<div
-    class="border card d-flex flex-column gap-2 col-7 col-md-5 col-lg-2"
->
-    <div class="card-image">
+<div class="single-product my-3 p-2 col-6 col-md-4 col-lg-3 card border-0">
+    <div class="card-image position-relative">
         <img
-            src="/IMG/image-1.jpg" 
-            src="<%#= product.imageUrl %>"
-            class="img-fluid w-100 h-100"
+            src="<%= product.imageUrl %>"
             alt="<%= product.name %>"
+            alt=""
+            class="img-fluid object-fit-cover aspect-ratio-square"
         />
     </div>
-    <div class="card-info my-2 flex-column d-flex p-2">
-        <h4 class="fs-6 text-capitalize cart-title">
-            <%= product.name %>
-        </h4>
-        <% if(product.vendorId){ %>
-        <div
+    <div class="card-info d-flex flex-column gap-2 py-3">
+        <div class="">
+            <a
+                href="/preview/<%= product._id %>"
+                class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold"
+            >
+                <%= product.name %>
+            </a>
+        </div>
+        <% if(product.vendorId?.businessName){ %>
+        <small
             class="vendor-info text-muted col- gap-2 d-flex justify-content-start align-items-center"
         >
             <i class="fa fa-map-marker"> </i>
 
-            <span class="fs-6 fw-light">
-                <%= product.vendorId.name %>
+            <span class="fs- fw-light text-capitalize">
+                <%= product.vendorId?.businessName %>
             </span>
-        </div>
+        </small>
         <% } %>
-        <div
-            class="d-flex py-3 flex-colmn justify-content-between align-items-center"
-        >
-            <div
-                class="product-rating d-flex align-items-center"
-            >
-                <div class="rating-stars">
-                  <% for(i=0; i<product.averageRating; i++){ %>
-                    <i class="fa fa-star"> </i>
-                  <% } %>
-                  <% for(i=0; i<(5 - product.averageRating); i++){ %>
-                    <i class="far fa-star"> </i>
-                  <% } %>
-                </div>
-
-                <!-- <span class="px-2 text-muted">
-                    4.9
-                </span> -->
+        <div class="product-rating fs-6 d-flex align-items-center">
+            <div class="rating-stars text-warning">
+                <%for(i=0; i< product.averageRating?.toFixed(0); i++){ %>
+                <i class="fa fa-star"> </i>
+                <% } %> <%for(i=0; i< (5 - product.averageRating?.toFixed(0)); i++){ %>
+                <i class="far fa-star"> </i>
+                <% } %>
             </div>
-            <span class="fs-6 card-price">
-              <%= "$" + product.price %>
+            <!-- <span class="px-2 text-muted"> 4.9 </span> -->
+
+            <span class="px-1 text-muted fst-italic">
+                <%= `(${product.reviews?.length || 0})` %>
             </span>
         </div>
-        <div class="cta btn-group">
-            <button
-                data-product-id="<%= product._id %>"
-                class="btn btn-cart <%= checkCart(product) ? 'btn-dark': 'btn-outline-dark' %> justify-content-center align-items-center d-flex gap-2"
-            >
-                <i class="fa fa-shopping-cart"> </i>
-                <span class="">
-                <%= checkCart(product) ? `${checkCart(product).quantity} in cart`: "Add to cart" %>
-                
-                </span>
-            </button>
-            <button data-product-id="<%= product._id %>" class="btn btn-wish <%= checkWishList(product) ?'btn-dark': 'btn-outline-dark' %> ">
-                <i class="<%= checkWishList(product) ?'far': 'fa' %> fa-heart"> </i>
-            </button>
+        <div class="d-flex gap-2 fs-6 fw-semibold justify-content-start">
+            <div class="old-price text-muted -emphasis">
+                <span class="text-decoration-line-through text-danger fw-light">
+                    <%= "$" + product.price %></span
+                >
+            </div>
+            <div class="price">
+                <p class="fs-5"><%= "$" + product.price %></p>
+            </div>
         </div>
+    </div>
+    <div class="card-action m-0 btn-group btn-group-sm">
+        <button class="btn btn-outline-dark">
+            <i class="fas fa-shopping-cart"> </i>
+            <span class="">
+                <%= checkCart(product) ?
+                `${checkCart(product).quantity} in cart`
+                : "Add to cart" %>
+            </span>
+        </button>
+        <button class="btn btn-outline-dark">
+            <%if( checkWishList(product)){ %>  
+            <i class="far fa-heart"> </i>
+            <% }else {%>
+            <i class="fa fa-heart"></i>
+            <% }%>
+        </button>
     </div>
 </div>

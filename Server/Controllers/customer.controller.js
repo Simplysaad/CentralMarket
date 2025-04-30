@@ -13,7 +13,7 @@ exports.getHomeProducts = async (req, res) => {
         //newArrivals = shuffle(newArrivals);
 
         //DEALS OF THE DAY
-        let deals = await Product.find({ discount: { $gt: 0 } });
+        let deals = await Product.find({ "discount.value": { $gt: 0 } });
         //deals = shuffle(deals, 14);
 
         //FEATURED BRANDS

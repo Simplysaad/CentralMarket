@@ -1,7 +1,7 @@
 let Product = require("../Models/product.model.js");
 let cloudinary = require("cloudinary");
 
-const addProduct = async (req, res) => {
+exports.addProduct = async (req, res) => {
     try {
         if (!req.body)
             return res.status(401).json({
@@ -51,9 +51,9 @@ const addProduct = async (req, res) => {
         });
     }
 };
-const deleteProduct = async (req, res) => {
+exports.deleteProduct = async (req, res) => {
     try {
-        let { id:productId } = req.params;
+        let { id: productId } = req.params;
 
         let info = await Product.findByIdAndDelete(productId);
 
@@ -73,7 +73,7 @@ const deleteProduct = async (req, res) => {
         });
     }
 };
-const getProducts = async (req, res) => {
+exports.getProducts = async (req, res) => {
     try {
         let products = await Product.find({})
             .sort({ createdAt: -1 })
@@ -95,14 +95,14 @@ const getProducts = async (req, res) => {
         });
     }
 };
-const editProduct = async (req, res) => {
+exports.editProduct = async (req, res) => {
     try {
         if (!req.body)
             return res.status(401).json({
                 success: false,
                 message: "nothing is being sent"
             });
-        let { id:productId } = req.params;
+        let { id: productId } = req.params;
 
         let imageGallery = [];
 
@@ -149,11 +149,4 @@ const editProduct = async (req, res) => {
             errorStack: err.stack
         });
     }
-};
-
-module.exports = {
-    addProduct,
-    deleteProduct,
-    editProduct,
-    getProducts
 };

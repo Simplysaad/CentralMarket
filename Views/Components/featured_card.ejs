@@ -1,47 +1,74 @@
-<div
-    class="card d-flex flex-column gap-2 flex-md-row col-9 col-md-8 col-lg-5"
->
-    <div class="card-image col-md-6">
+<div class="single-product my-3 p-2 col-7 col-md-4 col-lg-3 card border-0">
+    <div class="card-image position-relative">
         <img
-            src="/IMG/image-1.jpg"
-            class="img-fluid w-100 h-100"
-            alt="<% product.name %>"
+            src="<%= product.imageUrl %>"
+            alt="<%= product.name %>"
+            class="img-fluid object-fit-cover aspect-ratio-square"
         />
     </div>
-    <div class="card-info my-2 flex-column d-flex p-2">
-        <h4 class="fs-5 cart-title"><%= product.name %></h4>
-        <p class="fs-6 fw-light card-description">
-            <%= product.description %>
-        </p>
-        <% if(product.vendorId){ %>
-        <div
-            class="vendor-info col- gap-2 d-flex justify-content-start align-items-center"
+    <div class="card-info d-flex flex-column gap-2 py-3">
+        <div class="">
+            <a
+                href="/preview/<%= product._id %>"
+                class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold"
+            >
+                <%= product.name %>
+            </a>
+        </div>
+        <% if(product.vendorId?.businessName){ %>
+        <small
+            class="vendor-info text-muted col- gap-2 d-flex justify-content-start align-items-center"
         >
             <i class="fa fa-map-marker"> </i>
 
-            <span class="fs-6"> <%= product.vendorId.name %> </span>
-        </div>
+            <span class="fs- fw-light text-capitalize">
+                <%= product.vendorId?.businessName %>
+            </span>
+        </small>
         <% } %>
-        <div
-            class="d-flex py-3 justify-content-between align-items-center"
-        >
-            <div class="product-rating d-flex gap-0 align-items-center">
-                <div class="rating-stars">
-                  <% for(i=0; i<product.averageRating; i++){ %>
-                    <i class="fa fa-star"> </i>
-                  <% } for(i=0; i<(5-product.averageRating); i++){ %>
-                    <i class="far fa-star"> </i>
-                  <% } %>
-                </div>
-                <span class="px-2"> (220)</span>
+        <div class="product-rating fs-6 d-flex align-items-center">
+            <div class="rating-stars text-warning">
+                <% for(i=0; i< product.averageRating?.toFixed(0); i++){ %>
+                <i class="fa fa-star"> </i>
+                <% } %>
+                <%for(i=0; i< (5 - product.averageRating?.toFixed(0)); i++){ %>
+                <i class="far fa-star"> </i>
+                <% } %>
             </div>
-            <span class="fs-6 card-price fw-bold"><% "$" +  product.price %></span>
+            <!-- <span class="px-2 text-muted"> 4.9 </span> -->
+
+            <span class="px-1 text-muted fst-italic">
+                <%= `(${product.reviews?.length || 0})` %>
+            </span>
         </div>
-        <button data-product-id="<%= product._id %>" class="cta btn btn-cart btn-dark m-2 btn-cta">
-        
-        <span class="">
-        <%= checkCart(product) ? `${checkCart(product).quantity} in cart`: "Get Now" %>
-        </span>
+        <div class="d-flex gap-2 fs-6 fw-semibold justify-content-start">
+            <div class="old-price text-muted -emphasis">
+                <span class="text-decoration-line-through text-danger fw-light">
+                    <%= "$" + product.price %></span
+                >
+            </div>
+            <div class="price">
+                <p class="fs-5"><%= "$" + product.price %></p>
+            </div>
+        </div>
+    </div>
+    <div class="card-action m-0 btn-group btn-group-sm">
+        <button class="btn btn-outline-dark">
+            <i class="fas fa-shopping-cart"> </i>
+            <span class="">
+            Add to cart
+                <%#= checkCart(product) ?
+                `${checkCart(product).quantity} in cart`
+                : "Add to cart" %>
+            </span>
+        </button>
+        <button class="btn btn-outline-dark">
+            <i class="far fa-heart"> </i>
+            <%# if( checkWishList(product)){ %>  
+            <i class="far fa-heart"> </i>
+            <%# }else {%>
+            <i class="fa fa-heart"></i>
+            <%# }%>
         </button>
     </div>
 </div>

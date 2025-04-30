@@ -2,7 +2,7 @@
     <div class="preview-image mx-auto">
         <img
             id="productImage"
-            src="<%= currentProduct.imageUrl || `https://placehold.co/400?text=${currentProduct.name}` %>"
+            src="<%= currentProduct.imageUrl %>"
             alt="placeholder"
             class="img-fluid object-fit-cover"
         />
@@ -14,7 +14,9 @@
             id="productCategory"
             class="text-muted m-0 p-0 fs-6"
         >
+        <a href="/category/<%= currentProduct.category %>" class="text-decoration-none text-muted">
             <%= currentProduct.category %>
+        </a>
         </span>
         <span id="productName" class="fs-2 p-0 m-0 fw-bold">
             <%= currentProduct.name %>
@@ -46,7 +48,7 @@
             id="productTags"
             class="tags d-flex gap-1 flex-wrap"
         >
-        <%= currentProduct.keywords.forEach((tag, index)=>{ %>
+        <% currentProduct.keywords?.forEach((tag, index)=>{ %>
         
             <a
             href="/search/normal?searchTerm=<%= tag %>"
@@ -75,17 +77,19 @@
     </div>
 </section>
 <section id="specsSection" class="my-5">
+    <% if(currentProduct.specs){ %>
+
     <div
         class="heading d-flex justify-content-between align-items-center"
     >
         <h4 class="text-heading fw-semibold">Specifications</h4>
     </div>
     <div class="container p-2">
-    <% if(currentProduct.specs.colors){ %>
+    <% if(currentProduct.specs?.colors){ %>
         <div class="my-4">
             <h6 class="heading fs-6 fw-semibold">Colors</h6>
             <div class="sizes-select d-flex gap-2">
-                <% currentProduct.specs.colors.forEach((color, index)=>{ %>
+                <% currentProduct.specs?.colors?.forEach((color, index)=>{ %>
                 <span
                     class="text-capitalize btn btn-outline-dark rounded"
                 >
@@ -97,17 +101,17 @@
                         value="<%= color %>"
                         id="<%=`color_${color}`%>"
                     />
-                    <label for="<%=`color_${color}`%>"><%= color %></label>
+                    <label for="<%=`color_${color}`%>"><%#= color %></label>
                 </span>
                 <% }) %>
             </div>
         </div>
-    <% }%>
-    <% if(currentProduct.specs.sizes){ %>
+    <% } %>
+    <% if(currentProduct.specs?.sizes){ %>
         <div class="my-4">
             <h6 class="heading fs-6 fw-semibold">Sizes</h6>
             <div class="sizes-select d-flex gap-2">
-                <% currentProduct.specs.sizes.forEach((size, index)=>{ %>
+                <% currentProduct.specs?.sizes?.forEach((size, index)=>{ %>
                 <span
                     class="text-capitalize btn btn-outline-dark rounded"
                 >
@@ -124,9 +128,11 @@
                 <% }) %>
             </div>
         </div>
-    <% }%>
+    <% } %>
 
     </div>
+    <% }  %>
+
 </section>
 <section id="reviewsSection" class="py-5 p-2">
     <div
@@ -140,23 +146,25 @@
     <div class="product-rating my-3">
         <% if(currentProduct.averageRating){ %>
         <div class="rating-number">
-            <h3 class="display-1 fw-bold m-0 p-0">3.6</h3>
+            <h3 class="display-1 fw-bold m-0 p-0"> 
+            <%= currentProduct.averageRating.toFixed(1) %>
+            </h3>
         </div>
         <div class="rating-stars">
-        <% for(i=0; i< Math.ceil(currentProduct.averageRating); i++){ %>
+        <% for(i=0; i< Math.floor(currentProduct.averageRating); i++){ %>
             <i class="fa fa-star"> </i>
         <% } %>
-        <% for(i=0; i<(5-Math.ceil(currentProduct.averageRating)); i++){ %>
+        <% for(i=0; i<(5- Math.floor(currentProduct.averageRating)); i++){ %>
             <i class="far fa-star"></i>
         <% } %>
         </div>
         <div class="rating-count">
-            <span class="fs-6"> (<%= reviews.length ?? 0 %>) </span>
+            <span class="fs-6"> <%= `(${reviews?.length ?? 12})` %> </span>
         </div>
         <% } %>
     </div>
     <div class="reviews my-5">
-    <% reviews.forEach((review, index)=>{ %>
+     <% reviews?.forEach((review, index)=>{ %>
       
         <div
             class="single-review my-4 d-flex flex-column gap-3"
@@ -214,6 +222,18 @@
         </div>
     <% }) %>
     </div>
+    <% if(reviews.length <= 0){ %>
+    <div class="text-center">
+    <p href="" class="link-dark">
+       No reviews Yet...
+    </p>
+    <a href="" class="link-dark">
+       Be the first to review
+    </a>
+       
+    </div>
+    <%  }  %>
+
 </section>
 <section id="relatedProducts" class="">
     <div
@@ -227,7 +247,7 @@
         >
             <div class="card-image position-relative">
                 <img
-                    src="./Public/IMG/image-4.jpg"
+                    src="/IMG/image-4.jpg"
                     alt=""
                     class="img-fluid object-fit-cover aspect-ratio-square"
                 />
@@ -235,7 +255,7 @@
             <div class="card-info py-3">
                 <div class="">
                     <a
-                        href="/preview/<%= product._id %>"
+                        href="/preview/<%#= product._id %>"
                         class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold"
                     >
                         Lorem, ipsum dolor.
