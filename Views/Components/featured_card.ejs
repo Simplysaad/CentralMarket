@@ -53,22 +53,12 @@
         </div>
     </div>
     <div class="card-action m-0 btn-group btn-group-sm">
-        <button class="btn btn-outline-dark">
+        <button data-product-id="<%= product._id %>" class="btn btn-cart btn-outline-dark">
             <i class="fas fa-shopping-cart"> </i>
-            <span class="">
-            Add to cart
-                <%#= checkCart(product) ?
-                `${checkCart(product).quantity} in cart`
-                : "Add to cart" %>
-            </span>
+            <span class=""> Add to cart </span>
         </button>
-        <button class="btn btn-outline-dark">
+        <button data-product-id="<%= product._id %>" class="btn btn-wish btn-outline-dark">
             <i class="far fa-heart"> </i>
-            <%# if( checkWishList(product)){ %>  
-            <i class="far fa-heart"> </i>
-            <%# }else {%>
-            <i class="fa fa-heart"></i>
-            <%# }%>
         </button>
     </div>
 </div>

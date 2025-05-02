@@ -13,8 +13,10 @@ exports.getHomeProducts = async (req, res) => {
         //newArrivals = shuffle(newArrivals);
 
         //DEALS OF THE DAY
-        let deals = await Product.find({ "discount.value": { $gt: 0 } });
-        //deals = shuffle(deals, 14);
+        let discountedProducts = await Product.find({
+            "discount.value": { $gt: 0 }
+        });
+        //deals = shuffle(discountedProducts, 14);
 
         //FEATURED BRANDS
         let featuredProducts = await Product.find({ isFeatured: true })
@@ -27,34 +29,12 @@ exports.getHomeProducts = async (req, res) => {
             .sort({ averageRating: -1 })
             .limit(16);
 
-        let cart = req.session.cart ? req.session.cart : [];
-        const checkCart = product => {
-            if (product) {
-                let item = cart.find(
-                    item => item.productId === product._id.toString()
-                );
-                //console.log("cart item", item);
-                return item;
-            } else {
-                return cart.length ? cart.length : "";
-            }
-        };
+        let { cart = [] } = req.session;
 
-        const checkWishList = product => {
-            // let { wishlist } =  req.session || currentUser || [];
-            let { wishlist = [] } = req.session || currentUser;
-            if (product) {
-                return wishlist.find(item => item === product._id);
-            } else {
-                return wishlist.length ? wishlist.length : "";
-            }
-        };
         return res.status(200).render("Pages/Customer/index_page", {
             topRatedProducts,
             featuredProducts,
-            deals,
-            checkCart,
-            checkWishList,
+            discountedProducts,
             newArrivals
         });
     } catch (err) {
@@ -199,7 +179,7 @@ exports.postCart = async (req, res) => {
 
         let { userId, cart } = req.session;
         let { id: productId } = req.params;
-        let { quantity } = req.query;
+        let { quantity, wish } = req.query;
 
         if (quantity && quantity !== "") {
             quantity = Number(quantity);
@@ -212,7 +192,8 @@ exports.postCart = async (req, res) => {
             { $and: [{ _id: productId }, { available: true }] },
             {
                 $inc: {
-                    addToCartCount: quantity || 1
+                    addToCartCount: quantity || 1,
+                    interest: 1
                 }
             },
             { new: true }
@@ -222,6 +203,32 @@ exports.postCart = async (req, res) => {
                 success: false,
                 message: `product with id: ${productId}.does not exist or is not available`
             });
+
+        if (wish === "add") {
+            req.session.wishlist = req.session.wishlist ?? [];
+
+            !req.session.wishlist.includes(productId)
+                ? req.session.wishlist.push(productId)
+                : "";
+
+            if (req.session.userId) {
+                let currentUser = await User.findOneAndUpdate(
+                    {
+                        _id: req.session.userId
+                    },
+                    {
+                        $addToSet: { wishlist: { $each: req.session.wishlist } }
+                    },
+                    {
+                        new: true
+                    }
+                );
+            }
+            return res.status(201).json({
+                success: true,
+                wishlist: req.session.wishlist
+            });
+        }
 
         let index = cart.findIndex(item => item.productId === productId);
         if (index === -1) {
@@ -394,7 +401,27 @@ exports.getCart = async (req, res) => {
             _id: req.session.userId
         }).select("-password");
 
-        let { cart = [] } = req.session;
+        let { cart = [], wishlist = [] } = req.session;
+        let { checkCart, checkWishList, productId } = req.query;
+
+        if (checkCart === "true") {
+            let { cart = [] } = req.session;
+
+            return res.status(200).json({
+                success: true,
+                message: "here's the cart",
+                cart
+            });
+        }
+        if (checkWishList === "true") {
+            let { wishlist = [] } = req.session;
+
+            return res.status(200).json({
+                success: true,
+                message: "here's the wishlist",
+                wishlist
+            });
+        }
 
         let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
         let cartQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -424,10 +451,9 @@ exports.getCart = async (req, res) => {
 
 exports.getProducts = async (req, res) => {
     try {
-        let products = await Product.find({ available: true }).select(
-            "name _id price description"
-        );
-        let cart = req.session.cart ? req.session.cart : [];
+        let products = await Product.find({ available: true });
+
+        let cart = req.session.cart ?? [];
 
         let newArrivals = await Product.find({ available: true })
             .sort({
@@ -436,15 +462,7 @@ exports.getProducts = async (req, res) => {
                 previewCount: -1,
                 interests: -1
             })
-            .select("name _id description imageUrl")
             .limit(14);
-
-        // return res.status(200).json({
-        //     success: true,
-        //     message: "products fetched successfully",
-        //     products,
-        //     newArrivals
-        // });
 
         return res.status(200).render("Pages/Customer/index_page", {
             success: true,
@@ -629,6 +647,50 @@ exports.getPreview = async (req, res) => {
         return res.render("Pages/Customer/preview_page", {
             currentProduct,
             reviews
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+exports.getCategoryProducts = async (req, res) => {
+    try {
+        const { categoryName } = req.params;
+        const categoryProducts = await Product.find({
+            category: categoryName
+        });
+
+        const featuredProducts = categoryProducts.filter(
+            product => product.isFeatured
+        );
+
+        const discountedProducts = categoryProducts.filter(
+            product => product.discount?.value > 0
+        );
+
+        const subCategories = [
+            ...new Set(categoryProducts.map(product => product.subCategory))
+        ];
+        console.log(subCategories);
+
+        let subCategoriesElements = [];
+        subCategories.forEach((subCategory, index) => {
+            let subCategoryGroup = {
+                name: subCategory,
+                products: categoryProducts.filter(
+                    product => product.subCategory === subCategory
+                )
+            };
+            // if (subCategoryGroup.products.length >= 10)
+            subCategoriesElements.push(subCategoryGroup);
+        });
+
+        // return res.status(200).json({
+        return res.status(200).render("Pages/Customer/category_page.ejs", {
+            categoryName,
+            subCategories: subCategoriesElements,
+            featuredProducts,
+            discountedProducts
         });
     } catch (err) {
         console.error(err);

@@ -44,8 +44,8 @@
         <div class="d-flex gap-2 fs-6 fw-semibold justify-content-start">
             <div class="old-price text-muted -emphasis">
                 <span class="text-decoration-line-through text-danger fw-light">
-                    <%= "$" + product.price %></span
-                >
+                    <%= "$" + product.price %>
+                </span>
             </div>
             <div class="price">
                 <p class="fs-5"><%= "$" + product.price %></p>
@@ -53,20 +53,12 @@
         </div>
     </div>
     <div class="card-action m-0 btn-group btn-group-sm">
-        <button class="btn btn-outline-dark">
+        <button data-product-id="<%= product._id %>" class="btn btn-cart btn-outline-dark px-1">
             <i class="fas fa-shopping-cart"> </i>
-            <span class="">
-                <%= checkCart(product) ?
-                `${checkCart(product).quantity} in cart`
-                : "Add to cart" %>
-            </span>
+            <span class=""> Add to cart </span>
         </button>
-        <button class="btn btn-outline-dark">
-            <%if( checkWishList(product)){ %>  
+        <button data-product-id="<%= product._id %>" class="btn btn-wish btn-outline-dark">
             <i class="far fa-heart"> </i>
-            <% }else {%>
-            <i class="fa fa-heart"></i>
-            <% }%>
         </button>
     </div>
 </div>

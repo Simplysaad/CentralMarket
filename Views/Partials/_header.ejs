@@ -12,7 +12,7 @@
             <span class="navbar-toggler-icon"> </span>
         </button>
         <div class="p-auto">
-            <h1 class="text-heading display-6">Restaurant</h1>
+            <a href="/" class="text-heading display-6 text-decoration-none">Restaurant</a>
         </div>
     </div>
     <div
@@ -27,16 +27,17 @@
             class="nav-items d-flex gap-3 gap-md-2 justify-content-end"
         >
             <div class="nav-item d-md-none">
-                <a href="#" class="nav-link" id="btnSearch">
+                <button href="#" class="nav-link" id="btnSearch">
                     <i class="fa-solid fa-search"> </i>
                     <span class="d-none d-md-inline"> Search </span>
-                </a>
+                </button>
             </div>
             <div class="nav-item">
                 <a href="/cart" class="nav-link">
                     <i class="fa fa-shopping-cart"> </i>
                     <span class="d-none d-md-inline"> Cart </span>
                 </a>
+                <i class="badge badge-danger"><%=  %></i>
             </div>
             <div class="nav-item dropdown">
                 <button

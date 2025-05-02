@@ -3,7 +3,7 @@
         <h4 class="display-6 text-heading">Featured Combos</h4>
     </div>
     <div class="d-flex p-2 gap-4 overflow-scroll">
-        <% newArrivals.forEach((product, index)=>{ %> 
+        <% featuredProducts.forEach((product, index)=>{ %> 
           <%- include("../../Components/featured_card.ejs", { product }) %>
         <% }) %>
     </div>

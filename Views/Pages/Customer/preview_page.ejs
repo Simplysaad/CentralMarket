@@ -66,11 +66,11 @@
         class="my-4 d-flex flex-column col-12 col-md-8 col-lg-6 gap-3"
     >
         <div class="btn-group">
-            <button class="btn btn-lg btn-outline-dark col-12">
+            <button data-product-id="<%= currentProduct._id %>" id="btnAddCart" class="btn btn-cart btn-lg btn-outline-dark col-12">
                 <i class="fa fa-shopping-cart"> </i>
                 <span class=""> Add to cart </span>
             </button>
-            <button class="btn btn-lg btn-outline-dark">
+            <button data-product-id="<%= currentProduct._id %>" id="btnWishList" class="btn btn-wish btn-lg btn-outline-dark">
                 <i class="far fa-heart"> </i>
             </button>
         </div>
@@ -279,3 +279,4 @@
         </div>
     </div>
 </section>
+<script src="/JS/preview.js"></script>
