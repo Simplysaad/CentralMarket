@@ -406,7 +406,7 @@ exports.getCart = async (req, res) => {
 
         if (checkCart === "true") {
             let { cart = [] } = req.session;
-
+console.log(cart)
             return res.status(200).json({
                 success: true,
                 message: "here's the cart",
@@ -415,7 +415,8 @@ exports.getCart = async (req, res) => {
         }
         if (checkWishList === "true") {
             let { wishlist = [] } = req.session;
-
+            
+            console.log(wishlist)
             return res.status(200).json({
                 success: true,
                 message: "here's the wishlist",

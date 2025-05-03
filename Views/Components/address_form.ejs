@@ -1,145 +1,71 @@
-        <div class="category-heading">
-            <h3 class="text-heading">Address</h3>
+<section id="addressForm p-2">
+    <div class="containr mt5">
+        <div class="heading">
+            <h2 class="text-heading text-center">Checkout</h2>
         </div>
-        <div class="address-info"></div>
-<form id="changeAddress" action="/cart/change-address" method="post">
-    <fieldset id="addressTypeSection" class="">
-        <legend>Delivery Information</legend>
-        <div
-            class="d-flex col-8 mx-auto justify-content-between align-items-center"
-        >
-            <div class="form-check col- p-3 border">
-                <label class="form-check-label" for="address_type1"
-                    >hostel</label
-                >
-                <input
-                    type="radio"
-                    name="address_type"
-                    hidden
-                    class="checkbox form-check-input"
-                    id="address_type1"
-                    value="hostel"
-                />
+        <div class="">
+            <div class="col-md-12">
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input
+                            type="text"
+                            value="<%= currentUser?.name %>"
+                            class="form-control"
+                            id="name"
+                            placeholder="Enter your full name"
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label"
+                            >Email Address</label
+                        >
+                        <input
+                            type="email"
+                            name="emailAddress"
+                            value="<%= currentUser?.emailAddress %>"
+                            class="form-control"
+                            id="email"
+                            placeholder="Enter your email address"
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input
+                            type="text"
+                            name="address"
+                            value="<%= currentUser?.address %>"
+                            class="form-control"
+                            id="address"
+                            placeholder="Enter your address"
+                        />
+                    </div>
+                </form>
             </div>
-            <div class="form-check p-3 border">
-                <label for="address_type2" class="form-check-label"
-                    >Off campus</label
-                >
-                <input
-                    type="radio"
-                    name="address_type"
-                    hidden
-                    class="checkbox"
-                    id="address_type2"
-                    value="off campus"
-                />
+
+            <div class="col-md-12 mt-lg-0 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Order Summary</h5>
+                        <p class="card-text">
+                            Subtotal: <%= "$" + cartTotal.toLocaleString() %>
+                        </p>
+                        <p class="card-text">
+                            Shipping: <%= deliveryFee ? "$" +
+                            deliveryFee.toLocaleString() : "free" %>
+                        </p>
+                        <p class="card-text cart-total">
+                            Total: <%= "$" + (cartTotal +
+                            deliveryFee).toLocaleString() %>
+                        </p>
+                        <button type="submit" class="btn btn-primary w-100">
+                            Place Order
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </fieldset>
-
-    <fieldset id="personal_info" class="my-5 d-flex flex-column gap-3">
-        <legend>Personal Information</legend>
-        <div class="form-floating">
-            <input
-                type="text"
-                name="name"
-                id="name"
-                value="<%= currentUser?.name %>"
-                class="form-control"
-                placeholder=""
-            />
-            <label for="name">Full name</label>
-        </div>
-        <div class="form-floating">
-            <input
-                type="email"
-                class="form-control"
-                name="emailAddress"
-                id="emailAddress"
-                value="<%= currentUser?.emailAddress %>"
-                placeholder=""
-            />
-            <label for="emailAddress">Email address</label>
-        </div>
-        <div class="form-floating">
-            <input
-                type="tel"
-                class="form-control"
-                name="phoneNumber"
-                id="phoneNumber"
-                value="<%= currentUser?.phoneNumber %>"
-                placeholder=""
-            />
-            <label for="phoneNumber">Phone number</label>
-        </div>
-    </fieldset>
-    <fieldset id="address_info" class="my-5 d-flex flex-column gap-3">
-        <legend>Address information</legend>
-
-        <div class="form-floating">
-            <input
-                type="text"
-                class="form-control"
-                name="address_line1"
-                id="address_line1"
-                value="<%= currentUser?.address?.address.split('_')[0] %>"
-                placeholder=""
-            />
-            <label for="address_line1">Address line 1</label>
-        </div>
-        <div class="form-floating">
-            <input
-                type="text"
-                class="form-control"
-                name="address_line2"
-                id="address_line2"
-                value="<%= currentUser?.address?.address?.split('_')[1] %>"
-                placeholder=""
-            />
-            <label for="address_line2">Address line 2</label>
-        </div>
-        <div class="form-floating">
-            <input
-                type="text"
-                class="form-control"
-                name="school_name"
-                id="school_name"
-                value="<%= currentUser?.address?.school %>"
-                placeholder=""
-                list="schoolList"
-            />
-
-            <datalist id="schoolList">
-                <option value="obafemi awolowo university">
-                    obafemi awolowo university
-                </option>
-                <option value="university of ibadan">
-                    university of ibadan
-                </option>
-                <option value="kwara state university">
-                    kwara state university
-                </option>
-                <option value="university of ilorin">
-                    university of ilorin
-                </option>
-            </datalist>
-            <label for="school_name">School name</label>
-        </div>
-        <div class="form-floating">
-            <input
-                type="text"
-                class="form-control"
-                name="state"
-                id="state"
-                value="<%= currentUser?.address?.state %>"
-                placeholder=""
-            />
-            <label for="state">State</label>
-        </div>
-    </fieldset>
-
-    <button class="btn d-flex btn-dark btn-lg col-12 p-3 fs-4 btn-order justify-content-between align-items-center">
-        <span class="">Place Order </span>
-        <span class="ntn"><%= "$" + cartTotal?.toLocaleString() %></span>
-    </button>
-</form>
+    </div>
+</section>

@@ -53,3 +53,7 @@
     border: none;
     outline: none;
 }
+.btn:disabled {
+    border: green 2px solid ;
+    scale: 2;
+}

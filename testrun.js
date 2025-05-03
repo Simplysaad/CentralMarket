@@ -18,5 +18,4 @@ let Saad = new Human("saad", 20);
 console.log(Saad);
 Saad.speak();
 
- 
-console.log("true" == true)
+//console.log("true" == true)

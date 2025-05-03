@@ -1,10 +1,9 @@
 <section
-    class="col-12 container-fluid mh-100 d-flx flex-column justify-content-center align-items-center"
+    class="col-12 gap-2  mh-100 min-vh-100 d-md-flex justify-content-between align-items-center"
 >
     <% if(cart.length > 0){ %>
-
-    <div class="d-md-flex gap-2 justify-content-center align-items-center">
-        <div class="cart-container col-12 col-md-6">
+    <section class="d-md-flex col-12 col-md-7 col-lg-7 bg-success align-items-center">
+        <div class="cart-container ">
             <div class="cart-heading">
                 <h3 class="display-5 my-3 text-muted">My Cart</h3>
             </div>
@@ -27,15 +26,15 @@
                     <%= "$" + cartTotal.toLocaleString() %>
                 </span>
             </button>
-        </div>
+        </section>
 
-        <section id="addressForm" class="shipping-info col-12 col-md-6 col-lg-4">
-            <%-include("../../Components/address_form_2.ejs", {currentUser, deliveryFee}) %>
+        <section id="addressForm" class="shipping-info col-12 col-md-4 col-lg-4">
+            <%-include("../../Components/address_form.ejs", {currentUser, deliveryFee}) %>
         </section>
     </div>
 
     <% } else{ %>
-    <div class="cart-container col-12 col-md-6">
+    <section class="cart-container vh-100 col-12 d-flex flex-column justify-content-center align-items-center">
         <div class="empty-cart-image">
             <img
                 src="/IMG/empty-cart.jpg"
@@ -46,10 +45,7 @@
         <a href="/" class="my-3 btn btn-outline-dark btn-lg">
             Continue Shopping
         </a>
-    </div>
+    </section>
     <% } %>
-    
-    
-    
 </section>
 <script src="/JS/cart.js"></script>

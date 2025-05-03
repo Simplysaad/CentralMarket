@@ -1,60 +1,24 @@
-let wishListResponse = fetch("/cart?checkWishList=true")
-    .then(response => response.json())
-    //.then(data => console.log(data.wishlist))
-    .catch(err => console.error(err));
-
-let cartResponse = fetch("/cart?checkCart=true")
-    .then(response => response.json())
-    // .then(data => console.log(data.cart))
-    .catch(err => console.error(err));
-
-const checkCart = async productId => {
-    let item = await cartResponse.cart.find(
-        item => item.productId === productId
-    );
-    console.log(item);
-    return item;
-};
-const checkWishList = async productId => {
-    let item = await wishListResponse.wishlist.find(
-        itemId => itemId === productId
-    );
-    console.log(item);
-    return item;
-};
-
-const updateBtnWishlist = async (btn, data) => {
-    let { productId } = btn.dataset;
-    let item = await checkWishList(productId);
-    if (item || data.success) {
-        btn.innerHTML = `<i class="fa fa-heart"></i>`;
-        btn.classList.replace("btn-outline-dark", "btn-outline-secondary");
-    }
-};
-
-const updateBtnCart = async (btn, data) => {
-    let { productId } = btn.dataset;
-    let item = await checkCart(productId);
-    if (item || data.success) {
-        btn.classList.replace("btn-outline-dark", "btn-dark");
-        btn.querySelector("span").textContent = `${
-            item?.quantity || data?.item.quantity || data.wishlist
-        } in cart`;
-    }
-};
 const btnCart = document.querySelectorAll(".btn-cart");
 const btnWish = document.querySelectorAll(".btn-wish");
 
-btnCart.forEach(async btn => {
-    await updateBtnCart(btn);
-    btn.addEventListener("click", async productId => {
+btnCart.forEach((btn, index) => {
+    btn.addEventListener("click", async e => {
+        let { productId } = btn.dataset;
         btn.disabled = true;
         try {
-            let response = fetch(`/cart/${productId}`, {
+            fetch(`/cart/${productId}`, {
                 method: "post"
             })
                 .then(response => response.json())
-                .then(data => updateBtnCart(btn, data))
+                .then(data => {
+                    if (data.success) {
+                        console.log("in cart");
+                        btn.classList.replace("btn-outline-dark", "btn-dark");
+                        btn.querySelector(
+                            "span"
+                        ).textContent = `${data?.item.quantity} in cart`;
+                    }
+                })
                 .catch(err => console.error(err));
         } catch (err) {
             console.error(err);
@@ -63,16 +27,25 @@ btnCart.forEach(async btn => {
         }
     });
 });
-btnWish.forEach(async btn => {
-    await updateBtnWishlist(btn);
-    btn.addEventListener("click", async productId => {
+btnWish.forEach((btn, index) => {
+    btn.addEventListener("click", async e => {
+        let { productId } = btn.dataset;
         btn.disabled = true;
         try {
-            let response = await fetch(`/cart/${productId}?wish=add`, {
+            fetch(`/cart/${productId}?wish=add`, {
                 method: "post"
-            });
-            let data = await response.json();
-            await updateBtnWishlist(btn, data);
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        btn.classList.replace(
+                            "btn-outline-dark",
+                            "btn-secondary"
+                        );
+                        btn.innerHTML = "<i class='fa fa-heart'></i>";
+                    }
+                })
+                .catch(err => console.error(err));
         } catch (err) {
             console.error(err);
         } finally {
@@ -80,3 +53,38 @@ btnWish.forEach(async btn => {
         }
     });
 });
+
+// window.addEventListener("load", async e => {
+//     try {
+fetch(`/cart?checkWishlist=true`)
+    .then(response => response.json())
+    .then(data => {
+        let { wishlist = [] } = data;
+        btnWish.forEach((btn, index) => {
+            let { productId } = btn.dataset;
+        console.log(wishlist, productId);
+            if (!wishlist.includes(productId)) {
+                btn.classList.replace("btn-outline-dark", "btn-secondary");
+                btn.innerHTML = "<i class='fa fa-heart'></i>";
+            }
+        });
+    });
+
+// fetch(`/cart?checkCart=true`)
+//     .then(response => response.json())
+//     .then(data => {
+//         let { cart } = data;
+//         btnCart.forEach((btn, index) => {
+//             let { productId } = btn.dataset;
+//             if (cart.some(item => item.productId === productId)) {
+//                 btn.classList.replace("btn-outline-dark", "btn-dark");
+//                 btn.querySelector(
+//                     "span"
+//                 ).textContent = `${data?.item.quantity} in cart`;
+//             }
+//         });
+//     });
+//     } catch (err) {
+//         console.error(err);
+//     }
+// });
