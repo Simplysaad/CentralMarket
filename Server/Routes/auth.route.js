@@ -18,6 +18,13 @@ const {
 
 let secretKey = process.env.SECRET_KEY;
 
+router.get("/", async (req, res) => {
+    try {
+        res.status(200).render("Pages/Auth/auth", {});
+    } catch (e) {
+        console.error(err);
+    }
+});
 router.get("/login", async (req, res) => {
     try {
         res.status(200).render("Pages/Auth/login", {});

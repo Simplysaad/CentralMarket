@@ -29,10 +29,9 @@ btnWishList.addEventListener("click", async e => {
         let response = await fetch(`/cart/${productId}?wish=add`, {
             method: "post"
             //,headers: {}
-        })
-        let data = await response.json()
-        console.log(data?.wishlist)
-        
+        });
+        let data = await response.json();
+        console.log(data?.wishlist);
     } catch (err) {
         console.error(err);
     }

@@ -1,30 +1,47 @@
-// const employees = ["saad", "ishaq", "muadh", "john", "israel", "miracle"];
-// //length = 6
-// const days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
-// //length = 5
+const employees = ["saad", "ishaq", "muadh", "john", "israel", "miracle"];
+//length = 6
+const days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
+//length = 5
 
-// let randomArray = [];
-// function generateRandom(count) {
-//     if (!count) return;
-//     //console.log("count", count);
+let randomArray = [];
+function generateRandom(count) {
+    if (!count) return;
+    //console.log("count", count);
 
-//     //console.log(randomArray);
+    //console.log(randomArray);
 
-//     for (let i = 0; i <= 100; i++) {
-//         let randomIndex = Math.floor(Math.random() * count);
-//         //console.log(randomIndex);
+    for (let i = 0; i <= 100; i++) {
+        let randomIndex = Math.floor(Math.random() * count);
+        //console.log(randomIndex);
 
-//         let isExist = randomArray.includes(randomIndex);
-//         if (!isExist) {
-//             randomArray.push(randomIndex);
-//         }
-//     }
-//     //console.log("random array", randomArray);
-//     return randomArray;
-// }
-// //generateRandom();
+        let isExist = randomArray.includes(randomIndex);
+        if (!isExist) {
+            randomArray.push(randomIndex);
+        }
+    }
+    //console.log("random array", randomArray);
+    return randomArray;
+}
+//generateRandom();
+ exports.shuffle=(array)=> {
+  let currentIndex = array.length, randomIndex;
 
-// function shuffle(currentArray, maxCount) {
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // Swap elements
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
+// Example usage:
+// const arr = [1, 2, 3, 4, 5];
+// console.log(shuffle(arr)); // Output: [3, 1, 5, 4, 2] (order will vary)
+
+// exports.shuffle = (currentArray, maxCount) => {
 //     let randomArray = generateRandom(currentArray.length);
 
 //     let shuffledArray = [];
@@ -32,9 +49,9 @@
 //         if (maxCount && randomArray.length > maxCount) return;
 //         else shuffledArray.push(currentArray[randomIndex]);
 //     });
-
+// console.log(shuffledArray)
 //     return shuffledArray;
-// }
+// };
 
 // function multiply(currentArray, count) {
 //     //console.log("currentArray", currentArray);
@@ -73,14 +90,14 @@
 //     multiply,
 //     generateRandom
 // };
-function generate_random_color() {
+exports.generate_random_color = () => {
     let color = "#";
     let characters = "0123456789ABCDEF";
 
     for (let i = 0; i < 8; i++) {
         color += characters[Math.floor(Math.random() * 16)];
-        console.log(color);
+        //console.log(color);
     }
     //console.log(`rgb(${colors}, 255)`);
-}
-generate_random_color();
+};
+//generate_random_color();

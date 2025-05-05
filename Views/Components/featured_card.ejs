@@ -15,14 +15,14 @@
                 <%= product.name %>
             </a>
         </div>
-        <% if(product.vendorId?.businessName){ %>
+        <% if(product.vendorId?.business?.name){ %>
         <small
             class="vendor-info text-muted col- gap-2 d-flex justify-content-start align-items-center"
         >
             <i class="fa fa-map-marker"> </i>
 
             <span class="fs- fw-light text-capitalize">
-                <%= product.vendorId?.businessName %>
+                <%= product.vendorId.business.name %>
             </span>
         </small>
         <% } %>

@@ -19,16 +19,22 @@ let reviewTextArea = document.getElementById("reviewTextArea");
 
 if (reviewTextArea) {
     reviewTextArea.maxHeight = "250px";
+    let textLength = document.getElementById("textLength");
+    //textLength.textContent = `${words.length}/${maxWords}`;
+    let maxChar = 500;
+    textLength.textContent = `${reviewTextArea.value.length}/${maxChar}`;
+
     reviewTextArea.addEventListener("input", e => {
         console.log(e.target.value);
-        let inputValue = e.target.value;
+        let input = e.target;
 
-        let characters = inputValue.split("");
-        let words = inputValue.split(" ");
+        // let words = input.value.split(" ");
+        let characters = input.value.split("");
 
-        if (characters.length === 300) alert("i'm 300 spartan");
-        if (words.length === 300) alert("i'm 300 wordean");
-
+        if (characters.length >= maxChar - 1) {
+            input.value = characters.slice(0, maxChar).join("");
+        }
+        textLength.textContent = `${input.value.length}/${maxChar}`;
         reviewTextArea.style.height = "auto";
         reviewTextArea.style.height = reviewTextArea.scrollHeight + "px";
     });
@@ -90,12 +96,44 @@ ratingStarsDivs.forEach((starDiv, index) => {
     for (let i = 0; i < ratingNumber; i++) {
         let newStar = document.createElement("i");
         newStar.classList.add("fas", "fa-star");
-        starDiv.append(newStar);
+        starDiv?.append(newStar);
     }
     for (let i = 0; i < 5 - ratingNumber; i++) {
         let newStar = document.createElement("i");
         newStar.classList.add("far", "fa-star");
-        starDiv.append(newStar);
+        starDiv?.append(newStar);
     }
     console.log(starDiv);
 });
+
+let formHelpful = document.querySelectorAll(".form-helpful");
+formHelpful.forEach((form, index) => {
+    let btnHelpful = form.querySelectorAll(".btn-helpful");
+    let inputHelpful = form.querySelectorAll(".input-helpful");
+    let dataHelpful = form.querySelector(".data-helpful");
+
+    inputHelpful.forEach((input, index) => {
+        input.addEventListener("input", e => {
+            console.log(e.target.value);
+            let inc = e.target.value === "true" ? 1 : -1;
+
+            let { reviewId } = dataHelpful.dataset;
+
+            let data = fetch(`/review/`, {
+                method: "post",
+                body: JSON.stringify({
+                    reviewId,
+                    helpful: input.value
+                })
+            }).then((response)=> response.json())
+            }).then((data)=> data)
+
+            let data = parseInt(dataHelpful.textContent) + inc;
+
+            dataHelpful.textContent = `${data} ${
+                data > 1 ? "people" : "person"
+            } found this helpful`;
+            console.log(dataHelpful.textContent);
+        });
+    });
+

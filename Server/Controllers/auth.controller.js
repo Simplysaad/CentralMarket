@@ -16,7 +16,7 @@ function generate_random_color() {
         color += characters[Math.floor(Math.random() * 16)];
     }
     console.log(color);
-    return color
+    return color;
 }
 
 const login = async (req, res) => {
@@ -24,7 +24,7 @@ const login = async (req, res) => {
         req.session.trialCount = 0;
         let { emailAddress, password } = req.body;
         let currentUser = await User.findOne({ emailAddress }).select(
-            "_id emailAddress password role"
+            "_id name business emailAddress password role"
         );
         if (!currentUser) {
             req.session.trialCount += 1;
@@ -46,18 +46,17 @@ const login = async (req, res) => {
                 advice: "check your password and try again"
             });
         }
-        let token = jwt.sign(
-            { currentUser },
-            process.env.SECRET_KEY,
-            {
-                expiresIn: "1d"
-            }
-        );
+        let token = jwt.sign({ currentUser }, process.env.SECRET_KEY, {
+            expiresIn: "1d"
+        });
         res.cookie("token", token);
 
         console.log(req.cookies);
 
-        req.session.userId = currentUser._id;
+        // req.session.userId = currentUser._id;
+        //let { pass, ...formatted_user } = currentUser;
+        req.session.currentUser = currentUser;
+
         return res.status(200).json({
             success: true,
             message: "user has logged in successfully",
@@ -143,9 +142,11 @@ const register = async (req, res) => {
                 expiresIn: "1d"
             }
         );
-
         res.cookie("token", token);
-        req.session.userId = newUser._id;
+
+        //currentUser = { ...newUser, password };
+        //req.session.userid = newUser._id;
+        req.session.currentUser = newUser;
 
         //should go to homepage after signup
         return res.status(200).json({

@@ -74,7 +74,7 @@ const orderSchema = new mongoose.Schema({
     }
 });
 
-orderSchema.virtual("subtotal").get(() => {
+orderSchema.virtual("subtotal").get(function(){
     return this.items.reduce(
         (acc, item) => acc + item.price * item.quantity,
         0

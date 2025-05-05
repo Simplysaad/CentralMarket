@@ -3,7 +3,7 @@ const addressSchema = new mongoose.Schema(
     {
         address: String,
         state: String,
-        address_type: {
+        type: {
             type: String,
             enum: ["home", "work", "other"],
             default: "home"
@@ -18,7 +18,24 @@ const addressSchema = new mongoose.Schema(
         latitude: Number,
         zipcode: String
     },
-    { _id: true }
+    { _id: false }
+);
+const businessSchema = new mongoose.Schema(
+    {
+        name: String,
+
+        description: {
+            type: String
+        },
+        keywords: [String],
+        address: addressSchema,
+        type: {
+            type: String,
+            enum: ["online", "offline", "hybrid"],
+            default: "hybrid"
+        }
+    },
+    { _id: false }
 );
 
 const userSchema = new mongoose.Schema({
@@ -44,10 +61,12 @@ const userSchema = new mongoose.Schema({
         //, unique: true,
         //,required: true
     },
-    socials: [{
-      name: String,
-      url: String
-    }],
+    socials: [
+        {
+            name: String,
+            url: String
+        }
+    ],
     password: {
         type: String,
         required: true
@@ -64,12 +83,10 @@ const userSchema = new mongoose.Schema({
     description: {
         type: String
     },
-    keywords: [String],
-    businessAddress: addressSchema,
+
     address: addressSchema,
     birthDate: {
         type: Date
-        //,required: true
     },
     gender: {
         type: String,
@@ -87,7 +104,6 @@ const userSchema = new mongoose.Schema({
             ref: "orders"
         }
     ],
-
     createdAt: {
         type: Date,
         default: Date.now

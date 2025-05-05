@@ -9,7 +9,7 @@
         </div>
         <div class="overflow-scroll d-flex gap-2">
     <% featuredProducts.forEach((product, index)=>{ %>
-      <%- include("../../Components/featured_card.ejs") %>
+      <%- include("../../Components/featured_card.ejs", {product}) %>
     <% })%>
         </div>
     </section>

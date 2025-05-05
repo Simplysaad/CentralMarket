@@ -139,21 +139,23 @@
             </div>
         </header>
 
-        <main class="container mt-5 pt-5 d-flex gap-3">
+        <main class="container d-flex gap-3">
             <aside
                 id="sideNav"
                 class="side-nav mh-100 collapse overflow-scroll position-absolute border col-6 col-md-3 col-lg-2"
             ></aside>
-            <main class="col-12 d-flex flex-column flex-wrap flex-md-row">
+            <main class="col-12 min-vh-100 justify-content-center align-items-center d-flex flex-column flex-wrap flex-md-row">
                 <form
-                    action="/product/<%= currentProduct._id %>/review"
+                    action="/review/<%= currentProduct._id %>"
                     method="post"
                     class=""
                 >
                     <div
                         class="d-flex border-bottom mb-5 mt-2 p-1 align-items-center justify-content-between"
                     >
-                        <a class="btn-close col-2"></a>
+                        <a class="text-secondary col-2">
+                            <i class="fa fa-2x fa-arrow-left"> </i>
+                        </a>
                         <div class="d-flex flex-column col-8">
                             <p class="m-0 fs-5 text-truncate d-block">
                                 Chinese sunglasses
@@ -166,13 +168,6 @@
                         >
                             Post
                         </button>
-                    </div>
-                    <div class="extra-stuff d-none">
-                        <input
-                            hidden
-                            name="customerId"
-                            value="<%=currentUser._id%>"
-                        />
                     </div>
 
                     <div class="p-1 d-flex my-5 justify-content-between">
@@ -226,14 +221,15 @@
                                 placeholder="Describe your experience (optional)"
                                 rows="3"
                             ></textarea>
-                            <label class="float-end py-2" for="inputReview"
-                                >25/300</label
-                            >
+                            <label
+                                class="float-end py-2"
+                                id="textLength"
+                                for="inputReview"
+                            ></label>
                         </div>
                     </div>
                 </form>
             </main>
-            <lorem35w></lorem35w>
         </main>
         <script
             src="./Public/fontawesome-free-6.7.2-web/js/all.js"

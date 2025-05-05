@@ -45,10 +45,11 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
     },
-    averageRating: {
-        type: Number,
-        default: 5
-    },
+    // averageRating: {
+    //     type: Number,
+    //     default: 5
+    // },
+    ratings: [Number],
     isFeatured: {
         type: Boolean,
         default: false
@@ -108,7 +109,13 @@ const productSchema = new mongoose.Schema({
         default: 0
     }
 });
+productSchema.virtual("averageRating").get(function(){
+    if (!this.ratings || this.ratings.length === 0) return 5.0;
 
+    let sum = this.ratings.reduce((acc, rating) => acc + rating, 0);
+    let average = sum / this.ratings.length;
+    return parseFloat(average.toFixed(1));
+});
 const product = new mongoose.model("product", productSchema);
 // product.createIndexes({
 //     category: 1,

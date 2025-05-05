@@ -4,30 +4,32 @@ const User = require("../Models/user.model.js");
 const Review = require("../Models/review.model.js");
 const Order = require("../Models/order.model.js");
 
+const { shuffle } = require("../Utils/helper.js");
+
 exports.getHomeProducts = async (req, res) => {
     try {
         // GET NEW ARRIVALS
-        let newArrivals = await Product.find({})
-            .sort({ createdAt: -1 })
-            .limit(14);
+        let newArrivals = shuffle(
+            await Product.find({}).sort({ createdAt: -1 }).limit(14)
+        );
         //newArrivals = shuffle(newArrivals);
 
         //DEALS OF THE DAY
-        let discountedProducts = await Product.find({
+        let discountedProducts = shuffle(await Product.find({
             "discount.value": { $gt: 0 }
-        });
+        }))
         //deals = shuffle(discountedProducts, 14);
 
         //FEATURED BRANDS
-        let featuredProducts = await Product.find({ isFeatured: true })
+        let featuredProducts = shuffle(await Product.find({ isFeatured: true })
             .sort({ updatedAt: -1 })
-            .limit(16);
+            .limit(16))
         //   featuredProducts = shuffle(featuredProducts);
 
         //TOP RATED PRODUCTS
-        let topRatedProducts = await Product.find({})
+        let topRatedProducts = shuffle(await Product.find({})
             .sort({ averageRating: -1 })
-            .limit(16);
+            .limit(16))
 
         let { cart = [] } = req.session;
 
@@ -406,7 +408,7 @@ exports.getCart = async (req, res) => {
 
         if (checkCart === "true") {
             let { cart = [] } = req.session;
-console.log(cart)
+            console.log(cart);
             return res.status(200).json({
                 success: true,
                 message: "here's the cart",
@@ -415,8 +417,8 @@ console.log(cart)
         }
         if (checkWishList === "true") {
             let { wishlist = [] } = req.session;
-            
-            console.log(wishlist)
+
+            console.log(wishlist);
             return res.status(200).json({
                 success: true,
                 message: "here's the wishlist",
@@ -643,7 +645,7 @@ exports.getPreview = async (req, res) => {
     try {
         let { id: productId } = req.params;
         let currentProduct = await Product.findOne({ _id: productId });
-        let reviews = await Review.find({ productId });
+        let reviews = await Review.find({ productId }).populate("customerId");
 
         return res.render("Pages/Customer/preview_page", {
             currentProduct,
