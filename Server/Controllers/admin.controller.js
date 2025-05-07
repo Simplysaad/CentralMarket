@@ -1,7 +1,7 @@
 let Product = require("../Models/product.model.js");
 let cloudinary = require("cloudinary");
 
-exports.addProduct = async (req, res) => {
+exports.addProduct = async (req, res, next) => {
     try {
         if (!req.body)
             return res.status(401).json({
@@ -41,17 +41,17 @@ exports.addProduct = async (req, res) => {
             cloudinary_response
         });
     } catch (err) {
-        console.error(err);
-        return res.status(500).json({
-            success: false,
-            message: "internal server error",
-            advice: "something's wrong here, try again later",
-            errorMessage: err.message,
-            errorStack: err.stack
-        });
+        next(err);
+        // return res.status(500).json({
+        //     success: false,
+        //     message: "internal server error",
+        //     advice: "something's wrong here, try again later",
+        //     errorMessage: err.message,
+        //     errorStack: err.stack
+        // });
     }
 };
-exports.deleteProduct = async (req, res) => {
+exports.deleteProduct = async (req, res, next) => {
     try {
         let { id: productId } = req.params;
 
@@ -63,17 +63,17 @@ exports.deleteProduct = async (req, res) => {
             message: `product with id: ${productId} deleted successfully`
         });
     } catch (err) {
-        console.error(err);
-        return res.status(500).json({
-            success: false,
-            message: "internal server error: deleteProduct",
-            advice: "something's wrong here, try again later",
-            errorMessage: err.message,
-            errorStack: err.stack
-        });
+        next(err);
+        // return res.status(500).json({
+        //     success: false,
+        //     message: "internal server error: deleteProduct",
+        //     advice: "something's wrong here, try again later",
+        //     errorMessage: err.message,
+        //     errorStack: err.stack
+        // });
     }
 };
-exports.getProducts = async (req, res) => {
+exports.getProducts = async (req, res, next) => {
     try {
         let products = await Product.find({})
             .sort({ createdAt: -1 })
@@ -85,17 +85,17 @@ exports.getProducts = async (req, res) => {
             products
         });
     } catch (err) {
-        console.error(err);
-        return res.status(500).json({
-            success: false,
-            message: "internal server error",
-            advice: "something's wrong here, try again later",
-            errorMessage: err.message,
-            errorStack: err.stack
-        });
+        next(err);
+        // return res.status(500).json({
+        //     success: false,
+        //     message: "internal server error",
+        //     advice: "something's wrong here, try again later",
+        //     errorMessage: err.message,
+        //     errorStack: err.stack
+        // });
     }
 };
-exports.editProduct = async (req, res) => {
+exports.editProduct = async (req, res, next) => {
     try {
         if (!req.body)
             return res.status(401).json({
@@ -140,13 +140,13 @@ exports.editProduct = async (req, res) => {
             message: "product edited successfully"
         });
     } catch (err) {
-        console.error(err);
-        return res.status(500).json({
-            success: false,
-            message: "internal server error",
-            advice: "something's wrong here, try again later",
-            errorMessage: err.message,
-            errorStack: err.stack
-        });
+        next(err);
+        // return res.status(500).json({
+        //     success: false,
+        //     message: "internal server error",
+        //     advice: "something's wrong here, try again later",
+        //     errorMessage: err.message,
+        //     errorStack: err.stack
+        // });
     }
 };

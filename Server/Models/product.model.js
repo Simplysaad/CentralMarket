@@ -34,7 +34,7 @@ const productSchema = new mongoose.Schema({
     condition: {
         type: String,
         enum: ["new", "used"],
-        required: true
+        default: "new"
     },
     discount: discountSchema,
     available: {

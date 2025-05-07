@@ -14,7 +14,7 @@ cartItems.forEach((item, index) => {
 
         if (cartItemData) {
             quantityElement.textContent = cartItemData.quantity;
-            priceElement.textContent = "$" + cartItemData.price;
+            priceElement.textContent = "$" + cartItemData.subTotal;
         } else {
             window.location.href = "/cart";
         }

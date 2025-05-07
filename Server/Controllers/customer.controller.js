@@ -6,7 +6,7 @@ const Order = require("../Models/order.model.js");
 
 const { shuffle } = require("../Utils/helper.js");
 
-exports.getHomeProducts = async (req, res) => {
+exports.getHomeProducts = async (req, res, next) => {
     try {
         // GET NEW ARRIVALS
         let newArrivals = shuffle(
@@ -15,21 +15,25 @@ exports.getHomeProducts = async (req, res) => {
         //newArrivals = shuffle(newArrivals);
 
         //DEALS OF THE DAY
-        let discountedProducts = shuffle(await Product.find({
-            "discount.value": { $gt: 0 }
-        }))
+        let discountedProducts = shuffle(
+            await Product.find({
+                "discount.value": { $gt: 0 }
+            })
+        );
         //deals = shuffle(discountedProducts, 14);
 
         //FEATURED BRANDS
-        let featuredProducts = shuffle(await Product.find({ isFeatured: true })
-            .sort({ updatedAt: -1 })
-            .limit(16))
+        let featuredProducts = shuffle(
+            await Product.find({ isFeatured: true })
+                .sort({ updatedAt: -1 })
+                .limit(16)
+        );
         //   featuredProducts = shuffle(featuredProducts);
 
         //TOP RATED PRODUCTS
-        let topRatedProducts = shuffle(await Product.find({})
-            .sort({ averageRating: -1 })
-            .limit(16))
+        let topRatedProducts = shuffle(
+            await Product.find({}).sort({ averageRating: -1 }).limit(16)
+        );
 
         let { cart = [] } = req.session;
 
@@ -40,11 +44,11 @@ exports.getHomeProducts = async (req, res) => {
             newArrivals
         });
     } catch (err) {
-        console.error(err);
+        next(err);
     }
 };
 
-exports.searchController = async (req, res) => {
+exports.searchController = async (req, res, next) => {
     try {
         const dirtyRegex = /[</\\>&;//]/gi;
 
@@ -175,7 +179,7 @@ exports.searchController = async (req, res) => {
     }
 };
 
-exports.postCart = async (req, res) => {
+exports.postCart = async (req, res, next) => {
     try {
         if (!req.session.cart) req.session.cart = [];
 
@@ -240,7 +244,7 @@ exports.postCart = async (req, res) => {
             let singleProduct = {
                 vendorId: currentProduct.vendorId,
                 name: currentProduct.name,
-                price: currentProduct.price * quantity,
+                subTotal: currentProduct.price * quantity,
                 unitPrice: currentProduct.price,
                 quantity,
                 productId
@@ -250,7 +254,7 @@ exports.postCart = async (req, res) => {
                 item => item.productId === productId
             );
 
-            let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
+            let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
             let cartQuantity = cart.reduce(
                 (acc, item) => acc + item.quantity,
                 0
@@ -299,7 +303,7 @@ exports.postCart = async (req, res) => {
             });
         }
     } catch (err) {
-        console.error(err);
+        next(err);
         return res.status(422).json({
             success: false,
             message: "error encountered while adding product to cart "
@@ -307,7 +311,7 @@ exports.postCart = async (req, res) => {
         });
     }
 };
-exports.deleteCartItem = async (req, res) => {
+exports.deleteCartItem = async (req, res, next) => {
     try {
         let { userId, cart } = req.session;
         let { id: productId } = req.params;
@@ -387,7 +391,7 @@ exports.deleteCartItem = async (req, res) => {
             });
         }
     } catch (err) {
-        console.error(err);
+        next(err);
         return res.status(500).json({
             success: false,
             message: `internal server error: error encountered while adding item to cart`,
@@ -397,7 +401,7 @@ exports.deleteCartItem = async (req, res) => {
     }
 };
 
-exports.getCart = async (req, res) => {
+exports.getCart = async (req, res, next) => {
     try {
         let currentUser = await User.findOne({
             _id: req.session.userId
@@ -442,7 +446,7 @@ exports.getCart = async (req, res) => {
             cartItemsCount
         });
     } catch (err) {
-        console.error(err);
+        next(err);
         return res.status(500).json({
             success: false,
             message: `internal server error: error encountered while fetching cart items`,
@@ -452,7 +456,7 @@ exports.getCart = async (req, res) => {
     }
 };
 
-exports.getProducts = async (req, res) => {
+exports.getProducts = async (req, res, next) => {
     try {
         let products = await Product.find({ available: true });
 
@@ -475,7 +479,7 @@ exports.getProducts = async (req, res) => {
             newArrivals
         });
     } catch (err) {
-        console.error(err);
+        next(err);
         return res.status(200).json({
             success: false,
             message: "error encountered while fetching products",
@@ -484,7 +488,7 @@ exports.getProducts = async (req, res) => {
         });
     }
 };
-exports.getSearchResults = async (req, res) => {
+exports.getSearchResults = async (req, res, next) => {
     try {
         let { userId } = req.session;
 
@@ -507,11 +511,11 @@ exports.getSearchResults = async (req, res) => {
         // let searchResults = await Search.find({}, {_id: 1});
         return res.json({ length: searchResults.length, searchResults });
     } catch (err) {
-        console.error(err);
+        next(err);
     }
 };
 
-exports.postOrder = async (req, res) => {
+exports.postOrder = async (req, res, next) => {
     try {
         let { userId: customerId, cart: items } = req.session;
         console.log("items", items);
@@ -554,7 +558,7 @@ exports.postOrder = async (req, res) => {
             newOrder
         });
     } catch (err) {
-        console.error(err);
+        next(err);
         return res.status(500).json({
             success: false,
             message: "error encountered while placing order"
@@ -562,7 +566,7 @@ exports.postOrder = async (req, res) => {
     }
 };
 
-exports.getOrder = async (req, res) => {
+exports.getOrder = async (req, res, next) => {
     try {
         let allOrders = await Order.find();
         return res.status(200).json({
@@ -571,14 +575,14 @@ exports.getOrder = async (req, res) => {
             allOrders
         });
     } catch (err) {
-        console.error(err);
+        next(err);
         return res.status(500).json({
             success: false,
             message: "error encountered while placing order"
         });
     }
 };
-exports.postOrderMassive = async (req, res) => {
+exports.postOrderMassive = async (req, res, next) => {
     try {
         let allProducts = await Product.find({}).select("_id name price");
         let { massive = 5 } = req.query;
@@ -631,7 +635,7 @@ exports.postOrderMassive = async (req, res) => {
             message: "massive orders made successfully"
         });
     } catch (err) {
-        console.error(err);
+        next(err);
         return res.status(500).json({
             success: false,
             message: "error encountered while placing massive orders",
@@ -641,9 +645,17 @@ exports.postOrderMassive = async (req, res) => {
     }
 };
 
-exports.getPreview = async (req, res) => {
+exports.getPreview = async (req, res, next) => {
     try {
         let { id: productId } = req.params;
+        console.log(req.params);
+        if (!productId) {
+            let [currentProduct] = await Product.aggregate([
+                { $sample: { size: 1 } }
+            ]);
+            return res.status(303).redirect(`/preview/${currentProduct._id}`);
+        }
+
         let currentProduct = await Product.findOne({ _id: productId });
         let reviews = await Review.find({ productId }).populate("customerId");
 
@@ -652,11 +664,21 @@ exports.getPreview = async (req, res) => {
             reviews
         });
     } catch (err) {
-        console.error(err);
+        next(err);
+    }
+};
+exports.getPreviewRandom = async (req, res, next) => {
+    try {
+        let [currentProduct] = await Product.aggregate([
+            { $sample: { size: 1 } }
+        ]);
+        return res.status(303).redirect(`/preview/${currentProduct._id}`);
+    } catch (err) {
+        next(err);
     }
 };
 
-exports.getCategoryProducts = async (req, res) => {
+exports.getCategoryProducts = async (req, res, next) => {
     try {
         const { categoryName } = req.params;
         const categoryProducts = await Product.find({
@@ -696,6 +718,68 @@ exports.getCategoryProducts = async (req, res) => {
             discountedProducts
         });
     } catch (err) {
-        console.error(err);
+        next(err);
+    }
+};
+exports.getReviewPage = async (req, res, next) => {
+    try {
+        let { id: productId } = req.params;
+        let currentProduct = await Product.findOne({ _id: productId }).select(
+            "_id name"
+        );
+        let { currentUser = { name: "guest" } } = req.session;
+        if (productId)
+            return res.status(200).render("Pages/Customer/review_page", {
+                currentProduct,
+                currentUser
+            });
+    } catch (err) {
+        next(err);
+    }
+};
+
+exports.postReview = async (req, res, next) => {
+    try {
+        let { helpful, reviewId, rating, message } = req.body;
+        let { id: productId } = req.params;
+        let { currentUser } = req.session;
+
+        if (helpful === "true" && reviewId) {
+            let currentReview = await Review.findOneAndUpdate(
+                { _id: reviewId },
+                {
+                    $inc: {
+                        helpfulVotes: 1
+                    }
+                }
+            );
+            return res.status(200).json({ currentReview });
+        }
+        // if (message && rating) {
+        let newReview = new Review({
+            message,
+            rating,
+            productId,
+            customerId: currentUser._id
+        });
+
+        let currentProduct = await Product.findOneAndUpdate(
+            {
+                _id: productId
+            },
+            {
+                $push: {
+                    ratings: rating
+                }
+            },
+            {
+                new: true
+            }
+        );
+        await newReview.save();
+        return res.status(304).redirect(`/preview/${productId}#reviewsSection`);
+        // }
+    } catch (err) {
+        next(err);
     }
 };

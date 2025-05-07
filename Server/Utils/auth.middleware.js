@@ -12,7 +12,12 @@ const authMiddleware = (req, res, next) => {
             });
             return res.redirect("/auth/login");
         }
-        let decoded = jwt.verify(token, secretKey);
+        let decoded = jwt.verify(token, secretKey, (err, info) => {
+            if (err) {
+                //throw new Error(err);
+                return res.redirect("/auth/login");
+            }
+        });
         // req.session.userId = decoded.userId;
 
         next();

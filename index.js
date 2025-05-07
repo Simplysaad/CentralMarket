@@ -16,6 +16,8 @@ const cookieParser = require("cookie-parser");
 const expressFileUpload = require("express-fileUpload");
 
 const connectDB = require("./Config/db.js");
+const errorHandler = require('./Server/Utils/error.middleware.js');
+
 
 const PORT = process.env.PORT;
 
@@ -35,6 +37,7 @@ app.use(
         credentials: true
     })
 );
+app.use(errorHandler);
 
 app.use(
     session({

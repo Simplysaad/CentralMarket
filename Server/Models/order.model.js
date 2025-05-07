@@ -1,4 +1,20 @@
 const mongoose = require("mongoose");
+const discountSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String
+        },
+        value: {
+            type: Number,
+            default: 0
+        },
+        type: {
+            type: String,
+            enum: ["amount", "percentage"]
+        }
+    },
+    { _id: false }
+);
 const itemSchema = new mongoose.Schema(
     {
         name: {
@@ -7,9 +23,13 @@ const itemSchema = new mongoose.Schema(
         quantity: {
             type: Number
         },
-        price: {
+        unitPrice: {
             type: Number
         },
+        subTotal: {
+            type: Number
+        },
+        discount: discountSchema,
         vendorId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "users"
@@ -26,7 +46,6 @@ const itemSchema = new mongoose.Schema(
     },
     { _id: false }
 );
-
 //THIS IS FOR ANYTHING THAT HAS TO DO WITH PAYSTACK PAYMENT
 const paymentSchema = new mongoose.Schema(
     {
@@ -54,14 +73,14 @@ const orderSchema = new mongoose.Schema({
         ref: "users"
     },
     items: [itemSchema],
-    discount: {},
+
     totalCost: {
         type: Number
     },
     status: {
         type: String,
         default: "pending",
-        enum: ["incomplete", "completed", "delivered"]
+        enum: ["pending", "incomplete", "completed", "delivered"]
     },
     payment: paymentSchema,
     createdAt: {
@@ -74,12 +93,12 @@ const orderSchema = new mongoose.Schema({
     }
 });
 
-orderSchema.virtual("subtotal").get(function(){
-    return this.items.reduce(
-        (acc, item) => acc + item.price * item.quantity,
-        0
-    );
-});
+// orderSchema.virtual("subtotal").get(function () {
+//     return this.items.reduce(
+//         (acc, item) => acc + item.price * item.quantity,
+//         0
+//     );
+// });
 
 const order = new mongoose.model("order", orderSchema);
 module.exports = order;

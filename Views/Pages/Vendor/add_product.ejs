@@ -82,11 +82,13 @@
                         list="categoryList"
                         class="form-control"
                     />
-                    <datalist id="categoryList">
-                        <option value="electronics" class="">
-                            Electronic appliances
-                        </option>
-                    </datalist>
+                            <datalist id="tagsList">
+          <% categories.forEach((tag, index)=>{ %>
+            <option value="tag">
+              <%= tag %>
+            </option>
+            <% }) %>
+        </datalist>
 
                     <label for="category">Category</label>
                 </div>

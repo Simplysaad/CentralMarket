@@ -27,7 +27,7 @@ const businessSchema = new mongoose.Schema(
         description: {
             type: String
         },
-        keywords: [String],
+        tags: [String],
         address: addressSchema,
         type: {
             type: String,

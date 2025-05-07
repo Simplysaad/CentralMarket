@@ -28,7 +28,7 @@ const login = async (req, res) => {
         );
         if (!currentUser) {
             req.session.trialCount += 1;
-            return res.status(403).json({
+            return res.status(404).json({
                 success: false,
                 message: "user does not exist", //"Incorrect credentials", same as password for security
                 advice: "check your email address and try again"
