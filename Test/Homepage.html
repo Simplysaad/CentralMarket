@@ -1,0 +1,1110 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Vendor Dashboard - Manage your products, orders, and customers" />
+  <title>Vendor Dashboard</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="Style.css" rel="stylesheet" />
+  <link href="vendorStyle.css" rel="stylesheet" />
+  <!-- FontAwesome for Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header class="navbar header fixed-top navbar-light bg-liht py-3">
+    <div class="container">
+      <div class="navbar-brand">
+        <button id="btnShowSidebar" class="mx-0 btn btn-navbar-toggler">
+          <i class="navbar-toggler-icon"></i>
+        </button>
+        <a href="/" class="navbar-brand text-decoration-none mx-0">Central Market</a>
+      </div>
+      <div class="options d-flex">
+        <a id="btnShowSearch" class="option option-search text-end d-flex text-dark text-decoration-none">
+          <span class="d-none d-md-inline text-muted">Search for your products</span>
+          <i class="fas fa-search me-md-1"></i>
+        </a>
+        <a class="option d-flex text-dark text-decoration-none">
+          <i class="fas fa-user me-md-1"></i>
+        </a>
+        <a class="option d-flex text-dark text-decoration-none">
+          <i class="fas fa-cog me-md-1"></i>
+        </a>
+      </div>
+    </div>
+    <div class="search-container d-xs-none container col-12 px-3">
+      <form action="/search" method="post" class="input-group">
+        <input class="form-control search-input " type="search"
+                                                                                                                                placeholder="Search for products, categorys and keywords">
+        <button class="btn btn-search btn-success">Go</button>
+      </form>
+    </div>
+  </header>
+  
+  <main class="d-flex main justify-content-center">
+    <nav id="sidebar" class="random-colo pt-5 pt-md-3 col-md-4 sidebar z-3 bg-light ">
+      <div class="container-fluid overflow-scroll">
+        <div id="btnHideSidebar" class="d-none navbar-toggler text-end d-flex justify-content-end">
+          <a class="btn-close p-1 px-4"></a>
+        </div>
+        <div class="nav-heading text-center my-4">
+          <div class="nav-logo my-3">
+            <img src="favicon.png" class="img-fluid mx-1 profile-img" alt="CM">
+          </div>
+          <div class="col-9">
+            <h2 class=" text-heading profile-name my-0 fw-bold">John Doe</h2>
+            <p class="d-block my-2 fs-5 profile-role text-muted text-white">Guest/Customer</p>
+          </div>
+        </div>
+        <ul class="overflow-scroll nav-links px-2">
+          <a href="/Dashboard.html" class=" text-decoration-none fs6 text-uppercase text-muted">My account</a>
+          <li class="nav-link">
+            <a href="/dashboard.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+          </li>
+          <li class="nav-link">
+            <a href="/products.html" class="active"><i class="fas fa-list"></i> Wishlist</a>
+          </li>
+          <li class="nav-link">
+            <a href="/orders.html"><i class="fas fa-clock"></i>Pending Reviews</a>
+          </li>
+          <li class="nav-link">
+            <a href="/history.html"><i class="fas fa-history"></i>History</a>
+          </li>
+        </ul>
+        
+        <hr>
+        <a href="/category/" class="text-decoration-none fs-6 text-uppercase text-muted">categories</a>
+        <ul class="nav-links">
+          
+          <li class="nav-link">
+            <a href="/category/Electronics"><i class="fas fa-users"></i> Electronics</a>
+          </li>
+          <li class="nav-link">
+            <a href="/category/home-appliances"><i class="fas fa-home"></i> Electronics</a>
+          </li>
+          <li class="nav-link">
+            <a href="/category/Electronics"><i class="fas fa-users"></i> Electronics</a>
+          </li>
+          <li class="nav-link">
+            <a href="/category/home-appliances"><i class="fas fa-home"></i> Electronics</a>
+          </li>
+          <li class="nav-link">
+            <a href="/category/Electronics"><i class="fas fa-users"></i> Electronics</a>
+          </li>
+          <li class="nav-link">
+            <a href="/category/Furniture"><i class="fas fa-home"></i> Electronics</a>
+          </li>
+          <li class="nav-link">
+            <a href="/category/Furniture"><i class="fas fa-home"></i> Electronics</a>
+          </li>
+          <li class="nav-link">
+            <a href="/category/home-appliances"><i class="fas fa-home"></i> Electronics</a>
+          </li>
+          <li class="nav-link">
+            <a href="/category/Furniture"><i class="fas fa-home"></i> Electronics</a>
+          </li>
+          <li class="nav-link">
+            <a href="/category/Furniture"><i class="fas fa-home"></i> Electronics</a>
+          </li>
+        </ul>
+        
+        
+        <hr>
+        <ul class="nav-links">
+          <li class="nav-link">
+            <a href="/revenue.html"><i class="fas fa-shop"></i> Sell on CentralMarket</a>
+          </li>
+          <li class="nav-link">
+            <a href="/blog.html"><i class="fas fa-blog"></i> CentralMarket Blog</a>
+          </li>
+          <li class="nav-link">
+            <a href="/settings.html"><i class="fas fa-cogs"></i> Settings</a>
+          </li>
+          <li class="nav-link">
+            <a href="/settings.html"><i class="fas fa-user-cog"></i> Service Center</a>
+          </li>
+          <li class="nav-link">
+            <a href="/settings.html"><i class="fas fa-sign-out"></i> Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <section id="main-content" class="mt-5 container-sm col-md-8 pe-md-4 content col-md-9 ml-sm-auto col-lg-10 px-4 py-5">
+      <section id="carouselSection" class="mt-5"></section>
+      <section id="categoriesSection" class="mt-5 d-flex justify-content-start flex-column">
+        <div class="section-heading">
+          <h3 class="text-heading me-2 display-6">
+            Shop by categories
+          </h3>
+          <a href="/category/" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+        </div>
+        
+        <div class="category-items justify-content-start d-flex flex-wrap">
+          <div class="category-box col-auto random-colo shadow">
+            <a href="/category/Electronics" class="category-text">
+              Electronics
+            </a>
+          </div>
+          <div class="category-box col-auto random-colo shadow">
+            <a href="/category/home-appliances" class="category-text">
+              home appliances
+            </a>
+          </div>
+          <div class="category-box col-auto random-colo shadow">
+            <a href="/category/mobile-phones" class="category-text">
+              mobile phones
+            </a>
+          </div>
+          <div class="category-box col-auto random-colo shadow">
+            <a href="/category/clothing" class="category-text">
+              clothing
+            </a>
+          </div>
+        </div>
+        
+      </section>
+      
+      <section id="featuredSection" class="py-5 px-3 my-5 random-colo category-section">
+        <div class="section-heading">
+          <h3 class="text-heading me-2 display-6">
+            Featured Products
+          </h3>
+          <a href="/category/featured" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+        </div>
+        <div class="d-flex flex- overflow-scroll category-items">
+          <div class="col-9 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+              <div class="product-desc">
+                <p class="desc-text">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod dolore quas hic.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-9 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+              <div class="product-desc">
+                <p class="desc-text">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod dolore quas hic.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-9 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+              <div class="product-desc">
+                <p class="desc-text">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod dolore quas hic.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-9 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+              <div class="product-desc">
+                <p class="desc-text">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod dolore quas hic.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-9 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+              <div class="product-desc">
+                <p class="desc-text">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod dolore quas hic.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-9 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+              <div class="product-desc">
+                <p class="desc-text">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod dolore quas hic.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-9 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+              <div class="product-desc">
+                <p class="desc-text">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod dolore quas hic.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-9 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+              <div class="product-desc">
+                <p class="desc-text">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod dolore quas hic.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </section>
+      <section id="popularSection" class="py-5 px-3 my-5 random-colo category-section">
+        <div class="section-heading">
+          <h3 class="text-heading me-2 display-6">
+            Shop by Trending
+          </h3>
+          <a href="/category/trending" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+        </div>
+        <div class="d-flex flex- overflow-scroll category-items">
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </section>
+      <section id="popularSection" class="py-5 px-3 my-5 random-colo category-section">
+        <div class="section-heading">
+          <h3 class="text-heading me-2 display-6">
+            Based on recent searches 
+          </h3>
+          <a href="/category/trending" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+        </div>
+        <div class="d-flex flex- overflow-scroll category-items">
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </section>
+      <section id="popularSection" class="py-5 px-3 my-5 random-colo category-section">
+        <div class="section-heading">
+          <h3 class="text-heading me-2 display-6">
+            Popular in your Area
+          </h3>
+          <a href="/category/trending" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+        </div>
+        <div class="d-flex flex- overflow-scroll category-items">
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </section>
+      <section id="dealsSection" class="py-5 px-3 my-5 random-colo category-section">
+        <div class="section-heading">
+          <h3 class="text-heading me-2 display-6">
+            Today's deals
+          </h3>
+          <a href="/category/today-deals" class=" text-decoration-none  text-dark"></a>
+        </div>
+        <div class="d-flex flex- overflow-scroll category-items">
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+      <section id="testimonialSection" class="col-md-9 py-5 mx-auto px-3 my-5 random-colo category-section">
+        <div class="section-heading">
+          <h3 class="text-heading text-center me-2 display-6">
+            What Our Customers Say!
+          </h3>
+        </div>
+        <div class="testimonial-carousel carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item mx-auto col-md-7 border testimoial">
+              <div class="testimonial-image">
+                <img src="customer-image.jpg" alt="Customer Image">
+              </div>
+              <div class="testimonial-content">
+                <p class="testimonial-text">"I was amazed by the quality of products from local vendors. The website is
+                  easy to navigate and the customer support is excellent!"</p>
+                <p class="testimonial-author">- Emily R., Happy Customer</p>
+              </div>
+            </div>
+            <div class="carousel-item mx-auto col-md-7 border active testionial">
+              <div class="testimonial-image">
+                <img src="customer-image.jpg" alt="Customer Image">
+              </div>
+              <div class="testimonial-content">
+                <p class="testimonial-text">"I l Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore, saepe
+                  aliquid iusto illo laborum fuga necessitatibus vero!"</p>
+                <p class="testimonial-author"> Rad delphi., Happy Customer</p>
+              </div>
+            </div>
+            <div class="carousel-item mx-auto col-md-7 border testimnial">
+              <div class="testimonial-image">
+                <img src="customer-image.jpg" alt="Customer Image">
+              </div>
+              <div class="testimonial-content">
+                <p class="testimonial-text">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium
+                  laborum facere eaque ducimus!"</p>
+                <p class="testimonial-author">- Emily R., Happy Customer</p>
+              </div>
+            </div>
+            <div class="carousel-item mx-auto col-md-7 border testionial">
+              <div class="testimonial-image">
+                <img src="customer-image.jpg" alt="Customer Image">
+              </div>
+              <div class="testimonial-content">
+                <p class="testimonial-text">" Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
+                  itaque, ipsum omnis iusto ipsa provident assumenda deserunt suscipit, error quasi consequatur."</p>
+                <p class="testimonial-author">- Emily R., Happy Customer</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section id="latestSection" class="py-5 px-3 my-5 random-colo category-section">
+        <div class="section-heading">
+          <h3 class="text-heading me-2 display-6">
+            New Arrivals
+          </h3>
+          <a href="/category/new-arrivals" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+        </div>
+        <div class="d-flex flex- overflow-scroll category-items">
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </section>
+      <section id="topGrossSection" class="py-5 px-3 my-5 random-colo category-section">
+        <div class="section-heading ">
+          <h3 class="text-heading me-2 display-6">
+            Top Selling Products
+          </h3>
+          <a href="/category/top-selling" class="fa text-decoration-none fa-arrow-right text-dark"></a>
+        </div>
+        <div class="d-flex flex- overflow-scroll category-items">
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-md-4 col-lg-3 p-0 m-2  product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <p class="fs-6 card-title">
+                Infinix Smart 7
+              </p>
+              <div class="">
+                <span class="card-price fs-5">
+                  $700
+                </span>
+                <s class="old-price fs-6 text-danger">
+                  $700
+                </s>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="FAQSection">
+        <div class="text-heading fs-4">
+            Frequently Asked Questions
+        </div>
+        <div class="accordion accordion-flush" id="FaqAccordion">
+          <div class="accordion-body">
+            <div class="accordion-item">
+              <div class="text-heading accordion-header">
+                <button class="accordion-button collapsed" aria-expanded="false" aria-controls="accordionItem1" data-bs-target="#accordionItem1" data-bs-toggle="collapse">
+                  What Payment options are available on CentralMarket
+                </button>
+              </div>
+              <div class="accordion-collapse collapse" data-bs-parent="#FaqAccordion" id="accordionItem1">
+                <p class="accordion-body">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
+                doloremque corporis! Nobis corporis culpa saepe, et in enim ipsam
+                eos obcaecati soluta voluptatum, corrupti reiciendis beatae optio quod
+                neque veniam, provident
+                facere qui dicta illum voluptates! Voluptatibus repellendus eos veritatis?
+                </p>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <div class="text-heading accordion-header">
+                <button class="accordion-button collapsed" aria-expanded="false" aria-controls="accordionItem2" data-bs-target="#accordionItem2" data-bs-toggle="collapse">
+                  Can i get Free delivery on all my orders
+                </button>
+              </div>
+              <div class="accordion-collapse collapse" data-bs-parent="#FaqAccordion" id="accordionItem2">
+                <p class="accordion-body">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
+                doloremque corporis! Nobis corporis culpa saepe, et in enim ipsam
+                eos obcaecati soluta voluptatum, corrupti reiciendis beatae optio quod
+                neque veniam, provident
+                facere qui dicta illum voluptates! Voluptatibus repellendus eos veritatis?
+                </p>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <div class="text-heading accordion-header">
+                <button class="accordion-button collapsed" aria-expanded="false" aria-controls="accordionItem3" data-bs-target="#accordionItem3" data-bs-toggle="collapse">
+                  What is the CentralMarket Customer care line
+                </button>
+              </div>
+              <div class="accordion-collapse collapse" data-bs-parent="#FaqAccordion" id="accordionItem3">
+                <p class="accordion-body">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
+                doloremque corporis! Nobis corporis culpa saepe, et in enim ipsam
+                eos obcaecati soluta voluptatum, corrupti reiciendis beatae optio quod
+                neque veniam, provident
+                facere qui dicta illum voluptates! Voluptatibus repellendus eos veritatis?
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    
+    </section>
+
+  </main>
+  <!-- Bootstrap JS and dependencies -->
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="Script.js" type="text/javascript" charset="utf-8"></script>
+  <script src="toggleDisplay.js" type="text/javascript" charset="utf-8"></script>
+</body>
+
+</html>

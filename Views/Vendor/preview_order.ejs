@@ -1,0 +1,13 @@
+<div class="heading my-5">
+  <h3 class="text-heading">Customer Name: <%= currentOrder.customer %></h3>
+  <p class="text-muted my-0 p-0">Order ID: <%= currentOrder.orderId %></p>
+</div>
+<div class="heading my-5">
+  <h3 class="text-heading">Product Name: <%= currentOrder.product.name %></h3>
+  <p class="fs-5">Total Cost: <%= "₦" + (currentOrder.product.price).toLocaleString() %></p>
+  <p class="fs-6">Quantity: <%= currentOrder.item.quantity %></p>
+  <p class="text-muted my-0 p-0">Product ID: <%= currentOrder.product._id %></p>
+</div>
+<div class="col-12 col-md-8 mx-auto">
+  <button class="btn btn-danger btn-lg col-12">Cancel</button>
+</div>

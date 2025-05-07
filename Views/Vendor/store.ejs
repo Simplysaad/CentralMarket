@@ -1,0 +1,123 @@
+  <section id="businessSection" class="my-5">
+    <div class="business-image">
+      <div class="cover-image">
+        <img src="<%= vendor.coverImage || '/PUBLIC/IMG/image.png' %>" alt="hmm... nothing here" class="text-center img-fluid">
+      </div>
+      <div class="profile-image">
+        <img src="<%= vendor.profileImage || '/PUBLIC/IMG/image.png' %>" alt="" class="img-thumbnail">
+      </div>
+    </div>
+    <div class="business-info">
+      <div class="profile-name">
+        <h3 class="fw-semibold display-5">
+          <%= vendor.businessName %>
+        </h3>
+        <p class="text-muted fw-semibold">
+          <%= vendor.username %>
+        </p>
+      </div>
+      <div class="business-desc">
+        <p class="text-desc">
+          <%= vendor.businessDesc %>
+        </p>
+      </div>
+    </div>
+  </section>
+  <section id="productsSection" class="my-5">
+    
+    <div class="section-heading">
+      <h3 class="text-heading me-2 fs-4 fw-light">
+        My Products
+      </h3>
+      <a href="/category/" class="d-none fa text-decoration-none fa-arrow-right text-dark"></a>
+    </div>
+    <% if(vendor.products){ %>
+      <div class="d-flex flex-wrap overflow-scroll category-items">
+        <% vendor.products.forEach(product=>{ %>
+          <div class="col-6 mx-md-2 col-md-4 col-lg-3 p-0 m-0 product-card rounded">
+            <div class="card-image m-0 p-3">
+              <img src="image.png" alt="product image" class="random-colo overflow-hidden img-fluid" />
+            </div>
+            <div class="card-body p-0 m-2">
+              <a href="/preview/<%=product._id%>" class="fs-6 text-decoration-none text-dark card-title">
+                <%= product.name %>
+              </a>
+            <div class="product-price">
+              <p class="card-price my-0 fs-5">
+                ₦<%= product.price.toLocaleString() %>
+              </p>
+              <% if(product.discount){%>
+              <p class="old-price my-0 fs-6 text-danger">
+                ₦<%= product.price.toLocaleString() %>
+              </p>
+              <% }%>
+            </div>
+            </div>
+          </div>
+          <% }) %>
+      </div>
+    <% } %>
+  </section>
+  
+    <% if (currentUser._id.equals(vendor._id)) { %>
+    <section id="messages" class="my-5 ">      
+      <h3 class="text-heading me-2 fs-4 fw-light">
+        My Messages
+      </h3>
+      <%if(!currentUser.messages){%>
+        <div class="empty-messages">
+          <p class="text-muted display-5 fw-semibold">
+            No messages here yet
+          </p>
+        </div>
+      <% }else{ %>
+      <% vendor.messages.forEach(message => { %>
+        <%if(message.messageText){%>
+        <div class="review-box py-3 border-bottom">
+          <div class="review-info">
+            <p class="fs-5 my-0">
+              <%= message.senderName %>
+            </p>
+            <p class="fs-6 my-0 text-muted">
+              <%= message.updatedAt.toLocaleString() %>
+            </p>
+          </div>
+          <div class="review-text">
+            <p class="text-muted text-wrap">
+              <%= message.messageText %>
+            </p>
+          </div>
+        </div>
+        <% } %>
+      <% }) %>
+    <% } %>
+
+    </section>
+    <% } else { %>
+    <section id="messageSection" class="my-5">
+      <div class="text-heading text-center">
+        <h5 class="my-0 display-6">
+          Leave a message
+        </h5>
+        <p class="fs-6 my-0 text-muted">This message can only be seen by the vendor</p>
+      </div>
+      <form class="py-3 container border text-start" action="/store/<%= vendor.id %>" method="post">
+        <div class="form-group my-2">
+          <label class="form-text" for="username">
+            Username 
+          </label>
+          <input required placeholder="Enter username" value="<%= currentUser.username || "" %>" class="form-control" type="text" id="senderName" name="senderName">
+        </div>
+        <input class="d-none" hidden value="<%=currentUser._id %>" name="senderId">
+        <div class="form-group my-2">
+          <label class="form-text" for="messageText">
+            Message Text
+          </label>
+          <textarea required class="form-control" name="messageText" id="messageText"></textarea>
+        </div>
+        <button class="mx-3 col-10 btn btn-lg btn-outline-success">
+          Submit
+        </button>
+      </form>
+    </section>
+    <% } %>

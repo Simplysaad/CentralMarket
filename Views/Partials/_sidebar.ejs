@@ -1,0 +1,64 @@
+<nav id="sidebar" class="col-md-4 col-lg-3 sidebar bg-light navbar-light">
+  <div id="btnHideSidebar" class=" navbar-toggler text-end d-flex justify-content-end">
+    <a class="btn-close p-1 px-4"></a>
+  </div>
+  <div class="nav-heading  my-4">
+    <div class="nav-logo my-3">
+      <img src="favicon.png" class="img-fluid mx-1 profile-img" alt="CM">
+    </div>
+    <div class="col-9">
+      <h2 class=" text-heading profile-name my-0 fw-bold">John Doe</h2>
+      <p class="d-block my-2 fs-5 profile-role text-muted text-white">Guest/Customer</p>
+    </div>
+  </div>
+  <ul class="overflow-scroll nav-links px-2">
+    <a href="/dashboard" class=" text-decoration-none fs6 text-uppercase text-muted">My account</a>
+    <li class="nav-link">
+      <a href="/cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+    </li>
+    <li class="nav-link">
+      <a href="/wishlist" class="active"><i class="fas fa-list"></i> Wishlist</a>
+    </li>
+    <li class="nav-link">
+      <a href="/reviews"><i class="fas fa-star-half"></i>Reviews</a>
+    </li>
+    <li class="nav-link">
+      <a href="/history"><i class="fas fa-history"></i>History</a>
+    </li>
+  </ul>
+  
+  <hr>
+  <a href="/category/" class="text-decoration-none fs-6 text-uppercase text-muted">categories</a>
+  <% if (categories) { %>
+    <ul class="nav-links">
+      <% categories.forEach((category)=> {%>
+        <li class="nav-link">
+          <a href="/category/<%= category %>" class="nav-link">
+            <i class="fas fa-tag"></i>
+            <%= category %>
+          </a>
+        </li>
+      <% }) %>
+    </ul>
+    <% } %>
+      
+      <hr>
+      <ul class="nav-links">
+        <li class="nav-link">
+          <a href="/revenue"><i class="fas fa-shop"></i> Sell on CentralMarket</a>
+        </li>
+        <li class="nav-link">
+          <a href="/blog"><i class="fas fa-blog"></i> CentralMarket Blog</a>
+        </li>
+        <li class="nav-link">
+          <a href="/settings"><i class="fas fa-cogs"></i> Settings</a>
+        </li>
+        <li class="nav-link">
+          <a href="/settings"><i class="fas fa-user-cog"></i> Service Center</a>
+        </li>
+        <li class="nav-link">
+          <a href="/auth/logout"><i class="fas fa-sign-out"></i> Logout</a>
+        </li>
+        <a href="/feedback" class="text-secondary my-3 text-center">Something's Wrong?</a>
+      </ul>
+</nav>

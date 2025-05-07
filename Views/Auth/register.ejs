@@ -1,0 +1,179 @@
+
+
+<form action="/auth/register" id="registerForm" method="post" class="form-card col-md-8 my-5 col-lg-7 container">
+    
+    
+    <section id="roleSelector" class="my-5 d-flex g-4 col-md-8 col-lg-7">
+        <div
+            class="mx-auto form-check border rounded text-center p-3 col-5 col-md-3"
+        >
+            <input
+                class="form-control checkbox"
+                id="checkCustomer"
+                type="radio"
+                hidden
+                checked
+                name="role"
+                value="customer"
+            />
+            <label for="checkCustomer" style="font-size: 0.8rem" class="fs-">
+                <i class="fa fa-user"></i>
+                <p class="fs-6">Customer</p>
+                I have things to buy
+            </label>
+        </div>
+        <div
+            class="mx-auto form-check border rounded text-center p-3 col-5 col-md-3"
+        >
+            <input
+                class="form-control checkbox"
+                id="checkVendor"
+                type="radio"
+                hidden
+                name="role"
+                value="vendor"
+            />
+            <label for="checkVendor" style="font-size: 0.8rem" class="fs-">
+                <i class="fa fa-market"></i>
+                <p class="fs-6">Vendor</p>
+                I have products or services to offer
+            </label>
+        </div>
+    </section>
+    <div class="mainForm">
+      <section id="personalDetails" class="d-nne container-fluid p-0 my-5">
+        <div class="my-3">
+          <h3 class="display-4 text-center">Personal Details</h3>
+          <p id="errorMessage" class="text-error text-center text-danger mb-2 mt-0"></p>
+        </div>
+        <div class="form-floating">
+            <input
+                class="form-control"
+                id="username"
+                name="username"
+                type="text"
+                required
+                placeholder=""
+            />
+            <label for="username">Username</label>
+        </div>
+        <div class="form-floating">
+            <input
+                class="form-control"
+                id="emailAddress"
+                name="emailAddress"
+                type="email"
+                required
+                placeholder=""
+            />
+            <label for="emailAddress">Email Address</label>
+        </div>
+        <div class="form-floating">
+            <input
+                class="form-control"
+                id="phoneNumber"
+                name="phoneNumber"
+                type="tel"
+                required
+                minlength="10"
+                placeholder=""
+            />
+            <label for="phoneNumber">Phone Number</label>
+        </div>
+        <div class="form-floating">
+            <input
+                class="form-control"
+                id="password"
+                name="password"
+                type="password"
+                required
+                placeholder=""
+            />
+            <a class="text-decoration-none p-2 fa fa-eye fw-light btnShowPassword"></a>
+
+          <label for="password">Password</label>
+        </div>
+        <div class="form-floating">
+            <input
+                class="form-control"
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                required
+                placeholder=""
+            />
+            <a class="text-decoration-none p-2 fa fa-eye fw-light btnShowPassword"></a>
+          <label for="confirmPassword">Confirm Password</label>
+        </div>
+        <div id="showBusinessDiv">
+            <div class="form-check-inline my-3 mb-5">
+                <input
+                    class="d-inline"
+                    type="checkbox"
+                    id="checkAgreement"
+                    name="checkAgreement"
+                />
+                <label for="checkAgreement" class="d-inline"
+                    >I agree to the <a href="/">Terms of service</a> and
+                    <a href="/">privacy policy</a> of campusMart inc.</label
+                >
+            </div>
+            <button
+                id="showBusinessBtn"
+                class="btn btn-lg btn-outline-success form-control clearfix col-5 mx-auto p-3"
+            >
+                Submit
+            </button>
+            <div class="fs-6 my-3">
+                Already Have an account? <a href="/auth/login">Login!</a>
+            </div>
+        </div>
+    </section>
+    <section id="businessDetails" class="d-noe my-5">
+        <h3 class="display-4 my-3 text-center">Business Details</h3>
+        <div class="form-floating">
+            <input
+                class="form-control"
+                id="businessName"
+                name="businessName"
+                type="text"
+                placeholder=""
+            />
+            <label for="businessName">Business Name</label>
+        </div>
+        <div class="form-floating">
+            <input
+                class="form-control"
+                id="businessDesc"
+                name="businessDesc"
+                type="text"
+                placeholder=""
+            />
+            <label for="businessDesc">Business Description</label>
+        </div>
+        <div class="form-check-inline my-3 mb-5">
+            <input
+                class="d-inline"
+                type="checkbox"
+                id="checkAgreement"
+                name="checkAgreement"
+            />
+            <label for="checkAgreement" class="d-inline"
+                >I agree to the <a href="/">Terms of service</a> and
+                <a href="/">privacy policy</a> of campusMart inc.</label
+            >
+        </div>
+        <button
+            id="btnSubmitRegister"
+            class="btn btn-lg btn-outline-success form-control clearfix col-5 mx-auto p-3"
+        >
+            Submit
+        </button>
+        <div class="fs-6 my-3">
+            Already Have an account? <a href="/auth/login">Login!</a>
+        </div>
+    </section>
+
+    </div>
+</form>
+<script src="/JS/register.js"></script>

@@ -21,7 +21,7 @@ let secretKey = process.env.SECRET_KEY;
 router.get("/", async (req, res) => {
     try {
         res.status(200).render("Pages/Auth/auth", {});
-    } catch (e) {
+    } catch (err) {
         console.error(err);
     }
 });
@@ -37,7 +37,7 @@ router.post("/login", login);
 router.get("/register", async (req, res) => {
     try {
         res.status(200).render("Pages/Auth/register", {});
-    } catch (e) {
+    } catch (err) {
         console.error(err);
     }
 });
