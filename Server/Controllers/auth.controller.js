@@ -8,6 +8,19 @@ cloudinary.config({
 });
 const User = require("../Models/user.model.js");
 
+const categories = [
+    "study materials",
+    "electronics",
+    "hostel essentials",
+    "clothing and accessories",
+    "groceries and snacks",
+    "health and personal care",
+    "events and experiences",
+    "secondhand marketplace",
+    "services",
+    "hobbies and entertainment",
+    "gifts and handmade goods"
+];
 function generate_random_color() {
     let color = "#";
     let characters = "0123456789ABCDEF";
@@ -116,9 +129,11 @@ const register = async (req, res) => {
             );
             profileImage = cloudinary_response.secure_url;
         } else
-            profileImage = `https://placehold.co/400/${profile_color}/white?text=${
-                req.body.name[0].toUpperCase() + "00"
-            }&color=${profile_color}`;
+            profileImage = `https://placehold.co/400/${
+                profile_color + "ff"
+            }/#000?text=${
+                req.body.name[0].toUpperCase()
+            }`;
 
         let newUser = new User({
             ...req.body,
@@ -126,9 +141,9 @@ const register = async (req, res) => {
             role: "admin",
             //this is supposed to come from the form but i've not added a field to the form yet
             profileImage,
-            coverImage: `https://placehold.co/600x200?text=${
+            coverImage: `https://placehold.co/600x200/${profile_color + "00"}/#fff?text=${
                 req.body.businessName || "CentralMarket"
-            }&color=${profile_color + "cd"}`
+            }&color=`
         });
 
         await newUser.save();

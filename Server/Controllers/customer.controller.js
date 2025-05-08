@@ -13,6 +13,8 @@ exports.getHomeProducts = async (req, res, next) => {
             await Product.find({}).sort({ createdAt: -1 }).limit(14)
         );
         //newArrivals = shuffle(newArrivals);
+        let { categories } = req.app.locals;
+        let allProducts = shuffle(await Product.find({}));
 
         //DEALS OF THE DAY
         let discountedProducts = shuffle(
@@ -41,7 +43,9 @@ exports.getHomeProducts = async (req, res, next) => {
             topRatedProducts,
             featuredProducts,
             discountedProducts,
-            newArrivals
+            newArrivals,
+            allProducts,
+            categories
         });
     } catch (err) {
         next(err);
@@ -187,7 +191,6 @@ exports.postCart = async (req, res, next) => {
         let { id: productId } = req.params;
 
         let { quantity, wish } = req.query;
-
 
         if (quantity && quantity !== "") {
             quantity = Number(quantity);
@@ -434,7 +437,7 @@ exports.getCart = async (req, res, next) => {
             });
         }
 
-        let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
+        let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
         let cartQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
         let cartItemsCount = cart.length;
         let deliveryFee = 0;
@@ -474,7 +477,6 @@ exports.getProducts = async (req, res, next) => {
                 interests: -1
             })
             .limit(14);
-
 
         return res.status(200).render("Pages/Customer/index_page", {
             success: true,
@@ -663,7 +665,6 @@ exports.getPreview = async (req, res, next) => {
 
         let currentProduct = await Product.findOne({ _id: productId });
         let reviews = await Review.find({ productId }).populate("customerId");
-
 
         return res.render("Pages/Customer/preview_page", {
             currentProduct,

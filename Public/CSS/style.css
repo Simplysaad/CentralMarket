@@ -549,12 +549,6 @@ nav .logo a {
   margin-bottom: 20px;
 }
 
-.product-list {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
 .product-item {
   background-color: #fff;
   padding: 20px;

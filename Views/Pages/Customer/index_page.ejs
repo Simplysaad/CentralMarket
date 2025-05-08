@@ -9,18 +9,44 @@
         <% }) %>
   </div>
 </section>
-
-
-<section id="newArrivals" class="product-list">
-  <div class="category-heading my-4">
-    <h4 class="display-6 text-heading">
-      New arrivals
-    </h4>
+<section id="discountedProducts" class="overflow-hidden my-4">
+  <div class="category-heading">
+    <h4 class="display-6 text-heading">Hot deals</h4>
   </div>
-  <div class="d-flex p-1 gap-3 overflow-scroll">
+  <div class="d-flex p-2 gap-4 overflow-scroll">
+    
+    <% discountedProducts.forEach((product, index)=>{ %>
+      <%- include("../../Components/normal_card.ejs", { product }) %>
+        <% }) %>
+  </div>
+</section>
+<section id="newArrivals" class="overflow-hidden my-4">
+  <div class="category-heading">
+    <h4 class="display-6 text-heading text-capitalize">New arrivals</h4>
+  </div>
+  <div class="d-flex p-2 gap-4 overflow-scroll">
+    
     <% newArrivals.forEach((product, index)=>{ %>
       <%- include("../../Components/normal_card.ejs", { product }) %>
         <% }) %>
   </div>
 </section>
-<script src="/JS/homepage.js"></script>
+
+<% categories?.forEach((category)=>{ %>
+  <section id="<%= category.split().join('-') %>" class="overflow-hidden my-4">
+    <div class="category-heading">
+      <h4 class="display-6 text-heading text-capitalize">
+        <%= category %>
+      </h4>
+    </div>
+    <div class="d-flex p-2 gap-4 overflow-scroll">
+      
+      <% allProducts.filter(product=> product.category === category)?.forEach(product=>{ %>
+        <%- include("../../Components/normal_card.ejs", { product }) %>
+          <% }) %>
+    </div>
+  </section>
+  <% }) %>
+    
+    
+    <script src="/JS/homepage.js"></script>

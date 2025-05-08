@@ -16,8 +16,7 @@ const cookieParser = require("cookie-parser");
 //const expressFileUpload = require("express-file-upload");
 
 const connectDB = require("./Config/db.js");
-const errorHandler = require('./Server/Utils/error.middleware.js');
-
+const errorHandler = require("./Server/Utils/error.middleware.js");
 
 const PORT = process.env.PORT;
 
@@ -39,7 +38,6 @@ app.use(
 );
 app.use(errorHandler);
 
-
 app.use(
     session({
         store: mongoStore.create({
@@ -55,7 +53,19 @@ app.use(
         }
     })
 );
-
+app.locals.categories = [
+    "study materials",
+    "electronics",
+    "hostel essentials",
+    "clothing and accessories",
+    "groceries and snacks",
+    "health and personal care",
+    "events and experiences",
+    "secondhand marketplace",
+    "services",
+    "hobbies and entertainment",
+    "gifts and handmade goods"
+];
 app.use(expressLayouts);
 
 app.use(express.static("./Public"));

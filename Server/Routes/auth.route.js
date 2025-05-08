@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
 router.get("/login", async (req, res) => {
     try {
         res.status(200).render("Pages/Auth/login", {});
-    } catch (e) {
+    } catch (err) {
         console.error(err);
     }
 });

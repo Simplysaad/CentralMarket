@@ -118,7 +118,7 @@ router.get("/", async (req, res, next) => {
                     //     $sum: "$items.subTotal"
                     // },
                     totalRevenue: {
-                        $sum: "$items.price"
+                        $sum: "$items.subTotal"
                     }
                 }
             }
