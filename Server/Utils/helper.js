@@ -108,9 +108,9 @@ exports.generate_random_color = () => {
 //generate_random_color();
 /** @format */
 
-const User = require("../Models/User");
-const Product = require("../Models/Product");
-const Order = require("../Models/Order");
+const User = require("../Models/user.model");
+const Product = require("../Models/product.model");
+const Order = require("../Models/order.model");
 const fetch = require("node-fetch");
 const nodemailer = require("nodemailer");
 const ejs = require("ejs");
