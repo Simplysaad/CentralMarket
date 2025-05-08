@@ -13,7 +13,7 @@ const session = require("express-session");
 
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
-const expressFileUpload = require("express-fileUpload");
+//const expressFileUpload = require("express-file-upload");
 
 const connectDB = require("./Config/db.js");
 const errorHandler = require('./Server/Utils/error.middleware.js');
