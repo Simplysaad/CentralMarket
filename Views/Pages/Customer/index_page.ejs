@@ -1,26 +1,26 @@
 <section id="featuredCombos" class="overflow-hidden my-4">
-    <div class="category-heading">
-        <h4 class="display-6 text-heading">Featured Combos</h4>
-    </div>
-    <div class="d-flex p-2 gap-4 overflow-scroll">
-
-        <% featuredProducts.forEach((product, index)=>{ %> 
-          <%- include("../../Components/featured_card.ejs", { product }) %>
+  <div class="category-heading">
+    <h4 class="display-6 text-heading">Featured Combos</h4>
+  </div>
+  <div class="d-flex p-2 gap-4 overflow-scroll">
+    
+    <% featuredProducts.forEach((product, index)=>{ %>
+      <%- include("../../Components/featured_card.ejs", { product }) %>
         <% }) %>
-    </div>
+  </div>
 </section>
 
 
 <section id="newArrivals" class="product-list">
-    <div class="category-heading my-4">
-        <h4 class="display-6 text-heading">
-            New arrivals
-        </h4>
-    </div>
-    <div class="d-flex p-1 gap-3 overflow-scroll">
-        <% popularProducts.forEach((product, index)=>{ %>
-          <%- include("../../Components/normal_card.ejs", { product }) %>
+  <div class="category-heading my-4">
+    <h4 class="display-6 text-heading">
+      New arrivals
+    </h4>
+  </div>
+  <div class="d-flex p-1 gap-3 overflow-scroll">
+    <% newArrivals.forEach((product, index)=>{ %>
+      <%- include("../../Components/normal_card.ejs", { product }) %>
         <% }) %>
-    </div>
+  </div>
 </section>
 <script src="/JS/homepage.js"></script>
