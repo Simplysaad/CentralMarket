@@ -185,7 +185,9 @@ exports.postCart = async (req, res, next) => {
 
         let { userId, cart } = req.session;
         let { id: productId } = req.params;
+
         let { quantity, wish } = req.query;
+
 
         if (quantity && quantity !== "") {
             quantity = Number(quantity);
@@ -237,6 +239,7 @@ exports.postCart = async (req, res, next) => {
         }
 
         let index = cart.findIndex(item => item.productId === productId);
+
         if (index === -1) {
             //TODO: implement discount calculations
             quantity = quantity || 1;
@@ -247,6 +250,7 @@ exports.postCart = async (req, res, next) => {
                 subTotal: currentProduct.price * quantity,
                 unitPrice: currentProduct.price,
                 quantity,
+                // color, size,
                 productId
             };
             req.session.cart.push(singleProduct);
@@ -471,6 +475,7 @@ exports.getProducts = async (req, res, next) => {
             })
             .limit(14);
 
+
         return res.status(200).render("Pages/Customer/index_page", {
             success: true,
             message: "products fetched successfully",
@@ -658,6 +663,7 @@ exports.getPreview = async (req, res, next) => {
 
         let currentProduct = await Product.findOne({ _id: productId });
         let reviews = await Review.find({ productId }).populate("customerId");
+
 
         return res.render("Pages/Customer/preview_page", {
             currentProduct,

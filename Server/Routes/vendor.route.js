@@ -138,6 +138,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 router.get("/products", vendorController.getProducts);
+
 router.post(
     "/products/add",
     conditionalMulter,
@@ -158,7 +159,7 @@ router.get("/products/add", async (req, res, next) => {
 router.delete("/product/:id", vendorController.deleteProduct);
 router.put(
     "/product/:id",
-    conditionalMulter ,
+    conditionalMulter,
     vendorController.editProduct
 );
 

@@ -23,25 +23,30 @@ function generateRandom(count) {
     return randomArray;
 }
 //generateRandom();
- exports.shuffle=(array)=> {
-  let currentIndex = array.length, randomIndex;
+exports.shuffle = array => {
+    let currentIndex = array.length,
+        randomIndex;
 
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
 
-    // Swap elements
-    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-  }
+        // Swap elements
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex],
+            array[currentIndex]
+        ];
+    }
 
-  return array;
-}
+    return array;
+};
 
 // Example usage:
 // const arr = [1, 2, 3, 4, 5];
 // console.log(shuffle(arr)); // Output: [3, 1, 5, 4, 2] (order will vary)
 
 // exports.shuffle = (currentArray, maxCount) => {
+
 //     let randomArray = generateRandom(currentArray.length);
 
 //     let shuffledArray = [];

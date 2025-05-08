@@ -1,6 +1,6 @@
 {
-    "name": "restaurant_template",
-    "version": "2.0.0",
+    "name": "centralmarket",
+    "version": "2.2.0",
     "main": "index.js",
     "scripts": {
         "test": "jest",
@@ -42,13 +42,13 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/simplysaad/restaurant_solution.git"
+        "url": "git+https://github.com/simplysaad/centralmarket.git"
     },
     "author": "simplysaad",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/simplysaad/restaurant_solution/issues"
+        "url": "https://github.com/simplysaad/centralmarket/issues"
     },
-    "homepage": "https://github.com/simplysaad/restaurant_solution#readme",
+    "homepage": "https://github.com/simplysaad/centralmarket#readme",
     "description": ""
 }

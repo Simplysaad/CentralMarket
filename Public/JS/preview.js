@@ -36,3 +36,25 @@ btnWishList.addEventListener("click", async e => {
         console.error(err);
     }
 });
+
+// Select elements
+const btnGroupAction = document.querySelector(".actions");
+
+// Get the offset top of the cart button
+let threshold = btnGroupAction.offsetTop;
+
+/**
+ * Event listener for window scroll that adds or removes sticky class
+ * based on user scroll Y position
+ */
+window.addEventListener("scroll", () => {
+    if (window.scrollY >= threshold) {
+        btnGroupAction.classList.add("fixed-top");
+    } else {
+        btnGroupAction.classList.remove("fixed-top");
+    }
+});
+// Remove sticky from the cart if widnow size is greater than 600px
+if (window.width >= 600) {
+    btnGroupAction.classList.remove("sticky");
+}

@@ -32,7 +32,14 @@ const itemSchema = new mongoose.Schema(
         discount: discountSchema,
         vendorId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "users"
+            ref: "users"},
+        color: {
+            type: String,
+            default: "default"
+        },
+        size: {
+            type: String,
+            default: "default"
         },
         productId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -68,7 +75,7 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
     },
-    employeeId: {
+    vendorId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
     },
@@ -93,12 +100,6 @@ const orderSchema = new mongoose.Schema({
     }
 });
 
-// orderSchema.virtual("subtotal").get(function () {
-//     return this.items.reduce(
-//         (acc, item) => acc + item.price * item.quantity,
-//         0
-//     );
-// });
-
 const order = new mongoose.model("order", orderSchema);
 module.exports = order;
+//TODO: add a separate payment object, DONE

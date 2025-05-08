@@ -1,397 +1,400 @@
 <!doctype html>
 <html>
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <link
-            rel="stylesheet"
-            href="./Public/fontawesome-free-6.7.2-web/css/all.min.css"
-            type="text/css"
-            media="all"
-        />
-        <link
-            rel="stylesheet"
-            href="./Public/bootstrap-5.3.3-dist/css/bootstrap.min.css"
-            type="text/css"
-            media="all"
-        />
-        <link rel="stylesheet" type="text/css" media="all" />
-        <title></title>
-    </head>
-    <body>
-        <header class="py-md-4 pb-2">
-            <div
-                class="nav navbar p-md-2 shadow mx-auto container position-fixe mx-md-5 bg-success flex-wrap justify-content-between navbar-light d-flex"
-            >
-                <div
-                    class="navbar-brand order-1 justify-content-center align-items-center gap-1 d-flex flex-nowrap p-2 col-md-"
-                >
-                    <button
-                        class="btn navbar-toggler"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#sideNav"
-                    >
-                        <span class="navbar-toggler-icon"> </span>
-                    </button>
-                    <div class="p-auto">
-                        <h1 class="text-heading display-6">Restaurant</h1>
-                    </div>
-                </div>
-                <div
-                    class="navbar-search order-3 col-12 flex-fill order-lg-2 order-md-3 float-end mx-auto col-md-auto col-lg- float-end d-noe d-md-inline"
-                >
-                    <form
-                        class="border d-flex justify-content-between border-2 justify-content-center align-items-center rounded-pill p-1 my-2 mx-2"
-                        action="/search"
-                        method="post"
-                    >
-                        <input
-                            type="search"
-                            name="searchTerm"
-                            id="searchTerm"
-                            list="searchSuggestions"
-                            placeholder="Search for anything..."
-                            class="w-100 form-control px-3 py-1 bg-transparent border-0 outline-0"
-                            value=""
-                        />
-                        <datalist id="searchSuggestions"> </datalist>
-                        <!-- <label for="searchTerm"></label> -->
-                        <button class="fa-solid p-2 fa-search"></button>
-                    </form>
-                </div>
-                <div
-                    class="navbar-nav order-2 flex-md-shrink-1 order-lg-3 order-md-2 d-flex justify-content-center align-items-center px-2"
-                >
-                    <div
-                        class="nav-items d-flex gap-3 gap-md-2 justify-content-end"
-                    >
-                        <div class="nav-item d-lg-none">
-                            <a href="#" class="nav-link" id="btnSearch">
-                                <i class="fa-solid fa-search"> </i>
-                                <span class="d-none d-md-inline"> Search </span>
-                            </a>
-                        </div>
-                        <div class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa fa-shopping-cart"> </i>
-                                <span class="d-none d-md-inline"> Cart </span>
-                            </a>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <button
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                                id="accountDropdown"
-                                type="button"
-                                class="nav-link dropdown-toggle"
-                            >
-                                <i class="fa fa-user-circle"> </i>
-                                <span class="d-none d-md-inline">
-                                    Account
-                                </span>
-                            </button>
-                            <ul
-                                class="dropdown-menu position-absolute"
-                                aria-labelledby="accountDropdown"
-                            >
-                                <li
-                                    class="dropdown-item border-1 border-bottom justify-content-start align-items-center d-flex gap-2"
-                                >
-                                    <i class="fa fa-heart"> </i>
-                                    <a href="/wishlist" class="nav-link">
-                                        Wishlist
-                                    </a>
-                                </li>
-                                <li
-                                    class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2"
-                                >
-                                    <i class="fa fa-box"> </i>
-                                    <a href="/order" class="nav-link">
-                                        Orders
-                                    </a>
-                                </li>
-                                <li
-                                    class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2"
-                                >
-                                    <i class="fa fa-cog"> </i>
-                                    <a href="/settings" class="nav-link">
-                                        Settings
-                                    </a>
-                                </li>
-                                <li
-                                    class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2"
-                                >
-                                    <a href="" class="nav-link"> settings </a>
-                                </li>
-                                <li class="dropdown-divider"></li>
-                                <li
-                                    class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2 d-flex justify-content-start gap-2 align-items-center"
-                                >
-                                    <i class="fa fa-sign-out"> </i>
-                                    <a href="" class="nav-link"> logout </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <link rel="stylesheet" href="./Public/fontawesome-free-6.7.2-web/css/all.min.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="./Public/bootstrap-5.3.3-dist/css/bootstrap.min.css" type="text/css" media="all" />
+  <link rel="stylesheet" type="text/css" media="all" />
+  <title> </title>
+</head>
+
+<body>
+  <header class="py-md-4 pb-2">
+    <div
+                                                                                                                            class="nav navbar p-md-2 shadow mx-auto container position-fixe mx-md-5 bg-success flex-wrap justify-content-between navbar-light d-flex">
+      <div class="navbar-brand order-1 justify-content-center align-items-center gap-1 d-flex flex-nowrap p-2 col-md-">
+        <button class="btn navbar-toggler" data-bs-toggle="collapse" data-bs-target="#sideNav">
+          <span class="navbar-toggler-icon"> </span>
+        </button>
+        <div class="p-auto">
+          <h1 class="text-heading display-6">Restaurant</h1>
+        </div>
+      </div>
+      <div
+                                                                                                                              class="navbar-search order-3 col-12 flex-fill order-lg-2 order-md-3 float-end mx-auto col-md-auto col-lg- float-end d-noe d-md-inline">
+        <form class="border d-flex justify-content-between border-2 justify-content-center align-items-center rounded-pill p-1 my-2 mx-2"
+                                                                                                                                action="/search"
+                                                                                                                                method="post">
+          <input type="search" name="searchTerm" id="searchTerm" list="searchSuggestions" placeholder="Search for anything..." class="w-100 form-control px-3 py-1 bg-transparent border-0 outline-0"
+                                                                                                                                  value="" />
+          <datalist id="searchSuggestions"> </datalist>
+          <!-- <label for="searchTerm"></label> -->
+          <button class="fa-solid p-2 fa-search"></button>
+        </form>
+      </div>
+      <div
+                                                                                                                              class="navbar-nav order-2 flex-md-shrink-1 order-lg-3 order-md-2 d-flex justify-content-center align-items-center px-2">
+        <div class="nav-items d-flex gap-3 gap-md-2 justify-content-end">
+          <div class="nav-item d-lg-none">
+            <a href="#" class="nav-link" id="btnSearch">
+              <i class="fa-solid fa-search"> </i>
+              <span class="d-none d-md-inline"> Search </span>
+            </a>
+          </div>
+          <div class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fa fa-shopping-cart"> </i>
+              <span class="d-none d-md-inline"> Cart </span>
+            </a>
+          </div>
+          <div class="nav-item dropdown">
+            <button data-bs-toggle="dropdown" aria-expanded="false" id="accountDropdown" type="button"
+                                                                                                                                    class="nav-link dropdown-toggle">
+              <i class="fa fa-user-circle"> </i>
+              <span class="d-none d-md-inline">
+                Account
+              </span>
+            </button>
+            <ul class="dropdown-menu position-absolute" aria-labelledby="accountDropdown">
+              <li class="dropdown-item border-1 border-bottom justify-content-start align-items-center d-flex gap-2">
+                <i class="fa fa-heart"> </i>
+                <a href="/wishlist" class="nav-link">
+                  Wishlist
+                </a>
+              </li>
+              <li class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2">
+                <i class="fa fa-box"> </i>
+                <a href="/order" class="nav-link">
+                  Orders
+                </a>
+              </li>
+              <li class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2">
+                <i class="fa fa-cog"> </i>
+                <a href="/settings" class="nav-link">
+                  Settings
+                </a>
+              </li>
+              <li class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2">
+                <a href="" class="nav-link"> settings </a>
+              </li>
+              <li class="dropdown-divider"></li>
+              <li
+                                                                                                                                      class="dropdown-item border border-bottom justify-content-start align-items-center d-flex gap-2 d-flex justify-content-start gap-2 align-items-center">
+                <i class="fa fa-sign-out"> </i>
+                <a href="" class="nav-link"> logout </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <main class="container mt-5 pt-5 d-flex gap-3">
+    <aside id="sideNav"
+                                                                                                                            class="side-nav mh-100 collapse overflow-scroll position-absolute border col-6 col-md-3 col-lg-2">
+    </aside>
+    <main class="col-12 d-flex flex-column flex-wrap flex-md-row">
+      <section id="imagesSection" class="pb-5">
+        <div class="position-relative">
+          <div class="cover-image position-relative border col-12">
+            <img class="img-fluid object-fit-cover" src="https://placehold.co/600x200?text=centralmarket&color=#f3d2a9"
+                                                                                                                                    alt="" />
+          </div>
+          <div
+                                                                                                                                  class="position-absolute top-50 mx-2 start-0 t-4 profile-image overflow-hidden border border-2 rounded-3 col-4 col-md-3">
+            <img class="img-fluid object-fit-cover" src="https://placehold.co/400/orange/green?text=centralmarket"
+                                                                                                                                    alt="" />
+          </div>
+        </div>
+      </section>
+      <section id="infoSection" class="py-5">
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="main-info d-flex gap-1 flex-column">
+            <span class="fs-5 p-0 fw-bold">
+              Bin munir shoes
+            </span>
+            <span class="text-muted p-0 fs-6">
+              Footwears and jewellery
+            </span>
+          </div>
+          <div class="main-info-actions">
+            <button class="btn rounded-pill btn-outline-dark">
+              <i class="fa fa-external-link"> </i>
+              Contact
+            </button>
+          </div>
+        </div>
+        <div class="store-desc mt-4">
+          <h4 class="text-heading fs-5 fw-semibold">
+            Description
+          </h4>
+          <span class="text-desc fs-6 fw-light">
+            Lorem ipsum, dolor sit amet consectetur adipisicing
+            elit. Assumenda quae minus odio sint atque
+            consectetur nostrum omnis alias molestias, ipsa quas
+            aperiam natus, accusantium sunt excepturi.
+            Distinctio dolorum pariatur sed.
+          </span>
+        </div>
+      </section>
+      <section id="tagsSection" class="py-5">
+        <div class="heading">
+          <h4 class="text-heading">Tags</h4>
+        </div>
+        <div class="tags d-flex gap-1 flex-wrap">
+          <span class="rounded-pill border py-1 px-3">
+            Lorem ipsum dolor
+          </span>
+          <span class="rounded-pill border py-1 px-3">
+            Lorem
+          </span>
+          <span class="rounded-pill border py-1 px-3">
+            Lorem
+          </span>
+          <span class="rounded-pill border py-1 px-3">
+            Lorem
+          </span>
+          <span class="rounded-pill border py-1 px-3">
+            Lorem dj
+          </span>
+          <span class="rounded-pill border py-1 px-3">
+            Lorem
+          </span>
+          <a href="#" class="rounded-pill py-1 px-1"> more... </a>
+        </div>
+      </section>
+      
+      
+      <section id="actionsSection" class="actions">
+        <div class="actions mx-auto px-1 btn-group bg-white col-12 col-md-8 col-lg-6">
+          <button class="btn btn-lg btn-dark  btn-outline-dark col-12">
+            <i class="fa fa-shopping-cart"> </i>
+            <span class=""> Add to cart </span>
+          </button>
+          <button class="btn btn-lg btn-outline-dark">
+            <i class="far fa-heart"> </i>
+          </button>
+        </div>
+      </section>
+      <section id="specsSection" class="my-5">
+        <div class="heading d-flex justify-content-between align-items-center">
+          <h4 class="text-heading fw-semibold">Specifications</h4>
+        </div>
+        <div class="container p-2">
+          <div class="my-4">
+            <h6 class="heading fs-6 fw-semibold">Colors</h6>
+            <div class="sizes-select d-flex gap-2">
+              <span class="text-capitalize btn btn-outline-dark rounded">
+                <input type="radio" name="color" class="input-color" hidden value="green" id="color_green" />
+                <label for="color_green">green</label>
+              </span>
             </div>
-        </header>
+          </div>
+          <div class="my-4">
+            <h6 class="heading fs-6 fw-semibold">Sizes</h6>
+            <div class="sizes-select d-flex gap-2">
+              <span class="text-capitalize btn btn-outline-dark rounded">
+                <input type="radio" name="size" class="input-size" hidden value="xxl" id="size_xxl" />
+                <label for="size_xxl">xxl</label>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="reviewsSection" class="py-5 p-2">
+        <div class="heading d-flex justify-content-between align-items-center">
+          <h4 class="text-heading fs-4">Ratings and reviews</h4>
+          <a class="link-dark" href="#">
+            <i class="fa fa-arrow-right"> </i>
+          </a>
+        </div>
+        <div class="product-rating my-3">
+          <div class="rating-number">
+            <h3 class="display-1 fw-bold m-0 p-0">3.6</h3>
+          </div>
+          <div class="rating-stars">
+            <i class="fa fa-star"> </i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"> </i>
+            <i class="far fa-star"> </i>
+            <i class="far fa-star"></i>
+          </div>
+          <div class="rating-count">
+            <span class="fs-6"> (402) </span>
+          </div>
+        </div>
+        <div class="reviews my-5">
+          <div class="single-review my-4 d-flex flex-column gap-3">
+            <div class="review-heading d-flex gap-2">
+              <div class="review-image overflow-hidden rounded-circle col-2">
+                <img src="https://placehold.co/400" alt="" class="img-fluid" />
+              </div>
+              <div class="review-info">
+                <h4 class="fs-6 review-name text-capitalize">
+                  Bukola saraki
+                </h4>
+                <span class="rating-stars fs-6 text-muted">
+                  <i class="fa fa-star"> </i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="far fa-star"></i>
+                </span>
+              </div>
+            </div>
+            <div class="review-text">
+              <p class="text-dark">
+                Lorem ipsum dolor sit amet consectetur
+                adipisicing elit. Amet rerum facere quidem
+                eius dicta deleniti exercitationem dolor.
+              </p>
+              <small class="text-muted">
+                74 people found this helpful
+              </small>
+            </div>
+            <div class="review-action d-flex align-items-center justify-content-between">
+              <small class="">
+                Was this review helpful?
+              </small>
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-dark">
+                  Yes
+                </button>
+                <button class="btn btn-outline-dark">
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="productsSection" class="">
+        <div class="heading d-flex py-3 align-items-start justify-content-between">
+          <h4 class="text-heading">Products</h4>
+          <button class="btn rounded-pill btn-outline-dark">
+            <i class="fa fa-add"> </i>
+            Add product
+          </button>
+        </div>
+        <div class="d-flex flex-wrap">
+          <div class="single-product my-3 p-2 col-6 col-md-4 col-lg-3 card border-0">
+            <div class="card-image position-relative">
+              <img src="./Public/IMG/image-4.jpg" alt="" class="img-fluid object-fit-cover aspect-ratio-square" />
+            </div>
+            <div class="card-info py-3">
+              <div class="">
+                <a href="/preview/<%= product._id %>"
+                                                                                                                                        class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold">
+                  Lorem, ipsum dolor.
+                </a>
+              </div>
+              <div class="d-flex gap-2 fs-6 fw-semibold justify-content-start">
+                <div class="old-price text-muted -emphasis">
+                  <span class="text-decoration-line-through fw-light">
+                    $600</span>
+                </div>
+                <div class="price">
+                  <p class="fs-5">$600</p>
+                </div>
+              </div>
+            </div>
+            <div class="card-action m-0 btn-group btn-group-sm">
+              <button class="btn btn-outline-dark">
+                <i class="fas fa-shopping-cart"> </i>
+                <span class=""> Add to cart </span>
+              </button>
+              <button class="btn btn-outline-dark">
+                <i class="far fa-heart"> </i>
+              </button>
+            </div>
+          </div>
+          <div class="single-product my-3 p-2 col-6 col-md-4 col-lg-3 card border-0">
+            <div class="card-image position-relative">
+              <img src="./Public/IMG/image-4.jpg" alt="" class="img-fluid object-fit-cover aspect-ratio-square" />
+            </div>
+            <div class="card-info py-3">
+              <div class="">
+                <a href="/preview/<%= product._id %>"
+                                                                                                                                        class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold">
+                  Lorem, ipsum dolor.
+                </a>
+              </div>
+              <div class="d-flex gap-2 fs-6 fw-semibold justify-content-start">
+                <div class="old-price text-muted -emphasis">
+                  <span class="text-decoration-line-through fw-light">
+                    $600</span>
+                </div>
+                <div class="price">
+                  <p class="fs-5">$600</p>
+                </div>
+              </div>
+            </div>
+            <div class="card-action m-0 btn-group btn-group-sm">
+              <button class="btn btn-outline-dark">
+                <i class="fas fa-shopping-cart"> </i>
+                <span class=""> Add to cart </span>
+              </button>
+              <button class="btn btn-outline-dark">
+                <i class="far fa-heart"> </i>
+              </button>
+            </div>
+          </div>
+          <div class="single-product my-3 p-2 col-6 col-md-4 col-lg-3 card border-0">
+            <div class="card-image position-relative">
+              <img src="./Public/IMG/image-4.jpg" alt="" class="img-fluid object-fit-cover aspect-ratio-square" />
+            </div>
+            <div class="card-info py-3">
+              <div class="">
+                <a href="/preview/<%= product._id %>"
+                                                                                                                                        class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold">
+                  Lorem, ipsum dolor.
+                </a>
+              </div>
+              <div class="d-flex gap-2 fs-6 fw-semibold justify-content-start">
+                <div class="old-price text-muted -emphasis">
+                  <span class="text-decoration-line-through fw-light">
+                    $600</span>
+                </div>
+                <div class="price">
+                  <p class="fs-5">$600</p>
+                </div>
+              </div>
+            </div>
+            <div class="card-action m-0 btn-group btn-group-sm">
+              <button class="btn btn-outline-dark">
+                <i class="fas fa-shopping-cart"> </i>
+                <span class=""> Add to cart </span>
+              </button>
+              <button class="btn btn-outline-dark">
+                <i class="far fa-heart"> </i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="messagesSection" class=""></section>
+      <section id="relatedSection" class=""></section>
+    </main>
+  </main>
+  <script src="./Public/fontawesome-free-6.7.2-web/js/all.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./Public/bootstrap-5.3.3-dist/js/bootstrap.bundle.js" type="text/javascript" charset="utf-8"></script>
+  <style type="text/css" media="all">
+    .navbar-search {
+      display: none;
+    }
+    
+    .sticky {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+  </style>
+  <script src="./public/JS/preview.js" type="text/javascript" charset="utf-8"></script>
+</body>
 
-        <main class="container mt-5 pt-5 d-flex gap-3">
-            <aside
-                id="sideNav"
-                class="side-nav mh-100 collapse overflow-scroll position-absolute border col-6 col-md-3 col-lg-2"
-            ></aside>
-            <main class="col-12 d-flex flex-column flex-wrap flex-md-row">
-                <section id="imagesSection" class="pb-5">
-                    <div class="position-relative">
-                        <div
-                            class="cover-image position-relative border col-12"
-                        >
-                            <img
-                                class="img-fluid object-fit-cover"
-                                src="https://placehold.co/600x200?text=centralmarket&color=#f3d2a9"
-                                alt=""
-                            />
-                        </div>
-                        <div
-                            class="position-absolute top-50 mx-2 start-0 t-4 profile-image overflow-hidden border border-2 rounded-3 col-4 col-md-3"
-                        >
-                            <img
-                                class="img-fluid object-fit-cover"
-                                src="https://placehold.co/400/orange/green?text=centralmarket"
-                                alt=""
-                            />
-                        </div>
-                    </div>
-                </section>
-                <section id="infoSection" class="py-5">
-                    <div
-                        class="d-flex justify-content-between align-items-start"
-                    >
-                        <div class="main-info d-flex gap-1 flex-column">
-                            <span class="fs-5 p-0 fw-bold">
-                                Bin munir shoes
-                            </span>
-                            <span class="text-muted p-0 fs-6">
-                                Footwears and jewellery
-                            </span>
-                        </div>
-                        <div class="main-info-actions">
-                            <button class="btn rounded-pill btn-outline-dark">
-                                <i class="fa fa-external-link"> </i>
-                                Contact
-                            </button>
-                        </div>
-                    </div>
-                    <div class="store-desc mt-4">
-                        <h4 class="text-heading fs-5 fw-semibold">
-                            Description
-                        </h4>
-                        <span class="text-desc fs-6 fw-light">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing
-                            elit. Assumenda quae minus odio sint atque
-                            consectetur nostrum omnis alias molestias, ipsa quas
-                            aperiam natus, accusantium sunt excepturi.
-                            Distinctio dolorum pariatur sed.
-                        </span>
-                    </div>
-                </section>
-                <section id="tagsSection" class="py-5">
-                    <div class="heading">
-                        <h4 class="text-heading">Tags</h4>
-                    </div>
-                    <div class="tags d-flex gap-1 flex-wrap">
-                        <span class="rounded-pill border py-1 px-3">
-                            Lorem ipsum dolor
-                        </span>
-                        <span class="rounded-pill border py-1 px-3">
-                            Lorem
-                        </span>
-                        <span class="rounded-pill border py-1 px-3">
-                            Lorem
-                        </span>
-                        <span class="rounded-pill border py-1 px-3">
-                            Lorem
-                        </span>
-                        <span class="rounded-pill border py-1 px-3">
-                            Lorem dj
-                        </span>
-                        <span class="rounded-pill border py-1 px-3">
-                            Lorem
-                        </span>
-                        <a href="#" class="rounded-pill py-1 px-1"> more... </a>
-                    </div>
-                </section>
-                <section id="productsSection" class="">
-                    <div
-                        class="heading d-flex py-3 align-items-start justify-content-between"
-                    >
-                        <h4 class="text-heading">Products</h4>
-                        <button class="btn rounded-pill btn-outline-dark">
-                            <i class="fa fa-add"> </i>
-                            Add product
-                        </button>
-                    </div>
-                    <div class="d-flex flex-wrap">
-                        <div
-                            class="single-product my-3 p-2 col-6 col-md-4 col-lg-3 card border-0"
-                        >
-                            <div class="card-image position-relative">
-                                <img
-                                    src="./Public/IMG/image-4.jpg"
-                                    alt=""
-                                    class="img-fluid object-fit-cover aspect-ratio-square"
-                                />
-                            </div>
-                            <div class="card-info py-3">
-                                <div class="">
-                                    <a
-                                        href="/preview/<%= product._id %>"
-                                        class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold"
-                                    >
-                                        Lorem, ipsum dolor.
-                                    </a>
-                                </div>
-                                <div
-                                    class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
-                                >
-                                    <div class="old-price text-muted -emphasis">
-                                        <span
-                                            class="text-decoration-line-through fw-light"
-                                        >
-                                            $600</span
-                                        >
-                                    </div>
-                                    <div class="price">
-                                        <p class="fs-5">$600</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-action m-0 btn-group btn-group-sm">
-                                <button class="btn btn-outline-dark">
-                                    <i class="fas fa-shopping-cart"> </i>
-                                    <span class=""> Add to cart </span>
-                                </button>
-                                <button class="btn btn-outline-dark">
-                                    <i class="far fa-heart"> </i>
-                                </button>
-                            </div>
-                        </div>
-                        <div
-                            class="single-product my-3 p-2 col-6 col-md-4 col-lg-3 card border-0"
-                        >
-                            <div class="card-image position-relative">
-                                <img
-                                    src="./Public/IMG/image-4.jpg"
-                                    alt=""
-                                    class="img-fluid object-fit-cover aspect-ratio-square"
-                                />
-                            </div>
-                            <div class="card-info py-3">
-                                <div class="">
-                                    <a
-                                        href="/preview/<%= product._id %>"
-                                        class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold"
-                                    >
-                                        Lorem, ipsum dolor.
-                                    </a>
-                                </div>
-                                <div
-                                    class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
-                                >
-                                    <div class="old-price text-muted -emphasis">
-                                        <span
-                                            class="text-decoration-line-through fw-light"
-                                        >
-                                            $600</span
-                                        >
-                                    </div>
-                                    <div class="price">
-                                        <p class="fs-5">$600</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-action m-0 btn-group btn-group-sm">
-                                <button class="btn btn-outline-dark">
-                                    <i class="fas fa-shopping-cart"> </i>
-                                    <span class=""> Add to cart </span>
-                                </button>
-                                <button class="btn btn-outline-dark">
-                                    <i class="far fa-heart"> </i>
-                                </button>
-                            </div>
-                        </div>
-                        <div
-                            class="single-product my-3 p-2 col-6 col-md-4 col-lg-3 card border-0"
-                        >
-                            <div class="card-image position-relative">
-                                <img
-                                    src="./Public/IMG/image-4.jpg"
-                                    alt=""
-                                    class="img-fluid object-fit-cover aspect-ratio-square"
-                                />
-                            </div>
-                            <div class="card-info py-3">
-                                <div class="">
-                                    <a
-                                        href="/preview/<%= product._id %>"
-                                        class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold"
-                                    >
-                                        Lorem, ipsum dolor.
-                                    </a>
-                                </div>
-                                <div
-                                    class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
-                                >
-                                    <div class="old-price text-muted -emphasis">
-                                        <span
-                                            class="text-decoration-line-through fw-light"
-                                        >
-                                            $600</span
-                                        >
-                                    </div>
-                                    <div class="price">
-                                        <p class="fs-5">$600</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-action m-0 btn-group btn-group-sm">
-                                <button class="btn btn-outline-dark">
-                                    <i class="fas fa-shopping-cart"> </i>
-                                    <span class=""> Add to cart </span>
-                                </button>
-                                <button class="btn btn-outline-dark">
-                                    <i class="far fa-heart"> </i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section id="messagesSection" class=""></section>
-                <section id="relatedSection" class=""></section>
-            </main>
-            <script src="/JS/register.js"></script>
-        </main>
-        <script src="login.js" type="text/javascript" charset="utf-8"></script>
-        <script
-            src="./Public/fontawesome-free-6.7.2-web/js/all.js"
-            type="text/javascript"
-            charset="utf-8"
-        ></script>
-        <script
-            src="./Public/bootstrap-5.3.3-dist/js/bootstrap.bundle.js"
-            type="text/javascript"
-            charset="utf-8"
-        ></script>
-        <style type="text/css" media="all">
-            .navbar-search {
-                display: none;
-            }
-            .btn {
-            }
-        </style>
-        <script src="./Public/JS/homepage.js"></script>
-    </body>
 </html>

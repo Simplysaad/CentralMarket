@@ -15,6 +15,7 @@ const customerController = require("../Controllers/customer.controller.js");
 router.get("/", customerController.getHomeProducts);
 router.get("/home", customerController.getProducts);
 router.get("/products", customerController.getProducts);
+
 //[new arrivals, top rated, deals of the day, christmas collection, clearance sales]
 
 router.all("/search/:searchType", customerController.searchController);
@@ -59,4 +60,5 @@ router.get("/store/:id", async (req, res) => {
     console.error(err);
   }
 });
+
 module.exports = router;

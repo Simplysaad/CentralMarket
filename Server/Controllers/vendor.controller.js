@@ -1,4 +1,12 @@
-let Product = require("../Models/product.model.js");
+const mongoose = require("mongoose");
+
+const Product = require("../Models/product.model.js");
+const Search = require("../Models/search.model.js");
+const User = require("../Models/user.model.js");
+const Review = require("../Models/review.model.js");
+const Order = require("../Models/order.model.js");
+
+
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -181,12 +189,5 @@ exports.editProduct = async (req, res, next) => {
     });
   } catch (err) {
     next(err);
-    // return res.status(500).json({
-    //     success: false,
-    //     message: "internal server error",
-    //     advice: "something's wrong here, try again later",
-    //     errorMessage: err.message,
-    //     errorStack: err.stack
-    // });
   }
 };
