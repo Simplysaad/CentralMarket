@@ -1,6 +1,11 @@
 let Product = require("../Models/product.model.js");
 let cloudinary = require("cloudinary");
-
+const locals = {
+    title: "Admin | CentralMarket",
+    description: "",
+    image: "/IMG/favicon.jpg",
+    keywords: []
+};
 exports.addProduct = async (req, res, next) => {
     try {
         if (!req.body)

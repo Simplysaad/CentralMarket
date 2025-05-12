@@ -7,7 +7,12 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET
 });
 const User = require("../Models/user.model.js");
-
+const locals = {
+    title: "Auth | CentralMarket",
+    description: "",
+    image: "/IMG/favicon.jpg",
+    keywords: []
+};
 const categories = [
     "study materials",
     "electronics",
@@ -32,7 +37,23 @@ function generate_random_color() {
     return color;
 }
 
-const login = async (req, res) => {
+
+
+exports.getAuth = async (req, res) => {
+    try {
+        res.status(200).render("Pages/Auth/auth", { locals });
+    } catch (err) {
+        console.error(err);
+    }
+}
+exports.getLogin = async (req, res) => {
+    try {
+        res.status(200).render("Pages/Auth/login", { locals });
+    } catch (err) {
+        console.error(err);
+    }
+};
+exports.postLogin = async (req, res) => {
     try {
         req.session.trialCount = 0;
         let { emailAddress, password } = req.body;
@@ -87,7 +108,15 @@ const login = async (req, res) => {
         });
     }
 };
-const register = async (req, res) => {
+
+exports.getRegister = async (req, res) => {
+    try {
+        res.status(200).render("Pages/Auth/register", { locals });
+    } catch (err) {
+        console.error(err);
+    }
+};
+exports.postRegister = async (req, res) => {
     try {
         const { emailAddress, password, role } = req.body;
         // let isUserExist = false; //true
@@ -131,9 +160,7 @@ const register = async (req, res) => {
         } else
             profileImage = `https://placehold.co/400/${
                 profile_color + "ff"
-            }/#000?text=${
-                req.body.name[0].toUpperCase()
-            }`;
+            }/#000?text=${req.body.name[0].toUpperCase()}`;
 
         let newUser = new User({
             ...req.body,
@@ -141,9 +168,9 @@ const register = async (req, res) => {
             role: "admin",
             //this is supposed to come from the form but i've not added a field to the form yet
             profileImage,
-            coverImage: `https://placehold.co/600x200/${profile_color + "00"}/#fff?text=${
-                req.body.businessName || "CentralMarket"
-            }&color=`
+            coverImage: `https://placehold.co/600x200/${
+                profile_color + "00"
+            }/#fff?text=${req.body.businessName || "CentralMarket"}&color=`
         });
 
         await newUser.save();

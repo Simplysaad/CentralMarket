@@ -5,6 +5,12 @@ const Review = require("../Models/review.model.js");
 const Order = require("../Models/order.model.js");
 
 const { shuffle } = require("../Utils/helper.js");
+const locals = {
+    title: "Account | CentralMarket",
+    description: "",
+    image: "/IMG/favicon.jpg",
+    keywords: []
+};
 
 exports.getCart = async (req, res, next) => {
     try {
@@ -33,10 +39,13 @@ exports.getCart = async (req, res, next) => {
         let cartItemsCount = cart.length;
         let deliveryFee = 0;
 
+        locals.title = "Cart | CentralMarket";
+
         return res.status(200).render("Pages/Customer/cart_page", {
             success: true,
             message: "cart items fetched successfully",
             cart,
+            locals,
             deliveryFee,
             cartTotal,
             cartQuantity,
@@ -303,9 +312,10 @@ exports.getWishlist = async (req, res, next) => {
                 wishlistProducts
             });
         }
-
+        locals.title = "Wishlist | CentralMarket";
         return res.status(200).render("Pages/Customer/wishlist_page", {
             success: true,
+            locals,
             message: "wishlist products fetched successfully",
             wishlistProducts
         });
@@ -346,7 +356,7 @@ exports.postWishlistItem = async (req, res, next) => {
 exports.deleteWishlistItem = async (req, res, next) => {
     try {
         let { id: productId } = req.params;
-       // let { _id: userId } = req.session.currentUser;
+        // let { _id: userId } = req.session.currentUser;
 
         let index = req.session.wishlist.findIndex(id => id === productId);
 

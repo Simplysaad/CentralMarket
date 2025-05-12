@@ -5,7 +5,12 @@ const Review = require("../Models/review.model.js");
 const Order = require("../Models/order.model.js");
 
 const { shuffle } = require("../Utils/helper.js");
-
+const locals = {
+    title: "CentralMarket",
+    description: "",
+    image: "/IMG/favicon.jpg",
+    keywords: []
+};
 exports.getHomeProducts = async (req, res, next) => {
     try {
         // GET NEW ARRIVALS
@@ -40,6 +45,7 @@ exports.getHomeProducts = async (req, res, next) => {
         let { cart = [] } = req.session;
 
         return res.status(200).render("Pages/Customer/index_page", {
+           locals,
             topRatedProducts,
             featuredProducts,
             discountedProducts,
@@ -136,7 +142,7 @@ exports.searchController = async (req, res, next) => {
             .select("-password ")
             .select("_id business description coverImage profileImage category")
             .lean();
-            
+
         searchResults.products = await Product.find({
             $or: [
                 { name: regex },
@@ -165,6 +171,7 @@ exports.searchController = async (req, res, next) => {
 
             return res.status(201).render("Pages/Customer/empty_search_page", {
                 success: false,
+                locals,
                 searchResults,
                 searchTerm,
                 recommendations,
@@ -195,7 +202,8 @@ exports.searchController = async (req, res, next) => {
         return res.status(201).render("Pages/Customer/search_page", {
             success: true,
             searchResults,
-            searchTerm
+            searchTerm,
+            locals,
         });
     } catch (err) {
         console.error("Error in search route:", err); // More specific error message
@@ -444,6 +452,7 @@ exports.getCart = async (req, res, next) => {
             success: true,
             message: "cart items fetched successfully",
             cart,
+            locals,
             deliveryFee,
             cartTotal,
             cartQuantity,
@@ -480,7 +489,7 @@ exports.getProducts = async (req, res, next) => {
             success: true,
             message: "products fetched successfully",
             products,
-            cart,
+            cart,locals,
             newArrivals
         });
     } catch (err) {
@@ -666,7 +675,7 @@ exports.getPreview = async (req, res, next) => {
 
         return res.render("Pages/Customer/preview_page", {
             currentProduct,
-            reviews
+            reviews,locals
         });
     } catch (err) {
         next(err);
@@ -719,7 +728,7 @@ exports.getCategoryProducts = async (req, res, next) => {
         return res.status(200).render("Pages/Customer/category_page.ejs", {
             categoryName,
             subCategories: subCategoriesElements,
-            featuredProducts,
+            featuredProducts,locals,
             discountedProducts
         });
     } catch (err) {
@@ -736,7 +745,7 @@ exports.getReviewPage = async (req, res, next) => {
         if (productId)
             return res.status(200).render("Pages/Customer/review_page", {
                 currentProduct,
-                currentUser
+                currentUser,locals,
             });
     } catch (err) {
         next(err);
@@ -807,7 +816,7 @@ exports.getStore = async (req, res) => {
         return res.status(200).render("Pages/Customer/store_page", {
             currentVendor,
             products: currentVendorProducts,
-            isCurrentVendor
+            isCurrentVendor,locals
         });
     } catch (err) {
         console.error(err);

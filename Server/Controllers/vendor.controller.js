@@ -6,6 +6,12 @@ const User = require("../Models/user.model.js");
 const Review = require("../Models/review.model.js");
 const Order = require("../Models/order.model.js");
 
+const locals = {
+    title: "Vendor | CentralMarket ",
+    description: "",
+    image: "/IMG/favicon.jpg",
+    keywords: []
+};
 
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
@@ -108,7 +114,7 @@ exports.getDashboard = async (req, res, next) => {
             myOrders,
             completedOrders,
             allCustomers,
-            newCustomers,
+            newCustomers,locals,
             myProducts,
             totalRevenue
         });

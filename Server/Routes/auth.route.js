@@ -7,44 +7,31 @@ const upload = multer({ dest: "./Uploads/Users/" });
 
 const router = express.Router();
 const User = require("../Models/user.model.js");
-const {
-    login,
-    logout,
-    register,
-    putResetPassword,
-    //resetPassword,
-    getResetPasswordLink
-} = require("../Controllers/auth.controller.js");
+const authController = require("../Controllers/auth.controller.js");
 
 let secretKey = process.env.SECRET_KEY;
 
-router.get("/", async (req, res) => {
-    try {
-        res.status(200).render("Pages/Auth/auth", {});
-    } catch (err) {
-        console.error(err);
-    }
-});
-router.get("/login", async (req, res) => {
-    try {
-        res.status(200).render("Pages/Auth/login", {});
-    } catch (err) {
-        console.error(err);
-    }
-});
-router.post("/login", login);
+const locals = {
+    title: "Auth | CentralMarket",
+    description: "",
+    image: "/IMG/favicon.jpg",
+    keywords: []
+};
 
-router.get("/register", async (req, res) => {
-    try {
-        res.status(200).render("Pages/Auth/register", {});
-    } catch (err) {
-        console.error(err);
-    }
-});
-router.post("/register", upload.single("profileImage"), register);
+router.get("/", authController.getAuth);
 
-router.post("/reset-password", getResetPasswordLink);
-router.put("/reset-password", putResetPassword);
+router.post("/login", authController.postLogin);
+router.get("/login", authController.getLogin);
 
-router.post("/logout", logout);
+router.get("/register", authController.getRegister);
+router.post(
+    "/register",
+    upload.single("profileImage"),
+    authController.postRegister
+);
+
+router.post("/reset-password", authController.getResetPasswordLink);
+router.put("/reset-password", authController.putResetPassword);
+
+router.post("/logout", authController.logout);
 module.exports = router;
