@@ -44,6 +44,7 @@ exports.getHomeProducts = async (req, res, next) => {
 
         let { cart = [] } = req.session;
 
+locals.title = "Home | CentralMarket"
         return res.status(200).render("Pages/Customer/index_page", {
            locals,
             topRatedProducts,
@@ -168,7 +169,7 @@ exports.searchController = async (req, res, next) => {
                     $sample: { size: 21 }
                 }
             ]);
-
+locals.title = `Search for ${searchTerm} - no results | CentralMarket`
             return res.status(201).render("Pages/Customer/empty_search_page", {
                 success: false,
                 locals,
@@ -199,6 +200,8 @@ exports.searchController = async (req, res, next) => {
         //     searchResults,
         //     searchTerm
         // });
+        
+        locals.title = `Search for ${searchTerm}| CentralMarket`
         return res.status(201).render("Pages/Customer/search_page", {
             success: true,
             searchResults,
@@ -447,7 +450,7 @@ exports.getCart = async (req, res, next) => {
         let cartQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
         let cartItemsCount = cart.length;
         let deliveryFee = 0;
-
+locals.title = "Cart | CentralMarket"
         return res.status(200).render("Pages/Customer/cart_page", {
             success: true,
             message: "cart items fetched successfully",
@@ -484,7 +487,7 @@ exports.getProducts = async (req, res, next) => {
                 interests: -1
             })
             .limit(14);
-
+locals.title = "Products | CentralMarket"
         return res.status(200).render("Pages/Customer/index_page", {
             success: true,
             message: "products fetched successfully",
@@ -672,7 +675,7 @@ exports.getPreview = async (req, res, next) => {
 
         let currentProduct = await Product.findOne({ _id: productId });
         let reviews = await Review.find({ productId }).populate("customerId");
-
+locals.title = `${currentProduct.name} | CentralMarket`
         return res.render("Pages/Customer/preview_page", {
             currentProduct,
             reviews,locals
@@ -725,6 +728,7 @@ exports.getCategoryProducts = async (req, res, next) => {
         });
 
         // return res.status(200).json({
+        locals.title = `${categoryName} | CentralMarket`
         return res.status(200).render("Pages/Customer/category_page.ejs", {
             categoryName,
             subCategories: subCategoriesElements,

@@ -37,15 +37,13 @@ function generate_random_color() {
     return color;
 }
 
-
-
 exports.getAuth = async (req, res) => {
     try {
         res.status(200).render("Pages/Auth/auth", { locals });
     } catch (err) {
         console.error(err);
     }
-}
+};
 exports.getLogin = async (req, res) => {
     try {
         res.status(200).render("Pages/Auth/login", { locals });
@@ -227,7 +225,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-const getResetPasswordLink = async (req, res) => {
+exports.getResetPasswordLink = async (req, res) => {
     try {
         let { emailAddress } = req.body;
         let token = jwt.sign({ emailAddress }, process.env.SECRET_KEY);
@@ -248,7 +246,7 @@ const getResetPasswordLink = async (req, res) => {
         console.error(err);
     }
 };
-const getResetPassword = async (req, res) => {
+exports.getResetPassword = async (req, res) => {
     try {
         return res
             .status(200)
@@ -257,7 +255,7 @@ const getResetPassword = async (req, res) => {
         console.error(err);
     }
 };
-const putResetPassword = async (req, res) => {
+exports.putResetPassword = async (req, res) => {
     try {
         let { token } = req.query;
         let user = jwt.verify(token, process.env.SECRET_KEY);
@@ -297,7 +295,7 @@ const putResetPassword = async (req, res) => {
     }
 };
 
-const logout = async (req, res) => {
+exports.logout = async (req, res) => {
     try {
         req.session.destroy();
         res.clearCookie("token");
@@ -310,13 +308,4 @@ const logout = async (req, res) => {
     } catch (err) {
         console.error(err);
     }
-};
-
-module.exports = {
-    login,
-    logout,
-    register,
-    //resetPassword,
-    putResetPassword,
-    getResetPasswordLink
 };
