@@ -6,17 +6,18 @@ btnCart.forEach((btn, index) => {
         let { productId } = btn.dataset;
         btn.disabled = true;
         try {
-            fetch(`/cart/${productId}`, {
+            fetch(`/account/cart/${productId}`, {
                 method: "post"
             })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        console.log("in cart");
+                        console.log(`${data?.item?.productId} in cart`);
+
                         btn.classList.replace("btn-outline-dark", "btn-dark");
-                        btn.querySelector(
-                            "span"
-                        ).textContent = `${data?.item.quantity} in cart`;
+                        btn.querySelector("span").textContent = `${
+                            data?.item?.quantity || 0
+                        } in cart`;
                     }
                 })
                 .catch(err => console.error(err));
@@ -32,12 +33,13 @@ btnWish.forEach((btn, index) => {
         let { productId } = btn.dataset;
         btn.disabled = true;
         try {
-            fetch(`/cart/${productId}?wish=add`, {
+            fetch(`/account/wishlist/${productId}`, {
                 method: "post"
             })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
+                      console.log(data.message)
                         btn.classList.replace(
                             "btn-outline-dark",
                             "btn-secondary"
@@ -53,38 +55,3 @@ btnWish.forEach((btn, index) => {
         }
     });
 });
-
-// window.addEventListener("load", async e => {
-//     try {
-fetch(`/cart?checkWishlist=true`)
-    .then(response => response.json())
-    .then(data => {
-        let { wishlist = [] } = data;
-        btnWish.forEach((btn, index) => {
-            let { productId } = btn.dataset;
-        console.log(wishlist, productId);
-            if (!wishlist.includes(productId)) {
-                btn.classList.replace("btn-outline-dark", "btn-secondary");
-                btn.innerHTML = "<i class='fa fa-heart'></i>";
-            }
-        });
-    });
-
-// fetch(`/cart?checkCart=true`)
-//     .then(response => response.json())
-//     .then(data => {
-//         let { cart } = data;
-//         btnCart.forEach((btn, index) => {
-//             let { productId } = btn.dataset;
-//             if (cart.some(item => item.productId === productId)) {
-//                 btn.classList.replace("btn-outline-dark", "btn-dark");
-//                 btn.querySelector(
-//                     "span"
-//                 ).textContent = `${data?.item.quantity} in cart`;
-//             }
-//         });
-//     });
-//     } catch (err) {
-//         console.error(err);
-//     }
-// });

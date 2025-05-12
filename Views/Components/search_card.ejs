@@ -1,35 +1,26 @@
-<div
-    class="single-product p-2 col-6 col-md-4 col-lg-3 card border-0"
->
-    <div class="card-image position-relative">
-        <img
-            src="<%= product.imageUrl ? product.imageUrl : '/IMG/image-4.jpg' %>"
-            alt=""
-            class="img-fluid object-fit-cover aspect-ratio-square"
-        />
+<div class="single-product p-2 col-6 col-md-4 col-lg-3 card border-0">
+  <div class="card-image position-relative">
+    <img src="<%= product.imageUrl ? product.imageUrl : '/IMG/image-4.jpg' %>" alt=""
+                                                                                                                            class="img-fluid object-fit-cover aspect-ratio-square" />
+  </div>
+  <div class="card-info py-3">
+    <div class="">
+      <a href="/preview/<%= product._id %>"
+                                                                                                                              class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold">
+        <%= product.name %>
+      </a>
     </div>
-    <div class="card-info py-3">
-        <div class="">
-            <a
-                href="/preview/<%= product._id %>"
-                class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold"
-            >
-                <%= product.name %>
-            </a>
-        </div>
-        <div
-            class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
-        >
-            <div class="old-price text-muted -emphasis">
-                <span
-                    class="text-decoration-line-through fw-light"
-                >
-                    <%= "$" + product.price %></span
-                >
-            </div>
-            <div class="price">
-                <p class="fs-5"><%= "$" + product.price %></p>
-            </div>
-        </div>
+    <div class="d-flex gap-2 fs-6 fw-semibold justify-content-start">
+      <div class="old-price text-muted -emphasis">
+        <span class="text-decoration-line-through fw-light">
+          <%= "$" + product.price.toLocaleString() %>
+        </span>
+      </div>
+      <div class="price">
+        <p class="fs-5">
+          <%= "$" + product.price.toLocaleString() %>
+        </p>
+      </div>
     </div>
+  </div>
 </div>

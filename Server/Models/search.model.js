@@ -9,6 +9,15 @@ const productSchema = new mongoose.Schema(
     },
     { _id: false }
 );
+const serviceSchema = new mongoose.Schema(
+    {
+        _id: { type: mongoose.Schema.Types.ObjectId, ref: "products" },
+        name: { type: String },
+        imageUrl: { type: String },
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "products" }
+    },
+    { _id: false }
+);
 
 const vendorSchema = new mongoose.Schema(
     {
@@ -23,6 +32,7 @@ const vendorSchema = new mongoose.Schema(
 const resultSchema = new mongoose.Schema(
     {
         products: [productSchema],
+        services: [serviceSchema],
         vendors: [vendorSchema]
     },
     { _id: false }

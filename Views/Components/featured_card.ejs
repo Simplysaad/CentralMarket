@@ -45,11 +45,12 @@
         <div class="d-flex gap-2 fs-6 fw-semibold justify-content-start">
             <div class="old-price text-muted -emphasis">
                 <span class="text-decoration-line-through text-danger fw-light">
-                    <%= "$" + product.price %></span
+                    <%= "$" + product.price.toLocaleString() %>
+                    </span
                 >
             </div>
             <div class="price">
-                <p class="fs-5"><%= "$" + product.price %></p>
+                <p class="fs-5"><%= "$" + product.price.toLocaleString() %></p>
             </div>
         </div>
     </div>

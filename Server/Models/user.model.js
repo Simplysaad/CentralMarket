@@ -92,12 +92,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["male", "female"]
     },
-    wishlist: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "products"
-        }
-    ],
+    wishlist: [String],
+    // wishlist: [
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref: "products"
+    //     }
+    // ],
     orders: [
         {
             type: mongoose.Schema.Types.ObjectId,

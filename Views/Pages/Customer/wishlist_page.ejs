@@ -1,0 +1,21 @@
+<div class="container">
+  <h2 class="wishlist-header">My Wishlist</h2>
+  
+  <% if(wishlistProducts.length> 0){ %>
+    
+    <div id="wishlistContainer" class="row g-4">
+      <!-- Wishlist items will be inserted here <-->
+      <% wishlistProducts.forEach((product, index)=>{ %>
+        <%- include("../../Components/wishlist_card.ejs", {product}) %>
+          <% }) %>
+    </div>
+    <% }else{%>
+      <div id="emptyMessage" class="empty-wishlist flex-column vh-100 d-flex justify-content-center align-items-center">
+        <h4>Your wishlist is empty.</h4>
+        <p>Browse our <a href="/" class="text-decoration-none">products</a> and add your favorites here!</p>
+      </div>
+      <% }%>
+        
+</div>
+
+<script src="/JS/wishlist.js" type="text/javascript" charset="utf-8"></script>

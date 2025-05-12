@@ -2,9 +2,9 @@
 TODO: i Want to design the store page and do the backend typ : DONE
 5/05/2025 02:08am
 
-TODO: search is not sending the results to database
-TODO: total cost is not sent to database during order creation
+ISSUE: search is not sending the results to database:  FIXED
+ISSUE: total cost is not sent to database during order creation
+ISSUE: THE WHOLE UI IS A DISASTER : FIXED
 
+TODO: test wishlist rendering
 
-
-TODO: THE WHOLE UI IS A DISASTER : FIXED

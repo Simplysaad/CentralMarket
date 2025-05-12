@@ -33,13 +33,13 @@ const productSchema = new mongoose.Schema({
     },
     condition: {
         type: String,
-        enum: ["new", "used"],
+        enum: ["new", "used", "old"],
         default: "new"
     },
     discount: discountSchema,
-    available: {
-        type: Boolean,
-        default: true
+    amountInStock: {
+        type: Number,
+        default: 1
     },
     vendorId: {
         type: mongoose.Schema.Types.ObjectId,

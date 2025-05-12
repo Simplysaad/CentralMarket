@@ -37,7 +37,7 @@ const login = async (req, res) => {
         req.session.trialCount = 0;
         let { emailAddress, password } = req.body;
         let currentUser = await User.findOne({ emailAddress }).select(
-            "_id name business emailAddress password role"
+            "_id name business emailAddress wishlist password role"
         );
         if (!currentUser) {
             req.session.trialCount += 1;
