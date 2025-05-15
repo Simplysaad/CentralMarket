@@ -72,6 +72,7 @@ const productSchema = new mongoose.Schema({
             "groceries and snacks",
             "health and personal care",
             "events and experiences",
+            "events merchandise",
             "secondhand marketplace",
             "services",
             "hobbies and entertainment",
@@ -83,6 +84,9 @@ const productSchema = new mongoose.Schema({
         type: String
     },
     imageGallery: [String],
+    expiresAt: {
+        type: Date
+    },
     createdAt: {
         type: Date,
         default: Date.now
@@ -91,25 +95,26 @@ const productSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    interests: {
-        type: Number,
-        default: 0
-    },
-
-    addToCartCount: {
-        type: Number,
-        default: 0
-    },
-    purchaseCount: {
-        type: Number,
-        default: 0
-    },
-    preveiewCount: {
-        type: Number,
-        default: 0
+    meta: {
+        interests: {
+            type: Number,
+            default: 0
+        },
+        addToCartCount: {
+            type: Number,
+            default: 0
+        },
+        purchaseCount: {
+            type: Number,
+            default: 0
+        },
+        preveiewCount: {
+            type: Number,
+            default: 0
+        }
     }
 });
-productSchema.virtual("averageRating").get(function(){
+productSchema.virtual("averageRating").get(function () {
     if (!this.ratings || this.ratings.length === 0) return 5.0;
 
     let sum = this.ratings.reduce((acc, rating) => acc + rating, 0);
