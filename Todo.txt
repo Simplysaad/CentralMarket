@@ -6,5 +6,8 @@ ISSUE: search is not sending the results to database:  FIXED
 ISSUE: total cost is not sent to database during order creation
 ISSUE: THE WHOLE UI IS A DISASTER : FIXED
 
+
+
 TODO: test wishlist rendering
+TODO: arrange the side nav
 

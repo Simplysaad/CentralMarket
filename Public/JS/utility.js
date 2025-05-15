@@ -1,3 +1,9 @@
+let sideNav = document.querySelector("#sideNav");
+let isSmallScreen = window.innerWidth <= 768;
+
+sideNav.classList.toggle("collapse", isSmallScreen);
+sideNav.classList.toggle("position-fixed", isSmallScreen);
+
 const btnCart = document.querySelectorAll(".btn-cart");
 const btnWish = document.querySelectorAll(".btn-wish");
 
@@ -39,7 +45,7 @@ btnWish.forEach((btn, index) => {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                      console.log(data.message)
+                        console.log(data.message);
                         btn.classList.replace(
                             "btn-outline-dark",
                             "btn-secondary"

@@ -1,76 +1,69 @@
 <div id="account_related" class="my-4 border-bottom">
-    <div class="text-heading">
-        <h3 class="fs-5 fw-light text-muted text-capitalize p-2">Account</h3>
-    </div>
-    <ul class="list-unstyled d-flex flex-column gap-2 side-nav-menu">
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-shopping-cart"> </i>
-            <a class="nav-link" href="#">Cart</a>
-        </li>
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-star"> </i>
-            <a class="nav-link" href="#">Wishlist</a>
-        </li>
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-box"> </i>
-            <a class="nav-link" href="#">Previous orders</a>
-        </li>
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-money"> </i>
-            <a class="nav-link" href="#">Payments</a>
-        </li>
-    </ul>
+  <div class="text-heading">
+    <h3 class="fs-5 fw-light text-muted text-capitalize p-2">Account</h3>
+  </div>
+  <ul class="list-unstyled d-flex flex-column gap-2 side-nav-menu">
+    <li class="nav-item p-2 d-flex gap-2">
+      <i class="fa fa-shopping-cart"> </i>
+      <a class="nav-link" href="/account/cart">Cart</a>
+    </li>
+    <li class="nav-item p-2 d-flex gap-2">
+      <i class="fa fa-heart"> </i>
+      <a class="nav-link" href="/account/wishlist">Wishlist</a>
+    </li>
+    <li class="nav-item p-2 d-flex gap-2">
+      <i class="fa fa-box"> </i>
+      <a class="nav-link" href="/account/history">History</a>
+    </li>
+    <li class="nav-item p-2 d-flex gap-2">
+      <i class="fa fa-money"> </i>
+      <a class="nav-link" href="/account/payments">Payments</a>
+    </li>
+  </ul>
 </div>
 
 <div id="categories" class="my-4 border-bottom">
-    <div class="text-heading">
-        <h3 class="fs-5 fw-light text-muted text-capitalize p-2">categories</h3>
-    </div>
-    <ul class="list-unstyled d-flex flex-column gap-2 side-nav-menu">
+  <div class="text-heading">
+    <h3 class="fs-5 fw-light text-muted text-capitalize p-2">categories</h3>
+  </div>
+  
+  <% if(locals.categories){%>
+    <% locals.categories.forEach((category)=>{%>
+      
+      <ul class="list-unstyled d-flex flex-column gap-2 side-nav-menu">
         <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-tag"> </i>
-            <a class="nav-link" href="#">Clothing</a>
+          <i class="fa fa-tag"> </i>
+          <a class="nav-link text-capitalize" href="/category/<%= category %>">
+            <%= category %>
+          </a>
         </li>
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-pizza-slice"> </i>
-            <a class="nav-link" href="#">Food</a>
-        </li>
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-laptop"> </i>
-            <a class="nav-link" href="#">Electronics</a>
-        </li>
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-car"> </i>
-            <a class="nav-link" href="#">Automobiles</a>
-        </li>
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-glass"> </i>
-            <a class="nav-link" href="#">drinks</a>
-        </li>
-    </ul>
+      </ul>
+      <% })%>
+        <% }%>
 </div>
-<div id="miscallenous" class="my-4 border-bottom">
-    <div class="text-heading">
-        <h3 class="fs-5 fw-light text-muted text-capitalize p-2">
-            miscallenous
-        </h3>
-    </div>
-    <ul class="list-unstyled d-flex flex-column gap-2 side-nav-menu">
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-shopping-cart"> </i>
-            <a class="nav-link" href="#">Cart</a>
-        </li>
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-star"> </i>
-            <a class="nav-link" href="#">Wishlist</a>
-        </li>
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-box"> </i>
-            <a class="nav-link" href="#">Previous orders</a>
-        </li>
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-money"> </i>
-            <a class="nav-link" href="#">Payments</a>
-        </li>
-    </ul>
+
+<div id="miscellaneous" class="my-4 border-bottom">
+  <div class="text-heading">
+    <h3 class="fs-5 fw-light text-muted text-capitalize p-2">
+      
+    </h3>
+  </div>
+  <ul class="list-unstyled d-flex flex-column gap-2 side-nav-menu">
+    <li class="nav-item p-2 d-flex gap-2">
+      <i class="fa fa-shop"> </i>
+      <a class="nav-link" href="/sell">Sell on CentralMarket </a>
+    </li>
+    <li class="nav-item p-2 d-flex gap-2">
+      <i class="fa fa-help"> </i>
+      <a class="nav-link" href="/help">Help Center</a>
+    </li>
+    <li class="nav-item p-2 d-flex gap-2">
+      <i class="fa fa-box"> </i>
+      <a class="nav-link" href="/CentralBlog">CentralBlog</a>
+    </li>
+    <li class="nav-item p-2 d-flex gap-2">
+      <i class="fa fa-money"> </i>
+      <a class="nav-link" href="#">Payments</a>
+    </li>
+  </ul>
 </div>

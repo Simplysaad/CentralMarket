@@ -2,8 +2,30 @@
 <html>
 
 <head>
+  
+  <title>
+    <%= locals.title || "Central Market" %>
+  </title>
+  
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="<%= locals.description || '' %>">
+  <meta name="keywords" content="<%= locals.keywords %>">
+  <meta name="robots" content="index, follow">
+  
+  <meta property="og:title" content="<%= locals.title || 'Central Market' %>">
+  <meta property="og:description" content="<%= locals.description || 'Central Market' %>">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://centralmarket.onrender.com/">
+  <meta property="og:image" content="<%= locals.image || '/IMG/favicon.jpg' %>">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= locals.title || 'Central Market' %>">
+  <meta name="twitter:description" content="<%= locals.description || 'Central Market' %>">
+  <meta name="twitter:image" content="<%= locals.image || '/IMG/favicon.jpg' %>">
+  
+  <link rel="shortcut icon" href="/IMG/favicon.jpg" type="image/x-icon" />
+  <link rel="stylesheet" href="/CSS/style.css" type="text/css" media="all" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
                                                                                                                           crossorigin="anonymous"
                                                                                                                           referrerpolicy="no-referrer" />
@@ -11,55 +33,27 @@
                                                                                                                           crossorigin="anonymous"
                                                                                                                           referrerpolicy="no-referrer" />
   
-  <meta name="description" content="<%= locals.description || 'A concise and compelling summary of the page content including relevant keywords.' %>">
-  
-  <meta name="keywords" content="<%= locals.keywords %>">
-  
-  <meta name="robots" content="index, follow">
-  
-  <meta property="og:title" content="<%= locals.title || 'Central Market' %>">
-  
-  <meta property="og:description" content="<%= locals.description || 'Central Market' %>">
-  
-  <meta property="og:type" content="website">
-  
-  <meta property="og:url" content="https://centralmarket.onrender.com/">
-  
-  <meta property="og:image" content="<%= locals.image || '/IMG/favicon.jpg' %>">
-  
-  <meta name="twitter:card" content="summary_large_image">
-  
-  <meta name="twitter:title" content="<%= locals.title || 'Central Market' %>">
-  
-  <meta name="twitter:description" content="<%= locals.description || 'Central Market' %>">
-  
-  <meta name="twitter:image" content="<%= locals.image || '/IMG/favicon.jpg' %>">
-  
-  <link rel="stylesheet" href="/CSS/style.css" type="text/css" media="all" />
-  
-<!--   <link rel="stylesheet" href="/fontawesome-free-6.7.2-web/css/all.css" />
+  <!--   <link rel="stylesheet" href="/fontawesome-free-6.7.2-web/css/all.css" />
 <link rel="stylesheet" href="/bootstrap-5.3.3-dist/css/bootstrap.min.css" type="text/css" media="all" />
- --> 
- <title>
-    <%= locals.title || "Central Market" %>
-  </title>
+ -->
+  
 </head>
 
 <body>
   <header id="mainHeader" class="py-md-4 pb-2">
     <%- include('../Partials/_header') %>
   </header>
-  <main class="container d-flex gap-3">
+  <main class="container position-relative d-lg-flex gap-3">
     <aside id="sideNav"
-                                                                                                                            class="side-nav mh-100 collapse opacity-1 overflow-scroll position-relative border col-6 col-md-3 col-lg-2">
+                                                                                                                            class="z-3 collapse position-fixed col-8 col-md-3 col-lg-2 top-0 my-2 bg-light border p-2 overflow-scroll vh-100">
       <%- include('../Partials/_side_nav')%>
     </aside>
-    <main class="container  flex-md-grow-1">
+    <main class="col-12 col-md-9 col-lg-10 d-flex flex-grow-1 flex-column">
       <%- body %>
     </main>
   </main>
   
-<!--   <script src="/fontawesome-free-6.7.2-web/js/all.js" type="text/javascript" charset="utf-8"></script>
+  <!--   <script src="/fontawesome-free-6.7.2-web/js/all.js" type="text/javascript" charset="utf-8"></script>
 <script src="/bootstrap-5.3.3-dist/js/bootstrap.bundle.js" type="text/javascript" charset="utf-8"></script>
  -->
   <script src="/JS/utility.js"></script>
