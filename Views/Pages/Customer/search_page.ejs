@@ -28,9 +28,9 @@
 
     <section
         id="filterSection"
-        class="border collapse collapse p-2 col-md-3 px-2 col-lg-2"
+        class=" collapsed  p-2 col-md-3 px-2 col-lg-2"
     >
-        <%-include("../../Components/filter_form.ejs") %>
+        <%-include("../../Components/filter_form.ejs", {searchTerm, filter: "products"}) %>
         <!-- Category Filters -->
     </section>
     <section id="listingSection" class="col-md- col-lg- px-2">

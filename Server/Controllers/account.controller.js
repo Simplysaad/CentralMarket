@@ -64,12 +64,13 @@ exports.getCart = async (req, res, next) => {
 };
 exports.postCart = async (req, res, next) => {
     try {
+        console.log("i'm to post ca")
         if (!req.session.cart) req.session.cart = [];
 
         let { userId, cart } = req.session;
         let { id: productId } = req.params;
 
-        let { quantity } = req.query;
+        let { quantity, wish } = req.query;
 
         if (quantity && quantity !== "") {
             quantity = Number(quantity);
@@ -325,22 +326,10 @@ exports.getWishlist = async (req, res, next) => {
 };
 exports.postWishlistItem = async (req, res, next) => {
     try {
-        let { id: productId } = req.params;
-        console.log(productId);
-        //  let { _id: userId } = req.session.currentUser;
-        let userId = false;
+        let { id: productId } = req.params
 
-        req.session.wishlist.push(productId);
-        console.log(req.session.wishlist);
-
-        req.session.wishlist = [...new Set(req.session.wishlist)];
-
-        // if (userId) {
-        //     let updatedUser = await User.findOneAndUpdate(
-        //         { _id: userId },
-        //         { $addToSet: { wishlist: { $each: req.session.wishlist } } }
-        //     );
-        // }
+        req.session.wishlist = req.session.wishlist ?? [];
+        req.session.wishlist.includes(productId) ? console.log("item already in wishlist") : req.session.wishlist.push(productId)
 
         console.log(req.session.wishlist);
 

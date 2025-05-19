@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+//const jwt = require("jsonwebtoken");
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -78,9 +78,9 @@ exports.postLogin = async (req, res) => {
                 advice: "check your password and try again"
             });
         }
-        let token = jwt.sign({ currentUser }, process.env.SECRET_KEY, {
-            expiresIn: "1d"
-        });
+        let token //= jwt.sign({ currentUser }, process.env.SECRET_KEY, {
+        //     expiresIn: "1d"
+        // });
         res.cookie("token", token);
 
         console.log(req.cookies);
@@ -175,13 +175,13 @@ exports.postRegister = async (req, res) => {
         //let { emailAddress, password, role } = req.body;
         //let { emailAddress, password, role } = newUser;
 
-        let token = jwt.sign(
-            { emailAddress, password, role },
-            process.env.SECRET_KEY,
-            {
-                expiresIn: "1d"
-            }
-        );
+        let token// = jwt.sign(
+        //    currentUser,
+        //     process.env.SECRET_KEY,
+        //     {
+        //         expiresIn: "1d"
+        //     }
+        // );
         res.cookie("token", token);
 
         //currentUser = { ...newUser, password };
@@ -228,7 +228,7 @@ const transporter = nodemailer.createTransport({
 exports.getResetPasswordLink = async (req, res) => {
     try {
         let { emailAddress } = req.body;
-        let token = jwt.sign({ emailAddress }, process.env.SECRET_KEY);
+        let token// = jwt.sign({ emailAddress }, process.env.SECRET_KEY);
         let reset_link = `http://localhost:8000/reset-password?token=${token}`;
 
         let info = await transporter.sendMail({
@@ -258,7 +258,7 @@ exports.getResetPassword = async (req, res) => {
 exports.putResetPassword = async (req, res) => {
     try {
         let { token } = req.query;
-        let user = jwt.verify(token, process.env.SECRET_KEY);
+        let user// = jwt.verify(token, process.env.SECRET_KEY);
 
         console.log("user", user);
 

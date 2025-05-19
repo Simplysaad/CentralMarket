@@ -180,6 +180,7 @@
             </div>
             <div class="reviews my-5">
                 <% reviews?.forEach((review, index)=>{ %>
+                
 
                 <div class="single-review my-4 d-flex flex-column gap-3">
                     <div class="review-heading d-flex gap-2">
@@ -218,8 +219,9 @@
                         class="form-helpful d-flex flex-column justify-content-between gap-2"
                     >
                         <small data-review-id="<%= review._id %>" class="text-muted data-helpful">
-                            <data class="data-helpful"> 74 </data>
-                            people found this helpful
+                            <data class="data-helpful">
+                                 <%= currentProduct.helpfulVotes ? `${currentProduct.helpfulVotes} people found this helpful` : "" %> 
+                            </data>
                         </small>
                         <div
                             class="review-action d-flex align-items-center justify-content-between"

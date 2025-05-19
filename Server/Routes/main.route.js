@@ -4,10 +4,6 @@ const { shuffle } = require("../Utils/helper.js");
 //const fetch = require("node-fetch");
 const { default: fetch } = require("node-fetch");
 
-const Product = require("../Models/product.model.js");
-const Review = require("../Models/review.model.js");
-const User = require("../Models/user.model.js");
-const Order = require("../Models/order.model.js");
 const Search = require("../Models/search.model.js");
 
 const mainController = require("../Controllers/main.controller.js");

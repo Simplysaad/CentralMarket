@@ -44,9 +44,9 @@ exports.getHomeProducts = async (req, res, next) => {
 
         let { cart = [] } = req.session;
 
-locals.title = "Home | CentralMarket"
+        locals.title = "Home | CentralMarket"
         return res.status(200).render("Pages/Customer/index_page", {
-           locals,
+            locals,
             topRatedProducts,
             featuredProducts,
             discountedProducts,
@@ -87,48 +87,61 @@ exports.searchController = async (req, res, next) => {
         // Search for products based on various fields using the regex
         let searchResults = {};
 
-        searchResults.products = await Product.aggregate([
-            {
-                $search: {
-                    index: "products_index",
-                    text: {
-                        query: searchTerm,
-                        path: [
-                            "name",
-                            "category",
-                            "subCategory",
-                            "description",
-                            "keywords"
-                        ]
-                    }
-                }
-            },
-            {
-                $match: {
-                    category: { $ne: "services" }
-                }
-            }
-        ]);
-        searchResults.services = await Product.aggregate([
-            {
-                $search: {
-                    index: "products_index",
-                    text: {
-                        query: searchTerm,
-                        path: [
-                            "name",
-                            "category",
-                            "subCategory",
-                            "description",
-                            "keywords"
-                        ]
-                    }
-                }
-            },
-            {
-                $match: { category: "services" }
-            }
-        ]);
+        // searchResults.products = await Product.aggregate([
+        //     {
+        //         $search: {
+        //             index: "products_index",
+        //             text: {
+        //                 query: searchTerm,
+        //                 path: [
+        //                     "name",
+        //                     "category",
+        //                     "subCategory",
+        //                     "description",
+        //                     "keywords"
+        //                 ]
+        //             }
+        //         }
+        //     },
+        //     {
+        //         $match: {
+        //             category: { $ne: "services" }
+        //         }
+        //     }
+        // ]);
+        searchResults.products = await Product.find({
+
+            $or: [
+                { name: regex },
+                { category: regex },
+                { subCategory: regex },
+                { description: regex },
+                { keywords: regex }
+            ],
+
+
+        })
+        searchResults.services = []
+        // searchResults.services = await Product.aggregate([
+        //     {
+        //         $search: {
+        //             index: "products_index",
+        //             text: {
+        //                 query: searchTerm,
+        //                 path: [
+        //                     "name",
+        //                     "category",
+        //                     "subCategory",
+        //                     "description",
+        //                     "keywords"
+        //                 ]
+        //             }
+        //         }
+        //     },
+        //     {
+        //         $match: { category: "services" }
+        //     }
+        // ]);
         // Ive not created the users index yet
 
         searchResults.vendors = await User.find({
@@ -158,9 +171,9 @@ exports.searchController = async (req, res, next) => {
 
         // Handle empty search results
         if (
-            searchResults.products.length === 0 &&
-            searchResults.services.length === 0 &&
-            searchResults.vendors.length === 0
+            searchResults.products?.length === 0 &&
+         searchResults.services?.length === 0 &&
+            searchResults.vendors?.length === 0
         ) {
             console.log(searchTerm, "brought no results ");
 
@@ -169,7 +182,7 @@ exports.searchController = async (req, res, next) => {
                     $sample: { size: 21 }
                 }
             ]);
-locals.title = `Search for ${searchTerm} - no results | CentralMarket`
+            locals.title = `Search for ${searchTerm} - no results | CentralMarket`
             return res.status(201).render("Pages/Customer/empty_search_page", {
                 success: false,
                 locals,
@@ -200,7 +213,7 @@ locals.title = `Search for ${searchTerm} - no results | CentralMarket`
         //     searchResults,
         //     searchTerm
         // });
-        
+
         locals.title = `Search for ${searchTerm}| CentralMarket`
         return res.status(201).render("Pages/Customer/search_page", {
             success: true,
@@ -220,6 +233,8 @@ locals.title = `Search for ${searchTerm} - no results | CentralMarket`
 
 exports.postCart = async (req, res, next) => {
     try {
+        console.log("i'm to post cart")
+
         if (!req.session.cart) req.session.cart = [];
 
         let { userId, cart } = req.session;
@@ -450,7 +465,7 @@ exports.getCart = async (req, res, next) => {
         let cartQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
         let cartItemsCount = cart.length;
         let deliveryFee = 0;
-locals.title = "Cart | CentralMarket"
+        locals.title = "Cart | CentralMarket"
         return res.status(200).render("Pages/Customer/cart_page", {
             success: true,
             message: "cart items fetched successfully",
@@ -487,12 +502,12 @@ exports.getProducts = async (req, res, next) => {
                 interests: -1
             })
             .limit(14);
-locals.title = "Products | CentralMarket"
+        locals.title = "Products | CentralMarket"
         return res.status(200).render("Pages/Customer/index_page", {
             success: true,
             message: "products fetched successfully",
             products,
-            cart,locals,
+            cart, locals,
             newArrivals
         });
     } catch (err) {
@@ -674,11 +689,17 @@ exports.getPreview = async (req, res, next) => {
         }
 
         let currentProduct = await Product.findOne({ _id: productId });
-        let reviews = await Review.find({ productId }).populate("customerId");
-locals.title = `${currentProduct.name} | CentralMarket`
+        let reviews = await Review.find({ 
+            productId,
+            message: {$ne: null},
+            customerId: {$ne: null},
+
+        }).populate("customerId");
+        
+        locals.title = `${currentProduct.name.toUpperCase()} | CentralMarket`
         return res.render("Pages/Customer/preview_page", {
             currentProduct,
-            reviews,locals
+            reviews, locals
         });
     } catch (err) {
         next(err);
@@ -732,7 +753,7 @@ exports.getCategoryProducts = async (req, res, next) => {
         return res.status(200).render("Pages/Customer/category_page.ejs", {
             categoryName,
             subCategories: subCategoriesElements,
-            featuredProducts,locals,
+            featuredProducts, locals,
             discountedProducts
         });
     } catch (err) {
@@ -749,7 +770,7 @@ exports.getReviewPage = async (req, res, next) => {
         if (productId)
             return res.status(200).render("Pages/Customer/review_page", {
                 currentProduct,
-                currentUser,locals,
+                currentUser, locals,
             });
     } catch (err) {
         next(err);
@@ -778,7 +799,7 @@ exports.postReview = async (req, res, next) => {
             message,
             rating,
             productId,
-            customerId: currentUser._id
+            customerId: currentUser?._id
         });
 
         let currentProduct = await Product.findOneAndUpdate(
@@ -809,7 +830,7 @@ exports.getStore = async (req, res) => {
 
         let currentVendor = await User.findOne({ _id: vendorId }); //.select("name business")
         let currentVendorProducts = await Product.find({ vendorId }); //.select("name business")
-        let isCurrentVendor = currentVendor._id === currentUser._id;
+        let isCurrentVendor = currentVendor?._id === currentUser?._id;
 
         console.log({
             currentVendor,
@@ -820,7 +841,7 @@ exports.getStore = async (req, res) => {
         return res.status(200).render("Pages/Customer/store_page", {
             currentVendor,
             products: currentVendorProducts,
-            isCurrentVendor,locals
+            isCurrentVendor, locals
         });
     } catch (err) {
         console.error(err);
