@@ -3,7 +3,7 @@ let cartTotalElements = document.querySelectorAll(".cart-total");
 
 cartItems.forEach((item, index) => {
     async function handleRequest(method) {
-        let response = await fetch(`/cart/${itemId}`, {
+        let response = await fetch(`/account/cart/${itemId}`, {
             method,
             headers: {
                 "Content-Type": "application/json"
@@ -16,7 +16,7 @@ cartItems.forEach((item, index) => {
             quantityElement.textContent = cartItemData.quantity;
             priceElement.textContent = "$" + cartItemData.subTotal;
         } else {
-            window.location.href = "/cart";
+            window.location.href = "/account/cart";
         }
         cartTotalElements.forEach((element, index) => {
             let cartTotal = data.deliveryFee
@@ -51,6 +51,6 @@ btnOrder.forEach((btn, index) => {
             method: "post"
         });
         let data = await response.json();
-        return (window.location.href = "/vendor/");
+        //return (window.location.href = "/vendor/");
     });
 });

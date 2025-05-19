@@ -233,7 +233,7 @@ exports.searchController = async (req, res, next) => {
 
 exports.postCart = async (req, res, next) => {
     try {
-        console.log("i'm to post cart")
+        console.log("i'm to post /cart")
 
         if (!req.session.cart) req.session.cart = [];
 
@@ -259,6 +259,9 @@ exports.postCart = async (req, res, next) => {
             },
             { new: true }
         );
+       
+        
+
         if (!currentProduct)
             return res.status(404).json({
                 success: false,
@@ -696,7 +699,8 @@ exports.getPreview = async (req, res, next) => {
 
         }).populate("customerId");
         
-        locals.title = `${currentProduct.name.toUpperCase()} | CentralMarket`
+
+        locals.title = `${currentProduct.name} | CentralMarket`
         return res.render("Pages/Customer/preview_page", {
             currentProduct,
             reviews, locals

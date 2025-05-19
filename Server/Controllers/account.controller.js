@@ -64,7 +64,7 @@ exports.getCart = async (req, res, next) => {
 };
 exports.postCart = async (req, res, next) => {
     try {
-        console.log("i'm to post ca")
+        console.log("i'm to post account/cart ")
         if (!req.session.cart) req.session.cart = [];
 
         let { userId, cart } = req.session;
@@ -80,7 +80,7 @@ exports.postCart = async (req, res, next) => {
         //else increment by 1
 
         let currentProduct = await Product.findOneAndUpdate(
-            { $and: [{ _id: productId }, { available: true }] },
+            {  _id: productId  },
             {
                 $inc: {
                     addToCartCount: quantity || 1,
@@ -89,10 +89,13 @@ exports.postCart = async (req, res, next) => {
             },
             { new: true }
         );
+
+        console.log(currentProduct)
+
         if (!currentProduct)
             return res.status(404).json({
                 success: false,
-                message: `product with id: ${productId}.does not exist or is not available`
+                message: `product with id: ${productId} does not exist or is not available`
             });
 
         let index = cart.findIndex(item => item.productId === productId);
@@ -136,15 +139,15 @@ exports.postCart = async (req, res, next) => {
         } else {
             if (quantity) {
                 req.session.cart[index].quantity = quantity;
-                req.session.cart[index].price = currentProduct.price * quantity;
+                req.session.cart[index].subTotal = currentProduct.price * quantity;
             } else {
                 req.session.cart[index].quantity += 1;
-                req.session.cart[index].price =
+                req.session.cart[index].subTotal =
                     currentProduct.price * req.session.cart[index].quantity;
             }
             console.log({ cart: req.session.cart });
 
-            let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
+            let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
             let cartQuantity = cart.reduce(
                 (acc, item) => acc + item.quantity,
                 0
@@ -207,7 +210,7 @@ exports.deleteCartItem = async (req, res, next) => {
         ) {
             //if product quantity is less than or equal to one, remove the product from cart
             req.session.cart.splice(index, 1);
-            let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
+            let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
             let cartQuantity = cart.reduce(
                 (acc, item) => acc + item.quantity,
                 0
@@ -228,11 +231,11 @@ exports.deleteCartItem = async (req, res, next) => {
         } else {
             //if the quantity of the item is more than one, then reduce by one
             req.session.cart[index].quantity -= 1;
-            req.session.cart[index].price =
+            req.session.cart[index].subTotal =
                 currentProduct.price * req.session.cart[index].quantity;
 
             console.log({ cart: req.session.cart });
-            let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
+            let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
             let cartQuantity = cart.reduce(
                 (acc, item) => acc + item.quantity,
                 0

@@ -1,25 +1,11 @@
-<form
-    id="searchForm"
-    class="border d-flex justify-content-between border-2 justify-content-center align-items-center rounded-pill p-1 my-2 mx-2"
-    action="/search"
->
-    <input
-        type="search"
-        name="searchTerm"
-        id="searchTerm"
-        
-        required
-        list="searchSuggestions"
-        placeholder="Search for anything..."
-        class="w-100 form-control px-3 py-1 bg-transparent border-0 outline-0"
-        value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>"
-    />
+<form id="searchForm"
+    class="border d-flex justify-content-between border-2 justify-content-center align-items-center rounded-pill"
+    action="/search">
+    <input type="search" name="searchTerm" id="searchTerm" required list="searchSuggestions"
+        placeholder="Search for anything..." class="w-100 border-0 form-control px-3 py-1 bg-transparent border-0"
+        value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>" />
     <datalist id="searchSuggestions"> </datalist>
-    <button
-        type="submit"
-        for="searchTerm"
-        class="p-2 bg-transparent border-0 "
-    >
-      <i class="fa-solid  fa-search" ></i>
+    <button type="submit" for="searchTerm" class="p-2 bg-transparent border-0 ">
+        <i class="fa-solid  fa-search"></i>
     </button>
 </form>
