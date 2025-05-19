@@ -14,7 +14,7 @@ btnCart.forEach((btn, index) => {
                     if (data.success) {
                         console.log(`${data?.item?.productId} in cart`);
 
-                        btn.classList.replace("btn-outline-dark", "btn-dark");
+                        btn.classList.replace("btn-outline-success", "btn-success");
                         btn.querySelector("span").textContent = `${
                             data?.item?.quantity || 0
                         } in cart`;
@@ -41,8 +41,8 @@ btnWish.forEach((btn, index) => {
                     if (data.success) {
                       console.log(data.message)
                         btn.classList.replace(
-                            "btn-outline-dark",
-                            "btn-secondary"
+                            "btn-outline-success",
+                            "btn-success"
                         );
                         btn.innerHTML = "<i class='fa fa-heart'></i>";
                     }
