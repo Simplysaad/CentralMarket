@@ -9,8 +9,23 @@ const locals = {
     title: "Account | CentralMarket",
     description: "",
     image: "/IMG/favicon.jpg",
-    keywords: []
+    keywords: [],
+    categories: [
+        "study materials",
+        "electronics",
+        "hostel essentials",
+        "clothing and accessories",
+        "groceries and snacks",
+        "health and personal care",
+        "events and experiences",
+        "secondhand marketplace",
+        "services",
+        "hobbies and entertainment",
+        "gifts and handmade goods"
+    ]
 };
+
+
 
 exports.getCart = async (req, res, next) => {
     try {
@@ -80,7 +95,7 @@ exports.postCart = async (req, res, next) => {
         //else increment by 1
 
         let currentProduct = await Product.findOneAndUpdate(
-            {  _id: productId  },
+            { _id: productId },
             {
                 $inc: {
                     addToCartCount: quantity || 1,

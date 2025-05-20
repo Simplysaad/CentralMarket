@@ -11,7 +11,20 @@ const locals = {
     title: "Auth | CentralMarket",
     description: "",
     image: "/IMG/favicon.jpg",
-    keywords: []
+    keywords: [],
+    categories: [
+        "study materials",
+        "electronics",
+        "hostel essentials",
+        "clothing and accessories",
+        "groceries and snacks",
+        "health and personal care",
+        "events and experiences",
+        "secondhand marketplace",
+        "services",
+        "hobbies and entertainment",
+        "gifts and handmade goods"
+    ]
 };
 const categories = [
     "study materials",
@@ -156,9 +169,8 @@ exports.postRegister = async (req, res) => {
             );
             profileImage = cloudinary_response.secure_url;
         } else
-            profileImage = `https://placehold.co/400/${
-                profile_color + "ff"
-            }/#000?text=${req.body.name[0].toUpperCase()}`;
+            profileImage = `https://placehold.co/400/${profile_color + "ff"
+                }/#000?text=${req.body.name[0].toUpperCase()}`;
 
         let newUser = new User({
             ...req.body,
@@ -166,9 +178,8 @@ exports.postRegister = async (req, res) => {
             role: "admin",
             //this is supposed to come from the form but i've not added a field to the form yet
             profileImage,
-            coverImage: `https://placehold.co/600x200/${
-                profile_color + "00"
-            }/#fff?text=${req.body.businessName || "CentralMarket"}&color=`
+            coverImage: `https://placehold.co/600x200/${profile_color + "00"
+                }/#fff?text=${req.body.businessName || "CentralMarket"}&color=`
         });
 
         await newUser.save();

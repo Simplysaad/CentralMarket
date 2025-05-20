@@ -1,92 +1,90 @@
-<main class="ol-12 d-flex flex-colun flex-wrap flex-md-row">
-    <section class="d-flex col-12 justify-content-between align-items-baseline" id="headingSection">
-        <div class="results-heading d-flex align-items-center col-8">
-            <h1 class="fw-light text-heading text-truncate lead">
-                <%= `Results for ${searchTerm}` %>
-            </h1>
-        </div>
-        <div class="results-info d-flex align-items-center">
-            <span class="text-muted fs-6">
-                <%= `${searchResults.products.length + searchResults.vendors.length} found`%>
-            </span>
-            <span id="btnFilter" data-bs-toggle="collapse" data-bs-target="#filterSection"
-                class="flex-md-shrink-1 p-1 mx-1">
-                <i class="fa fa-sliders"> </i>
-            </span>
-        </div>
-    </section>
+<section class="d-flex col-12 justify-content-between align-items-baseline" id="headingSection">
+    <div class="results-heading d-flex align-items-center col-8">
+        <h1 class="fw-light text-heading text-truncate lead">
+            <%= `Results for ${searchTerm}` %>
+        </h1>
+    </div>
+    <div class="results-info d-flex align-items-center">
+        <span class="text-muted fs-6">
+            <%= `${searchResults.products.length + searchResults.vendors.length} found`%>
+        </span>
+        <span id="btnFilter" data-bs-toggle="collapse" data-bs-target="#filterSection"
+            class="flex-md-shrink-1 p-1 mx-1">
+            <i class="fa fa-sliders"> </i>
+        </span>
+    </div>
     <!-- Filter Section -->
 
-    <section id="filterSection" class="p-2 col-md-3 px-2 col-lg-2">
-        <%-include(".. /../Components/filter_form.ejs", {searchTerm, filter: "products" }) %>
-    </section>
-    <section id="listingSection" class="col-md- col-lg- px-2">
-        <% if(searchResults.vendors.length> 0){ %>
-            <div id="vendorListingSection" class="d-flex flex-wrap gap-">
-                <div class="d-block col-12">
-                    <h4 class="text-muted py-3 lead text-capitalize">Vendors</h4>
-                </div>
-                <% searchResults.vendors.forEach((vendor, index)=>{ %>
-                    <%- include("../../Components/vendor_card.ejs", {vendor}) %>
-                        <% }) %>
+</section>
+<section id="filterSection" class="p-2 col-md-3 px-2 col-lg-2">
+    <%- include("../../Components/filter_form.ejs", {searchTerm }) %>
+</section>
+
+<section id="listingSection" class="col-md- col-lg- px-2">
+    <% if(searchResults.vendors.length> 0){ %>
+        <div id="vendorListingSection" class="d-flex flex-wrap gap-">
+            <div class="d-block col-12">
+                <h4 class="text-muted py-3 lead text-capitalize">Vendors</h4>
             </div>
-            <% } %>
+            <% searchResults.vendors.forEach((vendor, index)=>{ %>
+                <%- include("../../Components/vendor_card.ejs", {vendor}) %>
+                    <% }) %>
+        </div>
+        <% } %>
 
 
-                <% if(searchResults.products.length> 0){ %>
+            <% if(searchResults.products.length> 0){ %>
 
-                    <div class="d-flex my-5 justify-content-start align-items-start flex-wrap "
-                        id="productListingSection">
-                        <div class="d-block col-12">
-                            <h4 class="text-muted py-3 lead text-capitalize">Products</h4>
-                        </div>
-                        <% searchResults.products.forEach((product)=>{ %>
-                            <%- include("../../Components/search_card.ejs", {product}) %>
-                                <% }) %>
-                                    <div class="">
-                                    </div>
+                <div class="d-flex my-5 justify-content-start align-items-start flex-wrap " id="productListingSection">
+                    <div class="d-block col-12">
+                        <h4 class="text-muted py-3 lead text-capitalize">Products</h4>
                     </div>
-                    <% } %>
-
-                        <% if(searchResults.services.length> 0){ %>
-
-                            <div class="d-flex my-5 justify-content-start align-items-start flex-wrap "
-                                id="servicesListingSection">
-                                <div class="d-block col-12">
-                                    <h4 class="text-muted py-3 lead text-capitalize">Products</h4>
+                    <% searchResults.products.forEach((product)=>{ %>
+                        <%- include("../../Components/search_card.ejs", {product}) %>
+                            <% }) %>
+                                <div class="">
                                 </div>
-                                <% searchResults.services.forEach((product)=>{ %>
-                                    <%- include("../../Components/search_card.ejs", {product}) %>
-                                        <% }) %>
-                                            <div class="">
-                                            </div>
-                            </div>
-                            <% } %>
+                </div>
+                <% } %>
 
-    </section>
-    <section id="paginationSection" class="col-12 d-flex justify-content-center">
-        <ul class="pagination">
-            <li class="page-item">
-                <a href="#" class="page-link"> Previous </a>
-            </li>
-            <li class="page-item">
-                <a href="#" class="page-link"> 1 </a>
-            </li>
-            <li class="page-item">
-                <a href="#" class="page-link"> 2 </a>
-            </li>
-            <li class="page-item active">
-                <a href="#" class="page-link"> 3 </a>
-            </li>
-            <li class="page-item">
-                <a href="#" class="page-link"> ... </a>
-            </li>
-            <li class="page-item">
-                <a href="#" class="page-link"> 7 </a>
-            </li>
-            <li class="page-item">
-                <a href="#" class="page-link"> Next </a>
-            </li>
-        </ul>
-    </section>
-</main>
+                    <% if(searchResults.services.length> 0){ %>
+
+                        <div class="d-flex my-5 justify-content-start align-items-start flex-wrap "
+                            id="servicesListingSection">
+                            <div class="d-block col-12">
+                                <h4 class="text-muted py-3 lead text-capitalize">Products</h4>
+                            </div>
+                            <% searchResults.services.forEach((product)=>{ %>
+                                <%- include("../../Components/search_card.ejs", {product}) %>
+                                    <% }) %>
+                                        <div class="">
+                                        </div>
+                        </div>
+                        <% } %>
+
+</section>
+<section id="paginationSection" class="col-12 d-flex justify-content-center">
+    <ul class="pagination">
+        <li class="page-item">
+            <a href="#" class="page-link"> Previous </a>
+        </li>
+        <li class="page-item">
+            <a href="#" class="page-link"> 1 </a>
+        </li>
+        <li class="page-item">
+            <a href="#" class="page-link"> 2 </a>
+        </li>
+        <li class="page-item active">
+            <a href="#" class="page-link"> 3 </a>
+        </li>
+        <li class="page-item">
+            <a href="#" class="page-link"> ... </a>
+        </li>
+        <li class="page-item">
+            <a href="#" class="page-link"> 7 </a>
+        </li>
+        <li class="page-item">
+            <a href="#" class="page-link"> Next </a>
+        </li>
+    </ul>
+</section>

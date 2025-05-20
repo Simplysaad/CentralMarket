@@ -1,60 +1,63 @@
-<div class="single-product my-3 p-2 col-7 col-md-4 col-lg-4 border-0">
+<div
+    class="single-product rounded overflow-hidden my-3 p-2 col-7 col-md-4 col-lg-4 d-lg-flex p-lg-1 align-items-start gap-2">
     <div class="card-image position-relative">
-        <img src="<%= product.imageUrl %>" alt="<%= product.name %>"
+        <img src="<%= " IMG/image-2.jpg" || product.imageUrl %>" alt="<%= product.name %>"
             class="img-fluid object-fit-cover aspect-ratio-square" />
     </div>
-    <div class="card-info d-flex flex-column gap-2 py-3">
-        <div class="">
-            <a href="/preview/<%= product._id %>"
-                class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold">
-                <%= product.name %>
-            </a>
-        </div>
-        <% if(product.vendorId?.business?.name){ %>
-            <small class="vendor-info text-muted col- gap-2 d-flex justify-content-start align-items-center">
-                <i class="fa fa-map-marker"> </i>
+    <div class="card-stuff">
+        <div class="card-info d-flex flex-column gap-2 py-3">
+            <div class="">
+                <a href="/preview/<%= product._id %>"
+                    class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold">
+                    <%= product.name %>
+                </a>
+            </div>
+            <% if(product.vendorId?.business?.name){ %>
+                <small class="vendor-info text-muted col- gap-2 d-flex justify-content-start align-items-center">
+                    <i class="fa fa-map-marker"> </i>
 
-                <span class="fs- fw-light text-capitalize">
-                    <%= product.vendorId.business.name %>
-                </span>
-            </small>
-            <% } %>
-                <div class="product-rating fs-6 d-flex align-items-center">
-                    <div class="rating-stars text-warning">
-                        <% for(i=0; i< product.averageRating?.toFixed(0); i++){ %>
-                            <i class="fa fa-star"> </i>
-                            <% } %>
-                                <%for(i=0; i< (5 - product.averageRating?.toFixed(0)); i++){ %>
-                                    <i class="far fa-star"> </i>
-                                    <% } %>
-                    </div>
-                    <!-- <span class="px-2 text-muted"> 4.9 </span> -->
-
-                    <span class="px-1 text-muted fst-italic">
-                        <%= `(${product.reviews?.length || 0})` %>
+                    <span class="fs- fw-light text-capitalize">
+                        <%= product.vendorId.business.name %>
                     </span>
-                </div>
+                </small>
+                <% } %>
+                    <div class="product-rating fs-6 d-flex align-items-center">
+                        <div class="rating-stars text-warning">
+                            <% for(i=0; i< product.averageRating?.toFixed(0); i++){ %>
+                                <i class="fa fa-star"> </i>
+                                <% } %>
+                                    <%for(i=0; i< (5 - product.averageRating?.toFixed(0)); i++){ %>
+                                        <i class="far fa-star"> </i>
+                                        <% } %>
+                        </div>
+                        <!-- <span class="px-2 text-muted"> 4.9 </span> -->
 
-                <div class="d-flex gap-2 fs-6 fw-semibold justify-content-start">
-                    <div class="old-price text-muted -emphasis">
-                        <span class="text-decoration-line-through text-danger fw-light">
-                            <%= "$" + product.price.toLocaleString() %>
+                        <span class="px-1 text-muted fst-italic">
+                            <%= `(${product.reviews?.length || 0})` %>
                         </span>
                     </div>
-                    <div class="price">
-                        <p class="fs-5">
-                            <%= "$" + product.price.toLocaleString() %>
-                        </p>
+
+                    <div class="d-flex gap-2 fs-6 fw-semibold justify-content-start">
+                        <div class="old-price text-muted -emphasis">
+                            <span class="text-decoration-line-through text-danger fw-light">
+                                <%= "$" + product.price.toLocaleString() %>
+                            </span>
+                        </div>
+                        <div class="price">
+                            <p class="fs-5">
+                                <%= "$" + product.price.toLocaleString() %>
+                            </p>
+                        </div>
                     </div>
-                </div>
-    </div>
-    <div class="card-action m-0 btn-group btn-group-sm d-flex gap-1">
-        <button data-product-id="<%= product._id %>" class="btn btn-cart btn-outline-success">
-            <i class="fas fa-shopping-cart"> </i>
-            <span class=""> Add to cart </span>
-        </button>
-        <button data-product-id="<%= product._id %>" class="btn btn-wish btn-outline-success">
-            <i class="far fa-heart"> </i>
-        </button>
+        </div>
+        <div class="card-action m-0 btn-group btn-group-sm d-flex gap-1">
+            <button data-product-id="<%= product._id %>" class="btn btn-cart btn-outline-success">
+                <i class="fas fa-shopping-cart"> </i>
+                <span class=""> Add to cart </span>
+            </button>
+            <button data-product-id="<%= product._id %>" class="btn btn-wish btn-outline-success">
+                <i class="far fa-heart"> </i>
+            </button>
+        </div>
     </div>
 </div>

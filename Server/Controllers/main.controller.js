@@ -9,8 +9,24 @@ const locals = {
     title: "CentralMarket",
     description: "",
     image: "/IMG/favicon.jpg",
-    keywords: []
+    keywords: [],
+    categories: [
+        "study materials",
+        "electronics",
+        "hostel essentials",
+        "clothing and accessories",
+        "groceries and snacks",
+        "health and personal care",
+        "events and experiences",
+        "secondhand marketplace",
+        "services",
+        "hobbies and entertainment",
+        "gifts and handmade goods"
+    ]
 };
+
+
+
 exports.getHomeProducts = async (req, res, next) => {
     try {
         // GET NEW ARRIVALS

@@ -7,11 +7,25 @@ const Review = require("../Models/review.model.js");
 const Order = require("../Models/order.model.js");
 
 const locals = {
-    title: "Vendor | CentralMarket ",
-    description: "",
-    image: "/IMG/favicon.jpg",
-    keywords: []
+  title: "Vendor | CentralMarket ",
+  description: "",
+  image: "/IMG/favicon.jpg",
+  keywords: [],
+  categories: [
+    "study materials",
+    "electronics",
+    "hostel essentials",
+    "clothing and accessories",
+    "groceries and snacks",
+    "health and personal care",
+    "events and experiences",
+    "secondhand marketplace",
+    "services",
+    "hobbies and entertainment",
+    "gifts and handmade goods"
+  ]
 };
+
 
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
@@ -20,107 +34,107 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 exports.getDashboard = async (req, res, next) => {
-    try {
-        let { currentUser } = req.session;
-        let vendorId = new mongoose.Types.ObjectId(currentUser._id);
-        //next(err)
-        let myProducts = await Product.find({ vendorId });
-        let myOrders = await Order.aggregate([
-            {
-                $match: { "items.vendorId": vendorId }
-            },
-            {
-                $unwind: "$items"
-            },
-            {
-                $match: { "items.vendorId": vendorId }
-            },
-            {
-                $sort: { createdAt: -1 }
-            }
-        ]);
-        let completedOrders = myOrders.filter(
-            order => order.items.status === "completed"
-        );
+  try {
+    let { currentUser } = req.session;
+    let vendorId = new mongoose.Types.ObjectId(currentUser._id);
+    //next(err)
+    let myProducts = await Product.find({ vendorId });
+    let myOrders = await Order.aggregate([
+      {
+        $match: { "items.vendorId": vendorId }
+      },
+      {
+        $unwind: "$items"
+      },
+      {
+        $match: { "items.vendorId": vendorId }
+      },
+      {
+        $sort: { createdAt: -1 }
+      }
+    ]);
+    let completedOrders = myOrders.filter(
+      order => order.items.status === "completed"
+    );
 
-        let today = Date.now();
-        let weekAgo = today - 1000 * 60 * 60 * 24 * 7;
+    let today = Date.now();
+    let weekAgo = today - 1000 * 60 * 60 * 24 * 7;
 
-        let allCustomers = await Order.aggregate([
-            {
-                $match: {
-                    "items.vendorId": vendorId
-                }
-            },
-            {
-                $group: {
-                    _id: "$customerId",
-                    orderCount: { $sum: 1 }
-                }
-            }
-        ]);
-        // NEW CUSTOMERS IN THE PAST WEEK
-        let newCustomers = await Order.aggregate([
-            {
-                $match: {
-                    "items.vendorId": vendorId
-                    //, createdAt: {
-                    //     $gte: new Date(weekAgo),
-                    //     $lte: new Date(today)
-                    // }
-                }
-            },
-            {
-                $group: {
-                    _id: "$customerId",
-                    orderCount: { $sum: 1 }
-                }
-            },
-            {
-                $match: {
-                    orderCount: 1
-                }
-            }
-        ]);
-        let revenue = await Order.aggregate([
-            {
-                $match: {
-                    "items.vendorId": vendorId
-                }
-            },
-            {
-                $unwind: "$items"
-            },
-            {
-                $match: {
-                    "items.vendorId": vendorId
-                }
-            },
-            {
-                $group: {
-                    _id: null,
-                    // totalRevenue: {
-                    //     $sum: "$items.subTotal"
-                    // },
-                    totalRevenue: {
-                        $sum: "$items.subTotal"
-                    }
-                }
-            }
-        ]);
+    let allCustomers = await Order.aggregate([
+      {
+        $match: {
+          "items.vendorId": vendorId
+        }
+      },
+      {
+        $group: {
+          _id: "$customerId",
+          orderCount: { $sum: 1 }
+        }
+      }
+    ]);
+    // NEW CUSTOMERS IN THE PAST WEEK
+    let newCustomers = await Order.aggregate([
+      {
+        $match: {
+          "items.vendorId": vendorId
+          //, createdAt: {
+          //     $gte: new Date(weekAgo),
+          //     $lte: new Date(today)
+          // }
+        }
+      },
+      {
+        $group: {
+          _id: "$customerId",
+          orderCount: { $sum: 1 }
+        }
+      },
+      {
+        $match: {
+          orderCount: 1
+        }
+      }
+    ]);
+    let revenue = await Order.aggregate([
+      {
+        $match: {
+          "items.vendorId": vendorId
+        }
+      },
+      {
+        $unwind: "$items"
+      },
+      {
+        $match: {
+          "items.vendorId": vendorId
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          // totalRevenue: {
+          //     $sum: "$items.subTotal"
+          // },
+          totalRevenue: {
+            $sum: "$items.subTotal"
+          }
+        }
+      }
+    ]);
 
-        let totalRevenue = revenue.length > 0 ? revenue[0].totalRevenue : 0;
-        return res.status(200).render("Pages/Vendor/dashboard.ejs", {
-            myOrders,
-            completedOrders,
-            allCustomers,
-            newCustomers,locals,
-            myProducts,
-            totalRevenue
-        });
-    } catch (err) {
-        next(err);
-    }
+    let totalRevenue = revenue.length > 0 ? revenue[0].totalRevenue : 0;
+    return res.status(200).render("Pages/Vendor/dashboard.ejs", {
+      myOrders,
+      completedOrders,
+      allCustomers,
+      newCustomers, locals,
+      myProducts,
+      totalRevenue
+    });
+  } catch (err) {
+    next(err);
+  }
 }
 exports.addProduct = async (req, res, next) => {
   try {
@@ -151,7 +165,7 @@ exports.addProduct = async (req, res, next) => {
             imageUrl
           }
         }, { new: true })
-        
+
         return res.status(201).json({
           success: true,
           message: "image added successfully",
