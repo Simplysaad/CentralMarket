@@ -1,15 +1,15 @@
 <div data-item-id="<%= item.productId %>"
-                                                                                                                        class="cart-item gap-1 my-3 d-flex justify-content-between align-items-center border p-1 rounded">
+  class="cart-item gap-1 my-3 d-flex justify-content-between align-items-center border p-1 rounded">
   <div class="item-image col-2 h-auto raio rato-1x1 border">
-    <img src="<%= item.imageUr || '/IMG/image-1.jpg' %>" alt="" class="img-fluid img-thumbnail" />
+    <img src="<%= item.imageUrl || '/IMG/image-1.jpg' %>" alt="" class="img-fluid img-thumbnail" />
   </div>
   <div class="item-info d-flex overflow-hidden flex-column gap-2 col-6">
     <div class="item-title text-capitalize text-truncate fw-semibold fs-6">
-      <a href="/preview/<%= item._id %>" class="link-dark text-decoration-none text-truncate">
+      <a href="/preview/<%= item._id %>" class="text-decoration-none text-truncate">
         <%= item.name %>
       </a>
     </div>
-    <div class="item-extra-info d-flex justify-content-start text-muted fs-6">
+    <div class="item-extra-info d-flex justify-content-start fs-6">
       <span class="item-size">
         <%= item.size %>
       </span>
@@ -22,14 +22,14 @@
     </div>
   </div>
   <div class="item-actions col-3">
-    <div class="btn-group btn-group-sm">
-      <button class="btn-add btn btn-outline-dark">
+    <div class="btn-group btn-group-sm d-flex align-items-center">
+      <button class="btn-add btn border">
         <i class="fa fa-plus"> </i>
       </button>
-      <span class="btn-add btn item-quantity btn-outline-dark">
+      <span class="btn-add btn border ">
         <%= item.quantity %>
       </span>
-      <button class="btn-remove btn btn-outline-dark">
+      <button class="btn-remove btn border">
         <i class="fa fa-minus"> </i>
       </button>
     </div>

@@ -172,7 +172,7 @@ exports.searchController = async (req, res, next) => {
         // Handle empty search results
         if (
             searchResults.products?.length === 0 &&
-         searchResults.services?.length === 0 &&
+            searchResults.services?.length === 0 &&
             searchResults.vendors?.length === 0
         ) {
             console.log(searchTerm, "brought no results ");
@@ -259,8 +259,8 @@ exports.postCart = async (req, res, next) => {
             },
             { new: true }
         );
-       
-        
+
+
 
         if (!currentProduct)
             return res.status(404).json({
@@ -554,7 +554,7 @@ exports.postOrder = async (req, res, next) => {
     try {
         let { userId: customerId, cart: items } = req.session;
         console.log("items", items);
-        console.log("req.session", req.session);
+
         //let { customerId, items } = req.body;
 
         // if (!customerId)
@@ -587,17 +587,16 @@ exports.postOrder = async (req, res, next) => {
             console.log("cart cleared");
         });
 
-        return res.status(200).json({
+        // console.log(newOrder)
+        console.log({
             success: true,
             message: "order placed successfully",
             newOrder
         });
+        return res.redirect("/cart"); // Should redirect to a page that helps track the order
+
     } catch (err) {
         next(err);
-        return res.status(500).json({
-            success: false,
-            message: "error encountered while placing order"
-        });
     }
 };
 
@@ -691,14 +690,19 @@ exports.getPreview = async (req, res, next) => {
             return res.status(303).redirect(`/preview/${currentProduct._id}`);
         }
 
-        let currentProduct = await Product.findOne({ _id: productId });
-        let reviews = await Review.find({ 
+        let currentProduct = await Product.findOneAndUpdate(
+            { _id: productId },
+            {
+                $inc: { preveiewCount: 1 }
+            }, { new: true });
+
+        let reviews = await Review.find({
             productId,
-            message: {$ne: null},
-            customerId: {$ne: null},
+            message: { $ne: null },
+            customerId: { $ne: null },
 
         }).populate("customerId");
-        
+
 
         locals.title = `${currentProduct.name} | CentralMarket`
         return res.render("Pages/Customer/preview_page", {

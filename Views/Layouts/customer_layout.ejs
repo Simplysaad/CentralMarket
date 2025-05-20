@@ -46,7 +46,7 @@
   </title>
 </head>
 
-<body class="bg-dark text-light">
+<body class="">
   <header id="mainHeader" class="py-md-4 pb-2">
     <%- include('../Partials/_header') %>
   </header>
@@ -60,7 +60,7 @@
     </main>
   </main>
   <footer>
-    <%- include('../Partials/_footer.ejs') %>
+    <%#- include('../Partials/_footer.ejs') %>
   </footer>
 
   <!--   <script src="/fontawesome-free-6.7.2-web/js/all.js" type="text/javascript" charset="utf-8"></script>
@@ -75,6 +75,18 @@
     integrity="sha512-b+nQTCdtTBIRIbraqNEwsjB6UvL3UEMkXnhzd8awtCYh0Kcsjl9uEgwVFVbhoj3uu1DO1ZMacNvLoyJJiNfcvg=="
     crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
+  <script src="/JS/theme.js"></script>
+  <style>
+    .btn {
+      color: inherit;
+    }
+
+    * {
+      -webkit-overflow-scrolling: none;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+    }
+  </style>
 </body>
 
 </html>

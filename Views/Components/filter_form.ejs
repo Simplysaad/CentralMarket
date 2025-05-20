@@ -13,12 +13,13 @@
 
 <script>
     let anchorTags = document.querySelectorAll("a")
-
-    anchorTags.forEach((tag, index)=>{
-        if(tag.href === window.location.href){
-            tag.classList.replace("btn-outline-dark", "btn-dark")
-            tag.ariaDisabled = true
-            tag.href = '#'
-        }
+    let isCurrentUrl = tag.href === window.location.href
+    anchorTags.forEach((tag, index) => {
+        tag.classList.toggle("border", isCurrentUrl)
+        // if (isCurrentUrl) {
+        //     tag.classList.replace("btn-outline-dark", "btn-dark")
+        //     tag.ariaDisabled = true
+        //     tag.href = '#'
+        // }
     })
 </script>
