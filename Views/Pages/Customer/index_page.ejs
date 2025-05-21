@@ -3,7 +3,7 @@
     <h4 class="display-6 text-heading">Featured Combos</h4>
   </div>
   <div class="d-flex p-2 gap-4 overflow-scroll">
-    
+
     <% featuredProducts.forEach((product, index)=>{ %>
       <%- include("../../Components/featured_card.ejs", { product }) %>
         <% }) %>
@@ -14,7 +14,7 @@
     <h4 class="display-6 text-heading">Hot deals</h4>
   </div>
   <div class="d-flex p-2 gap-4 overflow-scroll">
-    
+
     <% discountedProducts.forEach((product, index)=>{ %>
       <%- include("../../Components/normal_card.ejs", { product }) %>
         <% }) %>
@@ -25,7 +25,7 @@
     <h4 class="display-6 text-heading text-capitalize">New arrivals</h4>
   </div>
   <div class="d-flex p-2 gap-4 overflow-scroll">
-    
+
     <% newArrivals.forEach((product, index)=>{ %>
       <%- include("../../Components/normal_card.ejs", { product }) %>
         <% }) %>
@@ -36,20 +36,22 @@
   <section id="<%= category.split().join('-') %>" class="overflow-hidden my-4">
     <div class="category-heading">
       <h4 class="display-6 text-heading text-capitalize">
-        <%= category %>
+        <a href="/category/<%= category %>" class="">
+          <%= category %>
+        </a>
       </h4>
       <a href="/category/<%= category %>" class="text-decoration-none ">
         <i class="fa fa-arrow-right"></i>
       </a>
     </div>
     <div class="d-flex p-2 gap-4 overflow-scroll">
-      
+
       <% allProducts.filter(product=> product.category === category)?.forEach(product=>{ %>
         <%- include("../../Components/normal_card.ejs", { product }) %>
           <% }) %>
     </div>
   </section>
   <% }) %>
-    
-    
+
+
     <script src="/JS/homepage.js"></script>

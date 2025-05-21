@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+//const jwt = require("jsonwebtoken");
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -11,7 +11,20 @@ const locals = {
     title: "Auth | CentralMarket",
     description: "",
     image: "/IMG/favicon.jpg",
-    keywords: []
+    keywords: [],
+    categories: [
+        "study materials",
+        "electronics",
+        "hostel essentials",
+        "clothing and accessories",
+        "groceries and snacks",
+        "health and personal care",
+        "events and experiences",
+        "secondhand marketplace",
+        "services",
+        "hobbies and entertainment",
+        "gifts and handmade goods"
+    ]
 };
 const categories = [
     "study materials",
@@ -78,9 +91,9 @@ exports.postLogin = async (req, res) => {
                 advice: "check your password and try again"
             });
         }
-        let token = jwt.sign({ currentUser }, process.env.SECRET_KEY, {
-            expiresIn: "1d"
-        });
+        let token //= jwt.sign({ currentUser }, process.env.SECRET_KEY, {
+        //     expiresIn: "1d"
+        // });
         res.cookie("token", token);
 
         console.log(req.cookies);
@@ -156,9 +169,8 @@ exports.postRegister = async (req, res) => {
             );
             profileImage = cloudinary_response.secure_url;
         } else
-            profileImage = `https://placehold.co/400/${
-                profile_color + "ff"
-            }/#000?text=${req.body.name[0].toUpperCase()}`;
+            profileImage = `https://placehold.co/400/${profile_color + "ff"
+                }/#000?text=${req.body.name[0].toUpperCase()}`;
 
         let newUser = new User({
             ...req.body,
@@ -166,22 +178,21 @@ exports.postRegister = async (req, res) => {
             role: "admin",
             //this is supposed to come from the form but i've not added a field to the form yet
             profileImage,
-            coverImage: `https://placehold.co/600x200/${
-                profile_color + "00"
-            }/#fff?text=${req.body.businessName || "CentralMarket"}&color=`
+            coverImage: `https://placehold.co/600x200/${profile_color + "00"
+                }/#fff?text=${req.body.businessName || "CentralMarket"}&color=`
         });
 
         await newUser.save();
         //let { emailAddress, password, role } = req.body;
         //let { emailAddress, password, role } = newUser;
 
-        let token = jwt.sign(
-            { emailAddress, password, role },
-            process.env.SECRET_KEY,
-            {
-                expiresIn: "1d"
-            }
-        );
+        let token// = jwt.sign(
+        //    currentUser,
+        //     process.env.SECRET_KEY,
+        //     {
+        //         expiresIn: "1d"
+        //     }
+        // );
         res.cookie("token", token);
 
         //currentUser = { ...newUser, password };
@@ -228,7 +239,7 @@ const transporter = nodemailer.createTransport({
 exports.getResetPasswordLink = async (req, res) => {
     try {
         let { emailAddress } = req.body;
-        let token = jwt.sign({ emailAddress }, process.env.SECRET_KEY);
+        let token// = jwt.sign({ emailAddress }, process.env.SECRET_KEY);
         let reset_link = `http://localhost:8000/reset-password?token=${token}`;
 
         let info = await transporter.sendMail({
@@ -258,7 +269,7 @@ exports.getResetPassword = async (req, res) => {
 exports.putResetPassword = async (req, res) => {
     try {
         let { token } = req.query;
-        let user = jwt.verify(token, process.env.SECRET_KEY);
+        let user// = jwt.verify(token, process.env.SECRET_KEY);
 
         console.log("user", user);
 

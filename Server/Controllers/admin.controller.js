@@ -4,8 +4,23 @@ const locals = {
     title: "Admin | CentralMarket",
     description: "",
     image: "/IMG/favicon.jpg",
-    keywords: []
+    keywords: [],
+    categories: [
+        "study materials",
+        "electronics",
+        "hostel essentials",
+        "clothing and accessories",
+        "groceries and snacks",
+        "health and personal care",
+        "events and experiences",
+        "secondhand marketplace",
+        "services",
+        "hobbies and entertainment",
+        "gifts and handmade goods"
+    ]
 };
+
+
 exports.addProduct = async (req, res, next) => {
     try {
         if (!req.body)
@@ -155,3 +170,5 @@ exports.editProduct = async (req, res, next) => {
         // });
     }
 };
+
+

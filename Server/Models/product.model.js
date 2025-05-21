@@ -108,7 +108,7 @@ const productSchema = new mongoose.Schema({
             type: Number,
             default: 0
         },
-        preveiewCount: {
+        previewCount: {
             type: Number,
             default: 0
         }

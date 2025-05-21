@@ -7,7 +7,7 @@ btnAddCart.addEventListener("click", async e => {
     btn.classList.replace("btn-outline-dark", "btn-dark");
 
     try {
-        let response = await fetch(`/cart/${productId}`, {
+        let response = await fetch(`/account/cart/${productId}`, {
             method: "post"
             //,headers: {}
         });

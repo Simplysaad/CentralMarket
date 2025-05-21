@@ -1,46 +1,46 @@
 <main class="col-12 d-flex flex-column">
     <section id="headingSection" class="py-5">
-        <h3 class="display-3 text-center"><%= categoryName %></h3>
+        <h3 class="display-3 text-center text text-capitalize">
+            <%= categoryName %>
+        </h3>
     </section>
-    <% if(featuredProducts.length > 0){ %>
-    <section id="featuredSection" class="py-4">
-        <div class="heading">
-            <h6 class="fs-5 fw-light">Featured</h6>
-        </div>
-        <div class="overflow-scroll d-flex gap-2">
-    <% featuredProducts.forEach((product, index)=>{ %>
-      <%- include("../../Components/featured_card.ejs", {product}) %>
-    <% })%>
-        </div>
-    </section>
-    <% } %>
-    <% if(discountedProducts.length > 0){ %>
-    <section id="DealsSection" class="py-4">
-        <div class="heading">
-            <h6 class="fs-5 fw-light">Today's deals</h6>
-        </div>
-        <div class="overflow-scroll d-flex gap-2">
-    <% discountedProducts.forEach((product, index)=>{ %>
-      <%- include("../../Components/search_card.ejs", {product}) %>
-    <% })%>
-        </div>
-    </section>
-    <% } %>
+    <% if(featuredProducts.length> 0){ %>
+        <section id="featuredSection" class="py-4">
+            <div class="heading">
+                <h6 class="fs-5 fw-light">Featured</h6>
+            </div>
+            <div class="overflow-scroll d-flex gap-2">
+                <% featuredProducts.forEach((product, index)=>{ %>
+                    <%- include("../../Components/featured_card.ejs", {product}) %>
+                        <% })%>
+            </div>
+        </section>
+        <% } %>
+            <% if(discountedProducts.length> 0){ %>
+                <section id="DealsSection" class="py-4">
+                    <div class="heading">
+                        <h6 class="fs-5 fw-light">Today's deals</h6>
+                    </div>
+                    <div class="overflow-scroll d-flex gap-2">
+                        <% discountedProducts.forEach((product, index)=>{ %>
+                            <%- include("../../Components/search_card.ejs", {product}) %>
+                                <% })%>
+                    </div>
+                </section>
+                <% } %>
+                    <% subCategories.forEach((subcategory, index)=>{ %>
 
-    subcategories with at least 10 products
-    <% subCategories.forEach((subcategory, index)=>{ %>
-      
-    <section class="subcategory py-4">
-        <div class="heading py-3">
-            <h6 class="fs-5 fw-light text-capitalize"><%= subcategory.name %></h6>
-        </div>
-        <div class="overflow-scroll d-flex gap-2">
-        <% subcategory.products.forEach((product, index)=>{ %>
-              <%- include("../../Components/search_card.ejs", {product}) %>
-        <% }) %>
-        </div>
+                        <section class="subcategory py-4">
+                            <div class="heading py-3">
+                                <h6 class="fs-5 fw-light text-capitalize">
+                                    <%= subcategory.name %>
+                                </h6>
+                            </div>
+                            <div class="overflow-scroll d-flex gap-2">
+                                <% subcategory.products.forEach((product, index)=>{ %>
+                                    <%- include("../../Components/search_card.ejs", {product}) %>
+                                        <% }) %>
+                            </div>
 
-    </section>
-    <% }) %>
-
-   
+                        </section>
+                        <% }) %>

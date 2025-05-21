@@ -1,39 +1,30 @@
-
 <section class="col-12 d-md-flex">
     <section class="col-md-6">
         <section id="imagesSection" class="pb-3">
             <div class="preview-image mx-auto">
-                <img
-                    id="productImage"
-                    src="<%= currentProduct.imageUrl %>"
-                    alt="placeholder"
-                    class="img-fluid object-fit-cover"
-                />
+                <img id="productImage" src="<%= currentProduct.imageUrl %>" alt="placeholder"
+                    class="img-fluid object-fit-cover" />
             </div>
         </section>
         <section id="infoSection" class="py-5">
             <div class="main-info d-flex my-4 flex-column">
                 <span id="productCategory" class="text-muted m-0 p-0 fs-6">
-                    <a
-                        href="/category/<%= currentProduct.category %>"
-                        class="text-decoration-none text-muted"
-                    >
+                    <a href="/category/<%= currentProduct.category %>"
+                        class="text-capitalize text-decoration-none text-muted">
                         <%= currentProduct.category %>
                     </a>
                 </span>
-                <span id="productName" class="fs-2 p-0 m-0 fw-bold">
+                <span id="productName" class="text-capitalize fs-2 p-0 m-0 fw-bold">
                     <%= currentProduct.name %>
                 </span>
             </div>
 
             <div class="product-price d-flex gap-2">
-                <h4
-                    class="fs-5 fw-light text-decoration-line-through text-danger"
-                >
-                    <%= "$" + currentProduct.price %>
+                <h4 class="fs-5 fw-light text-decoration-line-through text-danger">
+                    <%= "$" + currentProduct.price.toLocaleString() %>
                 </h4>
                 <h4 class="fs-1 fw-semibold">
-                    <%= "$" + currentProduct.price %>
+                    <%= "$" + currentProduct.price.toLocaleString() %>
                 </h4>
             </div>
 
@@ -48,25 +39,25 @@
                 <div id="productTags" class="tags d-flex gap-1 flex-wrap">
                     <% currentProduct.keywords?.forEach((tag, index)=>{ %>
 
-                    <a
-                        href="/search?searchTerm=<%= tag %>"
-                        class="btn rounded-pill btn-outline-dark border py-1 px-3"
-                    >
-                        <%= tag %>
-                    </a>
-                    <% }) %>
+                        <a href="/search?searchTerm=<%= tag %>"
+                            class="border text-decoration-none rounded-pill py-1 px-2">
+                            <%= tag %>
+                        </a>
+                        <% }) %>
                 </div>
             </div>
         </section>
 
         <section id="actionsSection">
             <div class="my-4 d-flex flex-column col-12 col-md-8 col-lg-6 gap-3">
-                <div class="btn-group rounded-pill">
-                    <button data-product-id="<%= currentProduct._id %>" class="btn btn-cart btn-lg btn-outline-dark col-12">
+                <div class="btn-group rounded-pill d-flex gap-1">
+                    <button data-product-id="<%= currentProduct._id %>"
+                        class="btn btn-cart btn-lg btn-outline-success col-12">
                         <i class="fa fa-shopping-cart"> </i>
                         <span class=""> Add to cart </span>
                     </button>
-                    <button data-product-id="<%= currentProduct._id %>" class="btn btn-wish btn-lg btn-outline-dark">
+
+                    <button data-product-id="<%= currentProduct._id %>" class="btn btn-wish btn-lg btn-outline-success">
                         <i class="far fa-heart"> </i>
                     </button>
                 </div>
@@ -75,69 +66,50 @@
         <section id="specsSection" class="my-5">
             <% if(currentProduct.specs){ %>
 
-            <div
-                class="heading d-flex justify-content-between align-items-center"
-            >
-                <h4 class="text-heading fw-semibold">Specifications</h4>
-            </div>
-            <div class="container p-2">
-                <% if(currentProduct.specs?.colors){ %>
-                <div class="my-4">
-                    <h6 class="heading fs-6 fw-semibold">Colors</h6>
-                    <div class="sizes-select d-flex gap-2">
-                        <% currentProduct.specs?.colors?.forEach((color,
-                        index)=>{ %>
-                        <span
-                            class="text-capitalize btn btn-outline-dark rounded"
-                        >
-                            <input
-                                type="radio"
-                                name="color"
-                                class="input-color"
-                                hidden
-                                value="<%= color %>"
-                                id="<%=`color_${color}`%>"
-                            />
-                            <label for="<%=`color_${color}`%>"
-                                ><%#= color %></label
-                            >
-                        </span>
-                        <% }) %>
-                    </div>
+                <div class="heading d-flex justify-content-between align-items-center">
+                    <h4 class="text-heading fw-semibold">Specifications</h4>
                 </div>
-                <% } %> <% if(currentProduct.specs?.sizes){ %>
-                <div class="my-4">
-                    <h6 class="heading fs-6 fw-semibold">Sizes</h6>
-                    <div class="sizes-select d-flex gap-2">
-                        <% currentProduct.specs?.sizes?.forEach((size, index)=>{
-                        %>
-                        <span
-                            class="text-capitalize btn btn-outline-dark rounded"
-                        >
-                            <input
-                                type="radio"
-                                name="size"
-                                class="input-size"
-                                hidden
-                                value="<%= size %>"
-                                id="<%=`size_${size}`%>"
-                            />
-                            <label for="<%=`size_${size}`%>"><%= size %></label>
-                        </span>
-                        <% }) %>
-                    </div>
+                <div class="container p-2">
+                    <% if(currentProduct.specs?.colors){ %>
+                        <div class="my-4">
+                            <h6 class="heading fs-6 fw-semibold">Colors</h6>
+                            <div class="sizes-select d-flex gap-2">
+                                <% currentProduct.specs?.colors?.forEach((color, index)=>{ %>
+                                    <span class="text-capitalize btn btn-outline-dark rounded">
+                                        <input type="radio" name="color" class="input-color" hidden value="<%= color %>"
+                                            id="<%=`color_${color}`%>" />
+                                        <label for="<%=`color_${color}`%>">
+                                            <%#= color %>
+                                        </label>
+                                    </span>
+                                    <% }) %>
+                            </div>
+                        </div>
+                        <% } %>
+                            <% if(currentProduct.specs?.sizes){ %>
+                                <div class="my-4">
+                                    <h6 class="heading fs-6 fw-semibold">Sizes</h6>
+                                    <div class="sizes-select d-flex gap-2">
+                                        <% currentProduct.specs?.sizes?.forEach((size, index)=>{
+                                            %>
+                                            <span class="text-capitalize btn btn-outline-dark rounded">
+                                                <input type="radio" name="size" class="input-size" hidden
+                                                    value="<%= size %>" id="<%=`size_${size}`%>" />
+                                                <label for="<%=`size_${size}`%>">
+                                                    <%= size %>
+                                                </label>
+                                            </span>
+                                            <% }) %>
+                                    </div>
+                                </div>
+                                <% } %>
                 </div>
                 <% } %>
-            </div>
-            <% } %>
         </section>
         <section id="contactSection">
             <div class="my-4 d-flex flex-column col-12 col-md-8 col-lg-6 gap-3">
                 <div class="btn-group">
-                    <a
-                        href="/store/<%= currentProduct.vendorId %>"
-                        class="btn rounded-pill btn-outline-dark"
-                    >
+                    <a href="/store/<%= currentProduct.vendorId %>" class="btn rounded-pill btn-success">
                         <i class="fa fa-shop"> </i>
                         <span class=""> Vist store </span>
                     </a>
@@ -147,9 +119,7 @@
     </section>
     <section class="col-md-6">
         <section id="reviewsSection" class="py-5 p-2">
-            <div
-                class="heading d-flex justify-content-between align-items-center"
-            >
+            <div class="heading d-flex justify-content-between align-items-center">
                 <h4 class="text-heading fs-4">Ratings and reviews</h4>
                 <a class="link-dark" href="">
                     <i class="fa fa-arrow-right"> </i>
@@ -157,153 +127,110 @@
             </div>
             <div class="product-rating my-3">
                 <% if(currentProduct.averageRating){ %>
-                <div class="rating-number">
-                    <h3 class="display-1 fw-bold m-0 p-0">
-                        <%= currentProduct.averageRating.toFixed(1) %>
-                    </h3>
-                </div>
-                <div class="rating-stars">
-                    <% for(i=0; i< Math.floor(currentProduct.averageRating);
-                    i++){ %>
-                    <i class="fa fa-star"> </i>
-                    <% } %> <% for(i=0; i<(5-
-                    Math.floor(currentProduct.averageRating)); i++){ %>
-                    <i class="far fa-star"></i>
+                    <div class="rating-number">
+                        <h3 class="display-1 fw-bold m-0 p-0">
+                            <%= currentProduct.averageRating.toFixed(1) %>
+                        </h3>
+                    </div>
+                    <div class="rating-stars">
+                        <% for(i=0; i< Math.floor(currentProduct.averageRating); i++){ %>
+                            <i class="fa fa-star"> </i>
+                            <% } %>
+                                <% for(i=0; i<(5- Math.floor(currentProduct.averageRating)); i++){ %>
+                                    <i class="far fa-star"></i>
+                                    <% } %>
+                    </div>
+                    <div class="rating-count">
+                        <span class="fs-6">
+                            <%= `(${reviews?.length ?? 12})` %>
+                        </span>
+                    </div>
                     <% } %>
-                </div>
-                <div class="rating-count">
-                    <span class="fs-6">
-                        <%= `(${reviews?.length ?? 12})` %>
-                    </span>
-                </div>
-                <% } %>
             </div>
             <div class="reviews my-5">
                 <% reviews?.forEach((review, index)=>{ %>
 
-                <div class="single-review my-4 d-flex flex-column gap-3">
-                    <div class="review-heading d-flex gap-2">
-                        <div
-                            class="review-image overflow-hidden rounded-circle col-2"
-                            style="width: 50px"
-                        >
-                            <img
-                                src="https://placehold.co/400"
-                                alt=""
-                                class="img-fluid"
-                            />
-                        </div>
-                        <div class="review-info">
-                            <h4 class="fs-6 review-name text-capitalize">
-                                <%= review.customerId?.name %>
-                            </h4>
-                            <span class="rating-stars fs-6 text-muted">
-                                <% for(i=0; i<review.rating.toFixed(0); i++){ %>
-                                <i class="fa fa-star"> </i>
-                                <% } %>
-                                <% for(i=0; i < 5-review.rating.toFixed(0); i++){ %>
-                                <i class="far fa-star"></i>
-                                <% } %>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="review-text">
-                        <p class="text-dark">
-                            <%= review.message %>
-                        </p>
-                    </div>
-                    <form
-                        action="/review/<%= currentProduct._id %>"
-                        method="post"
-                        class="form-helpful d-flex flex-column justify-content-between gap-2"
-                    >
-                        <small data-review-id="<%= review._id %>" class="text-muted data-helpful">
-                            <data class="data-helpful"> 74 </data>
-                            people found this helpful
-                        </small>
-                        <div
-                            class="review-action d-flex align-items-center justify-content-between"
-                        >
-                            <small class=""> Was this review helpful? </small>
-                            <div action="" class="d-flex gap-2 form-helpful">
-                                <label
-                                    for="helpful_true"
-                                    class="btn btn-helpful btn-outline-dark"
-                                >
-                                    <input
-                                        type="radio"
-                                        hidden=""
-                                        name="helpful"
-                                        value="true"
-                                        class="input-helpful"
-                                        id="helpful_true"
-                                    />
-                                    Yes
-                                </label>
-                                <label
-                                    for="helpful_false"
-                                    class="btn btn-helpful btn-outline-dark"
-                                >
-                                    <input
-                                        type="radio"
-                                        hidden=""
-                                        name="helpful"
-                                        value="false"
-                                        class="input-helpful"
-                                        id="helpful_false"
-                                    />
-                                    No
-                                </label>
+
+                    <div class="single-review my-4 d-flex flex-column gap-3">
+                        <div class="review-heading d-flex gap-2">
+                            <div class="review-image overflow-hidden rounded-circle col-2" style="width: 50px">
+                                <img src="https://placehold.co/400" alt="" class="img-fluid" />
+                            </div>
+                            <div class="review-info">
+                                <h4 class="fs-6 review-name text-capitalize">
+                                    <%= review.customerId?.name %>
+                                </h4>
+                                <span class="rating-stars fs-6 text-muted">
+                                    <% for(i=0; i<review.rating.toFixed(0); i++){ %>
+                                        <i class="fa fa-star"> </i>
+                                        <% } %>
+                                            <% for(i=0; i < 5-review.rating.toFixed(0); i++){ %>
+                                                <i class="far fa-star"></i>
+                                                <% } %>
+                                </span>
                             </div>
                         </div>
-                    </form>
+                        <div class="review-text">
+                            <p class="">
+                                <%= review.message %>
+                            </p>
+                        </div>
+                        <form action="/review/<%= currentProduct._id %>" method="post"
+                            class="form-helpful d-flex flex-column justify-content-between gap-2">
+                            <small data-review-id="<%= review._id %>" class="text-muted data-helpful">
+                                <data class="data-helpful">
+                                    <%= currentProduct.helpfulVotes ? `${currentProduct.helpfulVotes} people found this
+                                        helpful` : "" %>
+                                </data>
+                            </small>
+                            <div class="review-action d-flex align-items-center justify-content-between">
+                                <small class=""> Was this review helpful? </small>
+                                <div action="" class="d-flex gap-2 form-helpful">
+                                    <label for="helpful_true" class="btn btn-helpful btn-outline-dark">
+                                        <input type="radio" hidden="" name="helpful" value="true" class="input-helpful"
+                                            id="helpful_true" />
+                                        Yes
+                                    </label>
+                                    <label for="helpful_false" class="btn btn-helpful btn-outline-dark">
+                                        <input type="radio" hidden="" name="helpful" value="false" class="input-helpful"
+                                            id="helpful_false" />
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <% }) %>
+            </div>
+            <% if(reviews.length <=0){ %>
+                <div class="text-center">
+                    <p href="" class="">No reviews Yet...</p>
+                    <a href="/review/<%= currentProduct._id %>" class="">
+                        Be the first to review
+                    </a>
                 </div>
-                <% }) %>
-            </div>
-            <% if(reviews.length <= 0){ %>
-            <div class="text-center">
-                <p href="" class="link-dark">No reviews Yet...</p>
-                <a href="/review/<%= currentProduct._id %>" class="link-dark">
-                    Be the first to review
-                </a>
-            </div>
-            <% } %>
+                <% } %>
         </section>
         <section id="relatedProducts" class="">
-            <div
-                class="heading d-flex py-3 align-items-start justify-content-between"
-            >
+            <div class="heading d-flex py-3 align-items-start justify-content-between">
                 <h4 class="text-heading">People also viewed</h4>
             </div>
             <div class="d-flex flex-wrap">
-                <div
-                    class="single-product p-2 col-6 col-md-4 col-lg-3 card border-0"
-                >
+                <div class="single-product p-2 col-6 col-md-4 col-lg-3 card border-0">
                     <div class="card-image position-relative">
-                        <img
-                            src="/IMG/image-4.jpg"
-                            alt=""
-                            class="img-fluid object-fit-cover aspect-ratio-square"
-                        />
+                        <img src="/IMG/image-4.jpg" alt="" class="img-fluid object-fit-cover aspect-ratio-square" />
                     </div>
                     <div class="card-info py-3">
                         <div class="">
-                            <a
-                                href="/preview/<%#= product._id %>"
-                                class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold"
-                            >
+                            <a href="/preview/<%#= product._id %>"
+                                class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold">
                                 Lorem, ipsum dolor.
                             </a>
                         </div>
-                        <div
-                            class="d-flex gap-2 fs-6 fw-semibold justify-content-start"
-                        >
+                        <div class="d-flex gap-2 fs-6 fw-semibold justify-content-start">
                             <div class="old-price text-muted -emphasis">
-                                <span
-                                    class="text-decoration-line-through fw-light"
-                                >
-                                    $600</span
-                                >
+                                <span class="text-decoration-line-through fw-light">
+                                    $600</span>
                             </div>
                             <div class="price">
                                 <p class="fs-5">$600</p>

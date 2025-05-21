@@ -9,8 +9,24 @@ const locals = {
     title: "CentralMarket",
     description: "",
     image: "/IMG/favicon.jpg",
-    keywords: []
+    keywords: [],
+    categories: [
+        "study materials",
+        "electronics",
+        "hostel essentials",
+        "clothing and accessories",
+        "groceries and snacks",
+        "health and personal care",
+        "events and experiences",
+        "secondhand marketplace",
+        "services",
+        "hobbies and entertainment",
+        "gifts and handmade goods"
+    ]
 };
+
+
+
 exports.getHomeProducts = async (req, res, next) => {
     try {
         // GET NEW ARRIVALS
@@ -44,7 +60,8 @@ exports.getHomeProducts = async (req, res, next) => {
 
         let { cart = [] } = req.session;
 
-        locals.title = "Home | CentralMarket";
+
+        locals.title = "Home | CentralMarket"
         return res.status(200).render("Pages/Customer/index_page", {
             locals,
             topRatedProducts,
@@ -87,48 +104,61 @@ exports.searchController = async (req, res, next) => {
         // Search for products based on various fields using the regex
         let searchResults = {};
 
-        searchResults.products = await Product.aggregate([
-            {
-                $search: {
-                    index: "products_index",
-                    text: {
-                        query: searchTerm,
-                        path: [
-                            "name",
-                            "category",
-                            "subCategory",
-                            "description",
-                            "keywords"
-                        ]
-                    }
-                }
-            },
-            {
-                $match: {
-                    category: { $ne: "services" }
-                }
-            }
-        ]);
-        searchResults.services = await Product.aggregate([
-            {
-                $search: {
-                    index: "products_index",
-                    text: {
-                        query: searchTerm,
-                        path: [
-                            "name",
-                            "category",
-                            "subCategory",
-                            "description",
-                            "keywords"
-                        ]
-                    }
-                }
-            },
-            {
-                $match: { category: "services" }
-            }
-        ]);
+        // searchResults.products = await Product.aggregate([
+        //     {
+        //         $search: {
+        //             index: "products_index",
+        //             text: {
+        //                 query: searchTerm,
+        //                 path: [
+        //                     "name",
+        //                     "category",
+        //                     "subCategory",
+        //                     "description",
+        //                     "keywords"
+        //                 ]
+        //             }
+        //         }
+        //     },
+        //     {
+        //         $match: {
+        //             category: { $ne: "services" }
+        //         }
+        //     }
+        // ]);
+        searchResults.products = await Product.find({
+
+            $or: [
+                { name: regex },
+                { category: regex },
+                { subCategory: regex },
+                { description: regex },
+                { keywords: regex }
+            ],
+
+
+        })
+        searchResults.services = []
+        // searchResults.services = await Product.aggregate([
+        //     {
+        //         $search: {
+        //             index: "products_index",
+        //             text: {
+        //                 query: searchTerm,
+        //                 path: [
+        //                     "name",
+        //                     "category",
+        //                     "subCategory",
+        //                     "description",
+        //                     "keywords"
+        //                 ]
+        //             }
+        //         }
+        //     },
+        //     {
+        //         $match: { category: "services" }
+        //     }
+        // ]);
         // Ive not created the users index yet
 
         searchResults.vendors = await User.find({
@@ -158,9 +188,9 @@ exports.searchController = async (req, res, next) => {
 
         // Handle empty search results
         if (
-            searchResults.products.length === 0 &&
-            searchResults.services.length === 0 &&
-            searchResults.vendors.length === 0
+            searchResults.products?.length === 0 &&
+            searchResults.services?.length === 0 &&
+            searchResults.vendors?.length === 0
         ) {
             console.log(searchTerm, "brought no results ");
 
@@ -169,7 +199,8 @@ exports.searchController = async (req, res, next) => {
                     $sample: { size: 21 }
                 }
             ]);
-            locals.title = `Search for ${searchTerm} - no results | CentralMarket`;
+
+            locals.title = `Search for ${searchTerm} - no results | CentralMarket`
             return res.status(201).render("Pages/Customer/empty_search_page", {
                 success: false,
                 locals,
@@ -201,7 +232,8 @@ exports.searchController = async (req, res, next) => {
         //     searchTerm
         // });
 
-        locals.title = `Search for ${searchTerm}| CentralMarket`;
+
+        locals.title = `Search for ${searchTerm}| CentralMarket`
         return res.status(201).render("Pages/Customer/search_page", {
             success: true,
             searchResults,
@@ -220,6 +252,8 @@ exports.searchController = async (req, res, next) => {
 
 exports.postCart = async (req, res, next) => {
     try {
+        console.log("i'm to post /cart")
+
         if (!req.session.cart) req.session.cart = [];
 
         let { userId, cart } = req.session;
@@ -244,6 +278,9 @@ exports.postCart = async (req, res, next) => {
             },
             { new: true }
         );
+
+
+
         if (!currentProduct)
             return res.status(404).json({
                 success: false,
@@ -450,7 +487,8 @@ exports.getCart = async (req, res, next) => {
         let cartQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
         let cartItemsCount = cart.length;
         let deliveryFee = 0;
-        locals.title = "Cart | CentralMarket";
+
+        locals.title = "Cart | CentralMarket"
         return res.status(200).render("Pages/Customer/cart_page", {
             success: true,
             message: "cart items fetched successfully",
@@ -487,14 +525,15 @@ exports.getProducts = async (req, res, next) => {
                 interests: -1
             })
             .limit(14);
-        locals.title = "Products | CentralMarket";
+
+        locals.title = "Products | CentralMarket"
         return res.status(200).render("Pages/Customer/index_page", {
             success: true,
             message: "products fetched successfully",
             products,
             cart,
             locals,
-            newArrivals
+           newArrivals
         });
     } catch (err) {
         next(err);
@@ -537,6 +576,16 @@ exports.postOrder = async (req, res, next) => {
     try {
         let { userId: customerId, cart: items } = req.session;
 
+       // console.log("items", items);
+
+        //let { customerId, items } = req.body;
+
+        // if (!customerId)
+        //     return res.status(403).json({
+        //         success: false,
+        //         message: "user not logged in"
+        //     });
+
         items.forEach(async item => {
             let itemId = item.productId;
 
@@ -562,17 +611,16 @@ exports.postOrder = async (req, res, next) => {
             console.log("cart cleared");
         });
 
-        return res.status(200).json({
+        // console.log(newOrder)
+        console.log({
             success: true,
             message: "order placed successfully",
             newOrder
         });
+        return res.redirect("/cart"); // Should redirect to a page that helps track the order
+
     } catch (err) {
         next(err);
-        return res.status(500).json({
-            success: false,
-            message: "error encountered while placing order"
-        });
     }
 };
 
@@ -666,13 +714,25 @@ exports.getPreview = async (req, res, next) => {
             return res.status(303).redirect(`/preview/${currentProduct._id}`);
         }
 
-        let currentProduct = await Product.findOne({ _id: productId });
-        let reviews = await Review.find({ productId }).populate("customerId");
-        locals.title = `${currentProduct.name} | CentralMarket`;
+
+        let currentProduct = await Product.findOneAndUpdate(
+            { _id: productId },
+            {
+                $inc: { "meta.previewCount": 1 }
+            }, { new: true });
+
+        let reviews = await Review.find({
+            productId,
+            message: { $ne: null },
+            customerId: { $ne: null },
+
+        }).populate("customerId");
+
+
+        locals.title = `${currentProduct.name} | CentralMarket`
         return res.render("Pages/Customer/preview_page", {
             currentProduct,
-            reviews,
-            locals
+            reviews, locals
         });
     } catch (err) {
         next(err);
@@ -728,7 +788,7 @@ exports.getCategoryProducts = async (req, res, next) => {
             subCategories: subCategoriesElements,
             featuredProducts,
             locals,
-            discountedProducts
+           discountedProducts
         });
     } catch (err) {
         next(err);
@@ -746,7 +806,7 @@ exports.getReviewPage = async (req, res, next) => {
                 currentProduct,
                 currentUser,
                 locals
-            });
+           });
     } catch (err) {
         next(err);
     }
@@ -774,7 +834,7 @@ exports.postReview = async (req, res, next) => {
             message,
             rating,
             productId,
-            customerId: currentUser._id
+            customerId: currentUser?._id
         });
 
         let currentProduct = await Product.findOneAndUpdate(
@@ -805,7 +865,7 @@ exports.getStore = async (req, res) => {
 
         let currentVendor = await User.findOne({ _id: vendorId }); //.select("name business")
         let currentVendorProducts = await Product.find({ vendorId }); //.select("name business")
-        let isCurrentVendor = currentVendor._id === currentUser._id;
+        let isCurrentVendor = currentVendor?._id === currentUser?._id;
 
         console.log({
             currentVendor,
@@ -816,8 +876,7 @@ exports.getStore = async (req, res) => {
         return res.status(200).render("Pages/Customer/store_page", {
             currentVendor,
             products: currentVendorProducts,
-            isCurrentVendor,
-            locals
+  isCurrentVendor, locals
         });
     } catch (err) {
         console.error(err);

@@ -19,6 +19,7 @@ router.use(authMiddleware);
 const adminController = require("../Controllers/admin.controller.js");
 
 router.get("/products/", adminController.getProducts);
+
 router.post(
     "/products/",
     upload.single("productImage"),

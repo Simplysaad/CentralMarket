@@ -1,61 +1,40 @@
-<div
-    class="nav navbar p-md-2 shadow container-fluid flex-wrap justify-content-between navbar-light d-flex"
->
-    <div
-        class="navbar-brand order-1 justify-content-center align-items-center gap-1 d-flex flex-nowrap p-2 col-md-"
-    >
-        <button
-            class="btn navbar-toggler"
-            data-bs-toggle="collapse"
-            data-bs-target="#sideNav"
-        >
-            <span class="navbar-toggler-icon"> </span>
+<div class="navbar p-md-2 shadow container-fluid flex-wrap align-items-center justify-content-between d-flex">
+    <div class="pe-2 order-1 justify-content-center align-items-center gap-1 d-flex flex-nowrap p-2">
+        <button class="btn navbar-toggler" data-bs-toggle="collapse" data-bs-target="#sideNav">
+            <span class="fa fa-bars"> </span>
         </button>
         <div class="p-auto">
             <a href="/" class="text-heading display-6 text-decoration-none">Restaurant</a>
         </div>
     </div>
     <div
-        class="navbar-search order-3 flex-fill order-md-2 col-12 float-end mx-auto col-md-auto col-lg- float-end d-noe d-md-inline"
-    >
-      <%- include("../Components/search_form.ejs") %>
+        class="navbar-search order-3 flex-fill order-md-2 col-12 float-end mx-auto col-md-auto col-lg- float-end d-noe d-md-inline">
+        <%- include("../Components/search_form.ejs") %>
     </div>
     <div
-        class="navbar-nav order-2 border-0 flex-shrink-1 order-md-3 d-flex justify-content-center align-items-center px-2"
-    >
-        <div
-            class="nav-items d-flex gap-3 gap-md-2 justify-content-end"
-        >
-            <div class="nav-item d-md-none">
-                <button href="#" class="nav-link" id="btnSearch">
-                    <i class="fa-solid fa-search"> </i>
-                    <span class="d-none d-md-inline"> Search </span>
+        class="navbar-nav order-2 border-0 flex-shrink-1 order-md-3 d-flex justify-content-center align-items-center px-2">
+        <div class="nav-items d-flex gap-3 gap-md-3 align-items-center justify-content-end">
+            <div class="nav-item border border-1 rounded-pill overflow-hidden d-flex gap-2">
+                <button href="#" class="nav-link btn-toggle-theme" id="btnToggleTheme">
+                    <i class="fa-solid fa-moon px-2  float-start"> </i>
                 </button>
             </div>
-            <div class="nav-item">
-                <a href="/cart" class="nav-link">
+            <div class="nav-ite">
+                <a href="/cart" class="">
                     <i class="fa fa-shopping-cart"> </i>
-                    <span class="d-none d-md-inline"> Cart </span>
+                    <span class="d-none d-md-iline"> Cart </span>
                 </a>
-                <i class="badge badge-danger"><%=  %></i>
+
             </div>
             <div class="nav-item dropdown">
-                <button
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    id="accountDropdown"
-                    type="button"
-                    class="nav-link dropdown-toggle"
-                >
+                <div data-bs-toggle="dropdown" aria-expanded="false" id="accountDropdown" type="button"
+                    class="dropdown-toggle">
                     <i class="fa fa-user-circle"> </i>
-                    <span class="d-none d-md-inline">
+                    <span class="d-none d-md-nline">
                         Account
                     </span>
-                </button>
-                <ul
-                    class="dropdown-menu position-absolute"
-                    aria-labelledby="accountDropdown"
-                >
+                </div>
+                <ul class="dropdown-menu position-absolute" aria-labelledby="accountDropdown">
                     <li class="dropdown-item">
                         <a href="/account/wishlist" class="nav-link"> wishlist </a>
                     </li>
@@ -69,9 +48,7 @@
                         <a href="" class="nav-link"> settings </a>
                     </li>
                     <li class="dropdown-divider"></li>
-                    <li
-                        class="dropdown-item d-flex justify-content-start gap-2 align-items-center"
-                    >
+                    <li class="dropdown-item d-flex justify-content-start gap-2 align-items-center">
                         <i class="fa fa-sign-out"> </i>
                         <a href="" class="nav-link"> logout </a>
                     </li>
@@ -80,4 +57,3 @@
         </div>
     </div>
 </div>
-

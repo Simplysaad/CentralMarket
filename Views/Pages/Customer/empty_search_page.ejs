@@ -14,8 +14,8 @@
 </section>
 <!-- Filter Section -->
 
-<section id="filterSection" class="border collapse collapse p-2 col-md-3 px-2 col-lg-2">
-  <%-include("../../Components/filter_form.ejs") %>
+<section id="filterSection" class="p-2 col-md-3 px-2 col-lg-2">
+  <%-include(" /../../../Components/filter_form.ejs") %>
     <!-- Category Filters -->
 </section>
 <section id="listingSection" class="col-md- col-lg- px-2">
@@ -29,10 +29,10 @@
           <% }) %>
     </div>
     <% } %>
-      
-      
+
+
       <%# if(recommendations?.products?.length> 0){ %>
-        
+
         <div class="d-flex my-5 justify-content-start align-items-start flex-wrap " id="productListingSection">
           <div class="d-block col-12">
             <h4 class="text-muted py-3 lead text-capitalize">Products</h4>
@@ -44,7 +44,7 @@
                 </div>
         </div>
         <%# } %>
-          
+
 </section>
 <section id="paginationSection" class="col-12 d-flex justify-content-center">
   <ul class="pagination">
