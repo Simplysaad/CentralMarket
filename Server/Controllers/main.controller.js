@@ -44,9 +44,9 @@ exports.getHomeProducts = async (req, res, next) => {
 
         let { cart = [] } = req.session;
 
-locals.title = "Home | CentralMarket"
+        locals.title = "Home | CentralMarket";
         return res.status(200).render("Pages/Customer/index_page", {
-           locals,
+            locals,
             topRatedProducts,
             featuredProducts,
             discountedProducts,
@@ -169,7 +169,7 @@ exports.searchController = async (req, res, next) => {
                     $sample: { size: 21 }
                 }
             ]);
-locals.title = `Search for ${searchTerm} - no results | CentralMarket`
+            locals.title = `Search for ${searchTerm} - no results | CentralMarket`;
             return res.status(201).render("Pages/Customer/empty_search_page", {
                 success: false,
                 locals,
@@ -200,13 +200,13 @@ locals.title = `Search for ${searchTerm} - no results | CentralMarket`
         //     searchResults,
         //     searchTerm
         // });
-        
-        locals.title = `Search for ${searchTerm}| CentralMarket`
+
+        locals.title = `Search for ${searchTerm}| CentralMarket`;
         return res.status(201).render("Pages/Customer/search_page", {
             success: true,
             searchResults,
             searchTerm,
-            locals,
+            locals
         });
     } catch (err) {
         console.error("Error in search route:", err); // More specific error message
@@ -450,7 +450,7 @@ exports.getCart = async (req, res, next) => {
         let cartQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
         let cartItemsCount = cart.length;
         let deliveryFee = 0;
-locals.title = "Cart | CentralMarket"
+        locals.title = "Cart | CentralMarket";
         return res.status(200).render("Pages/Customer/cart_page", {
             success: true,
             message: "cart items fetched successfully",
@@ -487,12 +487,13 @@ exports.getProducts = async (req, res, next) => {
                 interests: -1
             })
             .limit(14);
-locals.title = "Products | CentralMarket"
+        locals.title = "Products | CentralMarket";
         return res.status(200).render("Pages/Customer/index_page", {
             success: true,
             message: "products fetched successfully",
             products,
-            cart,locals,
+            cart,
+            locals,
             newArrivals
         });
     } catch (err) {
@@ -535,15 +536,6 @@ exports.getSearchResults = async (req, res, next) => {
 exports.postOrder = async (req, res, next) => {
     try {
         let { userId: customerId, cart: items } = req.session;
-        console.log("items", items);
-        console.log("req.session", req.session);
-        //let { customerId, items } = req.body;
-
-        // if (!customerId)
-        //     return res.status(403).json({
-        //         success: false,
-        //         message: "user not logged in"
-        //     });
 
         items.forEach(async item => {
             let itemId = item.productId;
@@ -552,7 +544,8 @@ exports.postOrder = async (req, res, next) => {
                 { _id: itemId },
                 {
                     $inc: {
-                        purchaseCount: item.quantity
+                        purchaseCount: item.quantity,
+                        amountInStock: -1
                     }
                 },
                 { new: true }
@@ -675,10 +668,11 @@ exports.getPreview = async (req, res, next) => {
 
         let currentProduct = await Product.findOne({ _id: productId });
         let reviews = await Review.find({ productId }).populate("customerId");
-locals.title = `${currentProduct.name} | CentralMarket`
+        locals.title = `${currentProduct.name} | CentralMarket`;
         return res.render("Pages/Customer/preview_page", {
             currentProduct,
-            reviews,locals
+            reviews,
+            locals
         });
     } catch (err) {
         next(err);
@@ -728,11 +722,12 @@ exports.getCategoryProducts = async (req, res, next) => {
         });
 
         // return res.status(200).json({
-        locals.title = `${categoryName} | CentralMarket`
+        locals.title = `${categoryName} | CentralMarket`;
         return res.status(200).render("Pages/Customer/category_page.ejs", {
             categoryName,
             subCategories: subCategoriesElements,
-            featuredProducts,locals,
+            featuredProducts,
+            locals,
             discountedProducts
         });
     } catch (err) {
@@ -749,7 +744,8 @@ exports.getReviewPage = async (req, res, next) => {
         if (productId)
             return res.status(200).render("Pages/Customer/review_page", {
                 currentProduct,
-                currentUser,locals,
+                currentUser,
+                locals
             });
     } catch (err) {
         next(err);
@@ -820,7 +816,8 @@ exports.getStore = async (req, res) => {
         return res.status(200).render("Pages/Customer/store_page", {
             currentVendor,
             products: currentVendorProducts,
-            isCurrentVendor,locals
+            isCurrentVendor,
+            locals
         });
     } catch (err) {
         console.error(err);
