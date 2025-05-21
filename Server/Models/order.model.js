@@ -32,14 +32,17 @@ const itemSchema = new mongoose.Schema(
         discount: discountSchema,
         vendorId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "users"},
-        color: {
-            type: String,
-            default: "default"
+            ref: "users"
         },
-        size: {
-            type: String,
-            default: "default"
+        meta: {
+            color: {
+                type: String,
+                default: "default"
+            },
+            size: {
+                type: String,
+                default: "default"
+            },
         },
         productId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -65,6 +68,10 @@ const paymentSchema = new mongoose.Schema(
         },
         amount: {
             type: Number
+        },
+        status: {
+            type: String,
+            //enum: ["pending", "successful"]
         }
     },
     { _id: false }
@@ -89,7 +96,7 @@ const orderSchema = new mongoose.Schema({
         default: "pending",
         enum: ["pending", "incomplete", "completed", "delivered"]
     },
-    payment: paymentSchema,
+    payment: {},
     createdAt: {
         type: Date,
         default: Date.now

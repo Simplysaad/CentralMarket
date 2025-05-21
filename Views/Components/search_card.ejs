@@ -1,7 +1,7 @@
 <div class="single-product rounded overflow-hidden my-3 p-2 col-6 col-md-4 col-lg-2 border-0">
   <div class="card-image position-relative">
-    <!-- <img src="<%= '/IMG/image-2.jpg' || product.imageUrl ? product.imageUrl : '/IMG/image-4.jpg' %>" alt="" -->
-    <img src="<%= '/IMG/image-2.jpg'%>" alt="" class="img-fluid object-fit-cover aspect-ratio-square" />
+    <img src="<%= product.imageUrl ? product.imageUrl : '/IMG/image-4.jpg' %>" alt=""
+      class="img-fluid object-fit-cover aspect-ratio-square" />
   </div>
   <div class="card-info py-3">
     <div class="card-title">
