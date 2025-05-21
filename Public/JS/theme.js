@@ -1,24 +1,20 @@
 let btnToggleTheme = document.querySelector("#btnToggleTheme")
 let body = document.body
+sideNav = document.querySelector("#sideNav")
 
 let isDark = window.localStorage.getItem("theme") === "dark"
-let toggleTheme = (e) => {
+let toggleTheme = () => {
     isDark = window.localStorage.getItem("theme") === "dark"
+    body.classList.replace(isDark ? "bg-light" : "bg-dark", isDark ? "bg-dark" : "bg-light")
+    body.classList.replace(isDark ? "text-dark" : "text-light", isDark ? "text-light" : "text-dark")
 
-    body.classList.toggle("bg-dark", isDark)
-    body.classList.toggle("text-light", isDark)
+
+    sideNav.classList.toggle("bg-dark", isDark)
+    sideNav.classList.toggle("bg-light", !isDark)
 
     btnToggleTheme.innerHTML = `<i class="fa-solid ${isDark ? "fa-sun text-light" : "fa-moon text-dark"} px-2  float-start"> </i>`
-
     console.log(`isDark ${isDark}`)
-
-
-    let links = document.querySelectorAll("a")
-    links.forEach((element, index) => {
-        element.style.color = "inherit"
-        //element.textContent = "green"
-    })
-
+    document.querySelectorAll("a").forEach(element => element.style.color = "inherit")
 }
 
 toggleTheme()
