@@ -24,7 +24,7 @@ const app = express();
 app.listen(PORT, (err, info) => {
     if (!err) {
         connectDB();
-        console.log(`server is started at port ${PORT}`);
+        console.log(`server is started at  http://localhost:${PORT}`);
     } else {
         console.error(err);
     }

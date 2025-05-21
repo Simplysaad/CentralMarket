@@ -8,6 +8,7 @@ ISSUE: THE WHOLE UI IS A DISASTER : FIXED
 
 
 
-TODO: test wishlist rendering
-TODO: arrange the side nav
+TODO: test wishlist rendering : DONE
+TODO: arrange the side nav: DONE
 
+TODO: Start working on campaigns (advertisements, affiliate links and coupons )
