@@ -4,8 +4,13 @@ const User = require("../Models/user.model.js");
 const Review = require("../Models/review.model.js");
 const Order = require("../Models/order.model.js");
 
+const ContentBasedRecommender = require('content-based-recommender')
+const recommender = new ContentBasedRecommender({
+  minScore: 0.1,
+  maxSimilarDocuments: 100
+});
 
-const { default: fetch } = require("node-fetch")
+const { default: fetch } = require("node-fetch");
 
 const { shuffle } = require("../Utils/helper.js");
 const locals = {
@@ -27,8 +32,6 @@ const locals = {
         "gifts and handmade goods"
     ]
 };
-
-
 
 exports.getHomeProducts = async (req, res, next) => {
     try {
@@ -63,8 +66,7 @@ exports.getHomeProducts = async (req, res, next) => {
 
         let { cart = [] } = req.session;
 
-
-        locals.title = "Home | CentralMarket"
+        locals.title = "Home | CentralMarket";
         return res.status(200).render("Pages/Customer/index_page", {
             locals,
             topRatedProducts,
@@ -130,18 +132,15 @@ exports.searchController = async (req, res, next) => {
         //     }
         // ]);
         searchResults.products = await Product.find({
-
             $or: [
                 { name: regex },
                 { category: regex },
                 { subCategory: regex },
                 { description: regex },
                 { keywords: regex }
-            ],
-
-
-        })
-        searchResults.services = []
+            ]
+        });
+        searchResults.services = [];
         // searchResults.services = await Product.aggregate([
         //     {
         //         $search: {
@@ -203,7 +202,7 @@ exports.searchController = async (req, res, next) => {
                 }
             ]);
 
-            locals.title = `Search for ${searchTerm} - no results | CentralMarket`
+            locals.title = `Search for ${searchTerm} - no results | CentralMarket`;
             return res.status(201).render("Pages/Customer/empty_search_page", {
                 success: false,
                 locals,
@@ -235,8 +234,7 @@ exports.searchController = async (req, res, next) => {
         //     searchTerm
         // });
 
-
-        locals.title = `Search for ${searchTerm}| CentralMarket`
+        locals.title = `Search for ${searchTerm}| CentralMarket`;
         return res.status(201).render("Pages/Customer/search_page", {
             success: true,
             searchResults,
@@ -249,266 +247,6 @@ exports.searchController = async (req, res, next) => {
             success: false,
             message: "internal server error", //"Incorrect credentials", same as password for security
             advice: "something's wrong on our end! please try again later"
-        });
-    }
-};
-
-exports.postCart = async (req, res, next) => {
-    try {
-        console.log("i'm to post /cart")
-
-        if (!req.session.cart) req.session.cart = [];
-
-        let { userId, cart } = req.session;
-        let { id: productId } = req.params;
-
-        let { quantity, wish } = req.query;
-
-        if (quantity && quantity !== "") {
-            quantity = Number(quantity);
-        }
-
-        //if req.query.quantity exist, change the item quantity to req.query.quantity
-        //else increment by 1
-
-        let currentProduct = await Product.findOneAndUpdate(
-            { $and: [{ _id: productId }, { available: true }] },
-            {
-                $inc: {
-                    addToCartCount: quantity || 1,
-                    interest: 1
-                }
-            },
-            { new: true }
-        );
-
-
-
-        if (!currentProduct)
-            return res.status(404).json({
-                success: false,
-                message: `product with id: ${productId}.does not exist or is not available`
-            });
-
-        let index = cart.findIndex(item => item.productId === productId);
-
-        if (index === -1) {
-            //TODO: implement discount calculations
-            quantity = quantity || 1;
-
-            let singleProduct = {
-                vendorId: currentProduct.vendorId,
-                name: currentProduct.name,
-                subTotal: currentProduct.price * quantity,
-                unitPrice: currentProduct.price,
-                quantity,
-                // color, size,
-                productId
-            };
-            req.session.cart.push(singleProduct);
-            let index = req.session.cart.findIndex(
-                item => item.productId === productId
-            );
-
-            let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
-            let cartQuantity = cart.reduce(
-                (acc, item) => acc + item.quantity,
-                0
-            );
-            let cartItemsCount = cart.length;
-            let deliveryFee = 0;
-
-            // console.log({ cart: req.session.cart });
-            return res.status(201).json({
-                success: true,
-                cartTotal,
-                cartQuantity,
-                deliveryFee,
-                message: "new product added to cart",
-                cart: req.session.cart,
-                item: req.session.cart[index]
-            });
-        } else {
-            if (quantity) {
-                req.session.cart[index].quantity = quantity;
-                req.session.cart[index].price = currentProduct.price * quantity;
-            } else {
-                req.session.cart[index].quantity += 1;
-                req.session.cart[index].price =
-                    currentProduct.price * req.session.cart[index].quantity;
-            }
-            console.log({ cart: req.session.cart });
-
-            let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
-            let cartQuantity = cart.reduce(
-                (acc, item) => acc + item.quantity,
-                0
-            );
-            let cartItemsCount = cart.length;
-            let deliveryFee = 0;
-
-            // console.log({ cart: req.session.cart });
-            return res.status(201).json({
-                success: true,
-                cartTotal,
-                cartQuantity,
-                deliveryFee,
-                message: "existing product incremented successfully",
-                cart: req.session.cart,
-                item: req.session.cart[index]
-            });
-        }
-    } catch (err) {
-        next(err);
-        return res.status(422).json({
-            success: false,
-            message: "error encountered while adding product to cart "
-            // ,cart: req.session.cart
-        });
-    }
-};
-exports.deleteCartItem = async (req, res, next) => {
-    try {
-        let { userId, cart } = req.session;
-        let { id: productId } = req.params;
-        let { quantity, removeAll } = req.query;
-
-        if (quantity && quantity !== "") {
-            quantity = Number(quantity);
-        }
-
-        let currentProduct = await Product.findOne({ _id: productId }).select(
-            "name _id price addToCartCount imageUrl"
-        );
-        if (!currentProduct)
-            return res.status(404).json({
-                success: false,
-                message: `couldn't find a document with id ${productId}`
-            });
-
-        let index = cart.findIndex(item => item.productId === productId);
-        //If product is not in the cart
-        if (index === -1)
-            return res.status(404).json({
-                success: false,
-                message: `product with productId: ${productId} is not in cart`
-            });
-
-        //what if product is in the cart
-        if (
-            cart[index].quantity <= 1 ||
-            removeAll ||
-            quantity >= cart[index].quantity
-        ) {
-            //if product quantity is less than or equal to one, remove the product from cart
-            req.session.cart.splice(index, 1);
-            let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
-            let cartQuantity = cart.reduce(
-                (acc, item) => acc + item.quantity,
-                0
-            );
-            let cartItemsCount = cart.length;
-            let deliveryFee = 0;
-
-            // console.log({ cart: req.session.cart });
-            return res.status(201).json({
-                success: true,
-                cartTotal,
-                cartQuantity,
-                deliveryFee,
-                message: `item removed successfully`,
-                cart: req.session.cart,
-                item: req.session.cart[index]
-            });
-        } else {
-            //if the quantity of the item is more than one, then reduce by one
-            req.session.cart[index].quantity -= 1;
-            req.session.cart[index].price =
-                currentProduct.price * req.session.cart[index].quantity;
-
-            console.log({ cart: req.session.cart });
-            let cartTotal = cart.reduce((acc, item) => acc + item.price, 0);
-            let cartQuantity = cart.reduce(
-                (acc, item) => acc + item.quantity,
-                0
-            );
-            let cartItemsCount = cart.length;
-            let deliveryFee = 0;
-
-            // console.log({ cart: req.session.cart });
-            return res.status(201).json({
-                success: true,
-                cartTotal,
-                cartQuantity,
-                deliveryFee,
-                message: `item quantity decremented successfully by ${quantity}`,
-                cart: req.session.cart,
-                item: req.session.cart[index]
-            });
-        }
-    } catch (err) {
-        next(err);
-        return res.status(500).json({
-            success: false,
-            message: `internal server error: error encountered while adding item to cart`,
-            errorMessage: err.message,
-            errorStack: err.stack
-        });
-    }
-};
-exports.getCart = async (req, res, next) => {
-    try {
-        let currentUser = await User.findOne({
-            _id: req.session.userId
-        }).select("-password");
-
-        let { cart = [], wishlist = [] } = req.session;
-        let { checkCart, checkWishList, productId } = req.query;
-
-        if (checkCart === "true") {
-            let { cart = [] } = req.session;
-            console.log(cart);
-            return res.status(200).json({
-                success: true,
-                message: "here's the cart",
-                cart
-            });
-        }
-        if (checkWishList === "true") {
-            let { wishlist = [] } = req.session;
-
-            console.log(wishlist);
-            return res.status(200).json({
-                success: true,
-                message: "here's the wishlist",
-                wishlist
-            });
-        }
-
-        let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
-        let cartQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
-        let cartItemsCount = cart.length;
-        let deliveryFee = 0;
-
-        locals.title = "Cart | CentralMarket"
-        return res.status(200).render("Pages/Customer/cart_page", {
-            success: true,
-            message: "cart items fetched successfully",
-            cart,
-            locals,
-            deliveryFee,
-            cartTotal,
-            cartQuantity,
-            currentUser,
-            cartItemsCount
-        });
-    } catch (err) {
-        next(err);
-        return res.status(500).json({
-            success: false,
-            message: `internal server error: error encountered while fetching cart items`,
-            errorMessage: err.message,
-            errorStack: err.stack
         });
     }
 };
@@ -528,7 +266,7 @@ exports.getProducts = async (req, res, next) => {
             })
             .limit(14);
 
-        locals.title = "Products | CentralMarket"
+        locals.title = "Products | CentralMarket";
         return res.status(200).render("Pages/Customer/index_page", {
             success: true,
             message: "products fetched successfully",
@@ -578,7 +316,7 @@ exports.postOrder = async (req, res, next) => {
     try {
         let { userId: customerId, cart: items } = req.session;
 
-        items.forEach(async item => {
+        items?.forEach(async item => {
             let itemId = item.productId;
 
             let updatedItem = await Product.findOneAndUpdate(
@@ -592,113 +330,99 @@ exports.postOrder = async (req, res, next) => {
                 { new: true }
             );
         });
-        let totalCost = items.reduce((acc, item) => acc + item.subTotal, 0)
-
+        let totalCost = items.reduce((acc, item) => acc + item.subTotal, 0);
 
         // paystack api
-
+        let currentUser = await User.findOne({ _id: req.session.userId });
 
         // initialize  transaction
-        let paystack_response = await fetch("https://api.paystack.co/transaction/initialize", {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${process.env.PAYSTACK_SECRET_TEST}`
-            },
-            method: "POST",
-            body: JSON.stringify({
-                "email": "customer@email.com",
-                "amount": `${totalCost * 100}`
-            })
-        })
+        let paystack_response = await fetch(
+            "https://api.paystack.co/transaction/initialize",
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${process.env.PAYSTACK_SECRET_TEST}`
+                },
+                method: "POST",
+                body: JSON.stringify({
+                    email: currentUser?.emailAddress || "saadidris70@gmail.com",
+                    first_name: currentUser?.name.split(" ")[0],
+                    last_name: currentUser?.name.split(" ")[1],
+                    amount: `${totalCost * 100}`
+                })
+            }
+        );
 
-        let { data: paystack_data, status } = await paystack_response.json()
-
-
-        console.log(paystack_data)
-
+        let { data, status } = await paystack_response.json().then(data => {
+            req.session.reference = data.data.reference;
+            return data;
+        });
 
         // send authorization url
         // validate transaction
 
-        req.session.payment = paystack_data
-
-
         // console.log(newOrder)
         console.log({
             success: true,
-            message: "order placed successfully"
+            message: "order placed successfully",
+            data
         });
-        return res.redirect("/order/checkout"); // Should redirect to a page that helps track the order
-
+        return res.json({
+            success: true,
+            message: "order placed successfully",
+            data
+        });
     } catch (err) {
         next(err);
     }
 };
-exports.getOrderCheckout = async (req, res, next) => {
-
-    try {
-        // let checkout_response = await fetch(req.session.payment?.authorization_url)
-        // let checkout_response_json = await checkout_response.text()
-
-        // console.log(checkout_response_json)
-        // //return res.send(checkout_response_json)
-
-        console.log(req.session.payment)
-        res.redirect("/")
-        // return res.redirect(req.session.payment?.authorization_url)
-    } catch (err) {
-        next(err)
-    }
-}
 exports.getValidateOrder = async (req, res, next) => {
     try {
-
         let { userId: customerId, cart: items } = req.session;
-        let totalCost = items.reduce((acc, item) => acc + item.subTotal, 0)
+        let totalCost = items?.reduce((acc, item) => acc + item.subTotal, 0);
 
         // validate transaction
+        let paystack_response = await fetch(
+            `https://api.paystack.co/transaction/verify/${
+                req.session.reference || req.query?.reference
+            }`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${process.env.PAYSTACK_SECRET_TEST}`
+                },
+                method: "GET"
+            }
+        );
 
-        let paystack_response = await fetch(`https://api.paystack.co/transaction/validate/${req.session.payment?.reference}`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${process.env.PAYSTACK_SECRET_TEST}`
-            },
-            method: "GET"
-        })
+        if (!paystack_response.ok)
+            throw new Error("network response was not ok");
 
-        let { data: paystack_data, status } = await paystack_response.json()
-        console.log(paystack_data)
+        let { data, status } = await paystack_response.json();
+        console.log(data, status);
 
-        // if (status) {
-        //     return res.redirect(data.authorization_url)
-        // }
+        let newOrder = new Order({
+            customerId,
+            items,
+            totalCost,
+            payment: data
+        });
 
-        // let newOrder = new Order({
-        //     customerId,
-        //     items,
-        //     totalCost, 
-        //     payment: paystack_data
-        // });
+        await newOrder.save().then(() => {
+            req.session.cart = [];
+            console.log("cart cleared");
+        });
 
-
-        // await newOrder.save().then(() => {
-        //     req.session.cart = [];
-        //     console.log("cart cleared");
-        // });
-
-        // // console.log(newOrder)
-        // console.log({
-        //     success: true,
-        //     message: "order placed successfully",
-        //     newOrder
-        // });
-        // return res.redirect("/cart"); // Should redirect to a page that helps track the order
-
-
+        console.log({
+            success: true,
+            message: "order placed successfully",
+            newOrder
+        });
+        return res.redirect("/cart"); // Should redirect to a page that helps track the order
     } catch (err) {
-
+        next(err);
     }
-}
+};
 exports.getOrder = async (req, res, next) => {
     try {
         let allOrders = await Order.find();
@@ -789,25 +513,33 @@ exports.getPreview = async (req, res, next) => {
             return res.status(303).redirect(`/preview/${currentProduct._id}`);
         }
 
-
         let currentProduct = await Product.findOneAndUpdate(
             { _id: productId },
             {
                 $inc: { "meta.previewCount": 1 }
-            }, { new: true });
+            },
+            { new: true }
+        );
 
+        //USE random products for recommendation
+        //i will use a different package later
+        let recommendations = await Product.aggregate([
+            { $sample: { size: 8 } }
+        ]);
+        
+        
         let reviews = await Review.find({
             productId,
             message: { $ne: null },
-            customerId: { $ne: null },
-
+            customerId: { $ne: null }
         }).populate("customerId");
 
-
-        locals.title = `${currentProduct.name} | CentralMarket`
+        locals.title = `${currentProduct.name} | CentralMarket`;
         return res.render("Pages/Customer/preview_page", {
             currentProduct,
-            reviews, locals
+            reviews,
+            locals,
+            recommendations
         });
     } catch (err) {
         next(err);
@@ -951,7 +683,8 @@ exports.getStore = async (req, res) => {
         return res.status(200).render("Pages/Customer/store_page", {
             currentVendor,
             products: currentVendorProducts,
-            isCurrentVendor, locals
+            isCurrentVendor,
+            locals
         });
     } catch (err) {
         console.error(err);

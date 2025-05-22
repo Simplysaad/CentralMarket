@@ -24,11 +24,9 @@ router.get("/preview/:id", mainController.getPreview);
 router.get("/preview/", mainController.getPreviewRandom);
 
 router.post("/order", mainController.postOrder);
-router.get("/order", mainController.getOrder);
 router.post("/order/massive", mainController.postOrderMassive);
 router.get("/order/validate", mainController.getValidateOrder);
-router.get("/order/checkout", mainController.getOrderCheckout);
-
+router.get("/order/:id?/", mainController.getOrder);
 
 router.get("/category/:categoryName?/", mainController.getCategoryProducts);
 

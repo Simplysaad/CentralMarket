@@ -98,8 +98,8 @@ exports.postCart = async (req, res, next) => {
             { _id: productId },
             {
                 $inc: {
-                    addToCartCount: quantity || 1,
-                    interest: 1
+                    "meta.addToCartCount": quantity || 1,
+                    "meta.interest": 1
                 }
             },
             { new: true }

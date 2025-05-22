@@ -50,7 +50,7 @@ btnOrder.forEach((btn, index) => {
         let response = await fetch("/order", {
             method: "post"
         });
-        let data = await response.json();
-        //return (window.location.href = "/vendor/");
+        let {data} = await response.json();
+        return (window.location.href = data.authorization_url);
     });
 });

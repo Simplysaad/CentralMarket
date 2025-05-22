@@ -1,44 +1,43 @@
 <section class="col-12 gap-2  mh-100 min-vh-100 d-md-flex justify-content-between align-items-center">
-    <% if(cart.length> 0){ %>
-        <section class="col-12 col-md-7 col-lg-7 align-items-center">
-            <div class="cart-container ">
-                <div class="cart-heading">
-                    <h3 class="display-5 my-3 text-muted">My Cart</h3>
-                </div>
-                <div class="cart-items">
-                    <% cart.forEach((item, index)=>{ %> <%- include("../../Components/cart_item.ejs", {item}) %>
-                            <% }) %>
-                </div>
-
-                <div class="d-nne cart-summary float-end fs-4 my-4">
-                    <span class="text-total text-danger fw-bold"> Total: </span>
-                    <span class="text-total-price cart-total">
-                        <%= "$" + cartTotal.toLocaleString() %>
-                    </span>
-                </div>
-                <button
-                    class="cart-cta border my-5 p-3 d-flex justify-content-between align-items-center btn btn-dark btn-order col-12 fs-4 my-4">
-                    <span class="fs-4"> Set an order </span>
-                    <span class="text-total-price cart-total">
-                        <%= "$" + cartTotal.toLocaleString() %>
-                    </span>
-                </button>
-        </section>
-
-        <section id="addressForm" class="shipping-info col-12 col-md-4 col-lg-4">
-            <%- include("../../Components/address_form.ejs", {currentUser, deliveryFee}) %>
-        </section>
+  <% if(cart.length> 0){ %>
+    <section class="col-12 col-md-7 col-lg-7 align-items-center">
+      <div class="cart-container ">
+        <div class="cart-heading">
+          <h3 class="display-5 my-3 text-muted">My Cart</h3>
         </div>
-
-        <% } else{ %>
-            <section class="cart-container vh-100 col-12 d-flex flex-column justify-content-center align-items-center">
-                <div class="empty-cart-image">
-                    <img src="/IMG/empty-cart.jpg" alt="empty cart-items" class="img-fluid object-fit-cover" />
-                </div>
-                <a href="/" class="my-3 btn btn-outline-dark btn-lg">
-                    Continue Shopping
-                </a>
-            </section>
-            <% } %>
+        <div class="cart-items">
+          <% cart.forEach((item, index)=>{ %> <%- include("../../Components/cart_item.ejs", {item}) %>
+              <% }) %>
+        </div>
+        
+        <div class="d-nne cart-summary float-end fs-4 my-4">
+          <span class="text-total text-danger fw-bold"> Total: </span>
+          <span class="text-total-price cart-total">
+            <%= "$" + cartTotal.toLocaleString() %>
+          </span>
+        </div>
+        <button class=" my-5 p-3 d-flex justify-content-between align-items-center btn-order btn btn-outline-success col-12 fs-4 my-4">
+          <span class="fs-4"> Set an order </span>
+          <span class="text-total-price cart-total">
+            <%= "$" + cartTotal.toLocaleString() %>
+          </span>
+        </button>
+    </section>
+    
+    <section id="addressForm" class="shipping-info col-12 col-md-4 col-lg-4">
+      <%- include("../../Components/address_form.ejs", {currentUser, deliveryFee}) %>
+    </section>
+    </div>
+    
+    <% } else{ %>
+      <section class="cart-container vh-100 col-12 d-flex flex-column justify-content-center align-items-center">
+        <div class="empty-cart-image">
+          <img src="/IMG/empty-cart.jpg" alt="empty cart-items" class="img-fluid object-fit-cover" />
+        </div>
+        <a href="/" class="my-3 btn btn-outline-dark btn-lg">
+          Continue Shopping
+        </a>
+      </section>
+      <% } %>
 </section>
 <script src="/JS/cart.js"></script>
