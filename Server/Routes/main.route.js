@@ -16,10 +16,6 @@ router.get("/products", mainController.getProducts);
 
 router.all("/search", mainController.searchController);
 
-router.get("/cart", mainController.getCart);
-router.post("/cart/:id", mainController.postCart);
-router.delete("/cart/:id", mainController.deleteCartItem);
-
 router.get("/preview/:id", mainController.getPreview);
 router.get("/preview/", mainController.getPreviewRandom);
 

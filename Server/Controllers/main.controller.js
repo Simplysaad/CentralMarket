@@ -4,11 +4,11 @@ const User = require("../Models/user.model.js");
 const Review = require("../Models/review.model.js");
 const Order = require("../Models/order.model.js");
 
-const ContentBasedRecommender = require('content-based-recommender')
-const recommender = new ContentBasedRecommender({
-  minScore: 0.1,
-  maxSimilarDocuments: 100
-});
+// const ContentBasedRecommender = require('content-based-recommender')
+// const recommender = new ContentBasedRecommender({
+//   minScore: 0.1,
+//   maxSimilarDocuments: 100
+// });
 
 const { default: fetch } = require("node-fetch");
 
@@ -315,7 +315,8 @@ exports.getSearchResults = async (req, res, next) => {
 exports.postOrder = async (req, res, next) => {
     try {
         let { userId: customerId, cart: items } = req.session;
-
+        let {name, emailAddress, address} = req.body
+        
         items?.forEach(async item => {
             let itemId = item.productId;
 
@@ -345,9 +346,9 @@ exports.postOrder = async (req, res, next) => {
                 },
                 method: "POST",
                 body: JSON.stringify({
-                    email: currentUser?.emailAddress || "saadidris70@gmail.com",
-                    first_name: currentUser?.name.split(" ")[0],
-                    last_name: currentUser?.name.split(" ")[1],
+                    email: currentUser?.emailAddress || emailAddress,
+                    first_name: (currentUser?.name || name).split(" ")[0],
+                    last_name: (currentUser?.name || name).split(" ")[1],
                     amount: `${totalCost * 100}`
                 })
             }
