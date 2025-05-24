@@ -1,64 +1,60 @@
-<header class="navbar header navbar-light bg-light py-3">
-  <div class="container">
-    <div class="navbar-brand">
-      <button id="btnShowSidebar" class="mx-0 btn btn-navbar-toggler">
-        <i class="navbar-toggler-icon"></i>
-      </button>
-      <a href="/" class="navbar-brand text-decoration-none mx-0">Central Market</a>
+<div class="navbar p-md-2 shadow container-fluid flex-wrap align-items-center justify-content-between d-flex">
+    <div class="pe-2 order-1 justify-content-center align-items-center gap-1 d-flex flex-nowrap p-2">
+        <button class="btn navbar-toggler" data-bs-toggle="collapse" data-bs-target="#sideNav">
+            <span class="fa fa-bars"> </span>
+        </button>
+        <div class="p-auto">
+            <a href="/" class="text-heading  fs-4 fw-light dislay-6 text-decoration-none">CentralMarket</a>
+        </div>
     </div>
-    <div class="options d-flex">
-      <a id="btnShowSearch" class="option option-search d-md-none text-end d-flex text-dark justify-content-between text-decoration-none">
-        <i class="d-md-none fas fa-search"></i>
-      </a>
-      <form action="/search" method="post" class="option-search header-search search-box d-none col-5 d-md-flex justify-content-between align-items-center">
-        <input list="searchSuggestions" required name="searchTerm" class="search-input border-0 col-10 text-muted" placeholder="Search for anything" type="search">
-        <button class="border-0 fa fa-search col-md-1"></button>
-      </form>
-      <div class="dropdown">
-        <a data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle btn option d-flex text-dark text-decoration-none">
-          <i class="fas fa-user me-md-1"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-start">
-          <li><a href="/vendor/dashboard" class="dropdown-item">Account</a></li>
-          <li><a href="/vendor/change-password" class="dropdown-item">Change Password</a></li>
-          <p class="dropdown-divider"></p>
-          <li><a href="/feedback" class="dropdown-item">Got Something to say?</a></li>
-          <li><a href="/auth/logout" class="dropdown-item">Logout</a></li>
-        </ul>
-      </div>
-      <a class="option d-flex text-dark text-decoration-none">
-        <i class="fas fa-bell fa-notification me-md-1"></i>
-      </a>
+    <div
+        class="navbar-search order-3 flex-fill order-md-2 col-12 float-end mx-auto col-md-auto col-lg- float-end d-noe d-md-inline">
+        <%- include("../Components/search_form.ejs") %>
     </div>
-  </div>
-  <div class="d-md-none d-sm-none search-container col-12 d-flex justify-content-center p-2">
-    <form action="/search" method="post" class="d-flex search-group col-10 col-md-7 justify-content-between bg-back">
-      <input required list="searchSuggestions" type="search" class="search-input border p-1" name="searchTerm" id="searchTerm" placeholder="What do you need today?">
-      <button class="ms- btn btn-outline-success" type="submit">
-        Go
-      </button>
-      <datalist id="searchSuggestions">
-      <% if(locals.searchSuggestions){ %>
-        <% locals.searchSuggestions.forEach(suggestion=>{ %>
-          <option value="<%=suggestion.searchTerm%>"></option>
-        <% }) %>
-        <% } %>
-      </datalist>
-    </form>
-  </div>
- <% if (categories) { %>
-    <div class="mt-2 mb-0 px-2 horizontal-nav">
-    <% categories.forEach(category => {
-      %>
-      <a href="/search?searchTerm=<%= category %>" class="horizontal-nav-link">
-        <%= category %>
-      </a>
-      <%
-    }) %>
-  </div>
-  <% } %>
+    <div
+        class="navbar-nav order-2 border-0 flex-shrink-1 order-md-3 d-flex justify-content-center align-items-center px-2">
+        <div class="nav-items d-flex gap-3 gap-md-3 align-items-center justify-content-end">
+            <div class="nav-item border border-1 rounded-pill overflow-hidden d-flex gap-2">
+                <button href="#" class="nav-link btn-toggle-theme" id="btnToggleTheme">
+                    <i class="fa-solid fa-moon px-2  float-start"> </i>
+                </button>
+            </div>
+            <div class="nav-ite">
+                <a href="/account/cart" class="">
+                    <i class="fa fa-shopping-cart"> </i>
+                    <span class="d-none d-md-iline"> Cart </span>
+                </a>
 
-</header>
-<marquee class="p-1 bg-warning">
-  🔥 🔥 🔥 Please be informed that all the products listed here for now are just for testing purposes, they do not exist and can not be bought 🔥 🔥 🔥
-</marquee>
+            </div>
+            <div class="nav-item dropdown">
+                <div data-bs-toggle="dropdown" aria-expanded="false" id="accountDropdown" type="button"
+                    class="dropdown-toggle">
+                    <i class="fa fa-user-circle"> </i>
+                    <span class="d-none d-md-nline">
+                        Account
+                    </span>
+                </div>
+                <ul class="dropdown-menu position-absolute" aria-labelledby="accountDropdown">
+                    <li class="dropdown-item">
+                        <a href="/account/wishlist" class="nav-link"> wishlist </a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="/account/history" class="nav-link"> orders </a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="/account/preferences" class="nav-link"> preferences </a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="account/settings" class="nav-link"> settings </a>
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <li class="dropdown-item d-flex justify-content-start gap-2 align-items-center">
+                        <i class="fa fa-sign-out"> </i>
+                        <a href="" class="nav-link"> logout </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

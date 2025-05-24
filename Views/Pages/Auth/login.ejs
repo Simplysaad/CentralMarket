@@ -1,0 +1,75 @@
+<section class="col-12">
+    <form
+        class="d-flex vh-100 flex-column justify-content-center align-items-center"
+        accept-charset="utf-8"
+        id="loginForm"
+        action="/auth/login"
+        method="post"
+    >
+        <div class="logo">
+            <h2 class="display-4 text-end text-dark fw-semibold"></h2>
+        </div>
+        <div class="toast" id="messageToastCont">
+            <div class="toast-body d-flex gap-3">
+                <i class="fa fa-times" id="messageToastIcon"> </i>
+                <span class="fs-6" id="messageToastText"> </span>
+            </div>
+        </div>
+
+        <fieldset class="my-5 p-2 d-flex flex-column gap-3">
+            <legend class="display-4 fw-semibold text-start">
+                <span class="d-block fw-light text-muted fs-6">
+                    Welcome back!
+                </span>
+                Login
+            </legend>
+            <div class="form-floating">
+                <input
+                    type="email"
+                    name="emailAddress"
+                    id="emailAddress"
+                    class="form-control"
+                    placeholder=""
+                    value=""
+                />
+                <label for="emailAddress">Email address</label>
+            </div>
+            <div class="form-floating">
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    class="form-control"
+                    placeholder=""
+                    value=""
+                />
+                <label for="password">Password</label>
+                <span id="btnShowPassword" class="">
+                    <i class="fa fa-eye"> </i>
+                </span>
+            </div>
+            <div class="d-flex gap-2">
+                <p id="acceptTerms" class="fs-6 px-1 my-3 mx-auto text-cnter">
+                    By signing up, agree to
+                    <a class="" href="#"> terms and privacy policy </a>
+                </p>
+            </div>
+            <div class="cta col-12 d-flex flex-column gap-1">
+                <button
+                    id="btnSubmit"
+                    class="btn btn-dark p-3 btn-lg col-12"
+                    type="submit"
+                >
+                    Submit
+                </button>
+                <span class="fs-6">
+                    Don't have an account yet?
+                    <a class="text-decoration-none" href="/auth/register">
+                        Create one!
+                    </a>
+                </span>
+            </div>
+        </fieldset>
+    </form>
+</section>
+<script src="/JS/login.js"></script>

@@ -1,0 +1,114 @@
+<section id="imagesSection" class="pb-5">
+  <div class="position-relative">
+    <div class="cover-image position-relative border col-12">
+      <img class="img-fluid object-fit-cover" src="<%= currentVendor.business?.coverPhoto || `https://placehold.co/600x200?text=${currentVendor.business?.name || currentVendor.name}` %>"
+                                                                                                                              alt="" />
+    </div>
+    <div
+                                                                                                                            class="position-absolute top-50 mx-2 start-0 t-4 profile-image overflow-hidden border border-2 rounded-3 col-4 col-md-3">
+      <img class="img-fluid object-fit-cover" src="https://placehold.co/400/orange/green?text=centralmarket" alt="" />
+    </div>
+  </div>
+</section>
+<section id="infoSection" class="py-5">
+  <div class="d-flex justify-content-between align-items-start">
+    <div class="main-info d-flex gap-1 flex-column">
+      <span class="fs-5 p-0 fw-bold">
+        <%= currentVendor.business?.name || currentVendor.name %>
+      </span>
+      <span class="text-muted p-0 fs-6">
+        <%= currentVendor.business?.category || "General" %>
+      </span>
+    </div>
+    <div class="main-info-actions">
+      <a href="<%= currentVendor.business?.socials[0] ?? '/' %>" class="btn rounded-pill btn-outline-dark">
+        <i class="fa fa-external-link"> </i>
+        Contact
+      </a>
+    </div>
+  </div>
+  <div class="store-desc mt-4">
+    <h4 class="text-heading fs-5 fw-semibold">Description</h4>
+    <span class="text-desc fs-6 fw-light">
+      <%= currentVendor.business?.description || "No description yet" %>
+    </span>
+  </div>
+</section>
+<section id="tagsSection" class="py-5">
+  <div class="heading">
+    <h4 class="text-heading">Tags</h4>
+  </div>
+  <% if(currentVendor.business?.tags){ %>
+    <div class="tags d-flex gap-1 flex-wrap">
+      <% currentVendor.business?.tags?.forEach((tag)=>{ %>
+        <span class="rounded-pill border py-1 px-3">
+          <%= tag %>
+        </span>
+        <% }) %>
+          <% if(isCurrentVendor){ %>
+            <a href="/vendor/product/edit" class="rounded-pill btn btn-outline-dark py-1 px-3">
+              <i class="fa fa-plus"></i> Add tags</a>
+        <% } %>
+    </div>
+    <% }else{ %>
+      <div class="">No tags yet</div>
+      <% } %>
+</section>
+<section id="productsSection" class="">
+  <div class="heading d-flex py-3 align-items-start justify-content-between">
+    <h4 class="text-heading">Products</h4>
+    <% if(isCurrentVendor){ %>
+      <a href="/vendor/products/add" class="btn rounded-pill btn-outline-dark">
+        <i class="fa fa-add"> </i>
+        Add product
+      </a>
+      <% } %>
+  </div>
+  <% if(products.length> 0){ %>
+    <div class="d-flex flex-wrap">
+      <% products.forEach((product, index)=>{ %>
+        <div class="single-product my-3 p-2 col-6 col-md-4 col-lg-3 card border-0">
+          <div class="card-image position-relative">
+            <img src="./Public/IMG/image-4.jpg" alt="" class="img-fluid object-fit-cover aspect-ratio-square" />
+          </div>
+          <div class="card-info py-3">
+            <div class="">
+              <a href="/preview/<%= product._id %>"
+                                                                                                                                      class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold">
+                <%= product.name %>
+              </a>
+            </div>
+            <div class="d-flex gap-2 fs-6 fw-semibold justify-content-start">
+              <div class="old-price text-muted -emphasis">
+                <span class="text-decoration-line-through fw-light">
+                  <%= "$" + product.price.toLocaleString() %>
+                </span>
+              </div>
+              <div class="price">
+                <p class="fs-5">
+                  <%= "$" + product.price.toLocaleString() %>
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="card-action m-0 btn-group btn-group-sm">
+            <button data-product-id="<%= product._id %>" class="btn btn-cart btn-outline-dark">
+              <i class="fas fa-shopping-cart"> </i>
+              <span class=""> Add to cart </span>
+            </button>
+            <button data-product-id="<%= product._id %>" class="btn btn-wish btn-outline-dark">
+              <i class="far fa-heart"> </i>
+            </button>
+          </div> -->
+        </div>
+        
+        <% }) %>
+    </div>
+    <% } else{ %>
+      
+      <div class="no-products">no products yet</div>
+      
+      <% } %>
+</section>
+<section id="messagesSection" class=""></section>
+<section id="relatedSection" class=""></section>

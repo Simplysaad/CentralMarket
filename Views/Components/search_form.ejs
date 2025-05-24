@@ -1,0 +1,21 @@
+
+<form id="searchForm"
+    class="border d-flex overflow-hidden mx-2 justify-content-between border-2 justify-content-center align-items-center rounded-pill"
+    action="/search">
+    <input type="search" name="searchTerm" id="searchTerm" required list="searchSuggestions"
+        placeholder="Search for anything..." class="w-100 border-0 search-input px-3 py-1 border-0"
+        value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>" />    <datalist id="searchSuggestions"> </datalist>
+    <button type="submit" for="searchTerm" class="p-2 text-inherit bg-transparent border-0 ">
+        <i class="fa fa-search"></i>
+    </button>
+</form>
+<style>
+    .search-input,
+    .search-input:focus,
+    .search-input:hover {
+        border: none;
+        outline: none;
+        background: inherit;
+        color: inherit;
+    }
+</style>

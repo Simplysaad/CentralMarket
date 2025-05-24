@@ -1,0 +1,71 @@
+<form action="/order" method="post" id="addressForm">
+    <div class="containr mt5">
+        <div class="heading">
+            <h2 class="text-heading text-center">Checkout</h2>
+        </div>
+        <div class="">
+            <div class="col-md-12">
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input
+                            type="text"
+                            value="<%= currentUser?.name %>"
+                            class="form-control"
+                            id="name"
+                            placeholder="Enter your full name"
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label"
+                            >Email Address</label
+                        >
+                        <input
+                            type="email"
+                            name="emailAddress"
+                            value="<%= currentUser?.emailAddress %>"
+                            class="form-control"
+                            id="email"
+                            placeholder="Enter your email address"
+                        />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input
+                            type="text"
+                            name="address"
+                            value="<%= currentUser?.address %>"
+                            class="form-control"
+                            id="address"
+                            placeholder="Enter your address"
+                        />
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-12 mt-lg-0 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Order Summary</h5>
+                        <p class="card-text">
+                            Subtotal: <%= "$" + cartTotal.toLocaleString() %>
+                        </p>
+                        <p class="card-text">
+                            Shipping: <%= deliveryFee ? "$" +
+                            deliveryFee.toLocaleString() : "free" %>
+                        </p>
+                        <p class="card-text cart-total">
+                            Total: <%= "$" + (cartTotal +
+                            deliveryFee).toLocaleString() %>
+                        </p>
+                        <button type="submit" class="btn btn-primary w-100">
+                            Place Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

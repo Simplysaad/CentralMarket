@@ -1,0 +1,229 @@
+<section class="col-12 gap-2 container align-items-center justify-content-between d-md-flex">
+  <section class="flex-grow-1 ">
+    <section id="imagesSection" class="pb-3">
+      <div class="preview-image mx-auto">
+        <img id="productImage" src="<%= currentProduct.imageUrl %>" alt="placeholder"
+        class="img-fluid object-fit-cover" />
+    </div>
+  </section>
+  <section id="infoSection" class="py-5">
+    <div class="main-info d-flex my-4 flex-column">
+      <span id="productCategory" class="text-muted m-0 p-0 fs-6">
+        <a href="/category/<%= currentProduct.category %>" class="text-capitalize text-decoration-none text-muted">
+          <%= currentProduct.category %>
+          </a>
+        </span>
+        <span id="productName" class="text-capitalize fs-2 p-0 m-0 fw-bold">
+          <%= currentProduct.name %>
+          </span>
+        </div>
+
+        <div class="product-price d-flex gap-2">
+          <h4 class="fs-5 fw-light text-decoration-line-through text-danger">
+            <%= "$" + currentProduct.price.toLocaleString() %>
+            </h4>
+            <h4 class="fs-1 fw-semibold">
+              <%= "$" + currentProduct.price.toLocaleString() %>
+              </h4>
+            </div>
+
+            <div class="product-desc mt-4">
+              <h4 class="text-heading fs-5 fw-semibold">Description</h4>
+              <span id="productDesc" class="text-desc fs-6 fw-light">
+                <%= currentProduct.description %>
+                </span>
+              </div>
+              <div class="product-tags py-4">
+                <h4 class="text-heading">Tags</h4>
+                <div id="productTags" class="tags d-flex gap-1 flex-wrap">
+                  <% currentProduct.keywords?.forEach((tag, index)=>{ %>
+
+                    <a href="/search?searchTerm=<%= tag %>" class="border text-decoration-none rounded-pill py-1 px-2">
+                      <%= tag %>
+                      </a>
+                      <% }) %>
+                      </div>
+                    </div>
+                  </section>
+
+                  <section id="actionsSection">
+                    <div class="my-4 d-flex flex-column col-12 col-md-8 gap-3">
+                      <div class="btn-group rounded-pill d-flex gap-1">
+                        <button data-product-id="<%= currentProduct._id %>" class="btn btn-cart btn-lg btn-outline-success col-12">
+                          <i class="fa fa-shopping-cart"> </i>
+                          <span class=""> Add to cart </span>
+                        </button>
+
+                        <button data-product-id="<%= currentProduct._id %>" class="btn btn-wish btn-lg btn-outline-success">
+                          <i class="far fa-heart"> </i>
+                        </button>
+                      </div>
+                    </div>
+                  </section>
+                  <section id="specsSection" class="my-5">
+                    <% if(currentProduct.specs){ %>
+
+                      <div class="heading d-flex justify-content-between align-items-center">
+                        <h4 class="text-heading fw-semibold">Specifications</h4>
+                      </div>
+                      <div class="container p-2">
+                        <% if(currentProduct.specs?.colors){ %>
+                          <div class="my-4">
+                            <h6 class="heading fs-6 fw-semibold">Colors</h6>
+                            <div class="sizes-select d-flex gap-2">
+                              <% currentProduct.specs?.colors?.forEach((color, index)=>{ %>
+                                <span class="text-capitalize btn btn-outline-dark rounded">
+                                  <input type="radio" name="color" class="input-color" hidden value="<%= color %>"
+                                  id="<%=`color_${color}`%>" />
+                                <label for="<%=`color_${color}`%>">
+                                  <%#= color %>
+                                  </label>
+                                </span>
+                                <% }) %>
+                                </div>
+                              </div>
+                              <% } %>
+                                <% if(currentProduct.specs?.sizes){ %>
+                                  <div class="my-4">
+                                    <h6 class="heading fs-6 fw-semibold">Sizes</h6>
+                                    <div class="sizes-select d-flex gap-2">
+                                      <% currentProduct.specs?.sizes?.forEach((size, index)=>{
+                                        %>
+                                        <span class="text-capitalize btn btn-outline-dark rounded">
+                                          <input type="radio" name="size" class="input-size" hidden value="<%= size %>"
+                                          id="<%=`size_${size}`%>" />
+                                        <label for="<%=`size_${size}`%>">
+                                          <%= size %>
+                                          </label>
+                                        </span>
+                                        <% }) %>
+                                        </div>
+                                      </div>
+                                      <% } %>
+                                      </div>
+                                      <% } %>
+                                      </section>
+                                      <section id="contactSection">
+                                        <div class="my-4 d-flex flex-column col-12 col-md-8 col-lg-6 gap-3">
+                                          <div class="btn-group">
+                                            <a href="/store/<%= currentProduct.vendorId %>" class="btn rounded-pill btn-success">
+                                              <i class="fa fa-shop"> </i>
+                                              <span class=""> Vist store </span>
+                                            </a>
+                                          </div>
+                                        </div>
+                                      </section>
+                                    </section>
+                                    <section class="flex-grow-0 col-md-5">
+                                      <section id="reviewsSection" class="py-5 p-2">
+                                        <div class="heading d-flex justify-content-between align-items-center">
+                                          <h4 class="text-heading fs-4">Ratings and reviews</h4>
+                                          <a class="link-dark" href="">
+                                            <i class="fa fa-arrow-right"> </i>
+                                          </a>
+                                        </div>
+                                        <div class="product-rating my-3">
+                                          <% if(currentProduct.averageRating){ %>
+                                            <div class="rating-number">
+                                              <h3 class="display-1 fw-bold m-0 p-0">
+                                                <%= currentProduct.averageRating.toFixed(1) %>
+                                                </h3>
+                                              </div>
+                                              <div class="rating-stars">
+                                                <% for(i=0; i< Math.floor(currentProduct.averageRating); i++){ %>
+                                                  <i class="fa fa-star"> </i>
+                                                  <% } %>
+                                                    <% for(i=0; i<(5- Math.floor(currentProduct.averageRating)); i++){ %>
+                                                      <i class="far fa-star"></i>
+                                                      <% } %>
+                                                      </div>
+                                                      <div class="rating-count">
+                                                        <span class="fs-6">
+                                                          <%= `(${reviews?.length ?? 12})` %>
+                                                          </span>
+                                                        </div>
+                                                        <% } %>
+                                                        </div>
+                                                        <div class="reviews my-5">
+                                                          <% reviews?.forEach((review, index)=>{ %>
+
+
+                                                            <div class="single-review my-4 d-flex flex-column gap-3">
+                                                              <div class="review-heading d-flex gap-2">
+                                                                <div class="review-image overflow-hidden rounded-circle col-2" style="width: 50px">
+                                                                  <img src="https://placehold.co/400" alt="" class="img-fluid" />
+                                                              </div>
+                                                              <div class="review-info">
+                                                                <h4 class="fs-6 review-name text-capitalize">
+                                                                  <%= review.customerId?.name %>
+                                                                  </h4>
+                                                                  <span class="rating-stars fs-6 text-muted">
+                                                                    <% for(i=0; i<review.rating.toFixed(0); i++){ %>
+                                                                      <i class="fa fa-star"> </i>
+                                                                      <% } %>
+                                                                        <% for(i=0; i < 5-review.rating.toFixed(0); i++){ %>
+                                                                          <i class="far fa-star"></i>
+                                                                          <% } %>
+                                                                          </span>
+                                                                        </div>
+                                                                        </div>
+                                                                        <div class="review-text">
+                                                                          <p class="">
+                                                                            <%= review.message %>
+                                                                            </p>
+                                                                          </div>
+                                                                          <form action="/review/<%= currentProduct._id %>" method="post"
+                                                                            class="form-helpful d-flex flex-column justify-content-between gap-2">
+                                                                            <small data-review-id="<%= review._id %>" class="text-muted data-helpful">
+                                                                              <data class="data-helpful">
+                                                                                <%= currentProduct.helpfulVotes ? `${currentProduct.helpfulVotes} people found this helpful` : "" %>
+                                                                                </data>
+                                                                              </small>
+                                                                              <div class="review-action d-flex align-items-center justify-content-between">
+                                                                                <small class=""> Was this review helpful? </small>
+                                                                                <div action="" class="d-flex gap-2 form-helpful">
+                                                                                  <label for="helpful_true" class="btn btn-helpful btn-outline-dark">
+                                                                                    <input type="radio" hidden="" name="helpful" value="true" class="input-helpful" id="helpful_true" />
+                                                                                  Yes
+                                                                                </label>
+                                                                                <label for="helpful_false" class="btn btn-helpful btn-outline-dark">
+                                                                                  <input type="radio" hidden="" name="helpful" value="false" class="input-helpful"
+                                                                                  id="helpful_false" />
+                                                                                No
+                                                                              </label>
+                                                                            </div>
+                                                                          </div>
+                                                                        </form>
+                                                                      </div>
+                                                                      <% }) %>
+                                                                      </div>
+                                                                      <% if(reviews.length <=0){ %>
+                                                                        <div class="text-center">
+                                                                          <p href="" class="">
+                                                                            No reviews Yet...
+                                                                          </p>
+                                                                          <a href="/review/<%= currentProduct._id %>" class="">
+                                                                            Be the first to review
+                                                                          </a>
+                                                                        </div>
+                                                                        <% } %>
+                                                                        </section>
+                                                                        <% if(recommendations.length> 0){ %>
+                                                                          <section id="discountedProducts" class="overflow-hidden my-4">
+                                                                            <div class="heading">
+                                                                              <h6 class="fs-5 fw-light">People also viewed</h6>
+                                                                            </div>
+                                                                            <div class="overflow-scroll d-flex gap-2">
+                                                                              <% recommendations.forEach((product, index)=>{ %>
+                                                                                <%- include("../../Components/normal_card.ejs", {product, recommended: true}) %>
+                                                                                  <% })%>
+                                                                                  </div>
+                                                                                </section>
+                                                                                <% } %>
+                                                                                </section>
+                                                                              </section>
+
+
+                                                                              <script src="/JS/preview.js"></script>
+                                                                              <script src="/JS/review.js"></script>
+                                                                              <script src="/JS/utility.js"></script>

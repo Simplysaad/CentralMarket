@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Purchase Receipt</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+		}
+		.container {
+			width: 80%;
+			margin: 40px auto;
+			padding: 20px;
+			border: 1px solid #ddd;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+		.header {
+			background-color: #f0f0f0;
+			padding: 10px;
+			border-bottom: 1px solid #ddd;
+		}
+		.details {
+			margin-top: 20px;
+		}
+		.items {
+			margin-top: 20px;
+		}
+		.items table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+		.items th, .items td {
+			border: 1px solid #ddd;
+			padding: 10px;
+			text-align: left;
+		}
+		.total {
+			margin-top: 20px;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="header">
+			<h2>Purchase Receipt</h2>
+			<p>Order Number: #12345</p>
+			<p>Date: March 26, 2025</p>
+		</div>
+		<div class="details">
+			<h3>Bill To:</h3>
+			<p>John Doe</p>
+			<p>123 Main St</p>
+			<p>Anytown, USA 12345</p>
+		</div>
+		<div class="items">
+			<h3>Items:</h3>
+			<table>
+				<tr>
+					<th>Item</th>
+					<th>Quantity</th>
+					<th>Price</th>
+					<th>Total</th>
+				</tr>
+				<tr>
+					<td>Product A</td>
+					<td>2</td>
+					<td>$10.99</td>
+					<td>$21.98</td>
+				</tr>
+				<tr>
+					<td>Product B</td>
+					<td>1</td>
+					<td>$5.99</td>
+					<td>$5.99</td>
+				</tr>
+			</table>
+		</div>
+		<div class="total">
+			<p>Subtotal: $27.97</p>
+			<p>Tax (8%): $2.24</p>
+			<p>Total: $30.21</p>
+		</div>
+		<div class="footer">
+			<p>Thank you for your purchase!</p>
+			<p>Contact us at <a href="mailto:support@example.com">support@example.com</a> if you have any questions.</p>
+		</div>
+	</div>
+</body>
+</html>

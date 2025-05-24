@@ -1,0 +1,35 @@
+<section id="filterForm" class="d-flex gap-2">
+
+    <a href="/search?searchTerm=<%= searchTerm %>" class="border text-decoration-none px-3 py-2 rounded-pill">
+        All
+    </a>
+    <a href="/search?searchTerm=<%= searchTerm %>&filter=products"
+        class="border text-decoration-none px-2 py-2 rounded-pill">
+        Products
+    </a>
+    <a href="/search?searchTerm=<%= searchTerm %>&filter=services"
+        class="border text-decoration-none px-2 py-2 rounded-pill">
+        Services
+    </a>
+</section>
+
+<script>
+    let anchorTags = document.querySelectorAll("a")
+
+
+    anchorTags.forEach((tag, index) => {
+        let isCurrentUrl = tag.href === window.location.href
+
+        console.log(tag.href, window.location.href)
+        console.log(tag, isCurrentUrl)
+
+        tag.classList.toggle("text-secondary", isCurrentUrl)
+        isCurrentUrl ? tag.href = "#" : null
+
+        // if (isCurrentUrl) {
+        //     tag.classList.replace("btn-outline-dark", "btn-dark")
+        //     tag.ariaDisabled = true
+        //     tag.href = '#'
+        // }
+    })
+</script>

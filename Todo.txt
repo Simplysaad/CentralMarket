@@ -1,0 +1,19 @@
+
+TODO: i Want to design the store page and do the backend typ : DONE
+5/05/2025 02:08am
+
+ISSUE: search is not sending the results to database:  FIXED
+ISSUE: total cost is not sent to database during order creation
+ISSUE: THE WHOLE UI IS A DISASTER : FIXED
+
+
+
+TODO: test wishlist rendering : DONE
+TODO: arrange the side nav: DONE
+
+TODO: Start working on campaigns (advertisements, affiliate links and coupons )
+
+TODO: add paystack integration
+    i started but i think the browser is not supportin res.redirect
+    its not sha displaying the next page when it redirects 
+    i dont know why

@@ -1,0 +1,74 @@
+<form action="/review/<%= currentProduct._id %>" method="post" class="">
+    <div
+        class="d-flex border-bottom mb-5 mt-2 p-1 align-items-center justify-content-between"
+    >
+        <a href="/preview/<%= currentProduct._id %>"  class="text-secondary col-2">
+            <i class="fa fa-2x fa-arrow-left"> </i>
+        </a>
+        <div class="d-flex flex-column col-8">
+            <p class="m-0 fs-5 text-truncate d-block"><%= currentProduct.name %></p>
+            <p class="m-0 fs-6">Rate this product</p>
+        </div>
+        <button type="submit" class="text-success border-0 bg-none fs-4">
+            Post
+        </button>
+    </div>
+
+    <div class="p-1 d-flex my-5 justify-content-between">
+        <div class="col-3 me-2 border rounded"></div>
+        <div class="col-9">
+            <h4 class="fs-5 fw-bold"><%= currentUser.name %></h4>
+            <p class="fs-6 fw-light">
+                Reviews are public and includes your device and account info.
+                Learn more
+            </p>
+        </div>
+    </div>
+    <div class="p-2 my-5" id="">
+        <div class="starRating d-flex justify-content-center">
+            <input
+                id="inputRange"
+                name="rating"
+                hidden
+                class="form-range"
+                type="range"
+                max="5"
+                min="1"
+                value="1"
+            />
+            <div class="my-4 d-flex col-10 justify-content-between">
+                <span class="rating-star text-warning">
+                    <i class="far fa-star fa-2x"></i>
+                </span>
+                <span class="rating-star text-warning">
+                    <i class="far fa-star fa-2x"></i>
+                </span>
+                <span class="rating-star text-warning">
+                    <i class="far fa-star fa-2x"></i>
+                </span>
+                <span class="rating-star text-warning">
+                    <i class="far fa-star fa-2x"></i>
+                </span>
+                <span class="rating-star text-warning">
+                    <i class="far fa-star fa-2x"></i>
+                </span>
+            </div>
+        </div>
+        <div class="form-">
+            <textarea
+                class="form-control outline-none col-12 p-2"
+                name="message"
+                style="max-height: 150px"
+                id="reviewTextArea"
+                placeholder="Describe your experience (optional)"
+                rows="4"
+            ></textarea>
+            <label
+                class="float-end py-2"
+                id="textLength"
+                for="inputReview"
+            ></label>
+        </div>
+    </div>
+</form>
+<script src="/JS/review.js"></script>

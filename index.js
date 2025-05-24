@@ -1,39 +1,42 @@
 const express = require("express");
-const expressLayout = require("express-ejs-layouts");
-const ejs = require("ejs");
-const morgan = require("morgan");
-const fileUpload = require("express-fileupload");
 
+const cors = require("cors");
+
+const expressLayouts = require("express-ejs-layouts");
 
 const dotenv = require("dotenv");
 dotenv.config();
 
-const cookieParser = require("cookie-parser");
-const session = require("express-session");
 const mongoStore = require("connect-mongo");
-const connectDB = require("./Server/Config/db.js");
+const session = require("express-session");
 
-const authMiddleware = require("./Server/Utils/auth");
+const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
+//const expressFileUpload = require("express-file-upload");
+
+const connectDB = require("./Config/db.js");
+const errorHandler = require("./Server/Utils/error.middleware.js");
+
+const PORT = process.env.PORT;
 
 const app = express();
-const PORT = process.env.PORT;
-app.listen(PORT, err => {
+
+app.listen(PORT, (err, info) => {
     if (!err) {
-        console.log(
-            `app listening on port ${PORT}, at ${process.env.ADDRESS}${PORT}`
-        );
+        connectDB();
+        console.log(`server is started at  http://localhost:${PORT}`);
+    } else {
+        console.error(err);
     }
-    connectDB();
 });
+app.use(
+    cors({
+        origin: "http://localhost:8000",
+        credentials: true
+    })
+);
+app.use(errorHandler);
 
-app.get("/api", (req, res) => {
-    res.send("hello world");
-});
-
-app.use(morgan("tiny"));
-
-app.use(cookieParser());
-app.use(fileUpload())
 app.use(
     session({
         store: mongoStore.create({
@@ -49,25 +52,39 @@ app.use(
         }
     })
 );
+app.locals.categories = [
+    "study materials",
+    "electronics",
+    "hostel essentials",
+    "clothing and accessories",
+    "groceries and snacks",
+    "health and personal care",
+    "events and experiences",
+    "secondhand marketplace",
+    "services",
+    "hobbies and entertainment",
+    "gifts and handmade goods"
+];
+app.use(expressLayouts);
 
-//SETUP VIEW ENGINE
+app.use(express.static("./Public"));
 app.set("view engine", "ejs");
-app.set("views", "Views");
+app.set("views", "./Views");
+app.set("layout", "Layouts/customer_layout.ejs");
 
-//LOAD STATIC FILES
-app.use(express.static("PUBLIC"));
-
-//req.body PARSER TO JSOM
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(
+    express.urlencoded({
+        extended: true
+    })
+);
+app.use(morgan("tiny"));
+app.use(cookieParser());
+//app.use(expressFileUpload())
 
-//SET LAYOUT
-app.use(expressLayout);
-app.set("layout", "Layouts/mainLayout");
-
-//SECONDARY ROUTING
-app.use("/pay", require("./Server/Routes/paystack_routes.js"));
-app.use("/admin", require("./Server/Routes/adminRoutes"));
-app.use("/auth", require("./Server/Routes/authRoutes"));
-app.use("/vendor", require("./Server/Routes/vendorRoutes"));
-app.use("/", require("./Server/Routes/mainRoutes"));
+app.use("/admin", require("./Server/Routes/admin.route.js"));
+app.use("/vendor", require("./Server/Routes/vendor.route.js"));
+app.use("/auth", require("./Server/Routes/auth.route.js"));
+app.use("/account", require("./Server/Routes/account.route.js"));
+app.use("/api", require("./Server/Routes/api.route.js"));
+app.use("/", require("./Server/Routes/main.route.js"));

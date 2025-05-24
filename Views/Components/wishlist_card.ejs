@@ -1,0 +1,37 @@
+<div data-product-id="<%= product._id %>" class="cad gap-2 d-flex py-4 wishlist-card h-100 shadow-sm">
+  <div class="card-img col-">
+    <img src="<%= product.imageUrl %>" class="card-img-top img-fluid img-thumbnail product-img" alt="${product.name}" />
+  </div>
+  <div class="card-bod col-6 d-flex flex-column">
+    <a href="/preview/<%= product._id %>" class="card-title text-decoration-none fs-5 text-capitalize text-truncate"
+                                                                                                                            title="<%= product.name %>">
+      <%= product.name %>
+    </a>
+    <p class="card-text mb-1 fw-bold">
+      <%= "$" + product.price.toFixed(2).toLocaleString() %>
+    </p>
+    
+    <p class="mb-2">
+      <span class="badge <%= product.amountInStock > 0 ? 'bg-success' : 'bg-secondary' %>">
+        <%= product.amountInStock> 0 ? 'In Stock' : 'Out of Stock' %>
+      </span>
+    </p>
+    <div class="mt-auto d-flex justify-content-between align-items-center">
+      <button data-product-id="<%= product._id %>" class="btn btn-outline-danger btn-sm btn-remove"> 
+      <i class="fa fa-trash"></i>
+        <span class="d-none">
+          Remove
+        </span>
+      </button>
+      <button data-product-id="<%= product._id %>" class="btn btn-outline-primary btn-cart btn-sm" <%=product.amountInStock===0
+                                                                                                                              ? 'disabled'
+                                                                                                                              : ''
+                                                                                                                              %>>
+        <i class="fa fa-shopping-cart"></i>
+        <span class="d-non">
+          Add to Cart
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
