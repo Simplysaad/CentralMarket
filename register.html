@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Add New Product - Marketplace</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+    integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<!-- Custom CSS -->
+<link href="styles.css" rel="stylesheet" />
+</head>
+<body>
+
+<section class="col-12">
+  <!-- Toast container for messages -->
+  <div
+    class="toast position-fixed top-0 end-0 m-3"
+    id="messageToastCont"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    data-bs-autohide="true"
+  >
+    <div class="toast-body d-flex gap-3 align-items-center">
+      <i class="fa fa-times text-danger" id="messageToastIcon" aria-hidden="true"></i>
+      <span class="fs-6" id="messageToastText"></span>
+    </div>
+  </div>
+
+  <!-- Navigation button -->
+  <button id="btnPrev" class="btn border mb-3" type="button" aria-label="Previous step">
+    <i class="fa-times fa-arrow-left">
+      
+    </i>
+  </button>
+
+  <form
+    id="registerForm"
+    action="/auth/register"
+    method="post"
+    class="d-flex flex-column justify-content-center align-items-center"
+    novalidate
+  >
+
+    <!-- Account Information -->
+    <fieldset id="accountInfo" class="my-5 p-3 w-100 w-md-75 w-lg-50 border rounded">
+      <legend class="display-6 fw-semibold text-start">
+        <span class="d-block fw-light text-muted fs-6 mb-2">Account Information</span>
+        Create Account
+      </legend>
+
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          class="form-control"
+          placeholder="Full name"
+          minlength="3"
+          required
+          aria-required="true"
+          aria-describedby="nameHelp"
+        />
+        <label for="name">Full name</label>
+        <div id="nameHelp" class="form-text visually-hidden">Enter your full name, minimum 3 characters.</div>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="email"
+          name="emailAddress"
+          id="emailAddress"
+          class="form-control"
+          placeholder="Email address"
+          required
+          aria-required="true"
+          aria-describedby="emailHelp"
+        />
+        <label for="emailAddress">Email address</label>
+        <div id="emailHelp" class="form-text visually-hidden">Enter a valid email address.</div>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="tel"
+          name="phoneNumber"
+          id="phoneNumber"
+          class="form-control"
+          placeholder="Phone number"
+          required
+          aria-required="true"
+          aria-describedby="phoneHelp"
+        />
+        <label for="phoneNumber">Phone number</label>
+        <div id="phoneHelp" class="form-text visually-hidden">Enter your phone number.</div>
+      </div>
+
+      <div class="form-floating mb-3 position-relative">
+        <input
+          type="password"
+          name="password"
+          id="password"
+          class="form-control password"
+          placeholder="Password"
+          required
+          aria-required="true"
+          aria-describedby="passwordHelp"
+        />
+        <label for="password">Password</label>
+        <div id="passwordHelp" class="form-text visually-hidden">Enter your password.</div>
+
+        <button
+          type="button"
+          id="btnShowPassword"
+          class="btn btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2"
+          aria-label="Toggle password visibility"
+        >
+          <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="password"
+          name="confirmPassword"
+          id="confirmPassword"
+          class="form-control password"
+          placeholder="Confirm password"
+          required
+          aria-required="true"
+          aria-describedby="confirmPasswordHelp"
+        />
+        <label for="confirmPassword">Confirm password</label>
+        <div id="confirmPasswordHelp" class="form-text visually-hidden">Re-enter your password for confirmation.</div>
+      </div>
+
+      <p class="fs-6 text-center my-3">
+        Already have an account?
+        <a href="/auth/login" class="text-decoration-underline">Login!</a>
+      </p>
+
+      <div class="d-flex justify-content-end">
+        <button
+          type="button"
+          id="btnNext_accountInfo"
+          class="btn btn-outline-dark btn-lg"
+          aria-label="Go to Personal Information"
+        >
+          Next <i class="fa fa-arrow-right ms-2" aria-hidden="true"></i>
+        </button>
+      </div>
+    </fieldset>
+
+    <!-- Personal Information -->
+    <fieldset id="personalInfo" class="my-5 p-3 w-100 w-md-75 w-lg-50 border rounded d-none">
+      <legend class="display-6 fw-semibold text-start">
+        <span class="d-block fw-light text-muted fs-6 mb-2">Personal Information</span>
+        Create Account
+      </legend>
+
+      <div class="mx-auto my-3 col-6 col-lg-4 rounded-circle border overflow-hidden">
+        <label for="profileImage" id="profileImageCont" class="d-block overflow-hidden cursor-pointer" tabindex="0" aria-label="Upload profile image">
+          <img
+            src="public/IMG/add-profileImage.jpg"
+            id="profileImagePreview"
+            alt="Profile image preview"
+            class="rounded-circle img-fluid w-100 h-auto"
+          />
+        </label>
+        <input
+          type="file"
+          name="profileImage"
+          id="profileImage"
+          accept="image/*"
+          hidden
+          aria-hidden="true"
+        />
+      </div>
+
+      <div class="mb-3">
+        <span class="fs-6 text-muted d-block mb-2">Gender</span>
+        <div class="d-flex justify-content-between gap-3">
+          <div class="form-check flex-fill border rounded p-3 text-center">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="gender"
+              id="gender_male"
+              value="male"
+              checked
+              required
+              aria-required="true"
+            />
+            <label class="form-check-label" for="gender_male">Male</label>
+          </div>
+          <div class="form-check flex-fill border rounded p-3 text-center">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="gender"
+              id="gender_female"
+              value="female"
+              required
+              aria-required="true"
+            />
+            <label class="form-check-label" for="gender_female">Female</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-floating mb-3 col-12 col-md-6 px-0">
+        <input
+          type="date"
+          name="birthDate"
+          id="birthDate"
+          class="form-control"
+          placeholder="Birthday"
+          required
+          aria-required="true"
+          aria-describedby="birthDateHelp"
+        />
+        <label for="birthDate">Birthday</label>
+        <div id="birthDateHelp" class="form-text visually-hidden">Select your birth date. Must be before 2007-01-01.</div>
+      </div>
+
+      <p class="fs-6 text-center my-3">
+        Already have an account?
+        <a href="/auth/login" class="text-decoration-underline">Login!</a>
+      </p>
+
+      <div class="d-flex justify-content-end">
+        <button
+          id="btnSubmit"
+          type="button"
+          class="btn btn-outline-dark btn-lg"
+          aria-label="Go to next step"
+        >
+          Next <i class="fa fa-arrow-right ms-2" aria-hidden="true"></i>
+        </button>
+      </div>
+    </fieldset>
+
+    <!-- Delivery Information (commented out, can be enabled if needed) -->
+    <!--
+    <fieldset id="deliveryInfo" class="my-5 p-3 w-100 w-md-75 w-lg-50 border rounded d-none">
+      <legend class="display-6 fw-semibold text-start">
+        <span class="d-block fw-light text-muted fs-6 mb-2">Delivery Information</span>
+        Create Account
+      </legend>
+
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          name="address_1"
+          id="address_1"
+          class="form-control"
+          placeholder="Address line 1"
+          required
+          aria-required="true"
+        />
+        <label for="address_1">Address line 1</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          name="address_2"
+          id="address_2"
+          class="form-control"
+          placeholder="Address line 2 (optional)"
+        />
+        <label for="address_2">Address line 2 (optional)</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          name="state"
+          id="state"
+          class="form-control"
+          placeholder="State"
+          required
+          aria-required="true"
+        />
+        <label for="state">State</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          name="school_name"
+          id="school_name"
+          class="form-control"
+          placeholder="School"
+          required
+          aria-required="true"
+        />
+        <label for="school_name">School</label>
+      </div>
+
+      <p class="fs-6 text-center my-3">
+        By signing up, you agree to
+        <a href="#" class="text-decoration-underline">terms and privacy policy</a>.
+      </p>
+
+      <div class="d-flex flex-column gap-2">
+        <button
+          id="btnSubmit"
+          class="btn btn-outline-dark btn-lg"
+          type="submit"
+          aria-label="Submit registration form"
+        >
+          Submit
+        </button>
+        <span class="fs-6 text-center">
+          Already have an account?
+          <a href="/auth/login" class="text-decoration-underline">Login!</a>
+        </span>
+      </div>
+    </fieldset>
+    -->
+  </form>
+</section>
+
+<!-- External JS file for form logic -->
+<script src="public/JS/register.js"></script>
+
+<!-- Bootstrap JS Bundle with Popper (optional for some components) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>
