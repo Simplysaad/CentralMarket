@@ -12,6 +12,8 @@ const Order = require("../Models/order.model.js");
 
 const { default: fetch } = require("node-fetch");
 
+const feesHelper = require("../Utils/fees_calculator.js")
+
 const { shuffle } = require("../Utils/helper.js");
 const locals = {
     title: "CentralMarket",
@@ -315,8 +317,15 @@ exports.getSearchResults = async (req, res, next) => {
 exports.postOrder = async (req, res, next) => {
     try {
         let { userId: customerId, cart: items } = req.session;
-        let {name, emailAddress, address} = req.body
-        
+
+        let currentUser = await User.findOne({ _id: customerId });
+        let {
+            fullName: name,
+            emailAddress,
+            address,
+            deliveryOption
+        } = req.body;
+
         items?.forEach(async item => {
             let itemId = item.productId;
 
@@ -331,95 +340,94 @@ exports.postOrder = async (req, res, next) => {
                 { new: true }
             );
         });
-        let totalCost = items.reduce((acc, item) => acc + item.subTotal, 0);
+        let subTotal = items.reduce((acc, item) => acc + item.subTotal, 0);
+        let deliveryFee =feesHelper.getDeliveryFee(subTotal);
+        let processingFee =feesHelper.getProcessingFee(subTotal);
 
+        let totalCost = subTotal + deliveryFee + processingFee;
         // paystack api
-        let currentUser = await User.findOne({ _id: req.session.userId });
 
         // initialize  transaction
-        let paystack_response = await fetch(
-            "https://api.paystack.co/transaction/initialize",
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${process.env.PAYSTACK_SECRET_TEST}`
-                },
-                method: "POST",
-                body: JSON.stringify({
-                    email: currentUser?.emailAddress || emailAddress,
-                    first_name: (currentUser?.name || name).split(" ")[0],
-                    last_name: (currentUser?.name || name).split(" ")[1],
-                    amount: `${totalCost * 100}`
-                })
-            }
-        );
+        fetch("https://api.paystack.co/transaction/initialize", {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${process.env.PAYSTACK_SECRET_TEST}`
+            },
+            method: "POST",
+            body: JSON.stringify({
+                email: emailAddress,
+                first_name: name?.split(" ")[0],
+                last_name: name?.split(" ")[1],
+                amount: `${totalCost * 100}`
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.status) return console.log(data);
 
-        let { data, status } = await paystack_response.json().then(data => {
-            req.session.reference = data.data.reference;
-            return data;
-        });
+                req.session.reference = data.data.reference; //not neccessary if deployed
+                console.log({
+                    success: true,
+                    message: "order placed successfully",
+                    data
+                });
 
+                req.session.reference = data.data.reference;
+
+                if (data.data)
+                    res.status(300).redirect(data.data.authorization_url);
+
+                // return res.status(201).json({
+                //     success: true,
+                //     message: "order placed successfully",
+                //     data
+                // });
+            });
         // send authorization url
         // validate transaction
-
-        // console.log(newOrder)
-        console.log({
-            success: true,
-            message: "order placed successfully",
-            data
-        });
-        return res.json({
-            success: true,
-            message: "order placed successfully",
-            data
-        });
     } catch (err) {
         next(err);
     }
 };
 exports.getValidateOrder = async (req, res, next) => {
     try {
-        let { userId: customerId, cart: items } = req.session;
+        let { userId: customerId, cart: items, reference } = req.session;
         let totalCost = items?.reduce((acc, item) => acc + item.subTotal, 0);
 
         // validate transaction
-        let paystack_response = await fetch(
-            `https://api.paystack.co/transaction/verify/${
-                req.session.reference || req.query?.reference
-            }`,
-            {
+        if (reference)
+            fetch(`https://api.paystack.co/transaction/verify/${reference}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${process.env.PAYSTACK_SECRET_TEST}`
                 },
                 method: "GET"
-            }
-        );
+            })
+                .then(response => response.json())
 
-        if (!paystack_response.ok)
-            throw new Error("network response was not ok");
+                .then(data => {
+                    console.log(data);
 
-        let { data, status } = await paystack_response.json();
-        console.log(data, status);
+                    let newOrder = new Order({
+                        customerId,
+                        items,
+                        totalCost,
+                        payment: data.data
+                    });
 
-        let newOrder = new Order({
-            customerId,
-            items,
-            totalCost,
-            payment: data
-        });
+                    newOrder.save();
+                })
+                .catch(err => {
+                    console.error(err);
+                });
 
-        await newOrder.save().then(() => {
-            req.session.cart = [];
-            console.log("cart cleared");
-        });
-
-        console.log({
-            success: true,
-            message: "order placed successfully",
-            newOrder
-        });
-        return res.redirect("/cart"); // Should redirect to a page that helps track the order
+        return res
+            .status(200)
+            .send(
+                "your payment has been confirmed, kindly check your email for more info"
+            );
+        // return res.status(300).redirect("/account/cart"); // Should redirect to a page that helps track the order
+        //return res.status(300).redirect("/order/validate"); // Should redirect to a page that helps track the order
     } catch (err) {
         next(err);
     }
@@ -527,8 +535,7 @@ exports.getPreview = async (req, res, next) => {
         let recommendations = await Product.aggregate([
             { $sample: { size: 8 } }
         ]);
-        
-        
+
         let reviews = await Review.find({
             productId,
             message: { $ne: null },
