@@ -1,7 +1,7 @@
 <section id="imagesSection" class="pb-5">
   <div class="position-relative">
     <div class="cover-image position-relative border col-12">
-      <img class="img-fluid object-fit-cover" src="<%= currentVendor.business?.coverPhoto || `https://placehold.co/600x200?text=${currentVendor.business?.name || currentVendor.name}` %>"
+      <img class="img-fluid object-fit-cover" src="https://placehold.co/600x200?text=${currentVendor.business?.name || currentVendor.name}"
                                                                                                                               alt="" />
     </div>
     <div
@@ -67,41 +67,7 @@
   <% if(products.length> 0){ %>
     <div class="d-flex flex-wrap">
       <% products.forEach((product, index)=>{ %>
-        <div class="single-product my-3 p-2 col-6 col-md-4 col-lg-3 card border-0">
-          <div class="card-image position-relative">
-            <img src="./Public/IMG/image-4.jpg" alt="" class="img-fluid object-fit-cover aspect-ratio-square" />
-          </div>
-          <div class="card-info py-3">
-            <div class="">
-              <a href="/preview/<%= product._id %>"
-                                                                                                                                      class="fs-6 text-capitalize lead semibold text-decoration-none text-capitalize lead semibold">
-                <%= product.name %>
-              </a>
-            </div>
-            <div class="d-flex gap-2 fs-6 fw-semibold justify-content-start">
-              <div class="old-price text-muted -emphasis">
-                <span class="text-decoration-line-through fw-light">
-                  <%= "$" + product.price.toLocaleString() %>
-                </span>
-              </div>
-              <div class="price">
-                <p class="fs-5">
-                  <%= "$" + product.price.toLocaleString() %>
-                </p>
-              </div>
-            </div>
-          </div>
-          <!-- <div class="card-action m-0 btn-group btn-group-sm">
-            <button data-product-id="<%= product._id %>" class="btn btn-cart btn-outline-dark">
-              <i class="fas fa-shopping-cart"> </i>
-              <span class=""> Add to cart </span>
-            </button>
-            <button data-product-id="<%= product._id %>" class="btn btn-wish btn-outline-dark">
-              <i class="far fa-heart"> </i>
-            </button>
-          </div> -->
-        </div>
-        
+      <%- include("../../Components/search_card.ejs", {product})%>
         <% }) %>
     </div>
     <% } else{ %>

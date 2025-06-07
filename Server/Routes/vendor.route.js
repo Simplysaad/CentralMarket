@@ -38,7 +38,7 @@ router.get("/", vendorController.getDashboard);
 router.get("/products", vendorController.getProducts);
 
 router.post(
-    "/products/add",
+    "/products/",
     conditionalMulter,
     // upload.field([
     //     { name: "productImage", maxCount: 1 },

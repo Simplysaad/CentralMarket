@@ -34,9 +34,9 @@
 
 <% categories?.forEach((category)=>{ %>
   <section id="<%= category.split().join('-') %>" class="overflow-hidden my-4">
-    <div class="category-heading">
+    <div class="category-heading d-flex flex-nowrap justify-content-between ">
       <h4 class="display-6 text-heading text-capitalize">
-        <a href="/category/<%= category %>" class="">
+        <a href="/category/<%= category %>" class="text-decoration-none">
           <%= category %>
         </a>
       </h4>
