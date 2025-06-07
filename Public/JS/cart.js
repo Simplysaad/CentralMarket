@@ -43,14 +43,36 @@ cartItems.forEach((item, index) => {
         await handleRequest("delete");
     });
 });
+
+let orderForm = document.querySelector("#orderForm");
+let fullName = orderForm.querySelector("#fullName").value;
+let emailAddress = orderForm.querySelector("#emailAddress").value;
+let address = orderForm.querySelector("#address").value;
+
 let btnOrder = document.querySelectorAll(".btn-order");
 btnOrder.forEach((btn, index) => {
     btn.addEventListener("click", async e => {
-      console.log("order is placed")
-        let response = await fetch("/order", {
-            method: "post"
+        console.log("order is placed");
+
+        btn.innerHTML =
+            '<i class="fa fa-spinner fa-spin"></i> <span class="fs-6">Placing order</span> ';
+        btn.disabled = true;
+        btn.classList.add("btn-disabled");
+
+        fetch("/order", {
+            method: "post",
+            body: JSON.stringify({
+                name,
+                emailAddress,
+                address
+            })
+        }).then(response => {
+            response.json();
         });
-        let {data} = await response.json();
-        return (window.location.href = data.authorization_url);
+    }).then(data => {
+        if (data.data) window.location.href = data.authorization_url;
+        return;
     });
+
+    return; //(window.location.href = data.authorization_url);
 });

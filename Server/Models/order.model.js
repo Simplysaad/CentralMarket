@@ -96,6 +96,12 @@ const orderSchema = new mongoose.Schema({
         default: "pending",
         enum: ["pending", "incomplete", "completed", "delivered"]
     },
+    deliveryOption: {
+      type: String,
+      enum: ["pickup", "delivery", "express"],
+      default: "pickup"
+        
+    },
     payment: {},
     createdAt: {
         type: Date,

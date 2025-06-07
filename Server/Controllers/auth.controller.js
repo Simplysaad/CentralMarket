@@ -50,21 +50,21 @@ function generate_random_color() {
     return color;
 }
 
-exports.getAuth = async (req, res) => {
+exports.getAuth = async (req, res, next) => {
     try {
         res.status(200).render("Pages/Auth/auth", { locals });
     } catch (err) {
         console.error(err);
     }
 };
-exports.getLogin = async (req, res) => {
+exports.getLogin = async (req, res, next) => {
     try {
         res.status(200).render("Pages/Auth/login", { locals });
     } catch (err) {
         console.error(err);
     }
 };
-exports.postLogin = async (req, res) => {
+exports.postLogin = async (req, res, next) => {
     try {
         req.session.trialCount = 0;
         let { emailAddress, password } = req.body;
@@ -91,9 +91,9 @@ exports.postLogin = async (req, res) => {
                 advice: "check your password and try again"
             });
         }
-        let token //= jwt.sign({ currentUser }, process.env.SECRET_KEY, {
-        //     expiresIn: "1d"
-        // });
+        let token = jwt.sign({ currentUser }, process.env.SECRET_KEY, {
+            expiresIn: "1d"
+        });
         res.cookie("token", token);
 
         console.log(req.cookies);
@@ -120,16 +120,17 @@ exports.postLogin = async (req, res) => {
     }
 };
 
-exports.getRegister = async (req, res) => {
+exports.getRegister = async (req, res, next) => {
     try {
         res.status(200).render("Pages/Auth/register", { locals });
     } catch (err) {
         console.error(err);
     }
 };
-exports.postRegister = async (req, res) => {
+exports.postRegister = async (req, res, next) => {
     try {
         const { emailAddress, password, role } = req.body;
+        const { checkEmail } = req.query;
         // let isUserExist = false; //true
         let isUserExist = await User.findOne({ emailAddress });
 
@@ -139,7 +140,14 @@ exports.postRegister = async (req, res) => {
                 message: "email address already exists",
                 advice: "try logging into your account or use another email"
             });
+        }else{
+          if (!!checkEmail) return res.status(400).json({
+                success: true,
+                message: "email address available",
+                advice: "You're good to go"
+            });
         }
+
         let salt = 10;
         let hashedPassword = await bcrypt.hash(password, salt);
         req.body.password = hashedPassword;
@@ -169,8 +177,9 @@ exports.postRegister = async (req, res) => {
             );
             profileImage = cloudinary_response.secure_url;
         } else
-            profileImage = `https://placehold.co/400/${profile_color + "ff"
-                }/#000?text=${req.body.name[0].toUpperCase()}`;
+            profileImage = `https://placehold.co/400/${
+                profile_color + "ff"
+            }/#000?text=${req.body.name[0].toUpperCase()}`;
 
         let newUser = new User({
             ...req.body,
@@ -178,21 +187,18 @@ exports.postRegister = async (req, res) => {
             role: "admin",
             //this is supposed to come from the form but i've not added a field to the form yet
             profileImage,
-            coverImage: `https://placehold.co/600x200/${profile_color + "00"
-                }/#fff?text=${req.body.businessName || "CentralMarket"}&color=`
+            coverImage: `https://placehold.co/600x200/${
+                profile_color + "00"
+            }/#fff?text=${req.body.businessName || "CentralMarket"}&color=`
         });
 
         await newUser.save();
         //let { emailAddress, password, role } = req.body;
         //let { emailAddress, password, role } = newUser;
 
-        let token// = jwt.sign(
-        //    currentUser,
-        //     process.env.SECRET_KEY,
-        //     {
-        //         expiresIn: "1d"
-        //     }
-        // );
+        let token = jwt.sign(currentUser, process.env.SECRET_KEY, {
+            expiresIn: "1d"
+        });
         res.cookie("token", token);
 
         //currentUser = { ...newUser, password };
@@ -236,10 +242,10 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-exports.getResetPasswordLink = async (req, res) => {
+exports.getResetPasswordLink = async (req, res, next) => {
     try {
         let { emailAddress } = req.body;
-        let token// = jwt.sign({ emailAddress }, process.env.SECRET_KEY);
+        let token = jwt.sign({ emailAddress }, process.env.SECRET_KEY);
         let reset_link = `http://localhost:8000/reset-password?token=${token}`;
 
         let info = await transporter.sendMail({
@@ -257,19 +263,19 @@ exports.getResetPasswordLink = async (req, res) => {
         console.error(err);
     }
 };
-exports.getResetPassword = async (req, res) => {
+exports.getResetPassword = async (req, res, next) => {
     try {
         return res
             .status(200)
-            .send("use api tester instead to send 'POST' request directly");
+            .selnd("use api tester instead to send 'POST' request directly");
     } catch (err) {
         console.error(err);
     }
 };
-exports.putResetPassword = async (req, res) => {
+exports.putResetPassword = async (req, res, next) => {
     try {
         let { token } = req.query;
-        let user// = jwt.verify(token, process.env.SECRET_KEY);
+        let user = jwt.verify(token, process.env.SECRET_KEY);
 
         console.log("user", user);
 
@@ -293,7 +299,6 @@ exports.putResetPassword = async (req, res) => {
             currentUser,
             message: "nothing to see here"
         });
-        console.log({});
     } catch (err) {
         console.error(err);
         return res.status(500).json({
@@ -306,7 +311,7 @@ exports.putResetPassword = async (req, res) => {
     }
 };
 
-exports.logout = async (req, res) => {
+exports.logout = async (req, res, next) => {
     try {
         req.session.destroy();
         res.clearCookie("token");

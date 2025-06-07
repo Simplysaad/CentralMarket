@@ -4,21 +4,20 @@
             <h2 class="text-heading text-center">Checkout</h2>
         </div>
         <div class="">
-            <div class="col-md-12">
-                <form>
+                <form class="col-md-12" id="orderForm">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Full Name</label>
+                        <label for="fullName" class="form-label">Full Name</label>
                         <input
                             type="text"
                             value="<%= currentUser?.name %>"
                             class="form-control"
-                            id="name"
+                            id="fullName"
+                            required=""
                             placeholder="Enter your full name"
                         />
                     </div>
-
                     <div class="mb-3">
-                        <label for="email" class="form-label"
+                        <label for="emailAddress" class="form-label"
                             >Email Address</label
                         >
                         <input
@@ -26,11 +25,11 @@
                             name="emailAddress"
                             value="<%= currentUser?.emailAddress %>"
                             class="form-control"
-                            id="email"
+                            id="emailAddress"
+                            required=""
                             placeholder="Enter your email address"
                         />
                     </div>
-
                     <div class="mb-3">
                         <label for="address" class="form-label">Address</label>
                         <input
@@ -39,11 +38,11 @@
                             value="<%= currentUser?.address %>"
                             class="form-control"
                             id="address"
+                            required=""
                             placeholder="Enter your address"
                         />
                     </div>
                 </form>
-            </div>
 
             <div class="col-md-12 mt-lg-0 mt-3">
                 <div class="card">
