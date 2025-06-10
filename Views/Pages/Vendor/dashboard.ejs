@@ -9,9 +9,9 @@
             class="overview-item border shadow rounded py-5 px-3 d-flex col-12 justify-content-between align-items-center col-md-5"
         >
             <div class="overview-text">
-                <h4 class="text-uppercase text-muted fs-6">Products</h4>
+                <h4 class="text-uppercase text-mute fs-6">Products</h4>
                 <div class="d-flex flex-wrap gap-2 align-items-center">
-                    <h2 class="display-4 text-dark lead">
+                    <h2 class="display-4 text-dar lead">
                         <%= myProducts.length %>
                     </h2>
                     <span class="text-danger fw-semibold">
@@ -28,9 +28,9 @@
             class="overview-item border shadow rounded py-5 px-3 d-flex col-12 justify-content-between align-items-center col-md-5"
         >
             <div class="overview-text">
-                <h4 class="text-uppercase text-muted fs-6">New Customers</h4>
+                <h4 class="text-uppercase text-mute fs-6">New Customers</h4>
                 <div class="d-flex gap-2 align-items-center">
-                    <h2 class="display-4 text-dark lead">
+                    <h2 class="display-4 text-dar lead">
                         <%= newCustomers.length %>
                     </h2>
                     <span class="text-success fw-semibold">
@@ -47,9 +47,9 @@
             class="overview-item border shadow rounded py-5 px-3 d-flex col-12 justify-content-between align-items-center col-md-5"
         >
             <div class="overview-text">
-                <h4 class="text-uppercase text-muted fs-6">Completed orders</h4>
+                <h4 class="text-uppercase text-mute fs-6">Completed orders</h4>
                 <div class="d-flex gap-2 align-items-center">
-                    <h2 class="display-4 text-dark lead">
+                    <h2 class="display-4 text-dar lead">
                         <%= completedOrders.length %>
                     </h2>
                     <span class="text-danger fw-semibold">
@@ -66,9 +66,9 @@
             class="overview-item border shadow rounded py-5 px-3 d-flex col-12 justify-content-between align-items-center col-md-5"
         >
             <div class="overview-text">
-                <h4 class="text-uppercase text-muted fs-6">Total revenue</h4>
+                <h4 class="text-uppercase text-mute fs-6">Total revenue</h4>
                 <div class="d-flex gap-2 align-items-center">
-                    <h2 class="display-6 text-dark lead">
+                    <h2 class="display-6 text-dar lead">
                         <%= "$" + totalRevenue.toLocaleString() %>
                     </h2>
                     <span class="text-success fw-semibold">
@@ -79,7 +79,7 @@
             </div>
             <div class="overview-icon">
                 <!-- <i class="fa fa-money fa-4x"> </i> -->
-                <span class="fa-4x"> 💵 </span>
+                <i class="fa-4x fa-dollar"> </i>
             </div>
         </div>
     </div>
@@ -93,29 +93,29 @@
         <h2 class="display-6 text-heading">Activities</h2>
     </div>
     <div class="contaner col-md-8 table-responsive">
-        <table class="table table-borderless">
+        <table class="able table-borderless">
             <tbody class="">
                 <tr class="">
                     <td class="text-nowrap fw-semibold text-danger">
                         out of stock
                     </td>
                     <td class="text-nowrap">
-                        <a href="" class="link-dark text-decoration-none">
+                        <a href="" class="link-dar text-decoration-none">
                             china headphones are out of stock
                         </a>
                     </td>
-                    <td class="text-nowrap text-muted">2 minutes ago</td>
+                    <td class="text-nowrap text-mute">2 minutes ago</td>
                 </tr>
                 <tr class="">
                     <td class="text-nowrap fw-semibold text-success text-info">
                         new order
                     </td>
                     <td class="text-nowrap">
-                        <a href="" class="link-dark text-decoration-none">
+                        <a href="" class="link-dar text-decoration-none">
                             new order for nataraj pencils
                         </a>
                     </td>
-                    <td class="text-nowrap text-muted">7 minutes ago</td>
+                    <td class="text-nowrap text-mute">7 minutes ago</td>
                 </tr>
             </tbody>
         </table>
@@ -125,9 +125,9 @@
     <div class="heading">
         <h4 class="text-heading display-6">Orders</h4>
     </div>
-    <div class="table-responsive">
+    <div class="contaner col-md-8 table-responsive">
         <% if(myOrders.length > 0){ %>
-        <table class="table table-striped">
+        <table class="table table-borderless">
             <thead>
                 <tr class="text-nowrap">
                     <th class="">Status</th>
@@ -142,7 +142,7 @@
                 <tr>
                     <td><%= order.items?.status %></td>
                     <td class="">
-                        <a href="/preview/<%= order.items?.productId %>" class="link-dark">
+                        <a href="/preview/<%= order.items?.productId %>" class="link-dar">
                             <%= order.items?.name %>
                         </a>
                     </td>
@@ -154,7 +154,7 @@
             </tbody>
         </table>
         <% }else{ %>
-        <p class="">No orders yet</p>
+        <p class="text-center">No orders yet</p>
         <% }%>
     </div>
 </section>
@@ -162,21 +162,21 @@
     <div class="heading d-flex justify-content-between p-2 align-items-center">
         <div class="heading-text">
             <h4 class="display-6 text-heading">Inventory</h4>
-            <p class="text-muted">Best performing products</p>
+            <p class="text-mute">Best performing products</p>
         </div>
         <div class="heading-action">
             <a
                 href="/vendor/products/add"
-                class="btn btn-outline-dark btn-sm rounded-pill"
+                class="btn btn-outline-dar btn-sm rounded-pill"
             >
                 <i class="fa fa-plus"> </i>
                 <span class=""> Add product </span>
             </a>
         </div>
     </div>
-    <div class="table-responsive">
-        <% if(myProducts.length > 0){ %>
-        <table class="text-nowrap table table-striped">
+    <div class="contaner col-md-8 table-responsive">
+    <% if(myProducts.length > 0){ %>
+        <table class="table table-borderless">
             <thead>
                 <tr>
                     <th>ProductId</th>
@@ -192,7 +192,7 @@
                     <td><%= product._id %>
                     </td>
                     <td>
-                      <a href="/preview/<%= product._id %>" class="link-dark">
+                      <a href="/preview/<%= product._id %>" class="link-dar">
                         <%= product.name %>
                       </a>
                     </td>
@@ -207,10 +207,12 @@
             </tbody>
         </table>
         <% }else{ %>
-        <p class="">
+        <div class="mx-auto">
+        <p class="text-center mx-auto p-2">
             No products yet
             <a href="" class="d-block"> Add one! </a>
         </p>
+        </div>
         <% }%>
     </div>
 </section>

@@ -6,33 +6,18 @@ const User = require("../Models/user.model.js");
 const Review = require("../Models/review.model.js");
 const Order = require("../Models/order.model.js");
 
+const cloudinary = require("../Utils/cloudinary.js")
+
 const locals = {
   title: "Vendor | CentralMarket ",
   description: "",
   image: "/IMG/favicon.jpg",
   keywords: [],
-  categories: [
-    "study materials",
-    "electronics",
-    "hostel essentials",
-    "clothing and accessories",
-    "groceries and snacks",
-    "health and personal care",
-    "events and experiences",
-    "secondhand marketplace",
-    "services",
-    "hobbies and entertainment",
-    "gifts and handmade goods"
-  ]
+  categories: Product.schema.path("category").enumValues
 };
 
 
-const cloudinary = require("cloudinary").v2;
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
-});
+
 exports.getDashboard = async (req, res, next) => {
   try {
     let { currentUser } = req.session;
@@ -158,14 +143,20 @@ exports.addProduct = async (req, res, next) => {
           crop: "limit"
         }
       );
-      imageUrl = cloudinary_response.secure_url;
+      
+      const cloudinary_json = await cloudinary_response.json()
+      
+      imageUrl = cloudinary_json.secure_url;
       if (imageUrl) {
         let updatedProduct = await Product.findOneAndUpdate({ _id: productId }, {
           $set: {
             imageUrl
           }
         }, { new: true })
-
+        
+        
+        console.log(cloudinary_json)
+        
         return res.status(201).json({
           success: true,
           message: "image added successfully",
@@ -173,7 +164,7 @@ exports.addProduct = async (req, res, next) => {
         })
       }
 
-    } else imageUrl = `https://placehold.co/400x400/text=${req.body.name}`;
+    } else imageUrl = `https://placehold.co/400x400?text=${req.body.name}`;
 
     let imageGallery = [];
     imageGallery.push(imageUrl);

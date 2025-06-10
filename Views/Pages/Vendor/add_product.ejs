@@ -83,16 +83,18 @@
                         class="form-control"
                     />
 
-                            <datalist id="tagsList">
-          <% categories.forEach((tag, index)=>{ %>
-            <option value="tag">
-              <%= tag %>
+                            <datalist id="categoryList">
+          <% categories.forEach((category, index)=>{ %>
+            <option value="<%= category %>">
+              <%= category %>
             </option>
             <% }) %>
         </datalist>
 
                     <label for="category">Category</label>
                 </div>
+                
+                
                 <div class="border p-1">
                     <div class="selected-tags">
                         <ul
@@ -115,13 +117,13 @@
                             class="form-control m-0 border-0"
                         />
                     </div>
-                    <datalist id="tagsList">
-                      <%# keywordsList.forEach((keyword, index)=>{ %>
-                        <option value="<%#=keyword %>" class="">
-                            <%#=keyword %>
-                        </option>
-                      <%# }) %>
-                    </datalist>
+                            <datalist id="tagsList">
+          <% tags.forEach((tag, index)=>{ %>
+            <option value="<%= tag %>">
+              <%= tag %>
+            </option>
+            <% }) %>
+        </datalist>
                 </div>
                 <div class="border p-1">
                     <div class="selected-colors">
@@ -214,31 +216,6 @@
                         value=""
                     />
                 </div>
-                <!-- <div
-                    class="extra-photos d-flex gap-3 overflow-scroll"
-                >
-                    <div
-                        class="single-image-container col-5 col-md-4 col-lg-3 mx-auto border rounded"
-                    >
-                        <label for="productGallery_1">
-                            <img
-                                id="productGalleryPreview_1"
-                                class="img-fluid object-fit-cover product-gallery-preview"
-                                src="./Public/IMG/add-image-icon.png"
-                                alt=""
-                            />
-                        </label>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            name="productGallery"
-                            id="productGallery_1"
-                            hidden
-                            class="product-gallery"
-                            value=""
-                        />
-                    </div>
-                </div> -->
             </fieldset>
             <div
                 class="cta my-5 col-12 float-lg-end d-flex flex-column flex-md-row align-items-center gap-3"

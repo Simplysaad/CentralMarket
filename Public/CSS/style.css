@@ -773,9 +773,9 @@ nav .logo a {
     transition: all 1s ease-in;
 }
 
-.form-control {
+./* form-control {
     margin: 10px auto;
-}
+} */
 
 @media screen and (min-width: 800px) {
     .form-card {
@@ -986,4 +986,9 @@ a.fa-edit {
 .dropdown-menu {
     position: absolute;
     left: -1000px;
+}
+
+.table{
+  background: inherit;
+  color: inherit;
 }

@@ -1,6 +1,6 @@
   document.addEventListener('DOMContentLoaded', () => {
   // Elements
-  const loginForm = document.getElementById('registerForm');
+  const loginForm = document.getElementById('loginForm');
   
   const btnSubmit = document.getElementById('btnSubmit'); // Uncomment if deliveryInfo is used
 
@@ -78,7 +78,7 @@
     if (!validateAccountInfo()) return;
    
     showToast('Personal information validated.', 'success');
-    registerForm.submit()
+    loginForm.submit()
   });
 
 

@@ -1,0 +1,84 @@
+         <fieldset
+            id="deliveryInfo"
+            class="fieldset my-5 p-2 d-flex flex-column gap-3"
+        >
+            <legend class="display-5 fw-semibold text-start">
+                <span class="d-block fw-light text-muted fs-6">
+                    Delivery Information
+                </span>
+                Create account
+            </legend>
+            <div class="form-floating">
+                <input
+                    type="text"
+                    name="address_1"
+                    id="address_1"
+                    required=""
+                    aria-required="true"
+                    class="form-control"
+                    placeholder=""
+                    value=""
+                />
+                <label for="address_1">Address line 1</label>
+            </div>
+            <div class="form-floating">
+                <input
+                    type="text"
+                    name="address_2"
+                    id="address_2"
+                    class="form-control"
+                    placeholder=""
+                    value=""
+                />
+                <label for="address_2"> Address line 2 (optional) </label>
+            </div>
+            <div class="form-floating">
+                <input
+                    type="text"
+                    name="state"
+                    id="state"
+                    required=""
+                    aria-required="true"
+                    class="form-control"
+                    placeholder=""
+                    value=""
+                />
+                <label for="state">State</label>
+            </div>
+            <div class="form-floating">
+                <input
+                    type="text"
+                    name="school_name"
+                    id="school_name"
+                    required=""
+                    aria-required="true"
+                    class="form-control"
+                    placeholder=""
+                    value=""
+                />
+                <label for="school_name">School</label>
+            </div>
+        
+            <div class="d-flex gap-2">
+                <p id="acceptTerms" class="fs-6 px-1 my-3 mx-auto text-cnter">
+                    By signing up, agree to
+                    <a class="" href="#"> terms and privacy policy </a>
+                </p>
+            </div>
+        
+            <div class="cta col-12 d-flex flex-column gap-1">
+                <button
+                    id="btnSubmit"
+                    class="btn btn-outline-dark p-3 btn-lg col-12"
+                    type="submit"
+                >
+                    Submit
+                </button>
+                <span class="fs-6">
+                    Already have an account?
+                    <a class="text-decoration-none" href="/auth/login">
+                        login!
+                    </a>
+                </span>
+            </div>
+        </fieldset>

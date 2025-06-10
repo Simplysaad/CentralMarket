@@ -1,44 +1,15 @@
 const bcrypt = require("bcryptjs");
-//const jwt = require("jsonwebtoken");
-const cloudinary = require("cloudinary").v2;
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-});
+const jwt = require("jsonwebtoken");
+const cloudinary = require("../Utils/cloudinary.js")
+
 const User = require("../Models/user.model.js");
+
 const locals = {
     title: "Auth | CentralMarket",
     description: "",
     image: "/IMG/favicon.jpg",
     keywords: [],
-    categories: [
-        "study materials",
-        "electronics",
-        "hostel essentials",
-        "clothing and accessories",
-        "groceries and snacks",
-        "health and personal care",
-        "events and experiences",
-        "secondhand marketplace",
-        "services",
-        "hobbies and entertainment",
-        "gifts and handmade goods"
-    ]
 };
-const categories = [
-    "study materials",
-    "electronics",
-    "hostel essentials",
-    "clothing and accessories",
-    "groceries and snacks",
-    "health and personal care",
-    "events and experiences",
-    "secondhand marketplace",
-    "services",
-    "hobbies and entertainment",
-    "gifts and handmade goods"
-];
 function generate_random_color() {
     let color = "#";
     let characters = "0123456789ABCDEF";
@@ -101,13 +72,13 @@ exports.postLogin = async (req, res, next) => {
         // req.session.userId = currentUser._id;
         //let { pass, ...formatted_user } = currentUser;
         req.session.currentUser = currentUser;
-
-        return res.status(200).json({
-            success: true,
-            message: "user has logged in successfully",
-            currentUser,
-            advice: ""
-        });
+        return res.status(300).redirect(req.session.returnTo);
+        // return res.status(200).json({
+        //     success: true,
+        //     message: "user has logged in successfully",
+        //     currentUser,
+        //     advice: ""
+        // });
     } catch (err) {
         console.error(err);
         return res.status(500).json({
@@ -129,23 +100,25 @@ exports.getRegister = async (req, res, next) => {
 };
 exports.postRegister = async (req, res, next) => {
     try {
-        const { emailAddress, password, role } = req.body;
+        const { emailAddress, password } = req.body;
         const { checkEmail } = req.query;
         // let isUserExist = false; //true
         let isUserExist = await User.findOne({ emailAddress });
 
-        if (isUserExist) {
-            return res.status(400).json({
+        if (!!isUserExist) {
+            return res.status(403).json({
                 success: false,
+                isUserExist: !!isUserExist,
                 message: "email address already exists",
                 advice: "try logging into your account or use another email"
             });
-        }else{
-          if (!!checkEmail) return res.status(400).json({
-                success: true,
-                message: "email address available",
-                advice: "You're good to go"
-            });
+        } else {
+            if (!!checkEmail)
+                return res.status(200).json({
+                    success: true,
+                    message: "email address available",
+                    advice: "You're good to go"
+                });
         }
 
         let salt = 10;
@@ -183,8 +156,8 @@ exports.postRegister = async (req, res, next) => {
 
         let newUser = new User({
             ...req.body,
-            address,
-            role: "admin",
+            address: address ?? null,
+            role: "vendor",
             //this is supposed to come from the form but i've not added a field to the form yet
             profileImage,
             coverImage: `https://placehold.co/600x200/${
@@ -193,16 +166,12 @@ exports.postRegister = async (req, res, next) => {
         });
 
         await newUser.save();
-        //let { emailAddress, password, role } = req.body;
-        //let { emailAddress, password, role } = newUser;
 
-        let token = jwt.sign(currentUser, process.env.SECRET_KEY, {
+        let token = jwt.sign({ newUser }, process.env.SECRET_KEY, {
             expiresIn: "1d"
         });
         res.cookie("token", token);
 
-        //currentUser = { ...newUser, password };
-        //req.session.userid = newUser._id;
         req.session.currentUser = newUser;
 
         //should go to homepage after signup
@@ -229,7 +198,6 @@ exports.postRegister = async (req, res, next) => {
 const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    //host: "smtp.ethereal.email",
     secure: false,
     port: 587,
     // auth: {

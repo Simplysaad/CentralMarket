@@ -41,11 +41,7 @@
 
   <meta name="twitter:image" content="<%= locals.image || '/IMG/favicon.jpg' %>">
 
-  <!-- <link rel="stylesheet" href="/CSS/style.css" type="text/css" media="all" /> -->
-
-  <!--   <link rel="stylesheet" href="/fontawesome-free-6.7.2-web/css/all.css" />
-<link rel="stylesheet" href="/bootstrap-5.3.3-dist/css/bootstrap.min.css" type="text/css" media="all" />
- -->
+   <link rel="stylesheet" href="/CSS/style.css" type="text/css" media="all" /> 
   <title>
     <%= locals.title || "Central Market" %>
   </title>
@@ -57,7 +53,7 @@
   </header>
   <main class="col-12 gap-5 container-fluid mh-100 min-vh-100 d-md-flex justify-content-between align-items-start">
     <aside id="sideNav"
-      class="py-5">
+      class="side-nav collapse overflow-scroll col-6 col-md-3 col-lg-2">
       <%- include('../Partials/_side_nav')%>
     </aside>
     <main class="col-12 col-md-9 col-lg-10 d-flex flex-grow-1 flex-column">

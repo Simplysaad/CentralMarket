@@ -3,6 +3,7 @@ let secretKey = process.env.SECRET_KEY;
 
 const authMiddleware = (req, res, next) => {
     try {
+        req.session.returnTo = req.originalUrl || "/";
         let token = req.cookies.token;
         if (!token) {
             console.log({
