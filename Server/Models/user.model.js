@@ -33,7 +33,8 @@ const businessSchema = new mongoose.Schema(
             type: String,
             enum: ["online", "offline", "hybrid"],
             default: "hybrid"
-        }
+        },
+        
     },
     { _id: false }
 );
@@ -74,16 +75,10 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ["admin", "vendor", "customer"],
-        required: true
+        default: "customer"
+        //required: true
     },
-    businessName: {
-        type: String
-        //unique: true
-    },
-    description: {
-        type: String
-    },
-
+    business: businessSchema,
     address: addressSchema,
     birthDate: {
         type: Date

@@ -56,216 +56,187 @@
                 </div>
                 <fieldset
                     id="accountInfo"
-                    class="fieldset my-5 p-2 d-flex flex-column gap-3"
+                    class="fieldset my-5 p-2 d-flex flex-column gap-2"
                 >
                     <legend class="display-5 fw-semibold text-start">
                         <span class="d-block fw-light text-muted fs-6">
-                            Account Information
+                            Vendor Information
                         </span>
-                        Create account
+                        Register store
                     </legend>
-                    <div class="overflow-hidden mx-auto my-3 col-6 col-lg-4">
-                        <label
-                            for="profileImage"
-                            id="profileImageCont"
-                            class="overflow-hidden ratio ratio-1x1"
-                        >
-                            <img
-                                src="./public/IMG/add-profileImage.jpg"
-                                id="profileImagePreview"
-                                alt=""
-                                class="img-thumbnail rounded-circle"
-                            />
-                        </label>
+
+                    <div class="">
                         <input
+                            class=""
                             type="file"
-                            name="profileImage"
-                            id="profileImage"
-                            hidden
-                            required
                             accept="image/*"
-                            aria-hidden="true"
+                            id="coverImage"
+                            name="coverImage"
                         />
-                        <p class="error-message text-center text-danger small">
-                            Image is required
-                        </p>
+                        <label for="coverImage">
+                            <img src="./Public/IMG/image-2.jpg" />
+                        </label>
                     </div>
 
                     <div class="form-floating">
                         <input
-                            type="text"
+                            id="storeName"
                             name="name"
-                            id="name"
-                            required=""
-                            minlength="3"
-                            aria-required="true"
                             class="form-control"
-                            placeholder=""
-                            value=""
-                        />
-                        <p class="error-message small text-danger"></p>
-                        <label for="name">Full name</label>
-                    </div>
-
-                    <div class="form-floating">
-                        <input
-                            type="email"
-                            name="emailAddress"
+                            type="text"
                             required
-                            id="emailAddress"
-                            class="form-control"
-                            placeholder=""
-                            value=""
                         />
-                        <p class="error-message small text-danger"></p>
-                        <label for="emailAddress">Email address</label>
+                        <label for="storeName">Store name</label>
+                        <p class="text-danger error-message"></p>
+                    </div>
+                    <div class="form-floating">
+                        <textarea
+                            id="storeDesc"
+                            name="description"
+                            class="form-control"
+                            type="text"
+                            required
+                        ></textarea>
+                        <label for="storeDesc">Store description</label>
+                        <p class="text-danger error-message"></p>
                     </div>
 
                     <div class="form-floating">
                         <input
+                            id="social_whatsapp"
+                            name="whatsapp"
+                            class="form-control"
                             type="tel"
-                            name="phoneNumber"
-                            id="phoneNumber"
-                            required=""
-                            minlength="10"
-                            maxlength="15"
-                            aria-required="true"
+                            required
+                        />
+
+                        <label for="social_whatsapp">Whatsapp number</label>
+                        <p class="text-danger error-message"></p>
+                    </div>
+                    <div class="form-floating">
+                        <input
+                            id="social_instagram"
+                            name="instagram"
                             class="form-control"
-                            placeholder=""
-                            value=""
+                            type="text"
                         />
-                        <label for="phoneNumber">Phone number</label>
-                        <p class="error-message small text-danger"></p>
+
+                        <label for="social_instagram"
+                            >Instagram username (optional)</label
+                        >
+                        <p class="text-danger error-message"></p>
                     </div>
 
                     <div class="form-floating">
                         <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            required=""
-                            minlength="8"
-                            aria-required="true"
-                            class="form-control password"
-                            placeholder=""
-                            value=""
+                            id="account_number"
+                            name="account_number"
+                            class="form-control"
+                            type="number"
                         />
-                        <p class="error-message small text-danger"></p>
-                        <label for="password">Password</label>
+
+                        <label for="account_number">Account number</label>
+                        <p class="text-danger error-message"></p>
                     </div>
-                    <a type="button" class="" id="btnShowPassword">
-                        <i class="fa fa-eye"> </i>
-                    </a>
                     <div class="form-floating">
                         <input
-                            type="password"
-                            name="confirmPassword"
-                            id="confirmPassword"
-                            required=""
-                            aria-required="true"
-                            class="form-control password"
-                            placeholder=""
-                            value=""
+                            id="account_name"
+                            name="account_name"
+                            class="form-control"
+                            type="text"
                         />
-                        <p class="error-message small text-danger">
-                            Passwords do not match
-                        </p>
-                        <label for="confirmPassword">Confirm password</label>
-                    </div>
-                </fieldset>
-                <fieldset
-                    id="personalInfo"
-                    class="fieldset my-5 p-2 d-flex flex-column gap-3"
-                >
-                    <div class="col-12 d-block flex-fill">
-                        <span class="fs-6 text-muted">Gender</span>
 
-                        <div class="d-flex justify-content-between">
-                            <div class="form-check col-5 rounded border">
-                                <input
-                                    type="radio"
-                                    name="gender"
-                                    id="name_male"
-                                    hidden
-                                    checked
-                                    class="checkbox"
-                                    placeholder=""
-                                    value="male"
-                                />
-                                <label
-                                    class="form-check-label p-3"
-                                    for="name_male"
-                                >
-                                    Male
-                                </label>
-                            </div>
-                            <div class="form-check col-5 rounded border">
-                                <input
-                                    type="radio"
-                                    name="gender"
-                                    id="name_female"
-                                    hidden
-                                    class="checkbox"
-                                    placeholder=""
-                                    value="female"
-                                />
-                                <label
-                                    class="form-check-label p-3"
-                                    for="name_female"
-                                >
-                                    Female
-                                </label>
-                            </div>
-                        </div>
+                        <label for="account_name">Account name</label>
+                        <p class="text-danger error-message"></p>
                     </div>
-                    <div class="col-12 d-block flex-fill">
-                        <span class="fs-6 text-muted">Birthday</span>
-                        <div class="d-flex gap-2 justify-content-start">
-                            <div class="form-floating col-8">
-                                <input
-                                    type="date"
-                                    name="birthDate"
-                                    id="birthDate"
-                                    required=""
-                                    max="2010-01-01"
-                                    aria-describedby="Birthday"
-                                    aria-required="true"
-                                    class="form-control"
-                                    placeholder=""
-                                    value=""
-                                />
-                                <p class="error-message text-danger small">
-                                    Enter birthdate
-                                </p>
-                                <label for="birthDate">Birthday</label>
-                            </div>
-                        </div>
+                    <div class="form-floating">
+                        <input
+                            id="bank_name"
+                            name="bank_name"
+                            class="form-control"
+                            type="text"
+                        />
+
+                        <label for="bank_name">Bank name</label>
+                        <p class="text-danger error-message"></p>
                     </div>
 
-                    <div class="d-flex gap-2">
-                        <p
-                            id="acceptTerms"
-                            class="fs-6 px-1 my-3 mx-auto text-cnter"
-                        >
-                            Already have an account?
-                            <a class="px-1" href="/auth/login"> login! </a>
-                        </p>
+                    <div class="form-floating">
+                        <input
+                            id="state"
+                            name="state"
+                            class="form-control"
+                            type="text"
+                        />
+                        <label for="state">State</label>
+                        <p class="text-danger error-message"></p>
                     </div>
-
-                    <div class="cta col-12">
-                        <button
-                            class="btn btn-outline-dark col-8 btn-lg float-end"
-                            id="btnSubmit"
-                        >
-                            <span>Submit</span>
-                            <!-- <i class="fa fa-arrow-right"> </i> -->
-                        </button>
+                    <div class="form-floating">
+                        <input
+                            id="lga"
+                            name="lga"
+                            class="form-control"
+                            type="text"
+                        />
+                        <label for="lga">LGA</label>
+                        <p class="text-danger error-message"></p>
+                    </div>
+                    <div class="form-floating">
+                        <input
+                            id="address"
+                            name="address"
+                            class="form-control"
+                            type="text"
+                        />
+                        <label for="address">Street Address</label>
+                        <p class="text-danger error-message"></p>
                     </div>
                 </fieldset>
             </form>
         </section>
 
         <script src=" ./public/JS/register.js"></script>
+        <script >
+          [
+  "Abia",
+  "Adamawa",
+  "Akwa Ibom",
+  "Anambra",
+  "Bauchi",
+  "Bayelsa",
+  "Benue",
+  "Borno",
+  "Cross River",
+  "Delta",
+  "Ebonyi",
+  "Edo",
+  "Ekiti",
+  "Enugu",
+  "Gombe",
+  "Imo",
+  "Jigawa",
+  "Kaduna",
+  "Kano",
+  "Katsina",
+  "Kebbi",
+  "Kogi",
+  "Kwara",
+  "Lagos",
+  "Nasarawa",
+  "Niger",
+  "Ogun",
+  "Ondo",
+  "Osun",
+  "Oyo",
+  "Plateau",
+  "Rivers",
+  "Sokoto",
+  "Taraba",
+  "Yobe",
+  "Zamfara"
+]
+
+        </script>
     </body>
     <style type="text/css" media="all">
         .form-check:has(.checkbox:checked) {
