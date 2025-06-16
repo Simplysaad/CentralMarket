@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const multer = require("multer");
-const uploadProducts = multer({ dest: "./Uploads/Products" });
+const upload = multer({ dest: "./Uploads/Products" });
 
 const mongoose = require("mongoose");
 
@@ -22,15 +22,15 @@ router.get("/products", vendorController.getProducts);
 
 router.post(
     "/products/add",
-    uploadProducts.single("productImage"),
+    upload.single("productImage"),
     vendorController.addProduct
 );
 router.get("/products/add", async (req, res, next) => {
     try {
-      const categories = await Product.schema.path("category").enumValues
-      const tags = await Product.distinct("tags")
+        const categories = await Product.schema.path("category").enumValues;
+        const tags = await Product.distinct("tags");
 
-      return res.render("Pages/Vendor/add_product", {categories, tags});
+        return res.render("Pages/Vendor/add_product", { categories, tags });
     } catch (err) {
         next(err);
     }
@@ -39,8 +39,11 @@ router.get("/products/add", async (req, res, next) => {
 router.delete("/product/:id", vendorController.deleteProduct);
 router.put(
     "/product/:id",
-    uploadProducts.single("productImage"),
+    upload.single("productImage"),
     vendorController.editProduct
 );
+
+router.post("/store", upload.single("coverImage"), vendorController.postStore);
+router.get("/store", vendorController.getStore);
 
 module.exports = router;

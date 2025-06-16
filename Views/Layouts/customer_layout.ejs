@@ -47,7 +47,7 @@
   </title>
 </head>
 
-<body class="bg-light text-dark">
+<body class="">
   <header id="mainHeader" class="py-md-4 pb-2">
     <%- include('../Partials/_header') %>
   </header>
@@ -68,8 +68,7 @@
 <script src="/bootstrap-5.3.3-dist/js/bootstrap.bundle.js" type="text/javascript" charset="utf-8"></script>
  -->
   <script src="/JS/utility.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
-    integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.js"
     crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
@@ -104,6 +103,11 @@
       #sideNav {
         position: relative;
       }
+    }
+    
+    .form-control, select{
+      background-color: inherit;
+      color: inherit;
     }
   </style>
 </body>

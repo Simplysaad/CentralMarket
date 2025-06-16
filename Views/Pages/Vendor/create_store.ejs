@@ -1,33 +1,10 @@
-<!doctype html>
-<html>
-    <head>
-        <title>Register form</title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-            integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
-            integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        />
-    </head>
-
-    <body>
-        <section class="col-12">
-            <div class="toast" id="messageToastCont">
-                <div class="toast-body d-flex gap-3">
-                    <i class="fa fa-times" id="messageToastIcon"> </i>
-                    <span class="fs-6" id="messageToastText"> </span>
-                </div>
-            </div>
+<section class="col-12">
+    <div class="toast" id="messageToastCont">
+        <div class="toast-body d-flex gap-3">
+            <i class="fa fa-times" id="messageToastIcon"> </i>
+            <span class="fs-6" id="messageToastText"> </span>
+        </div>
+    </div>
 
             <form
                 id="storeForm"
@@ -353,26 +330,6 @@
                     </button>
                 </div>
             </form>
-        </section>
+</section>
 
-        <script src="./public/JS/store.js"></script>
-    </body>
-    <style type="text/css" media="all">
-        .form-check:has(.checkbox:checked) {
-            border: 1.35px solid;
-            background: #c1f1c1;
-            scale: 1.1;
-            transition: all 1s ease-in;
-        }
-    </style>
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.js"
-        type="text/javascript"
-        charset="utf-8"
-    ></script>
-    <script
-        src="./public/JS/theme.js"
-        type="text/javascript"
-        charset="utf-8"
-    ></script>
-</html>
+<script src="/JS/store.js"></script>

@@ -2,6 +2,7 @@
     <form
         action="/vendor/products/add"
         id="addProductsForm"
+        enctype="multipart/form-data"
         method="post"
         class="form vh-100 justify-content-center align-items-center d-md-flex"
     >
@@ -148,6 +149,7 @@
                         />
                     </div>
                 </div>
+                </div>
                 <div class="border p-1">
                     <div class="selected-sizes">
                         <ul
@@ -213,7 +215,6 @@
                         name="productImage"
                         id="productImage"
                         hidden
-                        value=""
                     />
                 </div>
             </fieldset>

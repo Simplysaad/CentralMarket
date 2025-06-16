@@ -42,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const emailAddress = document.getElementById("emailAddress");
         const phoneNumber = document.getElementById("phoneNumber");
 
-        console.log("hello world");
 
         if (password.validity.tooShort) {
             showError(password, "Passwords must contain at least 8 characters");

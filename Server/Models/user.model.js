@@ -23,18 +23,18 @@ const addressSchema = new mongoose.Schema(
 const businessSchema = new mongoose.Schema(
     {
         name: String,
-
         description: {
             type: String
         },
-        tags: [String],
-        address: addressSchema,
-        type: {
+        category: String,
+        coverImage: {
             type: String,
-            enum: ["online", "offline", "hybrid"],
-            default: "hybrid"
+            default: "https://placehold.co/600x200?text=CentralMarket+Store"
         },
-        
+
+        //not useful for now
+        tags: [String],
+        address: addressSchema
     },
     { _id: false }
 );
@@ -116,7 +116,7 @@ userSchema.index({
 });
 userSchema.index(
     {
-        businessName: 1
+        "business.name": 1
     },
     { sparse: true, unique: true }
 );
