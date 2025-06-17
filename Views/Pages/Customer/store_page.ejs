@@ -1,7 +1,7 @@
 <section id="imagesSection" class="pb-5">
   <div class="position-relative">
     <div class="cover-image position-relative border col-12">
-      <img class="img-fluid object-fit-cover" src="https://placehold.co/600x200?text=${currentVendor.business?.name || currentVendor.name}"
+      <img class="img-fluid object-fit-cover" src="<%= currentVendor.business?.coverImage %>"
                                                                                                                               alt="" />
     </div>
     <div
@@ -21,9 +21,10 @@
       </span>
     </div>
     <div class="main-info-actions">
-      <a href="<%= currentVendor.business?.socials[0] ?? '/' %>" class="btn rounded-pill btn-outline-dark">
+      <a href="<%= currentVendor.socials[0]?.url %>" class="btn rounded-pill btn-outline-dark">
         <i class="fa fa-external-link"> </i>
         Contact
+        <%= currentVendor.socials[0]?.name %>
       </a>
     </div>
   </div>

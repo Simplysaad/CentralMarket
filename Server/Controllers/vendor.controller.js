@@ -325,11 +325,36 @@ exports.postStore = async (req, res, next) => {
             bankName
         };
 
-        // let updatedUser = await User.findOneAndUpdate(
-        //     { _id: currentUser._id },
-        //     {},
-        //     { new: true }
-        // );
+        instagram = instagram.replace("@", "");
+
+        let updatedUser = await User.findOneAndUpdate(
+            { _id: currentUser._id },
+            {
+                $set: {
+                    business,
+                    address,
+                    bankDetails,
+                    role: "vendor",
+                    phoneNumber
+                },
+                $push: {
+                    socials: {
+                        name: "instagram",
+                        url: `https://www.instagram.com/${instagram}`
+                    }
+                }
+            },
+            { new: true }
+        );
+
+        // if (updatedUser) {
+        return res.status(201).json({
+            success: true,
+            message: "user updated successfully",
+            updatedUser
+        });
+        // return res.redirect("/vendor/");
+        // }
     } catch (err) {
         next(err);
         console.error(err);

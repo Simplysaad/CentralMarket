@@ -12,7 +12,7 @@ const Order = require("../Models/order.model.js");
 
 const { default: fetch } = require("node-fetch");
 
-const feesHelper = require("../Utils/fees_calculator.js")
+const feesHelper = require("../Utils/fees_calculator.js");
 
 const { shuffle } = require("../Utils/helper.js");
 const locals = {
@@ -341,8 +341,8 @@ exports.postOrder = async (req, res, next) => {
             );
         });
         let subTotal = items.reduce((acc, item) => acc + item.subTotal, 0);
-        let deliveryFee =feesHelper.getDeliveryFee(subTotal);
-        let processingFee =feesHelper.getProcessingFee(subTotal);
+        let deliveryFee = feesHelper.getDeliveryFee(subTotal);
+        let processingFee = feesHelper.getProcessingFee(subTotal);
 
         let totalCost = subTotal + deliveryFee + processingFee;
         // paystack api
@@ -678,7 +678,11 @@ exports.getStore = async (req, res) => {
         let { id: vendorId } = req.params;
         let { currentUser } = req.session;
 
-        let currentVendor = await User.findOne({ _id: vendorId }); //.select("name business")
+        let currentVendor = await User.findOne({
+            _id: vendorId,
+            role: "vendor"
+        }).select("name profileImage socials phoneNumber business");
+
         let currentVendorProducts = await Product.find({ vendorId }); //.select("name business")
         let isCurrentVendor = currentVendor?._id === currentUser?._id;
 
@@ -688,6 +692,8 @@ exports.getStore = async (req, res) => {
             isCurrentVendor
         });
 
+        if (!currentVendor) return res.redirect("/404");
+       
         return res.status(200).render("Pages/Customer/store_page", {
             currentVendor,
             products: currentVendorProducts,

@@ -6,7 +6,7 @@ let formControls = document.querySelectorAll(".form-control");
 
 let isDark = window.localStorage.getItem("theme") === "dark";
 let toggleTheme = () => {
-      isDark = window.localStorage.getItem("theme") === "dark";
+    isDark = window.localStorage.getItem("theme") === "dark";
 
     // isDark = window.localStorage.getItem("theme") === "dark";
     // body.classList.replace(
@@ -42,7 +42,7 @@ let toggleTheme = () => {
     console.log(theme, isDark);
 };
 
-toggleTheme();
+
 getPreferredTheme();
 
 btnToggleTheme.addEventListener("click", e => {

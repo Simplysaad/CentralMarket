@@ -20,6 +20,15 @@ const addressSchema = new mongoose.Schema(
     },
     { _id: false }
 );
+
+const bankDetailsSchema = new mongoose.Schema(
+    {
+        accountName: String,
+        accountNumber: String,
+        bankName: String
+    },
+    { _id: false }
+);
 const businessSchema = new mongoose.Schema(
     {
         name: String,
@@ -31,10 +40,10 @@ const businessSchema = new mongoose.Schema(
             type: String,
             default: "https://placehold.co/600x200?text=CentralMarket+Store"
         },
+        address: addressSchema,
 
         //not useful for now
         tags: [String],
-        address: addressSchema
     },
     { _id: false }
 );
@@ -47,10 +56,6 @@ const userSchema = new mongoose.Schema({
     profileImage: {
         type: String,
         default: "https://placehold.co/400x400"
-    },
-    coverImage: {
-        type: String,
-        default: "https://placehold.co/600x200?text=CentralMarket+Store"
     },
     emailAddress: {
         type: String,
@@ -68,6 +73,7 @@ const userSchema = new mongoose.Schema({
             url: String
         }
     ],
+    bankDetails: bankDetailsSchema,
     password: {
         type: String,
         required: true
