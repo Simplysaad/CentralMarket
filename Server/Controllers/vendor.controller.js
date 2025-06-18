@@ -256,7 +256,10 @@ exports.editProduct = async (req, res, next) => {
 
 exports.getStore = async (req, res, next) => {
     try {
-        return res.status(200).render("Pages/Vendor/create_store");
+        let { currentUser } = req.session;
+        if (!currentUser.business)
+            return res.status(200).render("Pages/Vendor/create_store");
+        else return res.redirect("/store/" + currentUser._id );
     } catch (err) {
         next(err);
         console.error(err);

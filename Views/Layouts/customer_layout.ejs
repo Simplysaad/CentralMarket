@@ -1,115 +1,115 @@
 <!doctype html>
 <html>
+    <head>
+        <title><%= locals.title || "Central Market" %></title>
 
-<head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+            integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+            integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link
+            rel="stylesheet"
+            href="/CSS/styles.css"
+            type="text/css"
+            media="all"
+        />
 
-  <title>
-    <%= locals.title || "Central Market" %>
-  </title>
+        <meta
+            name="description"
+            content="<%= locals.description || 'A concise and compelling summary of the page content including relevant keywords.' %>"
+        />
 
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
-    integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <meta name="keywords" content="<%= locals.keywords %>" />
 
-  <meta name="description"
-    content="<%= locals.description || 'A concise and compelling summary of the page content including relevant keywords.' %>">
+        <meta name="robots" content="index, follow" />
 
-  <meta name="keywords" content="<%= locals.keywords %>">
+        <meta
+            property="og:title"
+            content="<%= locals.title || 'Central Market' %>"
+        />
 
-  <meta name="robots" content="index, follow">
+        <meta
+            property="og:description"
+            content="<%= locals.description || 'Central Market' %>"
+        />
 
-  <meta property="og:title" content="<%= locals.title || 'Central Market' %>">
+        <meta property="og:type" content="website" />
 
-  <meta property="og:description" content="<%= locals.description || 'Central Market' %>">
+        <meta property="og:url" content="https://centralmarket.onrender.com/" />
 
-  <meta property="og:type" content="website">
+        <meta
+            property="og:image"
+            content="<%= locals.image || '/IMG/favicon.jpg' %>"
+        />
 
-  <meta property="og:url" content="https://centralmarket.onrender.com/">
+        <meta name="twitter:card" content="summary_large_image" />
 
-  <meta property="og:image" content="<%= locals.image || '/IMG/favicon.jpg' %>">
+        <meta
+            name="twitter:title"
+            content="<%= locals.title || 'Central Market' %>"
+        />
 
-  <meta name="twitter:card" content="summary_large_image">
+        <meta
+            name="twitter:description"
+            content="<%= locals.description || 'Central Market' %>"
+        />
 
-  <meta name="twitter:title" content="<%= locals.title || 'Central Market' %>">
+        <meta
+            name="twitter:image"
+            content="<%= locals.image || '/IMG/favicon.jpg' %>"
+        />
 
-  <meta name="twitter:description" content="<%= locals.description || 'Central Market' %>">
+        <title><%= locals.title || "Central Market" %></title>
+    </head>
 
-  <meta name="twitter:image" content="<%= locals.image || '/IMG/favicon.jpg' %>">
+    <body class="">
+        <header
+            id="mainHeader"
+            class="py-md-4 py-3 mb-5 shadow-sm navbar p-md-2 container-fluid flex-wrap align-items-center justify-content-between d-flex"
+        >
+            <%- include('../Partials/_header') %>
+        </header>
+        <main
+            class="col-12 gap-5 container-md container-fluid mh-100 min-vh-100 d-md-flex justify-content-between align-items-start"
+        >
+            <nav class="py-3 p-2 collapse" id="sideNav">
+                <%- include('../Partials/_side_nav')%>
+            </nav>
+            <main
+                class="col-12 col-md-9 col-lg-10 d-flex flex-grow-1 flex-column"
+            >
+                <%- body %>
+            </main>
+        </main>
+        <footer><%#- include('../Partials/_footer.ejs') %></footer>
 
-   <link rel="stylesheet" href="/CSS/style.css" type="text/css" media="all" /> 
-  <title>
-    <%= locals.title || "Central Market" %>
-  </title>
-</head>
-
-<body class="">
-  <header id="mainHeader" class="py-md-4 pb-2">
-    <%- include('../Partials/_header') %>
-  </header>
-  <main class="col-12 gap-5 container-fluid mh-100 min-vh-100 d-md-flex justify-content-between align-items-start">
-    <aside id="sideNav"
-      class="side-nv bg-dark collapse overflow-scroll col-6 col-md-3 col-lg-2">
-      <%- include('../Partials/_side_nav')%>
-    </aside>
-    <main class="col-12 col-md-9 col-lg-10 d-flex flex-grow-1 flex-column">
-      <%- body %>
-    </main>
-  </main>
-  <footer>
-    <%#- include('../Partials/_footer.ejs') %>
-  </footer>
-
-  <!--   <script src="/fontawesome-free-6.7.2-web/js/all.js" type="text/javascript" charset="utf-8"></script>
+        <!--   <script src="/fontawesome-free-6.7.2-web/js/all.js" type="text/javascript" charset="utf-8"></script>
 <script src="/bootstrap-5.3.3-dist/js/bootstrap.bundle.js" type="text/javascript" charset="utf-8"></script>
  -->
-  <script src="/JS/utility.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.js"
-    crossorigin="anonymous" referrerpolicy="no-referrer">
-    </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
-    integrity="sha512-b+nQTCdtTBIRIbraqNEwsjB6UvL3UEMkXnhzd8awtCYh0Kcsjl9uEgwVFVbhoj3uu1DO1ZMacNvLoyJJiNfcvg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer">
-    </script>
-  <script src="/JS/theme.js"></script>
-  <style>
-    .btn {
-      color: inherit;
-    }
-
-    * {
-      -webkit-overflow-scrolling: none;
-      scroll-behavior: smooth;
-      scrollbar-width: none;
-    }
-
-    #sideNav {
-      background-color: inherit;
-      opacity: 1;
-    }
-
-    @media screen and (max-width: 768px) {
-      #sideNav {
-        position: fixed;
-        z-index: 5;
-      }
-    }
-
-    @media screen and (min-width: 768px) {
-      #sideNav {
-        position: relative;
-      }
-    }
-    
-    .form-control, select{
-      background-color: inherit;
-      color: inherit;
-    }
-  </style>
-</body>
-
+        <script src="/JS/utility.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.js"
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+            integrity="sha512-b+nQTCdtTBIRIbraqNEwsjB6UvL3UEMkXnhzd8awtCYh0Kcsjl9uEgwVFVbhoj3uu1DO1ZMacNvLoyJJiNfcvg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script src="/JS/theme.js"></script>
+    </body>
 </html>

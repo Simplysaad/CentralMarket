@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: none;
+    scrollbar-width: none;
+    background-color: inherit;
+    color: inherit;
+}
+a {
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: inherit;
+    height: 100vh;
+    opacity: 1;
+    overflow: scroll;
+    z-index: 3;
+}
+
+/* @media screen and (max-width: 768px) {
+    #sideNav {
+        position: fixed;
+        z-index: 5;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #sideNav {
+        position: relative;
+    }
+}
+ */

@@ -1,73 +1,109 @@
+<div
+    class="nav-heading align-items-center d-flex justify-content-between p-2"
+>
+    <a
+        href="/"
+        class="text-heading fs-4 fw-light dislay-6 text-decoration-none"
+        >CentralMarket</a
+    >
 
-  <div id="account_related" class="my-4 border-bottom">
+    <button
+        type=""
+        class="btn-close float-end"
+        data-bs-toggle="collapse"
+        data-bs-target="#sideNav"
+    ></button>
+</div>
+
+<div id="account_related" class="border-bottom">
     <div class="text-heading">
         <h3 class="fs-5 fw-light text-capitalize p-2">Account</h3>
     </div>
-    <ul class="list-unstyled d-flex flex-column gap-2 side-nav-menu">
-        <li class="nav-item p-2 d-flex gap-2">
+    <ul
+        class="list-unstyled text-capitalize d-flex flex-column gap-2 side-nav-menu"
+    >
+        <li
+            class="nav-item p-2 d-flex align-items-center justify-content-start gap-2"
+        >
             <i class="fa fa-shopping-cart"> </i>
             <a class="nav-link" href="/account/cart">Cart</a>
         </li>
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-star"> </i>
-            <a class="nav-link" href="/account/wishlist">Wishlist</a>
+        <li
+            class="nav-item p-2 d-flex align-items-center justify-content-start gap-2"
+        >
+            <i class="fa-regular fa-heart"> </i>
+            <a class="nav-link" href="/account/wishlist">wishlist</a>
         </li>
-        <li class="nav-item p-2 d-flex gap-2">
+        <li
+            class="nav-item p-2 d-flex align-items-center justify-content-start gap-2"
+        >
             <i class="fa fa-box"> </i>
-            <a class="nav-link" href="/account/history">Previous orders</a>
+            <a class="nav-link" href="/account/history">Previous Orders</a>
         </li>
-        <li class="nav-item p-2 d-flex gap-2">
+        <li
+            class="nav-item p-2 d-flex align-items-center justify-content-start gap-2"
+        >
             <i class="fa fa-naira-sign"> </i>
-            <a class="nav-link" href="/account/transactions">Transactions</a>
+            <a class="nav-link" href="/account/transactions"
+                >transactions</a
+            >
         </li>
     </ul>
 </div>
-
-<div id="categories" class="my-4 border-bottom">
+<div id="categories" class="border-bottom">
     <div class="text-heading">
-        <h3 class="fs-5 fw-light text-capitalize p-2">Categories</h3>
+        <h3 class="fs-5 fw-light text-capitalize p-2">Account</h3>
     </div>
-
-    <% if (locals.categories) { %>
+    <ul
+        class="list-unstyled text-capitalize d-flex flex-column gap-2 side-nav-menu"
+    >
+        <% if (locals.categories) { %>
 
         <ul class="list-unstyled d-flex flex-column gap-2 side-nav-menu">
-
             <% locals.categories.forEach(category=> { %>
-
-                <li class="nav-item p-2 d-flex gap-2">
-                    <i class="fa fa-tag"> </i>
-                    <a class="nav-link text-capitalize" href="/category/<%= category %>">
-                        <%= category %>
-                    </a>
-                </li>
-                <% }) %>
-
+            <li
+                class="nav-item p-2 d-flex align-items-center justify-content-start gap-2"
+            >
+                <i class="fa fa-tag"> </i>
+                <a class="nav-link" href="/category/<%= category %>"><%= category %></a>
+            </li>
+            <% }) %>
         </ul>
-
         <% } %>
+    </ul>
 </div>
-<div id="miscallenous" class="my-4 border-bottom">
+<div id="miscellaneous" class="border-bottom">
     <div class="text-heading">
-        <h3 class="fs-5 fw-light text-capitalize p-2">
-            Miscellaneous
-        </h3>
+        <h3 class="fs-5 fw-light text-capitalize p-2">miscellaneous</h3>
     </div>
-    <ul class="list-unstyled d-flex flex-column gap-2 side-nav-menu">
-        <li class="nav-item p-2 d-flex gap-2">
+    <ul
+        class="list-unstyled text-capitalize d-flex flex-column gap-2 side-nav-menu"
+    >
+        <li
+            class="nav-item p-2 d-flex align-items-center justify-content-start gap-2"
+        >
             <i class="fa fa-link"> </i>
-            <a class="nav-link" href="#">Affiliates</a>
+            <a class="nav-link" href="/affiliates">affiliates</a>
         </li>
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-newspaper"> </i>
-            <a class="nav-link" href="#">Blog</a>
+        <li
+            class="nav-item p-2 d-flex align-items-center justify-content-start gap-2"
+        >
+            <i class="fa-regular fa-newspaper"> </i>
+            <a class="nav-link" href="/blog">blog</a>
         </li>
-        <li class="nav-item p-2 d-flex gap-2">
-            <i class="fa fa-box"> </i>
-            <a class="nav-link" href="/vendor/store">Sell on CentralMarket</a>
+        <li
+            class="nav-item p-2 d-flex align-items-center justify-content-start gap-2"
+        >
+            <i class="fa fa-shop"> </i>
+            <a class="nav-link" href="/vendor/store"
+                >Sell on CentralMarket</a
+            >
         </li>
-        <li class="nav-item p-2 d-flex gap-2">
+        <li
+            class="nav-item p-2 d-flex align-items-center justify-content-start gap-2"
+        >
             <i class="fa fa-gavel"> </i>
-            <a class="nav-link" href="#">Policies</a>
+            <a class="nav-link" href="/legal">policies</a>
         </li>
     </ul>
 </div>

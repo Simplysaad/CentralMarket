@@ -1,10 +1,10 @@
 <div
-    class="single-product rounded overflow-hidden my-3 p-2 col-7 col-md-4 col-lg-4 d-lg-flex p-lg-1 align-items-start gap-2">
-    <div class="card-image position-relative">
+    class="single-product rounded overflow-hidden justify-content-center align-items-center gap-2 my-3 p-2 col-7 col-md-4 col-lg-5 d-lg-flex p-lg-1 align-items-start gap-2">
+    <div class="card-image position-relative col-lg-6">
         <img src="<%=  product.imageUrl %>" alt="<%= product.name %>"
             class="img-fluid object-fit-cover aspect-ratio-square" />
     </div>
-    <div class="card-stuff">
+    <div class="card-stuff col-lg-6">
         <div class="card-info d-flex flex-column gap-2 py-3">
             <div class="">
                 <a href="/preview/<%= product._id %>"
@@ -50,7 +50,7 @@
                         </div>
                     </div>
         </div>
-        <div class="card-action m-0 btn-group btn-group-sm d-flex gap-1">
+        <div class="card-action m-0 btn-group btn-group-sm d-flex flex-lg-column gap-1">
             <button data-product-id="<%= product._id %>" class="btn btn-cart btn-outline-success">
                 <i class="fas fa-shopping-cart"> </i>
                 <span class=""> Add to cart </span>
