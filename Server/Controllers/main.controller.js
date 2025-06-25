@@ -10,6 +10,8 @@ const Order = require("../Models/order.model.js");
 //   maxSimilarDocuments: 100
 // });
 
+const recommender = require("../Utils/recommender.js");
+
 const { default: fetch } = require("node-fetch");
 
 const feesHelper = require("../Utils/fees_calculator.js");
@@ -530,11 +532,17 @@ exports.getPreview = async (req, res, next) => {
             { new: true }
         );
 
-        //USE random products for recommendation
-        //i will use a different package later
-        let recommendations = await Product.aggregate([
-            { $sample: { size: 8 } }
-        ]);
+        //USE random products for recommendation : REMOVED
+        //i will use a different package later : USED
+        let recommendations = await recommender(productId);
+        // if (recommendations.length < 8) {
+        //     recommendations.push(
+        //         await Product.aggregate([
+        //             { $sample: { size: 8 - recommendations.length } }
+        //         ])
+        //     );
+        // }
+        console.log(recommendations);
 
         let reviews = await Review.find({
             productId,
@@ -693,7 +701,7 @@ exports.getStore = async (req, res) => {
         });
 
         if (!currentVendor) return res.redirect("/404");
-       
+
         return res.status(200).render("Pages/Customer/store_page", {
             currentVendor,
             products: currentVendorProducts,

@@ -2,20 +2,20 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    border-radius: 5px;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: none;
     scrollbar-width: none;
-    background-color: inherit;
-    color: inherit;
 }
-a {
-  color: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
+ba {
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
 }
 
+main {
+    background-color: inherit;
+}
 nav {
     position: fixed;
     top: 0;
@@ -27,16 +27,9 @@ nav {
     z-index: 3;
 }
 
-/* @media screen and (max-width: 768px) {
-    #sideNav {
-        position: fixed;
-        z-index: 5;
-    }
+.form-check:has(.checkbox:checked) {
+    border: 1.35px solid;
+    background: #c1f1c1;
+    scale: 1.1;
+    transition: all 1s ease-in;
 }
-
-@media screen and (min-width: 768px) {
-    #sideNav {
-        position: relative;
-    }
-}
- */

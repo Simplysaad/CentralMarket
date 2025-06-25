@@ -19,17 +19,6 @@ TODO: add paystack integration
     i dont know why
 
 
-
-Business and Contact Information: Vendor's business name, address, phone number, email, and tax details for compliance and communication.
-
-Vendor Profile Details: Store name, store description, store logo/icon, store opening hours, and social media links to build their storefront identity.
-
-Payment Information: Payment method details such as PayPal email or bank account info to facilitate vendor payouts.
-
-Product Information: Details for product listings including product name, descriptions, images, prices, inventory levels, SKU, and categories. Allow vendors to upload media and manage inventory in real time.
-
-Shipping and Order Management: Shipping options, policies, and order tracking capabilities to ensure smooth fulfillment.
-
-Legal and Compliance: Agreements to terms and conditions, return policies, and tax compliance information.
-
-Additional Features: Optionally, collect information for SEO titles, vendor ratings, and customer review management to enhance vendor visibility and trust.
+WHAT TO TRACK WITH ANALYTICS
+* url source
+* url click count
