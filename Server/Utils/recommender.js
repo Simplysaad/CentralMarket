@@ -21,11 +21,11 @@ async function getProducts() {
  * @description Each related product object contains an ID, tags (keywords), and a score indicating the number of matching keywords.
  * @throws {Error} If an error occurs while processing the product IDs.
  * @example
- * getRelatedProducts(12);
- * getRelatedProducts([12, 13, 14]);
+ * recommender(12);
+ * recommender([12, 13, 14]);
  */
 
-async function getRelatedProducts(productIds) {
+async function recommender(productIds) {
     try {
         const products = await getProducts();
         console.log(productIds);
@@ -45,11 +45,12 @@ async function getRelatedProducts(productIds) {
             return products
                 .filter(p => p._id !== productId)
                 .map(p => ({
-                    id: p._id,
-                    tags: p.keywords,
-                    price: p.price,
+                    _id: p._id,
                     name: p.name,
+                    keywords: p.keywords,
+                    price: p.price,
                     imageUrl: p.imageUrl,
+                    discount: p.discount,
                     score: keywords.filter(k => p.keywords.includes(k)).length
                 }))
                 .filter(p => p.score > 0)
@@ -64,4 +65,4 @@ async function getRelatedProducts(productIds) {
         console.error(err);
     }
 }
-module.exports = getRelatedProducts;
+module.exports = recommender;

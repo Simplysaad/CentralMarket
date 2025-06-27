@@ -4,12 +4,6 @@ const User = require("../Models/user.model.js");
 const Review = require("../Models/review.model.js");
 const Order = require("../Models/order.model.js");
 
-// const ContentBasedRecommender = require('content-based-recommender')
-// const recommender = new ContentBasedRecommender({
-//   minScore: 0.1,
-//   maxSimilarDocuments: 100
-// });
-
 const recommender = require("../Utils/recommender.js");
 
 const { default: fetch } = require("node-fetch");
@@ -39,6 +33,20 @@ const locals = {
 
 exports.getHomeProducts = async (req, res, next) => {
     try {
+        const { currentUserId } = req.session;
+        let currentUser = await User.findOne({
+            _id: currentUserId
+        });
+        let recommendedProducts, wishlist;
+
+        wishlist = currentUserId ? currentUser.wishlist : req.session.wishlist;
+        recommendedProducts = await recommender(wishlist);
+
+        return res.json({
+            wishlist: currentUser?.wishlist,
+            recommendedProducts
+        });
+
         // GET NEW ARRIVALS
         let newArrivals = shuffle(
             await Product.find({}).sort({ createdAt: -1 }).limit(14)
@@ -76,6 +84,7 @@ exports.getHomeProducts = async (req, res, next) => {
             topRatedProducts,
             featuredProducts,
             discountedProducts,
+            recommendedProducts,
             newArrivals,
             allProducts,
             categories
@@ -113,28 +122,6 @@ exports.searchController = async (req, res, next) => {
         // Search for products based on various fields using the regex
         let searchResults = {};
 
-        // searchResults.products = await Product.aggregate([
-        //     {
-        //         $search: {
-        //             index: "products_index",
-        //             text: {
-        //                 query: searchTerm,
-        //                 path: [
-        //                     "name",
-        //                     "category",
-        //                     "subCategory",
-        //                     "description",
-        //                     "keywords"
-        //                 ]
-        //             }
-        //         }
-        //     },
-        //     {
-        //         $match: {
-        //             category: { $ne: "services" }
-        //         }
-        //     }
-        // ]);
         searchResults.products = await Product.find({
             $or: [
                 { name: regex },
@@ -145,27 +132,6 @@ exports.searchController = async (req, res, next) => {
             ]
         });
         searchResults.services = [];
-        // searchResults.services = await Product.aggregate([
-        //     {
-        //         $search: {
-        //             index: "products_index",
-        //             text: {
-        //                 query: searchTerm,
-        //                 path: [
-        //                     "name",
-        //                     "category",
-        //                     "subCategory",
-        //                     "description",
-        //                     "keywords"
-        //                 ]
-        //             }
-        //         }
-        //     },
-        //     {
-        //         $match: { category: "services" }
-        //     }
-        // ]);
-        // Ive not created the users index yet
 
         searchResults.vendors = await User.find({
             $or: [

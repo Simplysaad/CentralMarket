@@ -1,0 +1,16 @@
+name: Render Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deployment
+        uses: renderinc/action-render-deploy@v1
+        with:
+          render-api-key: ${{ secrets.RENDER_API_KEY }}
+          render-service-id: ${{ secrets.RENDER_SERVICE_ID }}

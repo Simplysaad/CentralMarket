@@ -97,11 +97,31 @@ const userSchema = new mongoose.Schema({
             }
         ]
     },
-    wishlists: [
+    wishlist: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "products" // i shall create a new collection for wishlists
             // ref: "wishlists"
+        }
+    ],
+    cart: [
+        {
+            vendorId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "users"
+            },
+            productId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "products"
+            },
+            name: String,
+            subTotal: Number,
+            unitPrice: Number,
+            quantity: {
+              type: Number,
+              default: 1
+            }
+            // color, size,
         }
     ],
     bank: {

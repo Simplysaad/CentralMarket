@@ -29,15 +29,17 @@
 // };
 
 let actualBody = {};
-let person = {
-    name: "saad",
-    age: undefined,
-    school: "oau"
-};
-
-for (prop in person) {
-    if (person[prop]) {
-        actualBody[prop] = person[prop];
+let persons = [
+    {
+        name: "saad",
+        age: undefined,
+        school: "oau"
+    },
+    {
+        name: "saad",
+        age: undefined,
+        school: "oau"
     }
-}
-console.log(actualBody);
+];
+
+let person2 = console.log(person1 == person2);
