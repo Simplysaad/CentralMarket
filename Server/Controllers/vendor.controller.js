@@ -259,7 +259,7 @@ exports.getStore = async (req, res, next) => {
         let { currentUser } = req.session;
         if (!currentUser.business)
             return res.status(200).render("Pages/Vendor/create_store");
-        else return res.redirect("/store/" + currentUser._id );
+        else return res.redirect("/store/" + currentUser._id);
     } catch (err) {
         next(err);
         console.error(err);
@@ -276,9 +276,9 @@ exports.postStore = async (req, res, next) => {
             });
         }
 
-        let { currentUser } = req.session;
-        console.log(currentUser);
-        if (!currentUser) {
+        let { currentUserId } = req.session;
+        console.log(currentUserId);
+        if (!currentUserId) {
             return res.status(403).json({
                 success: false,
                 message: "user not logged in"
@@ -309,8 +309,8 @@ exports.postStore = async (req, res, next) => {
         let { accountName, accountNumber, bankName } = req.body;
 
         let address = {
-            address: address_1 + " " + address_2,
-            lga,
+            street: address_1 + " " + address_2,
+            city: lga,
             state,
             country: "nigeria"
         };
@@ -322,7 +322,7 @@ exports.postStore = async (req, res, next) => {
             coverImage: imageUrl,
             address
         };
-        let bankDetails = {
+        let bank = {
             accountName,
             accountNumber,
             bankName
@@ -331,14 +331,14 @@ exports.postStore = async (req, res, next) => {
         instagram = instagram.replace("@", "");
 
         let updatedUser = await User.findOneAndUpdate(
-            { _id: currentUser._id },
+            { _id: currentUserId },
             {
                 $set: {
                     business,
                     address,
-                    bankDetails,
+                    bank,
                     role: "vendor",
-                    phoneNumber
+                    "authentication.phoneNumber": phoneNumber
                 },
                 $push: {
                     socials: {
