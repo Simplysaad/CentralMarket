@@ -3,6 +3,7 @@ const Search = require("../Models/search.model.js");
 const User = require("../Models/user.model.js");
 const Review = require("../Models/review.model.js");
 const Order = require("../Models/order.model.js");
+const Cart = require("../Models/cart.model.js");
 
 const { shuffle } = require("../Utils/helper.js");
 const locals = {
@@ -27,16 +28,29 @@ const locals = {
 
 exports.getCart = async (req, res, next) => {
     try {
+        let { currentUserId } = req.session;
         let currentUser = await User.findOne({
-            _id: req.session.currentUserId
+            _id: currentUserId
         }).select("-password");
 
-        let { cart = [] } = req.session;
+        let cart = await Cart.findOne({
+            customerId: currentUserId
+        });
+        console.log("cart", cart);
+        if (!cart) {
+            return res.json({
+                success: false,
+                cart
+            });
+        }
+
 
         let { id: productId } = req.params;
 
         if (productId) {
-            let isExist = cart.find(item => item.productId === productId);
+            let isExist = cart?.items.find(
+                item => item.productId === productId
+            );
 
             return res.status(200).json({
                 success: !!isExist,
@@ -48,10 +62,7 @@ exports.getCart = async (req, res, next) => {
             });
         }
 
-        let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
-        let cartQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
-        let cartItemsCount = cart.length;
-        let deliveryFee = 0;
+        const { total, quantity } = cart;
 
         locals.title = "Cart | CentralMarket";
 
@@ -60,11 +71,8 @@ exports.getCart = async (req, res, next) => {
             message: "cart items fetched successfully",
             cart,
             locals,
-            deliveryFee,
-            cartTotal,
-            cartQuantity,
-            currentUser,
-            cartItemsCount
+            deliveryFee: 0,
+            currentUser
         });
     } catch (err) {
         next(err);
@@ -428,7 +436,7 @@ exports.postCar = async (req, res, next) => {
     }
 };
 
- exports.postCart = async (req, res, next) => {
+exports.postCart = async (req, res, next) => {
     try {
         const { id: productId } = req.params;
         const { quantity } = req.query;

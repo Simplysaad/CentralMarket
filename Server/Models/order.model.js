@@ -42,7 +42,7 @@ const itemSchema = new mongoose.Schema(
             size: {
                 type: String,
                 default: "default"
-            },
+            }
         },
         productId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -70,7 +70,7 @@ const paymentSchema = new mongoose.Schema(
             type: Number
         },
         status: {
-            type: String,
+            type: String
             //enum: ["pending", "successful"]
         }
     },
@@ -97,12 +97,11 @@ const orderSchema = new mongoose.Schema({
         enum: ["pending", "incomplete", "completed", "delivered"]
     },
     deliveryOption: {
-      type: String,
-      enum: ["pickup", "delivery", "express"],
-      default: "pickup"
-        
+        type: String,
+        enum: ["pickup", "delivery", "express"],
+        default: "pickup"
     },
-    payment: {},
+    payment: paymentSchema,
     createdAt: {
         type: Date,
         default: Date.now

@@ -1,19 +1,19 @@
 <section class="col-12 gap-2  mh-100 min-vh-100 d-md-flex justify-content-between align-items-center">
-  <% if(cart.length> 0){ %>
+  <% if(cart?.items.length > 0){ %>
     <section class="col-12 col-md-7 col-lg-7 align-items-center">
       <div class="cart-container ">
         <div class="cart-heading">
           <h3 class="display-5 my-3 text-muted">My Cart</h3>
         </div>
         <div class="cart-items">
-          <% cart.forEach((item, index)=>{ %> <%- include("../../Components/cart_item.ejs", {item}) %>
+          <% cart.items.forEach((item, index)=>{ %> <%- include("../../Components/cart_item.ejs", {item}) %>
             <% }) %>
             </div>
 
             <div class="d-nne cart-summary float-end fs-4 my-4">
               <span class="text-total text-danger fw-bold"> Total: </span>
               <span class="text-total-price cart-total">
-                <%= "$" + cartTotal.toLocaleString() %>
+                <%= "$" + cart.total.toLocaleString() %>
                 </span>
               </div>
               <button type="submit" form="orderForm" class="my-5 p-3 d-flex justify-content-between align-items-center btn-order btn btn-outline-success col-12 fs-4 my-4">
