@@ -17,15 +17,6 @@ btnCart.forEach((btn, index) => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    // if (data.success) {
-                    //     console.log(`${data?.item?.productId} in cart`);
-
-                    //     btn.classList.replace("btn-outline-success", "btn-success");
-                    //     btn.querySelector("span").textContent = `${
-                    //         data?.item?.quantity || 0
-                    //     } in cart`;
-                    // }
-
                     if (!data.success) {
                         console.error(data);
                         return;
