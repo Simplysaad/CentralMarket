@@ -28,13 +28,13 @@ const locals = {
 
 exports.getCart = async (req, res, next) => {
     try {
-        let { currentUserId } = req.session;
+        let { currentUserId, _id: sessionId } = req.session;
         let currentUser = await User.findOne({
             _id: currentUserId
         }).select("-password");
 
         let cart = await Cart.findOne({
-            customerId: currentUserId
+            $or: [{ customerId: currentUserId }, { sessionId }]
         });
         console.log("cart", cart);
         if (!cart) {
@@ -43,7 +43,6 @@ exports.getCart = async (req, res, next) => {
                 cart
             });
         }
-
 
         let { id: productId } = req.params;
 
@@ -62,8 +61,6 @@ exports.getCart = async (req, res, next) => {
             });
         }
 
-        const { total, quantity } = cart;
-
         locals.title = "Cart | CentralMarket";
 
         return res.status(200).render("Pages/Customer/cart_page", {
@@ -80,7 +77,11 @@ exports.getCart = async (req, res, next) => {
 };
 exports.deleteCartItem = async (req, res, next) => {
     try {
-        let { userId, cart } = req.session;
+        const { currentUserId, _id: sessionId } = req.session;
+        const cart = await Cart.findOne({
+            $or: [{ customerId: currentUserId }, { sessionId }]
+        });
+
         let { id: productId } = req.params;
         let { quantity, removeAll } = req.query;
 
@@ -89,7 +90,7 @@ exports.deleteCartItem = async (req, res, next) => {
         }
 
         let currentProduct = await Product.findOne({ _id: productId }).select(
-            "name _id price addToCartCount imageUrl"
+            "name _id price meta.addToCartCount imageUrl"
         );
         if (!currentProduct)
             return res.status(404).json({
@@ -97,7 +98,7 @@ exports.deleteCartItem = async (req, res, next) => {
                 message: `couldn't find a document with id ${productId}`
             });
 
-        let index = cart.findIndex(item => item.productId === productId);
+        let index = cart.items.findIndex(item => item.productId === productId);
         //If product is not in the cart
         if (index === -1)
             return res.status(404).json({
@@ -107,64 +108,35 @@ exports.deleteCartItem = async (req, res, next) => {
 
         //what if product is in the cart
         if (
-            cart[index].quantity <= 1 ||
+            cart.items[index].quantity <= 1 ||
             removeAll ||
-            quantity >= cart[index].quantity
+            quantity >= cart.items[index].quantity
         ) {
             //if product quantity is less than or equal to one, remove the product from cart
-            req.session.cart.splice(index, 1);
-            let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
-            let cartQuantity = cart.reduce(
-                (acc, item) => acc + item.quantity,
-                0
-            );
-            let cartItemsCount = cart.length;
-            let deliveryFee = 0;
-
-            // console.log({ cart: req.session.cart });
-            return res.status(201).json({
-                success: true,
-                cartTotal,
-                cartQuantity,
-                deliveryFee,
-                message: `item removed successfully`,
-                cart: req.session.cart,
-                item: req.session.cart[index]
-            });
+            cart.items.splice(index, 1);
         } else {
             //if the quantity of the item is more than one, then reduce by one
-            req.session.cart[index].quantity -= 1;
-            req.session.cart[index].subTotal =
+            cart.items[index].quantity -= 1;
+            cart.items[index].subTotal =
                 currentProduct.price * req.session.cart[index].quantity;
-
-            console.log({ cart: req.session.cart });
-            let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
-            let cartQuantity = cart.reduce(
-                (acc, item) => acc + item.quantity,
-                0
-            );
-            let cartItemsCount = cart.length;
-            let deliveryFee = 0;
-
-            // console.log({ cart: req.session.cart });
-            return res.status(201).json({
-                success: true,
-                cartTotal,
-                cartQuantity,
-                deliveryFee,
-                message: `item quantity decremented successfully by ${quantity}`,
-                cart: req.session.cart,
-                item: req.session.cart[index]
-            });
         }
+        let updatedCart = await Cart.findOneAndUpdate(
+            { customerId: currentUserId },
+            {
+                $set: { "cart.items": cart.items }
+            },
+            { new: true }
+        );
+
+        return res.status(201).json({
+            success: true,
+            deliveryFee: 0,
+            message: `item reduced by ${quantity}`,
+            cart: updatedCart,
+            item: cart.items[index]
+        });
     } catch (err) {
         next(err);
-        return res.status(500).json({
-            success: false,
-            message: `internal server error: error encountered while adding item to cart`,
-            errorMessage: err.message,
-            errorStack: err.stack
-        });
     }
 };
 
@@ -301,204 +273,223 @@ exports.deleteWishlistItem = async (req, res, next) => {
         next(err);
     }
 };
-exports.postCar = async (req, res, next) => {
-    try {
-        let { id: productId } = req.params;
-        let { quantity } = req.query;
+// exports.postCar = async (req, res, next) => {
+//     try {
+//         let { id: productId } = req.params;
+//         let { quantity } = req.query;
 
-        if (!req.session.cart) req.session.cart = [];
-        if (quantity && quantity !== "") {
-            quantity = Number(quantity);
-        }
+//         if (!req.session.cart) req.session.cart = [];
+//         if (quantity && quantity !== "") {
+//             quantity = Number(quantity);
+//         }
 
-        //if req.query.quantity exist, change the item quantity to req.query.quantity
-        //else increment by 1
+//         //if req.query.quantity exist, change the item quantity to req.query.quantity
+//         //else increment by 1
 
-        let currentProduct = await Product.findOneAndUpdate(
-            { _id: productId },
-            {
-                $inc: {
-                    "meta.addToCartCount": quantity || 1,
-                    "meta.interest": 1
-                }
-            },
-            { new: true }
-        );
+//         let currentProduct = await Product.findOneAndUpdate(
+//             { _id: productId },
+//             {
+//                 $inc: {
+//                     "meta.addToCartCount": quantity || 1,
+//                     "meta.interest": 1
+//                 }
+//             },
+//             { new: true }
+//         );
 
-        console.log(currentProduct);
+//         console.log(currentProduct);
 
-        if (!currentProduct)
-            return res.status(404).json({
-                success: false,
-                message: `product with id: ${productId} does not exist or is not available`
-            });
+//         if (!currentProduct)
+//             return res.status(404).json({
+//                 success: false,
+//                 message: `product with id: ${productId} does not exist or is not available`
+//             });
 
-        let cart = [];
-        const { currentUserId } = req.session;
-        if (currentUserId) {
-            const updatedUser = await User.findOneAndUpdate(
-                { _id: currentUserId },
-                { $addToSet: { cart: singleProduct } }
-            );
+//         let cart = [];
+//         const { currentUserId } = req.session;
+//         if (currentUserId) {
+//             const updatedUser = await User.findOneAndUpdate(
+//                 { _id: currentUserId },
+//                 { $addToSet: { cart: singleProduct } }
+//             );
 
-            cart = updatedUser.cart;
-        } else {
-            req.session.cart.push(singleProduct);
-            let index = req.session.cart.findIndex(
-                item => item.productId === productId
-            );
-            cart = req.session.cart;
-        }
-        let index = cart.findIndex(item => item.productId === productId);
+//             cart = updatedUser.cart;
+//         } else {
+//             req.session.cart.push(singleProduct);
+//             let index = req.session.cart.findIndex(
+//                 item => item.productId === productId
+//             );
+//             cart = req.session.cart;
+//         }
+//         let index = cart.findIndex(item => item.productId === productId);
 
-        if (index === -1) {
-            //TODO: implement discount calculations
-            quantity = quantity || 1;
+//         if (index === -1) {
+//             //TODO: implement discount calculations
+//             quantity = quantity || 1;
 
-            let singleProduct = {
-                vendorId: currentProduct.vendorId,
-                name: currentProduct.name,
-                subTotal: currentProduct.price * quantity,
-                unitPrice: currentProduct.price,
-                quantity,
-                // color, size,
-                productId
-            };
+//             let singleProduct = {
+//                 vendorId: currentProduct.vendorId,
+//                 name: currentProduct.name,
+//                 subTotal: currentProduct.price * quantity,
+//                 unitPrice: currentProduct.price,
+//                 quantity,
+//                 // color, size,
+//                 productId
+//             };
 
-            const { currentUserId } = req.session;
-            let cart = [];
-            if (currentUserId) {
-                const updatedUser = await User.findOneAndUpdate(
-                    { _id: currentUserId },
-                    { $addToSet: { cart: singleProduct } }
-                );
+//             const { currentUserId } = req.session;
+//             let cart = [];
+//             if (currentUserId) {
+//                 const updatedUser = await User.findOneAndUpdate(
+//                     { _id: currentUserId },
+//                     { $addToSet: { cart: singleProduct } }
+//                 );
 
-                cart = updatedUser.cart;
-            } else {
-                req.session.cart.push(singleProduct);
-                let index = req.session.cart.findIndex(
-                    item => item.productId === productId
-                );
-                cart = req.session.cart;
-            }
+//                 cart = updatedUser.cart;
+//             } else {
+//                 req.session.cart.push(singleProduct);
+//                 let index = req.session.cart.findIndex(
+//                     item => item.productId === productId
+//                 );
+//                 cart = req.session.cart;
+//             }
 
-            let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
-            let cartQuantity = cart.reduce(
-                (acc, item) => acc + item.quantity,
-                0
-            );
-            let cartItemsCount = cart.length;
-            let deliveryFee = 0;
+//             let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
+//             let cartQuantity = cart.reduce(
+//                 (acc, item) => acc + item.quantity,
+//                 0
+//             );
+//             let cartItemsCount = cart.length;
+//             let deliveryFee = 0;
 
-            console.log("cart", cart);
-            return res.status(201).json({
-                success: true,
-                cartTotal,
-                cartQuantity,
-                deliveryFee,
-                message: "new product added to cart",
-                cart,
-                item: cart[index]
-            });
-        } else {
-            if (quantity) {
-                req.session.cart[index].quantity = quantity;
-                req.session.cart[index].subTotal =
-                    currentProduct.price * quantity;
-            } else {
-                req.session.cart[index].quantity += 1;
-                req.session.cart[index].subTotal =
-                    currentProduct.price * req.session.cart[index].quantity;
-            }
-            console.log({ cart: req.session.cart });
+//             console.log("cart", cart);
+//             return res.status(201).json({
+//                 success: true,
+//                 cartTotal,
+//                 cartQuantity,
+//                 deliveryFee,
+//                 message: "new product added to cart",
+//                 cart,
+//                 item: cart[index]
+//             });
+//         } else {
+//             if (quantity) {
+//                 req.session.cart[index].quantity = quantity;
+//                 req.session.cart[index].subTotal =
+//                     currentProduct.price * quantity;
+//             } else {
+//                 req.session.cart[index].quantity += 1;
+//                 req.session.cart[index].subTotal =
+//                     currentProduct.price * req.session.cart[index].quantity;
+//             }
+//             console.log({ cart: req.session.cart });
 
-            let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
-            let cartQuantity = cart.reduce(
-                (acc, item) => acc + item.quantity,
-                0
-            );
-            let cartItemsCount = cart.length;
-            let deliveryFee = 0;
+//             let cartTotal = cart.reduce((acc, item) => acc + item.subTotal, 0);
+//             let cartQuantity = cart.reduce(
+//                 (acc, item) => acc + item.quantity,
+//                 0
+//             );
+//             let cartItemsCount = cart.length;
+//             let deliveryFee = 0;
 
-            // console.log({ cart: req.session.cart });
-            return res.status(201).json({
-                success: true,
-                cartTotal,
-                cartQuantity,
-                deliveryFee,
-                message: "existing product incremented successfully",
-                cart: req.session.cart,
-                item: req.session.cart[index]
-            });
-        }
-    } catch (err) {
-        next(err);
-    }
-};
-
+//             // console.log({ cart: req.session.cart });
+//             return res.status(201).json({
+//                 success: true,
+//                 cartTotal,
+//                 cartQuantity,
+//                 deliveryFee,
+//                 message: "existing product incremented successfully",
+//                 cart: req.session.cart,
+//                 item: req.session.cart[index]
+//             });
+//         }
+//     } catch (err) {
+//         next(err);
+//     }
+// };
 exports.postCart = async (req, res, next) => {
     try {
+        const sessionId = req.sessionID;
         const { id: productId } = req.params;
-        const { quantity } = req.query;
         const { currentUserId } = req.session;
+        const quantity = parseInt(req.query.quantity) || 1; // Ensure number type
 
-        const currentProduct = await Product.findOneAndUpdate(
-            { _id: productId },
-            {
-                $inc: {
-                    "meta.addToCartCount": quantity || 1,
-                    "meta.interest": 1
-                }
-            },
-            { new: true }
-        ).select("vendorId, _id, name, price");
-
-        if (!currentProduct)
+        // Validate product exists
+        const currentProduct = await Product.findById(productId).select(
+            "vendorId name price"
+        );
+        if (!currentProduct) {
             return res.status(404).json({
                 success: false,
-                message: `product with id: ${productId} does not exist or is not available`
+                message: `Product ${productId} not found`
             });
+        }
 
-        const { price: unitPrice } = currentProduct;
-        let singleProduct = {
-            ...currentProduct,
+        // Find existing cart
+        let cart = await Cart.findOne({
+            $or: [{ customerId: currentUserId }, { sessionId: sessionId }]
+        });
+
+        // Prepare cart item
+        const newItem = {
             productId,
-            unitPrice,
-            subTotal: unitPrice * quantity,
-            quantity
+            name: currentProduct.name,
+            vendorId: currentProduct.vendorId,
+            unitPrice: currentProduct.price,
+            quantity,
+            subTotal: currentProduct.price * quantity
         };
 
-        if (currentUserId) {
-            let currentUser = await User.findOne(
-                { _id: currentUserId },
-                { cart: 1 }
-            );
-
-            let { cart } = currentUser;
-            let index = cart.findIndex(item => item.productId === productId);
-            let updatedUser;
-            if (index === -1) {
-                updatedUser = await User.findOneAndUpdate(
-                    { _id: currentUserId },
-                    {
-                        $push: { cart: singleProduct }
-                    },
-                    {
-                        new: true
-                    }
-                );
-            } else {
-                updatedUser = await User.findOneAndUpdate(
-                    { _id: currentUserId, "cart._id": cart[index]._id },
-                    {
-                        $inc: { "cart.$.quantity": 1 }
-                    },
-                    {
-                        new: true
-                    }
-                );
-            }
+        // Create new cart if none exists
+        if (!cart) {
+            cart = await Cart.create({
+                customerId: currentUserId,
+                sessionId,
+                items: [newItem]
+            });
+            return res.status(201).json({
+                success: true,
+                message: "New cart created with item",
+                cart
+            });
         }
+
+        // Check if item exists in cart
+        const existingItemIndex = cart.items.findIndex(
+            item => item.productId.toString() === productId
+        );
+
+        // Update existing item
+        if (existingItemIndex > -1) {
+            cart.items[existingItemIndex].quantity += quantity;
+            cart.items[existingItemIndex].subTotal =
+                cart.items[existingItemIndex].unitPrice *
+                cart.items[existingItemIndex].quantity;
+        }
+        // Add new item
+        else {
+            cart.items.push(newItem);
+        }
+
+        // Update product analytics (non-blocking)
+        Product.findByIdAndUpdate(productId, {
+            $inc: {
+                "meta.addToCartCount": quantity,
+                "meta.interest": 1
+            }
+        }).exec(); // Fire-and-forget
+
+        cart.updatedAt = new Date();
+        const updatedCart = await cart.save();
+        console.log("updatedCart", updatedCart);
+        return res.status(200).json({
+            success: true,
+            message:
+                existingItemIndex > -1
+                    ? "Item quantity updated"
+                    : "New item added to cart",
+            cart: updatedCart
+        });
     } catch (err) {
         next(err);
     }

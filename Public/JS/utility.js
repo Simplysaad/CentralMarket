@@ -17,13 +17,32 @@ btnCart.forEach((btn, index) => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
-                        console.log(`${data?.item?.productId} in cart`);
+                    // if (data.success) {
+                    //     console.log(`${data?.item?.productId} in cart`);
 
-                        btn.classList.replace("btn-outline-success", "btn-success");
-                        btn.querySelector("span").textContent = `${
-                            data?.item?.quantity || 0
-                        } in cart`;
+                    //     btn.classList.replace("btn-outline-success", "btn-success");
+                    //     btn.querySelector("span").textContent = `${
+                    //         data?.item?.quantity || 0
+                    //     } in cart`;
+                    // }
+
+                    if (!data.success) {
+                        console.error(data);
+                        return;
+                    } else {
+                        let cartItemIndex = data.cart.items.findIndex(
+                            item => item.productId.toString() === productId
+                        );
+
+                        if (cartItemIndex !== -1) {
+                            btn.classList.replace(
+                                "btn-outline-success",
+                                "btn-success"
+                            );
+                            btn.querySelector("span").textContent = `${
+                                data.cart.items[cartItemIndex].quantity || 0
+                            } in cart`;
+                        } else console.log("item not in cart");
                     }
                 })
                 .catch(err => console.error(err));

@@ -49,14 +49,14 @@
                     <div class="card-body">
                         <h5 class="card-title">Order Summary</h5>
                         <p class="card-text">
-                            Subtotal: <%= "$" + cartTotal.toLocaleString() %>
+                            Subtotal: <%= "$" + cart.total.toLocaleString() %>
                         </p>
                         <p class="card-text">
                             Shipping: <%= deliveryFee ? "$" +
                             deliveryFee.toLocaleString() : "free" %>
                         </p>
                         <p class="card-text cart-total">
-                            Total: <%= "$" + (cartTotal +
+                            Total: <%= "$" + (cart.total +
                             deliveryFee).toLocaleString() %>
                         </p>
                         <button type="submit" class="btn btn-primary w-100">

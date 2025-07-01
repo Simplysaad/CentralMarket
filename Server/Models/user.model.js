@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema({
         _id: false,
         emailAddress: {
             type: String,
-            unique: true,
             required: true
         },
         password: {
@@ -149,7 +148,7 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-userSchema.index({ "authentication.emailAddress": 1 });
+userSchema.index({ "authentication.emailAddress": 1 }, {unique: true});
 userSchema.index({ "business.name": 1 });
 userSchema.index({ "business.followers": 1 });
 userSchema.index({ following: 1 });

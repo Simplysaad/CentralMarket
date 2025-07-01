@@ -10,21 +10,22 @@ cartItems.forEach((item, index) => {
             }
         });
         let data = await response.json();
-        let cartItemData = data.cart.find(item => item.productId === itemId);
+        let cartItemIndex = data.cart.items.findIndex(
+            item => item.productId === itemId
+        );
 
-        if (cartItemData) {
-            quantityElement.textContent = cartItemData.quantity;
-            priceElement.textContent = "$" + cartItemData.subTotal;
+        if (cartItemIndex !== -1) {
+            quantityElement.textContent = cart.items[cartItemIndex].quantity;
+            priceElement.textContent = "$" + cart.items[cartItemIndex].subTotal;
         } else {
             window.location.href = "/account/cart";
         }
         cartTotalElements.forEach((element, index) => {
             let cartTotal = data.deliveryFee
-                ? data.cartTotal + data.deliveryFee
-                : data.cartTotal;
-            console.log(cartTotal);
+                ? data.total + data.deliveryFee
+                : data.total;
+            // console.log(cartTotal);
             element.textContent = "$" + cartTotal.toLocaleString();
-            //element.textContent = "$" + data.cartTotal.toLocaleString();
         });
     }
     let btnAddCart = item.querySelector(".btn-add");

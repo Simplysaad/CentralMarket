@@ -12,9 +12,20 @@ btnAddCart.addEventListener("click", async e => {
             //,headers: {}
         });
         let data = await response.json();
-        if (!data.success) console.error(data);
+        if (!data.success) {
+            console.error(data);
+            return;
+        } else {
+            let cartItemIndex = data.cart.items.findIndex(
+                item => item.productId.toString() === productId
+            );
 
-        btn.querySelector("span").textContent = `${data.item.quantity} in cart`;
+            if (cartItemIndex !== -1) {
+              btn.querySelector("span").textContent = `${data.items[cartItemIndex].quantity} in cart`;
+            }
+            else console.log("item not in cart")
+        }
+
     } catch (err) {
         console.error(err);
     }
