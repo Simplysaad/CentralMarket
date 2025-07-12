@@ -111,7 +111,16 @@ const productSchema = new mongoose.Schema({
         previewCount: {
             type: Number,
             default: 0
-        }
+        },
+        sources: [
+            {
+                name: String,
+                count: {
+                    type: Number,
+                    default: 0
+                }
+            }
+        ]
     }
 });
 productSchema.virtual("averageRating").get(function () {
@@ -121,20 +130,9 @@ productSchema.virtual("averageRating").get(function () {
     let average = sum / this.ratings.length;
     return parseFloat(average.toFixed(1));
 });
-const product = new mongoose.model("product", productSchema);
-// product.createIndexes({
-//     category: 1,
-//     price: 1
-// });
-// product.createIndex({
-//     name: "autocomplete",
-//     mappings: {
-//         fields: {
-//             title: {
-//                 type: "autocomplete",
-//                 tokenization: "edgeGram"
-//             }
-//         }
-//     }
-// });
-module.exports = product;
+productSchema.virtual("slug").get(function () {
+    let regex = new RegExp("[^\\w]+", "ig");
+    return this.name.replace(regex, "-") + "--" + this._id;
+});
+
+module.exports = new mongoose.model("product", productSchema);

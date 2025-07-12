@@ -148,11 +148,15 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-userSchema.index({ "authentication.emailAddress": 1 }, {unique: true});
+userSchema.index({ "authentication.emailAddress": 1 }, { unique: true });
 userSchema.index({ "business.name": 1 });
 userSchema.index({ "business.followers": 1 });
 userSchema.index({ following: 1 });
 userSchema.index({ wishlists: 1 });
 
-const user = new mongoose.model("user", userSchema);
-module.exports = user;
+userSchema.virtual("slug").get(function () {
+    let regex = new RegExp("[^\\w]+", "ig");
+    return this.title.replace(regex, "-") + "--" + this._id;
+});
+
+module.exports = new mongoose.model("user", userSchema);
