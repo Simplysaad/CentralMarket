@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const cloudinary = require("../Utils/cloudinary.js")
+const cloudinary = require("../Utils/cloudinary.js");
 
 const User = require("../Models/user.model.js");
 
@@ -8,7 +8,7 @@ const locals = {
     title: "Auth | CentralMarket",
     description: "",
     image: "/IMG/favicon.jpg",
-    keywords: [],
+    keywords: []
 };
 function generate_random_color() {
     let color = "#";
@@ -37,11 +37,12 @@ exports.getLogin = async (req, res, next) => {
 };
 exports.postLogin = async (req, res, next) => {
     try {
-        req.session.trialCount = 0;
+        req.session.trialCount = req.session.trialCount ?? 0;
         let { emailAddress, password } = req.body;
-        let currentUser = await User.findOne({ emailAddress }).select(
-            "_id name business emailAddress wishlist password role"
-        );
+        let currentUser = await User.findOne({
+            "authentication.emailAddress": emailAddress
+        }).select("_id authentication");
+
         if (!currentUser) {
             req.session.trialCount += 1;
             return res.status(404).json({
@@ -50,11 +51,12 @@ exports.postLogin = async (req, res, next) => {
                 advice: "check your email address and try again"
             });
         }
+        console.log(currentUser);
         let isPasswordCorrect = await bcrypt.compare(
             password,
-            currentUser.password
+            currentUser.authentication.password
         );
-        if (!isPasswordCorrect || !password) {
+        if (!isPasswordCorrect) {
             req.session.trialCount += 1;
             return res.status(403).json({
                 success: false,
@@ -62,32 +64,27 @@ exports.postLogin = async (req, res, next) => {
                 advice: "check your password and try again"
             });
         }
-        let token = jwt.sign({ currentUser }, process.env.SECRET_KEY, {
-            expiresIn: "1d"
-        });
+        let token = jwt.sign(
+            { currentUserId: currentUser._id },
+            process.env.SECRET_KEY,
+            {
+                expiresIn: "1d"
+            }
+        );
         res.cookie("token", token);
 
         console.log(req.cookies);
 
-        // req.session.userId = currentUser._id;
-        //let { pass, ...formatted_user } = currentUser;
-        req.session.currentUser = currentUser;
-        return res.status(300).redirect(req.session.returnTo);
-        // return res.status(200).json({
-        //     success: true,
-        //     message: "user has logged in successfully",
-        //     currentUser,
-        //     advice: ""
-        // });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({
-            success: false,
-            message: "internal server error",
-            advice: "please try again later",
-            errorMessage: err.message,
-            errorStack: err.stack
+        req.session.currentUserId = currentUser._id;
+        // return res.redirect(req.session.returnTo);
+        return res.status(200).json({
+            success: true,
+            message: "user has logged in successfully",
+            currentUser,
+            advice: ""
         });
+    } catch (err) {
+        next(err);
     }
 };
 
@@ -100,10 +97,14 @@ exports.getRegister = async (req, res, next) => {
 };
 exports.postRegister = async (req, res, next) => {
     try {
-        const { emailAddress, password } = req.body;
+        const { emailAddress, password, role, phoneNumber } = req.body;
+        const { name, birthDate, gender } = req.body;
+
         const { checkEmail } = req.query;
         // let isUserExist = false; //true
-        let isUserExist = await User.findOne({ emailAddress });
+        let isUserExist = await User.findOne({
+            "authentication.emailAddress": emailAddress
+        });
 
         if (!!isUserExist) {
             return res.status(403).json({
@@ -129,9 +130,9 @@ exports.postRegister = async (req, res, next) => {
             req.body;
 
         let address = {
-            address: address_1 + "_" + address_2,
-            school: school_name,
-            address_type,
+            street: address_1 + "_" + address_2,
+            school_name,
+            type: address_type,
             state
         };
         // console.log(req);
@@ -154,25 +155,40 @@ exports.postRegister = async (req, res, next) => {
                 profile_color + "ff"
             }/#000?text=${req.body.name[0].toUpperCase()}`;
 
+        console.log(req.body);
+
         let newUser = new User({
-            ...req.body,
-            address: address ?? null,
-            role: "vendor",
-            //this is supposed to come from the form but i've not added a field to the form yet
-            profileImage,
-            coverImage: `https://placehold.co/600x200/${
-                profile_color + "00"
-            }/#fff?text=${req.body.businessName || "CentralMarket"}&color=`
+            authentication: {
+                emailAddress,
+                password: hashedPassword,
+                role
+            },
+            demographics: {
+                name,
+                birthDate,
+                gender,
+                profileImage
+            },
+            addresses: [address ?? null]
+            // coverImage: `https://placehold.co/600x200/${
+            //     profile_color + "00"
+            // }/#fff?text=CentralMarket`
         });
 
         await newUser.save();
 
-        let token = jwt.sign({ newUser }, process.env.SECRET_KEY, {
-            expiresIn: "1d"
-        });
+        let token = jwt.sign(
+            { currentUserId: newUser._id },
+            process.env.SECRET_KEY,
+            {
+                expiresIn: "1d"
+            }
+        );
         res.cookie("token", token);
 
-        req.session.currentUser = newUser;
+        console.log(req.cookies);
+
+        req.session.currentUserId = newUser._id;
 
         //should go to homepage after signup
         return res.status(200).json({
@@ -180,7 +196,6 @@ exports.postRegister = async (req, res, next) => {
             message: "user registered successfully",
             token,
             newUser,
-            request: req.body,
             advice: ""
         });
     } catch (err) {
